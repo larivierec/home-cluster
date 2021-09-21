@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      containers:
+      - name: wireguard
+        envFrom:
+        - configMapRef:
+            name: wg-cm
+        image: ghcr.io/linuxserver/wireguard
+        name: wireguard
+        ports:
+          - containerPort: 51820
+            protocol: UDP
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+              - SYS_MODULE
+          privileged: true
+        volumeMounts:
+          - mountPath: /config
+            name: wg-config
+          - mountPath: /lib/modules
+            name: host-volumes
+      restartPolicy: Always
+      volumes:
+        - name: wg-config
+          persistentVolumeClaim:
+            claimName: pv-claim-wireguard
+        - name: host-volumes
+          hostPath:
+            path: /lib/modules
+            type: Directory

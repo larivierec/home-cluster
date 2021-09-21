@@ -1,0 +1,113 @@
+# Optimized for airvpn.
+
+replicaCount: 1
+
+image:
+  repository: haugene/transmission-openvpn
+  tag: latest
+  pullPolicy: IfNotPresent
+
+dnsPolicy: "None"
+
+dnsConfig:
+  nameservers:
+    - 1.1.1.1
+    - 1.0.0.1
+
+env:
+  - name: OPENVPN_PROVIDER
+    value: "NORDVPN"
+  - name: OPENVPN_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: torrent-secret
+        key: username
+  - name: OPENVPN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: torrent-secret
+        key: password
+  - name: NORDVPN_PROTOCOL
+    value: "TCP"
+  - name: NORDVPN_COUNTRY
+    value: "CA"
+  - name: NORDVPN_CATEGORY
+    value: "P2P"
+  - name: LOCAL_NETWORK
+    value: "10.1.0.0/16"
+  - name: TRANSMISSION_PEER_PORT
+    value: "47444"
+  - name: TRANSMISSION_DOWNLOAD_DIR
+    value: "/downloads/transmission"
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+
+service:
+  type: ClusterIP
+  port: 80
+
+# You have 2 options to deploy your custom openvpn config:
+#
+# 1. Create a kubernetes secret manually from an openvpn config file like this:
+#
+#    kubectl create configmap openvpn-common-config --from-file openvpn.conf --namespace usr-jean-saisrien
+#
+# 2. Use the `customOpenvpnConfig` config option, which will be used
+# to store a kubernetes secret on your cluster automatically:
+#
+# customOpenvpnConfig:
+#   secretName: privatevpn-amsterdam1-udp-1194
+#   fileName: privatevpn-amsterdam1-udp-1194.ovpn
+#   config: |
+#     remote nl-ams.pvdata.host 1194 udp
+#     nobind
+#     dev tun
+#     …
+
+volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: "torrent"
+  - name: dev-tun
+    hostPath:
+      path: "/dev/net/tun"
+
+volumeMounts:
+    - name: data
+      mountPath: "/data"
+      subPath: "data/transmission-data"
+    - name: data
+      mountPath: "/downloads/transmission"
+      subPath: "downloads/transmission"
+    - name: dev-tun
+      mountPath: "/dev/net/tun"
+
+# Security context for container
+securityContext:
+  capabilities:
+    add:
+      - NET_ADMIN
+
+# Security context for pod
+# Can be used to allow ipv6 for openvpn, because
+# some VPN providers push an ipv6 route with will fail without
+# ipv6 support, see https://github.com/haugene/docker-transmission-openvpn/issues/789
+# Note that your kubelet needs to allow changing this sysctl setting, see
+# https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls
+#
+# - podSecurityContext:
+#     sysctls:
+#       - name: net.ipv6.conf.all.disable_ipv6
+#         value: "0"
+podSecurityContext: {}
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

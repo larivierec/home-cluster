@@ -1,0 +1,124 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: blocky
+  namespace: networking
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: blocky
+      version: 9.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    controller:
+      enabled: true
+      type: deployment
+      strategy: RollingUpdate
+      replicas: 3
+    
+    env:
+      TZ: UTC
+
+    service:
+      main:
+        ports:
+          http:
+            port: 4000
+      dns-tcp:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "192.168.2.4"
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/address-pool: network-services
+          metallb.universe.tf/allow-shared-ip: blocky-svc
+        ports:
+          dns-tcp:
+            enabled: true
+            port: 53
+            protocol: TCP
+            targetPort: 53
+      dns-udp:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "192.168.2.4"
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/address-pool: network-services
+          metallb.universe.tf/allow-shared-ip: blocky-svc
+        ports:
+          dns-udp:
+            enabled: true
+            port: 53
+            protocol: UDP
+            targetPort: 53
+    config: |
+      upstream:
+        default:
+          - tcp-tls:1.1.1.1:853
+          - tcp-tls:1.0.0.1:853
+
+      customDNS:
+        mapping:
+          ${SECRET_DOMAIN}: 192.168.2.1
+          wireguard.${SECRET_DOMAIN}: 192.168.2.3
+      
+      blocking:
+        blackLists:
+          ads:
+            - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+            - https://adaway.org/hosts.txt
+            - https://v.firebog.net/hosts/lists.php?type=nocross
+            - https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt
+            - https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
+            - https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts
+            - https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts
+            - https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts
+            - https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+            - https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt
+          noblock: [] 
+        clientGroupsBlock:
+          default:
+            - ads
+            - noblock
+          192.168.1.129/32:
+            - noblock
+          192.168.1.156/32:
+            - noblock
+          192.168.1.161/32:
+            - noblock
+      
+        blockType: nxDomain
+        refreshPeriod: 0
+
+      caching:
+        minTime: 5
+        maxTime: 5
+        prefetching: true
+          
+      prometheus:
+        enable: true
+        path: /metrics
+      
+      httpPort: 4000
+      logLevel: info
+    
+    prometheus:
+      serviceMonitor:
+        enabled: true
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 30s
+        scrapeTimeout: 10s
+      prometheusRule:
+        enabled: true
+        rules: []

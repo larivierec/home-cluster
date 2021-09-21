@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: wireguard
+  annotations:
+    external-dns/is-public: "true"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: "wireguard.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/ttl: "120"
+  name: wireguard
+spec:
+  type: ClusterIP
+  ports:
+  - port: 51820
+    protocol: UDP
+    targetPort: 51820
+  selector:
+    app: wireguard
+
