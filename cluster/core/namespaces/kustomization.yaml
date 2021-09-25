@@ -11,3 +11,5 @@ resources:
   - monitoring.yml
   - networking.yml
   - recovery.yml
+  - home.yml
+  - kube-system.yml

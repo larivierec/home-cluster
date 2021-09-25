@@ -18,7 +18,6 @@ spec:
         - configMapRef:
             name: wg-cm
         image: ghcr.io/linuxserver/wireguard
-        name: wireguard
         ports:
           - containerPort: 51820
             protocol: UDP

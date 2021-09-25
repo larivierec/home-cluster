@@ -68,7 +68,7 @@ spec:
       customDNS:
         mapping:
           ${SECRET_DOMAIN}: 192.168.2.1
-          wireguard.${SECRET_DOMAIN}: 192.168.2.3
+          wireguard.${SECRET_DOMAIN}: 192.168.2.2
       
       blocking:
         blackLists:

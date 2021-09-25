@@ -1,0 +1,92 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: lidarr
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: lidarr
+      version: 13.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    controller:
+      strategy: RollingUpdate
+      surge: 1
+      unavailable: 1
+    image:
+      repository: ghcr.io/k8s-at-home/lidarr
+      tag: latest
+      pullPolicy: IfNotPresent
+    env:
+      TZ: "UTC"
+    service:
+      main:
+        ports:
+          http:
+            port: 8686
+    ingress:
+      main:
+        enabled: true      
+        annotations:
+          metallb.universe.tf/address-pool: network-services
+          metallb.universe.tf/allow-shared-ip: default-lb
+        ingressClassName: "nginx"          
+        hosts:
+          - host: "lidarr.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: lidarr
+                    port:
+                      number: 7878
+        tls:
+          - hosts:
+              - "lidarr.${SECRET_DOMAIN}"
+            secretName: wildcard-cert-tls
+    persistence:
+      config:
+        enabled: true
+
+      media:
+        enabled: true
+        accessMode: ReadWrite
+        retain: true
+        mountPath: /music
+        hostPath: /mnt/nas/Music
+        type: "hostPath"
+
+      downloads:
+        enabled: true
+        retain: true
+        type: pvc
+        existingClaim: torrent
+        mountPath: /downloads/transmission
+        subPath: downloads/transmission
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
+
+      exporter:
+        enabled: true
+        podMonitor:
+          interval: 3m
+          scrapeTimeout: 1m
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v0.6.1
+          pullPolicy: IfNotPresent
+        env:
+          additionalMetrics: true

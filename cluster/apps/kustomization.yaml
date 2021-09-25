@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
   - networking
   - external
+  - home
+  - monitoring
+  - dashboard
+  - default

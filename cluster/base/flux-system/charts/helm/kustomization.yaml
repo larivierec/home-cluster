@@ -13,3 +13,4 @@ resources:
   - bananaspliff-charts.yaml
   - kube-state-metrics-charts.yaml
   - metallb-charts.yaml
+  - dashboard-charts.yaml

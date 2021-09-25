@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kubernetes-dashboard
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kubernetes-dashboard
+      version: 5.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: dashboard-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    controller:
+      strategy: RollingUpdate
+      surge: 1
+      unavailable: 1
+    image:
+      repository: kubernetesui/dashboard
+      tag: v2.3.1
+      pullPolicy: IfNotPresent
+    env:
+      TZ: "UTC"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 200Mi
+      limits:
+        cpu: 2
+        memory: 200Mi
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "nginx"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/rewrite-target: /
+        hosts:
+          - host: "dashboard.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: kubernetes-dashboard
+                    port:
+                      number: 443
+        tls:
+          - hosts:
+              - "overseerr.${SECRET_DOMAIN}"
+            secretName: ca-overseerr-tls
+    serviceAccount:
+      name: dashboard-sa

@@ -6,3 +6,4 @@ resources:
   - plex.yml
   - plex-ingress.yml
   - rules.yml
+  - helm-release-overseerr.yaml
