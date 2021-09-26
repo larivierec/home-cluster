@@ -1,10 +1,13 @@
+---
+# Flux version: v0.17.2
+# Components: source-controller,kustomize-controller,helm-controller,notification-controller
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: flux-system
 ---
 apiVersion: apiextensions.k8s.io/v1
@@ -16,7 +19,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -226,7 +229,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -456,7 +459,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: gitrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -787,7 +790,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -1032,7 +1035,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -1782,7 +1785,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -2000,7 +2003,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
@@ -2551,7 +2554,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -2743,7 +2746,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -2958,7 +2961,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: helm-controller
   namespace: flux-system
 ---
@@ -2968,7 +2971,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: kustomize-controller
   namespace: flux-system
 ---
@@ -2978,7 +2981,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: notification-controller
   namespace: flux-system
 ---
@@ -2988,7 +2991,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: source-controller
   namespace: flux-system
 ---
@@ -2998,7 +3001,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: crd-controller-flux-system
 rules:
 - apiGroups:
@@ -3078,7 +3081,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: cluster-reconciler-flux-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -3098,7 +3101,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
   name: crd-controller-flux-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -3130,7 +3133,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: notification-controller
   namespace: flux-system
@@ -3150,7 +3153,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: source-controller
   namespace: flux-system
@@ -3170,7 +3173,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: webhook-receiver
   namespace: flux-system
@@ -3190,7 +3193,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: helm-controller
   namespace: flux-system
@@ -3263,7 +3266,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: kustomize-controller
   namespace: flux-system
@@ -3338,7 +3341,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: notification-controller
   namespace: flux-system
@@ -3414,7 +3417,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: flux-system
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
+    app.kubernetes.io/version: v0.17.2
     control-plane: controller
   name: source-controller
   namespace: flux-system
@@ -3492,61 +3495,3 @@ spec:
       - emptyDir: {}
         name: tmp
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
-  name: allow-egress
-  namespace: flux-system
-spec:
-  egress:
-  - {}
-  ingress:
-  - from:
-    - podSelector: {}
-  podSelector: {}
-  policyTypes:
-  - Ingress
-  - Egress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
-  name: allow-scraping
-  namespace: flux-system
-spec:
-  ingress:
-  - from:
-    - namespaceSelector: {}
-    ports:
-    - port: 8080
-      protocol: TCP
-  podSelector: {}
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.1
-  name: allow-webhooks
-  namespace: flux-system
-spec:
-  ingress:
-  - from:
-    - namespaceSelector: {}
-  podSelector:
-    matchLabels:
-      app: notification-controller
-  policyTypes:
-  - Ingress

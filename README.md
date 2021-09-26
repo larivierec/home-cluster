@@ -1,7 +1,7 @@
 # Some additions added for microk8s
 
 - K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
--> Add this to the `calico-config` in the config maps for kube-system
+> Add this to the `calico-config` in the config maps for kube-system
 
 ```json
 "container_settings": {
@@ -18,4 +18,12 @@ data:
 ```
 
 Set the following FeatureGates
-|--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true
+`--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
+
+to upgrade flux
+
+```bash
+flux install --version="${VERSION}" \
+          --network-policy=false \
+          --export > ./cluster/base/flux-system/gotk-components.yaml
+```
