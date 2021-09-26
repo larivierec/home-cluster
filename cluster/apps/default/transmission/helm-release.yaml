@@ -12,5 +12,77 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bananaspliff-charts
-      valuesFiles:
-        - torrent.values.yml
+  values:
+    controller:
+      strategy: RollingUpdate
+  
+    replicaCount: 1
+
+    image:
+      repository: haugene/transmission-openvpn
+      tag: latest
+      pullPolicy: IfNotPresent
+
+    dnsPolicy: "None"
+
+    dnsConfig:
+      nameservers:
+        - 1.1.1.1
+        - 1.0.0.1
+
+    env:
+      - name: OPENVPN_PROVIDER
+        value: "NORDVPN"
+      - name: OPENVPN_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: torrent-secret
+            key: username
+      - name: OPENVPN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: torrent-secret
+            key: password
+      - name: NORDVPN_PROTOCOL
+        value: "TCP"
+      - name: NORDVPN_COUNTRY
+        value: "CA"
+      - name: NORDVPN_CATEGORY
+        value: "P2P"
+      - name: LOCAL_NETWORK
+        value: "10.1.0.0/16"
+      - name: TRANSMISSION_PEER_PORT
+        value: "47444"
+      - name: TRANSMISSION_DOWNLOAD_DIR
+        value: "/downloads/transmission"
+      - name: PUID
+        value: "1000"
+      - name: PGID
+        value: "1000"
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: "torrent"
+      - name: dev-tun
+        hostPath:
+          path: "/dev/net/tun"
+
+    volumeMounts:
+        - name: data
+          mountPath: "/data"
+          subPath: "data/transmission-data"
+        - name: data
+          mountPath: "/downloads/transmission"
+          subPath: "downloads/transmission"
+        - name: dev-tun
+          mountPath: "/dev/net/tun"
+
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN

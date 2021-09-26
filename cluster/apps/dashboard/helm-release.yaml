@@ -37,6 +37,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/rewrite-target: /
         hosts:
@@ -51,7 +52,7 @@ spec:
                       number: 443
         tls:
           - hosts:
-              - "overseerr.${SECRET_DOMAIN}"
-            secretName: ca-overseerr-tls
+              - "dashboard.${SECRET_DOMAIN}"
+            secretName: dashboard-tls
     serviceAccount:
       name: dashboard-sa

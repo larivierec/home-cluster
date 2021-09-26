@@ -15,6 +15,8 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2021.9.7
@@ -22,7 +24,7 @@ spec:
       TZ: "UTC"
     service:
       main:
-        type: ClusterIP
+        type: LoadBalancer
         externalTrafficPolicy: Local
     ingress:
       main:

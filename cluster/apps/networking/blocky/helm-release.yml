@@ -69,6 +69,7 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 192.168.2.1
           wireguard.${SECRET_DOMAIN}: 192.168.2.2
+          has.${SECRET_DOMAIN}: 192.168.2.3
       
       blocking:
         blackLists:
