@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: ingress-nginx
-      version: 4.0.2
+      version: 4.0.3
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx-charts
@@ -30,7 +30,7 @@ spec:
       kind: DaemonSet
 
       updateStrategy:
-        type: Recreate
+        type: RollingUpdate
       
       resources:
         requests:

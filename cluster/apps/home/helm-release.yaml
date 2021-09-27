@@ -24,6 +24,9 @@ spec:
       TZ: "UTC"
     service:
       main:
+        annotations:
+          prometheus.io/probe: "true"
+          prometheus.io/protocol: tcp
         type: LoadBalancer
         externalTrafficPolicy: Local
     ingress:
