@@ -54,6 +54,10 @@ spec:
         enabled: true
     metrics:
       enabled: true
+      serviceMonitor:
+        bearerTokenSecret:
+          name: prometheus-secrets
+          key: prom-token
       prometheusRule:
         enabled: true
         rules: []
