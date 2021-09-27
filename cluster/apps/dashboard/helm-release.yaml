@@ -33,26 +33,6 @@ spec:
         cpu: 2
         memory: 200Mi
     ingress:
-      main:
-        enabled: true
-        ingressClassName: "nginx"
-        annotations:
-          cert-manager.io/cluster-issuer: "letsencrypt-prod"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/rewrite-target: /
-        hosts:
-          - host: "dashboard.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: kubernetes-dashboard
-                    port:
-                      number: 443
-        tls:
-          - hosts:
-              - "dashboard.${SECRET_DOMAIN}"
-            secretName: dashboard-tls
+      enabled: false
     serviceAccount:
       name: dashboard-sa

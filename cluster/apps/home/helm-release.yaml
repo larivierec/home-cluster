@@ -24,9 +24,6 @@ spec:
       TZ: "UTC"
     service:
       main:
-        annotations:
-          prometheus.io/probe: "true"
-          prometheus.io/protocol: tcp
         type: LoadBalancer
         externalTrafficPolicy: Local
     ingress:
@@ -55,12 +52,19 @@ spec:
     persistence:
       config:
         enabled: true
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     metrics:
       enabled: true
       serviceMonitor:
         bearerTokenSecret:
-          name: prometheus-secrets
-          key: prom-token
+          name: "prometheus-secrets"
+          key: "prom-token"
       prometheusRule:
         enabled: true
         rules: []

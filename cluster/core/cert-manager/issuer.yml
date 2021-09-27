@@ -14,5 +14,5 @@ spec:
         cloudflare:
           email: "${SECRET_EMAIL}"
           apiKeySecretRef:
-            name: cluster-secrets
-            key: SECRET_CLOUDFLARE_API_KEY
+            name: cloudflare-api-key-secret
+            key: api-key
