@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 18.0.12
+      version: 19.0.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -16,9 +16,6 @@ spec:
       interval: 5m
   values:
     alertmanager:
-      serviceAccount:
-        create: true
-        name: "alertmanager-sa"
       config:
         global:
           resolve_timeout: 5m
@@ -147,9 +144,6 @@ spec:
         namespace: kube-system
     prometheus:
       enabled: true
-      serviceAccount:
-        create: true
-        name: prometheus-sa
       ingress:
         enabled: true
         hosts:
