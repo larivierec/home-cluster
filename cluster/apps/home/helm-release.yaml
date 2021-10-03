@@ -24,7 +24,9 @@ spec:
       TZ: "UTC"
     service:
       main:
-        type: LoadBalancer
+        type: ClusterIP
+        externalIPs:
+          - "192.168.2.3"
         externalTrafficPolicy: Local
     ingress:
       main:
