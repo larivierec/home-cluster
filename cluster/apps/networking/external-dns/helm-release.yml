@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/external-dns
       chart: external-dns
-      version: 5.4.7
+      version: 5.4.10
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
@@ -42,9 +42,6 @@ spec:
         cpu: 25m
       limits:
         memory: 250Mi
-    serviceAccount:
-      create: true
-      name: "external-dns-sa"
     metrics:
       enabled: true
       serviceMonitor:
