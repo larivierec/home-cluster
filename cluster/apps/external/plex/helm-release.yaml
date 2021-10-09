@@ -21,11 +21,6 @@ spec:
       unavailable: 1
     env:
       TZ: "UTC"
-    service:
-      main:
-        ports:
-          http:
-            port: 5055
     ingress:
       main:
         enabled: true
@@ -41,11 +36,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: plex-cluster 
-                    port:
-                      number: 5055
         tls:
           - hosts:
               - "plex-cluster.${SECRET_DOMAIN}"
@@ -63,3 +53,7 @@ spec:
       config:
         enabled: true
         mountPath: /app/config
+      transcode:
+        enabled: true
+        type: emptyDir
+        medium: Memory

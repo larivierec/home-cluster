@@ -117,6 +117,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.13
+        - 192.168.1.8
       service:
         enabled: true
         port: 10257
@@ -131,10 +132,12 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.13
+        - 192.168.1.8
     kubeProxy:
       enabled: true
       endpoints:
         - 192.168.1.13
+        - 192.168.1.8
     prometheusOperator:
       enabled: true
       admissionWebhooks:
