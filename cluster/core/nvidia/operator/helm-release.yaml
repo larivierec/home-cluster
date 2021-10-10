@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nvidia-operator
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: gpu-operator
+      sourceRef:
+        kind: HelmRepository
+        name: nvidia-operator
+        namespace: flux-system
+      interval: 5m
+  values:
+    daemonsets:
+      tolerations:
+        - key: "no-gpu"
+          operator: "Exists"
+          effect: "NoSchedule"
+    operator:
+      defaultRuntime: containerd
+      runtimeClass: nvidia-container-runtime
+    toolkit:
+      enabled: false
+      env:
+      - name: CONTAINERD_CONFIG
+        value: /etc/containerd/config.toml
+      - name: CONTAINERD_SOCKET
+        value: /run/containerd/containerd.sock
+      - name: CONTAINERD_RUNTIME_CLASS
+        value: nvidia-container-runtime
+      - name: CONTAINERD_SET_AS_DEFAULT
+        value: "true"

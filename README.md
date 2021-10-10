@@ -20,6 +20,28 @@ data:
 Set the following FeatureGates
 `--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
 
+# nvidia gpu-operator install
+disable nouveau
+```bash
+lsmod | grep nouveau
+sudo apt-get purge xserver-xorg-video-nouveau
+sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+sudo update-initramfs -u
+cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+
+kubectl label --overwrite \
+        node ${NODE_NAME} \
+        nvidia.com/gpu.deploy.operator-validator=false \
+        nvidia.com/gpu.deploy.driver=false \
+        nvidia.com/gpu.deploy.container-toolkit=false \
+        nvidia.com/gpu.deploy.device-plugin=false \
+        nvidia.com/gpu.deploy.gpu-feature-discovery=false \
+        nvidia.com/gpu.deploy.dcgm-exporter=false \
+        nvidia.com/gpu.deploy.dcgm=false
+```
+
+
 to upgrade flux
 
 ```bash

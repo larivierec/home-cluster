@@ -15,3 +15,5 @@ resources:
   - metallb-charts.yaml
   - dashboard-charts.yaml
   - appscode-charts.yaml
+  - nvidia-operator.yaml
+  - nvidia-plugin.yaml

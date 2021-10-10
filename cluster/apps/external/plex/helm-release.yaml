@@ -16,17 +16,21 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
-      surge: 1
-      unavailable: 1
+      strategy: Recreate
     env:
       TZ: "UTC"
+      PLEX_CLAIM: "claim-SRexWrU9gCPXYssDN3dj"
+      PLEX_PREFERENCE_1: "FriendlyName=CPlex-2.1"
+      PLEX_PREFERENCE_2: "DisableTLSv1_0=1"
+      PLEX_PREFERENCE_3: "TranscoderQuality=2"
+      PLEX_PREFERENCE_4: "TreatWanIpAsLocal=0"
+      PLEX_PREFERENCE_5: "TranscoderH264BackgroundPreset=fast"
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         annotations:
-          external-dns/is-public: "true"
+          #external-dns/is-public: "true"
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
           external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
           external-dns.alpha.kubernetes.io/hostname: "plex-cluster.${SECRET_DOMAIN}"
@@ -57,3 +61,6 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
+    resources:
+      limits:
+        nvidia.com/gpu: 1
