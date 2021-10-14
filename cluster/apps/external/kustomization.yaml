@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - nas.yml
   - nas-ingress.yml
-  - plex.yml
-  - plex-ingress.yml
+    #- plex.yml
+    #- plex-ingress.yml
   - rules.yml
   - helm-release-overseerr.yaml
   - plex

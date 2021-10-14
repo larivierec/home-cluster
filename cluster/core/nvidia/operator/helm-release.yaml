@@ -22,6 +22,8 @@ spec:
     operator:
       defaultRuntime: containerd
       runtimeClass: nvidia-container-runtime
+    driver:
+      enabled: false
     toolkit:
       enabled: false
       env:
