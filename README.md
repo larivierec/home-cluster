@@ -46,6 +46,7 @@ to upgrade flux
 
 ```bash
 flux install --version="${VERSION}" \
+          --components-extra=image-reflector-controller,image-automation-controller \
           --network-policy=false \
           --export > ./cluster/base/flux-system/gotk-components.yaml
 ```
