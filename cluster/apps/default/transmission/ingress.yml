@@ -5,6 +5,7 @@ metadata:
     metallb.universe.tf/address-pool: network-services
     metallb.universe.tf/allow-shared-ip: default-lb
   name: transmission-ingress
+  namespace: default
 spec:
   tls:
   - hosts:

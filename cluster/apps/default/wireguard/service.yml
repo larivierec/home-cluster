@@ -4,6 +4,7 @@ metadata:
   labels:
     k8s-app: wireguard
   name: wireguard
+  namespace: default
 spec:
   type: LoadBalancer
   ports:

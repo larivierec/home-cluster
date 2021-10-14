@@ -3,11 +3,15 @@
 - K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
 > Add this to the `calico-config` in the config maps for kube-system
 
+## Calico
+
 ```json
 "container_settings": {
     "allow_ip_forwarding": true
 }
 ```
+
+## Ingress
 
 This will allow wireguard pods to properly forward packets.
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
@@ -16,11 +20,11 @@ For ingress controller we need to add this in order to get proper ip address fro
 data:
   use-forwarded-headers: "true"
 ```
-
+## Feature Gates
 Set the following FeatureGates
 `--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
 
-# nvidia gpu-operator install
+## nvidia gpu-operator install
 disable nouveau
 ```bash
 lsmod | grep nouveau
@@ -41,8 +45,10 @@ kubectl label --overwrite \
         nvidia.com/gpu.deploy.dcgm=false
 ```
 
+## Flux
 
-to upgrade flux
+Might have to download the flux version `install.yml` from its release.
+i.e. : https://github.com/fluxcd/flux2/releases
 
 ```bash
 flux install --version="${VERSION}" \

@@ -10,6 +10,7 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: "nas.${SECRET_DOMAIN}"
     external-dns.alpha.kubernetes.io/ttl: "120"
   name: external-ingress-nas
+  namespace: default
 spec:
   tls:
   - hosts:

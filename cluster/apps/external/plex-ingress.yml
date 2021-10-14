@@ -10,6 +10,7 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: "plex.${SECRET_DOMAIN}"
     external-dns.alpha.kubernetes.io/ttl: "120"
   name: external-ingress-plex
+  namespace: default
 spec:
   tls:
   - hosts:

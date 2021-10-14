@@ -6,6 +6,7 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
     external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
   name: external-ingress-wireguard
+  namespace: default
 spec:
   tls:
   - hosts:
