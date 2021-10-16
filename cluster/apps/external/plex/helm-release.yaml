@@ -15,6 +15,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/k8s-at-home/plex
+      tag: v1.24.4.5081-e362dc1ee
     controller:
       strategy: Recreate
     env:
@@ -75,7 +78,11 @@ spec:
             path: /volume1/media
         mountPath: /media
         readOnly: true
-      transcode:
+      tmp:
         enabled: true
         type: emptyDir
         medium: Memory
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 5300M

@@ -86,6 +86,10 @@ spec:
             gnetId: 9614
             revision: 1
             datasource: Prometheus
+          dcgm:
+            gnetId: 12239
+            revision: 2
+            datasource: Prometheus
           lidarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
             datasource: Prometheus
@@ -145,6 +149,7 @@ spec:
       kubeletService:
         enabled: false
         namespace: kube-system
+      configReloaderCpu: 0
     prometheus:
       enabled: true
       ingress:

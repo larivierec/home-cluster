@@ -43,7 +43,16 @@ kubectl label --overwrite \
         nvidia.com/gpu.deploy.gpu-feature-discovery=false \
         nvidia.com/gpu.deploy.dcgm-exporter=false \
         nvidia.com/gpu.deploy.dcgm=false
+
 ```
+
+### If you are using pre-installed drivers + toolkit
+
+ensure you set the /var/snap/microk8s/current/args/containerd-template.toml
+default runtime to `nvidia-container-runtime` on your GPU Node
+
+After modify this file restart the microk8s containerd service.
+`sudo systemctl restart snap.microk8s.daemon-containerd.service`
 
 ## Flux
 
