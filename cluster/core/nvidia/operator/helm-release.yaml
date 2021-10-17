@@ -35,3 +35,8 @@ spec:
         value: nvidia-container-runtime
       - name: CONTAINERD_SET_AS_DEFAULT
         value: "true"
+    dcgm:
+      version: 2.2.9-ubuntu20.04
+    dcgmExporter:
+      version: 2.2.9-2.5.0-ubuntu20.04
+
