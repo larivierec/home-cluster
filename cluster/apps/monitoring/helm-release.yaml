@@ -167,7 +167,7 @@ spec:
       prometheusSpec:
         image:
           repository: quay.io/prometheus/prometheus
-          tag: v2.29.0
+          tag: v2.30.3
           sha: ""
         replicaExternalLabelNameClear: false
         prometheusExternalLabelNameClear: false
