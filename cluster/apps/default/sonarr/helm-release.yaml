@@ -7,6 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate registryUrl=https://k8s-at-home.com/charts/
       chart: sonarr
       version: 15.1.0
       sourceRef:
