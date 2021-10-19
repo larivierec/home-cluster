@@ -1,0 +1,84 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nginx.rules
+  namespace: default
+spec:
+  groups:
+    - name: nginx.rules
+      rules:
+        - alert: NginxHighHttp4xxErrorRate
+          expr: sum(rate(nginx_http_requests_total{status=~"^4.."}[1m])) / sum(rate(nginx_http_requests_total[1m])) * 100 > 5
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: Nginx high HTTP 4xx error rate (instance {{ $labels.instance }})
+            description: "Too many HTTP requests with status 4xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: NginxHighHttp5xxErrorRate
+          expr: sum(rate(nginx_http_requests_total{status=~"^5.."}[1m])) / sum(rate(nginx_http_requests_total[1m])) * 100 > 5
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: Nginx high HTTP 5xx error rate (instance {{ $labels.instance }})
+            description: "Too many HTTP requests with status 5xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: NginxLatencyHigh
+          expr: histogram_quantile(0.99, sum(rate(nginx_http_request_duration_seconds_bucket[2m])) by (host, node)) > 3
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Nginx latency high (instance {{ $labels.instance }})
+            description: "Nginx p99 latency is higher than 3 seconds\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: server.rules
+  namespace: kube-system
+spec:
+  groups:
+    - name: server.rules
+      rules:
+        - alert: HostOutOfMemory
+          expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: Host out of memory (instance {{ $labels.instance }})
+            description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: HostAlmostOutOfMemory
+          expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 25
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host almost out of memory (instance {{ $labels.instance }})
+            description: "Node memory is filling up (< 25% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: HostHighCpuLoad
+          expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host high CPU load (instance {{ $labels.instance }})
+            description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: HostPhysicalComponentTooHot
+          expr: node_hwmon_temp_celsius > 75
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host physical component too hot (instance {{ $labels.instance }})
+            description: "Physical hardware component too hot\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        - alert: HostOomKillDetected
+          expr: increase(node_vmstat_oom_kill[1m]) > 0
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host OOM kill detected (instance {{ $labels.instance }})
+            description: "OOM kill detected\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

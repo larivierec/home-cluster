@@ -6,3 +6,4 @@ resources:
   - issuer-prod.yaml
   - issuer.yaml
   - helm-release.yaml
+  - cert-prod.yaml
