@@ -7,7 +7,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate registryUrl=https://charts.appscode.com/stable/
       # renovate: registryUrl=https://charts.appscode.com/stable/
       chart: kubed
       version: 0.12.0

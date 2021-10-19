@@ -19,9 +19,15 @@
 [![Plex](https://img.shields.io/uptimerobot/status/m784591338-cbf3205bc18109108eb0ea8e?logo=plex&logoColor=white&color=important&label=my%20plex&style=flat-square)](https://plex.tv)
 [![Home-Assistant](https://img.shields.io/uptimerobot/status/m786203807-32ce99612d7b2d01b89c4315?logo=homeassistant&logoColor=white&color=important&label=my%20home%20assistant&style=flat-square)](https://www.home-assistant.io/)
 
+Thanks to the awesome community @ k8s-at-home for their help in getting this setup.
+Find their discord here.
+  
+[![Discord](https://img.shields.io/badge/discord-enabled-brightgreen?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/k8s-at-home)
+
+
 </div>
 
-# Some additions added for microk8s
+## Some additions added for microk8s
 
 - K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
 > Add this to the `calico-config` in the config maps for kube-system
@@ -43,6 +49,7 @@ For ingress controller we need to add this in order to get proper ip address fro
 data:
   use-forwarded-headers: "true"
 ```
+
 ## Feature Gates
 Set the following FeatureGates
 `--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
