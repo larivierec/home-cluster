@@ -21,7 +21,7 @@ spec:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 3
+      replicas: 4
     
     env:
       TZ: UTC
