@@ -18,8 +18,6 @@ spec:
   values:
     controller:
       strategy: RollingUpdate
-      surge: 1
-      unavailable: 1
     image:
       repository: ghcr.io/k8s-at-home/sonarr
       tag: latest
