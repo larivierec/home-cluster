@@ -8,7 +8,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate registryUrl=https://kubernetes.github.io/ingress-nginx
       # renovate: registryUrl=https://kubernetes.github.io/ingress-nginx
       chart: ingress-nginx
       version: 4.0.6
@@ -19,6 +18,7 @@ spec:
       interval: 5m
   values:
     controller:
+      replicaCount: 2
       image:
         runAsUser: 101
         allowPrivilegeEscalation: true
@@ -29,7 +29,13 @@ spec:
         enabled: true
         default: false
      
-      kind: DaemonSet
+      service:
+        type: LoadBalancer
+        externalIPs:
+          - 192.168.2.1
+        externalTrafficPolicy: Local
+      publishService:
+        enabled: true
 
       updateStrategy:
         type: RollingUpdate
@@ -75,9 +81,6 @@ spec:
               annotations:
                 description: Too many 5XXs
                 summary: More than 35% of all requests returned 5XX, this requires your attention
-    serviceAccount:
-      create: true
-      automountServiceAccountToken: true
     udp: 
       "51820": "default/wireguard:51820"
     tcp: 
