@@ -37,7 +37,7 @@ spec:
         annotations:
           metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: "nginx"          
+        ingressClassName: "nginx"
         hosts:
           - host: "lidarr.${SECRET_DOMAIN}"
             paths:

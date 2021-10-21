@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ingress
-  namespace: ingress
+  name: ingress-private
+  namespace: ingress-private
 spec:
   interval: 5m
   chart:
@@ -26,17 +26,10 @@ spec:
         use-forwarded-headers: true
       
       ingressClassResource:
+        name: ingress-private
+        controllerValue: "k8s.io/ingress-nginx-private"
         enabled: true
-        default: false
      
-      service:
-        type: LoadBalancer
-        externalIPs:
-          - 192.168.2.1
-        externalTrafficPolicy: Local
-      publishService:
-        enabled: true
-
       updateStrategy:
         type: RollingUpdate
         rollingUpdate:
