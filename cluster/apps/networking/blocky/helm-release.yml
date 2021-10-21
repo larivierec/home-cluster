@@ -17,15 +17,16 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/0xerr0r/blocky
+      version: v0.16
     controller:
       enabled: true
       type: deployment
       strategy: RollingUpdate
       replicas: 4
-    
     env:
       TZ: UTC
-
     service:
       main:
         ports:
