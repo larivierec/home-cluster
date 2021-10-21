@@ -5,7 +5,6 @@ resources:
   - default.yml
   - flux-system.yml
   - ingress.yml
-  - ingress-private.yml
   - kube-node-lease.yml
   - kube-public.yml
   - metallb-system.yml
