@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: ghcr.io/0xerr0r/blocky
-      version: v0.16
+      tag: v0.16
     controller:
       enabled: true
       type: deployment

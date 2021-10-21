@@ -4,6 +4,7 @@ metadata:
   name: wildcard-cert
   annotations:
     kubed.appscode.com/sync: cert-manager-tls=wildcard-prod
+  namespace: default
 spec:
   secretName: wildcard-cert-tls
   issuerRef:
