@@ -52,6 +52,15 @@ spec:
           - hosts:
               - "radarr.${SECRET_DOMAIN}"
             secretName: wildcard-cert-tls
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-cluster
     persistence:
       config:
         enabled: true

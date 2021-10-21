@@ -13,6 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bananaspliff-charts
+        namespace: flux-system
   values:
     controller:
       strategy: RollingUpdate
@@ -87,3 +88,12 @@ spec:
       capabilities:
         add:
           - NET_ADMIN
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-cluster
