@@ -5,3 +5,4 @@ resources:
   - blocky
   - cloudflare_ddns
   - external-dns
+  - wireguard
