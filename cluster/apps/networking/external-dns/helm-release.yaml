@@ -10,17 +10,13 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: external-dns
-      version: 5.4.11
+      version: 5.4.12
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      registry: docker.io
-      repository: smartdeploy/external-dns
-      tag: latest
     interval: 5m
     logLevel: debug
     provider: cloudflare
