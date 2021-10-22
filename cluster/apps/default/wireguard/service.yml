@@ -2,15 +2,14 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: wireguard
+    app: wireguard
   name: wireguard
   namespace: default
 spec:
-  type: LoadBalancer
+  type: ClusterIP
+  externalTrafficPolicy: Local
   ports:
   - port: 51820
     protocol: UDP
     targetPort: 51820
-  selector:
-    app: wireguard
 

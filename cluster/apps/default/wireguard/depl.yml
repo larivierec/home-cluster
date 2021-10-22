@@ -13,6 +13,8 @@ spec:
       labels:
         app: wireguard
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: wireguard
         envFrom:
