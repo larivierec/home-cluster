@@ -4,7 +4,7 @@
   semanticCommits: "enabled",
   dependencyDashboard: true,
   dependencyDashboardTitle: "Renovate Dashboard",
-  commitBody: "Signed-off-by: larivierec <lariviere.c@gmail.com>",
+  commitBody: "Signed-off-by: Christopher Larivière <lariviere.c@gmail.com>",
   // Do not notify on closed unmerged PRs
   suppressNotifications: ["prIgnoreNotification"],
   // Do not rebase PRs

@@ -24,8 +24,8 @@ jobs:
           delete-branch: true
           title: "chore(deps): update renovate annotations"
           signoff: true
-          committer: "larivierec <lariviere.c@gmail.com>"
-          author: "larivierec <lariviere.c@gmail.com>"
+          committer: "Christopher Larivière <lariviere.c@gmail.com>"
+          author: "Christopher Larivière <lariviere.c@gmail.com>"
           assignees: "larivierec"
           commit-message: "chore(deps): update renovate annotations"
           body: |
