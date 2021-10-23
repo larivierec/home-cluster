@@ -163,7 +163,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - "prometheus.${SECRET_DOMAIN}"
-        ingressClassName: "nginx" 
+        ingressClassName: "nginx"
       prometheusSpec:
         image:
           repository: quay.io/prometheus/prometheus
