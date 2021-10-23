@@ -50,26 +50,19 @@ spec:
           - hosts:
               - "lidarr.${SECRET_DOMAIN}"
             secretName: wildcard-cert-tls
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-cluster
     persistence:
       config:
         enabled: true
+        existingClaim: lidarr-config-v1 
 
       media:
         enabled: true
-        accessMode: ReadWrite
-        retain: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "192.168.1.3"
+            path: /volume1/media/Music
         mountPath: /music
-        hostPath: /mnt/nas/Music
-        type: "hostPath"
 
       downloads:
         enabled: true
