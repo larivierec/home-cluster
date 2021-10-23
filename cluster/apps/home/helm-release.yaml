@@ -53,6 +53,7 @@ spec:
     persistence:
       config:
         enabled: true
+        existingClaim: home-assistant-v1
     probes:
       liveness:
         enabled: false
