@@ -50,25 +50,18 @@ spec:
           - hosts:
               - "sonarr.${SECRET_DOMAIN}"
             secretName: wildcard-cert-tls
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-cluster
     persistence:
       config:
         enabled: true
+        existingClaim: sonarr-config-v1
       media:
         enabled: true
-        accessMode: ReadWrite
-        retain: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "192.168.1.3"
+            path: /volume1/media/Shows
         mountPath: /tv
-        hostPath: /mnt/nas/Shows
-        type: "hostPath"
 
       downloads:
         enabled: true
