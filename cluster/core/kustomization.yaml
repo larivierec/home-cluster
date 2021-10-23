@@ -6,3 +6,4 @@ resources:
   - cert-manager
   - metallb
   - nvidia
+  - nfs-subdir-external-provisioner

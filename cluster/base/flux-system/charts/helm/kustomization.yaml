@@ -16,3 +16,4 @@ resources:
   - dashboard-charts.yaml
   - appscode-charts.yaml
   - nvidia-operator.yaml
+  - nfs-provisioner-charts.yaml
