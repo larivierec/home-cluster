@@ -7,3 +7,4 @@ resources:
   - metallb
   - nvidia
   - nfs-subdir-external-provisioner
+  - kured

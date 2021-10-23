@@ -17,3 +17,4 @@ resources:
   - appscode-charts.yaml
   - nvidia-operator.yaml
   - nfs-provisioner-charts.yaml
+  - weaveworks-charts.yaml
