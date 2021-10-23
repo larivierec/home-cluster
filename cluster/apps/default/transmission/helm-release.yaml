@@ -22,7 +22,7 @@ spec:
 
     image:
       repository: haugene/transmission-openvpn
-      tag: latest
+      tag: "4.0"
       pullPolicy: IfNotPresent
 
     dnsPolicy: "None"
@@ -69,31 +69,22 @@ spec:
     volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: "torrent"
+          claimName: torrent-config-v1
       - name: dev-tun
         hostPath:
           path: "/dev/net/tun"
 
     volumeMounts:
-        - name: data
-          mountPath: "/data"
-          subPath: "data/transmission-data"
-        - name: data
-          mountPath: "/downloads/transmission"
-          subPath: "downloads/transmission"
-        - name: dev-tun
-          mountPath: "/dev/net/tun"
+      - name: data
+        mountPath: "/data"
+        subPath: "data/transmission-data"
+      - name: data
+        mountPath: "/downloads/transmission"
+        subPath: "downloads/transmission"
+      - name: dev-tun
+        mountPath: "/dev/net/tun"
 
     securityContext:
       capabilities:
         add:
           - NET_ADMIN
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-cluster

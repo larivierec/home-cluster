@@ -66,6 +66,6 @@ spec:
         enabled: true
         retain: true
         type: pvc
-        existingClaim: torrent
+        existingClaim: torrent-config-v1
         mountPath: /downloads/transmission
         subPath: downloads/transmission

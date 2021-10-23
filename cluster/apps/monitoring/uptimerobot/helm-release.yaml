@@ -26,13 +26,14 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - uptimerobot.${SECRET_DOMAIN}
-        paths:
-          - /
+          - host: "uptimerobot.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-          - secretName: wildcard-cert-tls
-            hosts:
+          - hosts:
               - "uptimerobot.${SECRET_DOMAIN}"
+            secretName: wildcard-cert-tls
     metrics:
       enabled: true
       prometheusRule:
