@@ -24,7 +24,7 @@ spec:
       timeZone: "America/New_York"
       startTime: "3am"
       endTime: "6am"
-      notifyUrl: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
+      notifyUrl: "http://alertmanager-discord.monitoring.svc.cluster.local:9094"
       messageTemplateDrain: "⏳ Draining node %s"
       messageTemplateReboot: "♻️ Rebooted node %s"
       rebootCommand: "/usr/bin/systemctl reboot"

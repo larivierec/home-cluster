@@ -100,6 +100,12 @@ spec:
           sonarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
             datasource: Prometheus
+          uptimerobot:
+            url: https://raw.githubusercontent.com/lekpamartin/uptimerobot_exporter/master/dashboards/grafana.json
+            datasource: Prometheus
+          flux-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/cluster.json
+            datasource: Prometheus
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
 
