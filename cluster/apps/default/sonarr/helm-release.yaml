@@ -53,7 +53,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr-config-v1
+        existingClaim: sonarr-config-v2
       media:
         enabled: true
         type: custom
@@ -90,3 +90,12 @@ spec:
           pullPolicy: IfNotPresent
         env:
           additionalMetrics: true
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - k8s-cluster

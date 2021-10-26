@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: readarr-config-v1
+  name: readarr-config-v2
   namespace: default
 spec:
   accessModes:
@@ -10,4 +10,3 @@ spec:
   resources:
     requests:
       storage: 200Mi
-  storageClassName: nfs-provision
