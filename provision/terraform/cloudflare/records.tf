@@ -3,7 +3,7 @@ data "http" "ipv4" {
 }
 
 resource "cloudflare_record" "ipv4" {
-  name    = data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]
+  name    = "${data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]}"
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   value   = chomp(data.http.ipv4.body)
   proxied = true
