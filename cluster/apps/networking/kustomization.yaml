@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ingress  
+  - ingress-nginx
   - blocky
   - cloudflare_ddns
   - external-dns

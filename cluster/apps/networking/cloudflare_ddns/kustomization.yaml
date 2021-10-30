@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - secret.yml
-  - cron.yml
+  - secret.yaml
+  - cron.yaml
 namespace: networking
 configMapGenerator:
   - name: cloudflare-ddns

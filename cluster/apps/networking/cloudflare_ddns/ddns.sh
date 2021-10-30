@@ -1,4 +1,6 @@
 #!/bin/bash
+
+sleep 3 # giving time for the generated volume to mount before it finishes
 set -o nounset
 set -o errexit
 
