@@ -16,8 +16,8 @@
 
 <div align="center">
 
-[![Plex](https://img.shields.io/uptimerobot/status/m789484250-ab23175969e7d8f80193142e?logo=plex&logoColor=white&color=important&label=plex&style=flat-square)](https://plex.tv)
-[![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&color=important&label=home%20assistant&style=flat-square)](https://www.home-assistant.io/)
+[![Plex](https://img.shields.io/uptimerobot/status/m789484250-ab23175969e7d8f80193142e?logo=plex&logoColor=white&color=important&label=my%20plex&style=flat-square)](https://plex.tv)
+[![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&color=important&label=my%20home%20assistant&style=flat-square)](https://www.home-assistant.io/)
 
 Thanks to the awesome community @ k8s-at-home for their help in getting this setup.
 Find their discord here.
