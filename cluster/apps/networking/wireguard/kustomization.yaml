@@ -3,9 +3,3 @@ kind: Kustomization
 resources:
   - secret.yaml
   - helm-release.yaml
-  # - pv.yml
-  # - pvc-wg.yml
-  # - wg-cm.yml
-  # - depl.yml
-  # - service.yml
-  # - ingress.yml
