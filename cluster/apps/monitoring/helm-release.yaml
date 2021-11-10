@@ -9,7 +9,7 @@ spec:
     spec:
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 20.0.0
+      version: 19.3.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
@@ -56,11 +56,6 @@ spec:
           hosts:
           - "alertmanager.${SECRET_DOMAIN}"
         ingressClassName: "nginx"
-      alertmanagerSpec:
-        image:
-          repository: quay.io/prometheus/alertmanager
-          tag: v0.23.0
-          sha: ""
     grafana:
       enabled: true
       plugins:
@@ -171,10 +166,6 @@ spec:
               - "prometheus.${SECRET_DOMAIN}"
         ingressClassName: "nginx"
       prometheusSpec:
-        image:
-          repository: quay.io/prometheus/prometheus
-          tag: v2.31.1
-          sha: ""
         replicaExternalLabelNameClear: false
         prometheusExternalLabelNameClear: false
         ruleSelectorNilUsesHelmValues: false
