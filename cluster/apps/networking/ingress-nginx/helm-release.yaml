@@ -84,6 +84,6 @@ spec:
                 description: Too many 5XXs
                 summary: More than 35% of all requests returned 5XX, this requires your attention
     udp: 
-      "51820": "default/wireguard:51820"
+      "51820": "networking/wireguard:51820"
     tcp: 
       "8123": "home/home-assistant:8123"
