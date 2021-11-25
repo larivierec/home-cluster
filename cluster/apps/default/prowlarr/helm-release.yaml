@@ -19,8 +19,8 @@ spec:
     controller:
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/linuxserver/prowlarr
-      tag: develop
+      repository: ghcr.io/k8s-at-home/prowlarr
+      tag: v0.1.4.1139
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
