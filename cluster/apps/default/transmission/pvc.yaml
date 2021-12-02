@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: torrent-config-v1
+  name: torrent-config-v2
   namespace: default
 spec:
   storageClassName: nfs-provision

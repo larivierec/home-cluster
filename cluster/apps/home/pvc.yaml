@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: home-assistant-v1
+  name: home-assistant-v2
   namespace: home
 spec:
   accessModes:

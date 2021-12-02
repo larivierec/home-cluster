@@ -69,7 +69,7 @@ spec:
     volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: torrent-config-v1
+          claimName: torrent-config-v2
       - name: dev-tun
         hostPath:
           path: "/dev/net/tun"
