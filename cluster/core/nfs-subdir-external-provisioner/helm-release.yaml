@@ -22,7 +22,7 @@ spec:
     replicaCount: 2
     nfs:
       server: "192.168.1.3"
-      path: "/volume1/pvc"
+      path: "/volume2/pvc"
     storageClass:
       defaultClass: false
       name: nfs-provision

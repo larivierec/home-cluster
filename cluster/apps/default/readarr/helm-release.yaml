@@ -60,7 +60,7 @@ spec:
         volumeSpec:
           nfs:
             server: "192.168.1.3"
-            path: /volume1/media/Books
+            path: /volume2/media-sp2/Books
         mountPath: /books
       downloads:
         enabled: true

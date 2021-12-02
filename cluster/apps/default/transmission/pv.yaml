@@ -13,5 +13,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs-provision
   nfs:
-    path: /volume1/media/Downloads
+    path: /volume2/media-sp2/Downloads
     server: 192.168.1.3

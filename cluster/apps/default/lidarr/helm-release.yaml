@@ -61,7 +61,7 @@ spec:
         volumeSpec:
           nfs:
             server: "192.168.1.3"
-            path: /volume1/media/Music
+            path: /volume2/media-sp2/Music
         mountPath: /music
 
       downloads:
