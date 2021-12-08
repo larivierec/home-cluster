@@ -10,6 +10,7 @@
 
 <div align="center">
 
+[![microk8s](https://img.shields.io/badge/microk8s-v1.23.0-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://microk8s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -26,11 +27,18 @@ Find their discord here.
 
 </div>
 
+# Microk8s
+
 ## Some additions added for microk8s
 
 - K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
 > Add this to the `calico-config` in the config maps for kube-system
 
+
+## Upgrading
+
+Follow the guide here from moving from 1.22.x -> 1.23.0
+[Cluster Upgrade](https://microk8s.io/docs/upgrade-cluster)
 ## Calico
 
 ```json
@@ -83,7 +91,7 @@ default runtime to `nvidia-container-runtime` on your GPU Node
 After modify this file restart the microk8s containerd service.
 `sudo systemctl restart snap.microk8s.daemon-containerd.service`
 
-## Flux
+# Flux
 
 Might have to download the flux version `install.yml` from its release.
 i.e. : https://github.com/fluxcd/flux2/releases

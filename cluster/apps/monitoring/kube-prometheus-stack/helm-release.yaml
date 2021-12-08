@@ -126,11 +126,8 @@ spec:
         - 192.168.1.8
       service:
         enabled: true
-        port: 10257
-        targetPort: 10257
       serviceMonitor:
         enabled: true
-        insecureSkipVerify: true
         https: true
     kubeEtcd:
       enabled: false
