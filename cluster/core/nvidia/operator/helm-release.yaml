@@ -9,17 +9,13 @@ spec:
     spec:
       # renovate: registryUrl=https://nvidia.github.io/gpu-operator
       chart: gpu-operator
+      version: v1.8.2
       sourceRef:
         kind: HelmRepository
         name: nvidia-operator
         namespace: flux-system
       interval: 5m
   values:
-    daemonsets:
-      tolerations:
-        - key: "no-gpu"
-          operator: "Exists"
-          effect: "NoSchedule"
     operator:
       defaultRuntime: containerd
       runtimeClass: nvidia-container-runtime
@@ -27,17 +23,13 @@ spec:
       enabled: false
     toolkit:
       enabled: false
-      env:
-      - name: CONTAINERD_CONFIG
-        value: /etc/containerd/config.toml
-      - name: CONTAINERD_SOCKET
-        value: /run/containerd/containerd.sock
-      - name: CONTAINERD_RUNTIME_CLASS
-        value: nvidia-container-runtime
-      - name: CONTAINERD_SET_AS_DEFAULT
-        value: "true"
-    dcgm:
-      version: 2.2.9-ubuntu20.04
-    dcgmExporter:
-      version: 2.2.9-2.5.0-ubuntu20.04
+      # env:
+      # - name: CONTAINERD_CONFIG
+      #   value: /etc/containerd/config.toml
+      # - name: CONTAINERD_SOCKET
+      #   value: /run/containerd/containerd.sock
+      # - name: CONTAINERD_RUNTIME_CLASS
+      #   value: nvidia-container-runtime
+      # - name: CONTAINERD_SET_AS_DEFAULT
+      #   value: "true"
 
