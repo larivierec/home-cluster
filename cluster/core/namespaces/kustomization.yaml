@@ -13,3 +13,4 @@ resources:
   - recovery.yml
   - home.yml
   - kube-system.yml
+  - gpu.yml

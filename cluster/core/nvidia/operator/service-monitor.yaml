@@ -2,17 +2,16 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: dcgm-exporter
-  namespace: gpu-operator-resources
+  namespace: gpu
   labels:
     app.kubernetes.io/name: dcgm-exporter
-    app.kubernetes.io/version: "2.5.0"
 spec:
   selector:
     matchLabels:
-      app: "nvidia-dcgm-exporter"
+      app: nvidia-dcgm-exporter
   endpoints:
   - port: gpu-metrics
-    path: "/metrics"
+    path: /metrics
   namespaceSelector:
     matchNames:
-      - gpu-operator-resources
+      - gpu
