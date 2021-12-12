@@ -17,7 +17,6 @@
 
 <div align="center">
 
-[![Plex](https://img.shields.io/uptimerobot/status/m789484250-8e4e1f5e11033c62cd18d1dc?label=my-plex&logo=plex)](https://plex.tv)
 [![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&label=my%20home%20assistant)](https://www.home-assistant.io/)
 
 Thanks to the awesome community @ k8s-at-home for their help in getting this setup.
