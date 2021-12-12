@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: recovery
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: minio
+      version: 9.2.5
+      sourceRef:
+        name: bitnami-charts
+        namespace: flux-system
+        kind: HelmRepository
+      interval: 5m
+  values:
+    auth:
+      rootUser: ${SECRET_MINIO_ROOT_USER}
+      rootPassword: ${SECRET_MINIO_ROOT_PW}
+    image:
+      repository: bitnami/minio
+      tag: 2021.11.9-debian-10-r0
+    ingress:
+      enabled: true
+      annotations:
+        metallb.universe.tf/address-pool: network-services
+        metallb.universe.tf/allow-shared-ip: default-lb
+      ingressClassName: "nginx"
+      hostname: "minio.${SECRET_DOMAIN}"
+      path: /
+      pathType: Prefix
+    persistence:
+      storageClass: nfs-provision
+    metrics:
+      serviceMonitor: 
+        enabled: true
