@@ -22,7 +22,7 @@ spec:
       rootPassword: ${SECRET_MINIO_ROOT_PW}
     image:
       repository: bitnami/minio
-      tag: 2021.11.9-debian-10-r0
+      tag: 2021.12.10-debian-10-r0
     ingress:
       enabled: true
       annotations:
