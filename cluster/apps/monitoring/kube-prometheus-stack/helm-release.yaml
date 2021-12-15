@@ -124,6 +124,7 @@ spec:
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
+        - 192.168.1.20
       service:
         enabled: true
         port: 10257
@@ -139,6 +140,7 @@ spec:
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
+        - 192.168.1.20
       service:
         port: 10259
         targetPort: 10259
@@ -150,6 +152,7 @@ spec:
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
+        - 192.168.1.20
     prometheusOperator:
       enabled: true
       admissionWebhooks:

@@ -33,6 +33,35 @@ Find their discord here.
 - K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
 > Add this to the `calico-config` in the config maps for kube-system
 
+### Each node configurations
+Add this to `/var/snap/microk8s/current/args/kube-scheduler`
+This is used to bind the api to all interfaces instead of localhost
+
+```
+--address=0.0.0.0
+--authorization-always-allow-paths=/healthz,/readyz,/livez,/metrics
+```
+
+Add this to `/var/snap/microk8s/current/args/kube-apiserver`
+
+`--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
+
+Add this to `/var/snap/microk8s/current/args/kube-proxy`
+
+```
+--cluster-cidr=10.1.0.0/16
+--healthz-bind-address=0.0.0.0
+--metrics-bind-address=0.0.0.0:10249
+```
+
+Add this to `/var/snap/microk8s/current/args/kube-controller-manager`
+
+```
+--address=0.0.0.0
+--bind-address=0.0.0.0
+--secure-port=10257
+--authorization-always-allow-paths=/healthz,/readyz,/livez,/metrics
+```
 
 ## Upgrading
 
@@ -55,10 +84,6 @@ For ingress controller we need to add this in order to get proper ip address fro
 data:
   use-forwarded-headers: "true"
 ```
-
-## Feature Gates
-Set the following FeatureGates
-`--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
 
 ## nvidia gpu-operator install
 disable nouveau
