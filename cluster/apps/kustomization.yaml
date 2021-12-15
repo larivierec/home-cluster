@@ -5,7 +5,7 @@ resources:
   - flux-system
   - networking
   - external
-  - recovery
+    # - recovery
   - home
   - dashboard
   - default
