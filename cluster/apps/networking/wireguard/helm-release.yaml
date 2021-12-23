@@ -15,6 +15,12 @@ spec:
         name: k8s-at-home-charts
         namespace: flux-system
   values:
+    image:
+      repository: ghcr.io/k8s-at-home/wireguard
+      pullPolicy: IfNotPresent
+      tag: v1.0.20210914
+    securityContext:
+      privileged: true
     controller:
       strategy: RollingUpdate
     service:
@@ -30,8 +36,8 @@ spec:
         type: custom
         mountPath: /etc/wireguard/wg0.conf
         subPath: wg0.conf
-        readOnly: true
+        readOnly: false
         volumeSpec:
           secret:
-            defaultMode: 0600
+            defaultMode: 0644
             secretName: wireguard-config
