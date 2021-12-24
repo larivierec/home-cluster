@@ -24,7 +24,7 @@ spec:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 4
+      replicas: 6
     env:
       TZ: UTC
     service:
@@ -69,6 +69,9 @@ spec:
       customDNS:
         mapping:
           ${SECRET_DOMAIN}: 192.168.2.1
+          k8s-cluster: 192.168.1.13
+          k8s-gpu:  192.168.1.8
+          k8s-node-3: 192.168.1.20
       
       blocking:
         blackLists:
