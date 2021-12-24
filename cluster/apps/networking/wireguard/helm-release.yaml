@@ -21,6 +21,8 @@ spec:
       tag: v1.0.20210914
     securityContext:
       privileged: true
+      runAsUser: 568
+      runAsGroup: 568
     controller:
       strategy: RollingUpdate
     service:
