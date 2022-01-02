@@ -9,7 +9,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.appscode.com/stable/
       chart: kubed
-      version: 0.12.0
+      version: v0.13.0
       sourceRef:
         kind: HelmRepository
         name: appscode-charts
