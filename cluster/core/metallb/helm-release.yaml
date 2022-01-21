@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: metallb
-      version: 2.6.1
+      version: 2.6.2
       sourceRef:
         name: bitnami-charts
         namespace: flux-system
