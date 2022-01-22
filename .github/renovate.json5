@@ -1,23 +1,29 @@
 {
-  enabled: true,
-  timezone: "America/New_York",
-  semanticCommits: "enabled",
-  dependencyDashboard: true,
-  dependencyDashboardTitle: "Renovate Dashboard",
-  commitBody: "Signed-off-by: Christopher Larivière <lariviere.c@gmail.com>",
-  // Do not notify on closed unmerged PRs
-  suppressNotifications: ["prIgnoreNotification"],
-  // Do not rebase PRs
-  rebaseWhen: "conflicted",
-  assignees: ["@larivierec"],
+  "extends": [
+    "github>larivierec/home-cluster//.github/renovate/autoMerge",
+  ],
+  "enabled": true,
+  "timezone": "America/New_York",
+  "semanticCommits": "enabled",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "commitBody": "Signed-off-by: Christopher Larivière <lariviere.c@gmail.com>",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "assignees": ["@larivierec"],
   "helm-values": {
     fileMatch: ["cluster/.+/helm-release\\.yaml$"],
   },
-  kubernetes: {
+  "kubernetes": {
     fileMatch: ["cluster/.+\\.yaml$"],
     ignorePaths: ["cluster/base/"],
   },
-  regexManagers: [
+  "flux": {
+    "fileMatch": [
+      "cluster/.+\\.yaml$"
+    ]
+  },
+  "regexManagers": [
     // regexManager to read and process cert-manager CRD's
     {
       fileMatch: ["cluster/crds/cert-manager/.+\\.yaml$"],
@@ -43,7 +49,7 @@
       datasourceTemplate: "helm",
     },
   ],
-  packageRules: [
+  "packageRules": [
     // Setup datasources
     {
       matchDatasources: ["helm"],

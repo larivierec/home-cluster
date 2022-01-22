@@ -7,8 +7,8 @@ on: # yamllint disable-line rule:truthy
     - cron: "0 */12 * * *"
 
 jobs:
-  renovate-helm-releases:
-    runs-on: ubuntu-20.04
+  renovate:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
