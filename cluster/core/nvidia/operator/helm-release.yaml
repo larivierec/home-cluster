@@ -7,7 +7,6 @@ spec:
   interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://nvidia.github.io/gpu-operator
       chart: gpu-operator
       version: v1.9.1
       sourceRef:
