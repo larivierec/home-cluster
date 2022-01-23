@@ -15,7 +15,7 @@ env:
 jobs:
   changes:
     name: Detect changes
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       files: "${{ steps.extract.outputs.files }}"
     steps:
@@ -38,7 +38,7 @@ jobs:
 
   helm:
     name: Template Helm Releases
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: ${{ needs.changes.outputs.files != '' }}
     needs:
       - changes

@@ -2,6 +2,9 @@
   "extends": [
     "github>larivierec/home-cluster//.github/renovate/autoMerge",
   ],
+  "username": "bruu-bot[bot]",
+  "repositories": ["larivierec/home-cluster"],
+  "platform": "github",
   "enabled": true,
   "timezone": "America/New_York",
   "semanticCommits": "enabled",
@@ -11,6 +14,9 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   "assignees": ["@larivierec"],
+  "requireConfig": false,
+  "onboarding": false,
+  "gitAuthor": "bruuu-bot <22551228+bruu-bot[bot]@users.noreply.github.com>",
   "helm-values": {
     fileMatch: ["cluster/.+/helm-release\\.yaml$"],
   },

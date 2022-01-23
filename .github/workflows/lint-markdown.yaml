@@ -12,11 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: GitHub App token
+      - name: generate_token
         uses: tibdex/github-app-token@v1.5.1
         with:
           app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Get changes
         uses: dorny/paths-filter@v2
         id: filter
@@ -29,5 +29,5 @@ jobs:
         if: ${{ steps.filter.outputs.markdown == 'true' }}
         uses: reviewdog/action-shellcheck@v1
         with:
-          github_token: "${{ steps.generate-token.outputs.token }}"
+          github_token: "${{ steps.generate_token.outputs.token }}"
           markdownlint_flags: "-c '.github/lint/.markdownlint.yaml' ${{ steps.filter.outputs.markdown_files }}"
