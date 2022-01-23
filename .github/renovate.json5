@@ -1,17 +1,17 @@
 {
   "extends": [
     "github>larivierec/home-cluster//.github/renovate/autoMerge",
+    ":enableRenovate",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "config:base"
   ],
   "username": "bruu-bot[bot]",
   "repositories": ["larivierec/home-cluster"],
   "platform": "github",
-  "enabled": true,
   "timezone": "America/New_York",
-  "semanticCommits": "enabled",
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate Dashboard",
-  "commitBody": "Signed-off-by: Christopher Larivière <lariviere.c@gmail.com>",
   "suppressNotifications": ["prIgnoreNotification"],
+  "dependencyDashboardTitle": "Renovate Dashboard",
   "rebaseWhen": "conflicted",
   "assignees": ["@larivierec"],
   "requireConfig": false,
@@ -112,15 +112,6 @@
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex"
       ]
-    },
-    // enable auto-merge
-    {
-      matchDatasources: ["docker"],
-      automerge: true,
-      automergeType: "branch",
-      requiredStatusChecks: null,
-      matchUpdateTypes: ["minor", "patch"],
-      matchPackageNames: ["ghcr.io/k8s-at-home/prowlarr"],
     },
   ],
 }
