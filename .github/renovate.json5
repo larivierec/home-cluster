@@ -3,6 +3,7 @@
     "github>larivierec/home-cluster//.github/renovate/autoMerge",
     ":enableRenovate",
     ":dependencyDashboard",
+    ":disableRateLimiting",
     ":semanticCommits",
     "config:base"
   ],
