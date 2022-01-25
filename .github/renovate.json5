@@ -16,7 +16,7 @@
   "rebaseWhen": "conflicted",
   "requireConfig": false,
   "onboarding": false,
-  "gitAuthor": "theriver-bot <3633214+theriver-bot[bot]@users.noreply.github.com>",
+  "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
   "helm-values": {
     fileMatch: ["cluster/.+/helm-release\\.yaml$"],
   },
