@@ -7,7 +7,7 @@
     ":semanticCommits",
     "config:base"
   ],
-  "username": "bruu-bot[bot]",
+  "username": "bruuu-bot[bot]",
   "repositories": ["larivierec/home-cluster"],
   "platform": "github",
   "timezone": "America/New_York",
@@ -17,7 +17,7 @@
   "assignees": ["@larivierec"],
   "requireConfig": false,
   "onboarding": false,
-  "gitAuthor": "bruuu-bot <22551228+bruu-bot[bot]@users.noreply.github.com>",
+  "gitAuthor": "bruuu-bot <22551228+bruuu-bot[bot]@users.noreply.github.com>",
   "helm-values": {
     fileMatch: ["cluster/.+/helm-release\\.yaml$"],
   },
