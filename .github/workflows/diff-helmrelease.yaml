@@ -5,12 +5,12 @@ on: # yamllint disable-line rule:truthy
     branches:
       - main
     paths:
-      - "cluster/**.ya?ml"
+      - "cluster/**.yaml"
 
 env:
   # Currently no way to detect automatically
   DEFAULT_BRANCH: main
-  BOT_USERNAME: "bruuu-bot[bot]"
+  BOT_USERNAME: "theriver-bot[bot]"
 
 jobs:
   detect-file-changes:
@@ -24,7 +24,7 @@ jobs:
           list-files: json
           filters: |
             yaml:
-              - added|modified: "**/helm-release.ya?ml"
+              - added|modified: "**/helm-release.yaml"
     outputs:
       yaml_files: ${{ steps.filter.outputs.yaml_files }}
   helm-release-differ:
@@ -41,8 +41,8 @@ jobs:
         uses: tibdex/github-app-token@v1
         id: generate-token
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          app_id: ${{ secrets.RIVER_BOT_ID }}
+          private_key: ${{ secrets.RIVER_BOT_PK }}
       - name: Checkout default branch
         uses: actions/checkout@v2
         with:
