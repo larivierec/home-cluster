@@ -59,6 +59,8 @@ spec:
       enabled: true
       plugins:
         - "grafana-piechart-panel"
+      serviceMonitor:
+        enabled: true
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
