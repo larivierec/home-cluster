@@ -21,7 +21,7 @@ spec:
       unavailable: 1
     image:
       repository: kubernetesui/dashboard
-      tag: v2.4.0
+      tag: v2.5.0
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
