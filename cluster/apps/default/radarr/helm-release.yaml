@@ -85,6 +85,7 @@ spec:
           scrapeTimeout: 1m
         image:
           repository: ghcr.io/onedr0p/exportarr
+          tag: v1.0.0
           pullPolicy: IfNotPresent
         env:
           additionalMetrics: true
