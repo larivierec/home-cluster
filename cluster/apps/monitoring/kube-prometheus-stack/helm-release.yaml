@@ -29,6 +29,9 @@ spec:
             - receiver: "null"
               match:
                 alertname: Watchdog
+            - receiver: "null"
+              match:
+                alertname: InfoInhibitor
             - receiver: "discord"
               match:
                 severity: 'critical'
