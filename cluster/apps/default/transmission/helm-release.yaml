@@ -17,19 +17,7 @@ spec:
     controller:
       strategy: RollingUpdate
   
-    replicaCount: 1
-
-    image:
-      repository: haugene/transmission-openvpn
-      tag: "4.0"
-      pullPolicy: IfNotPresent
-
-    dnsPolicy: "None"
-
-    dnsConfig:
-      nameservers:
-        - 1.1.1.1
-        - 1.0.0.1
+    dnsPolicy: "Default"
 
     env:
       - name: OPENVPN_PROVIDER
@@ -51,7 +39,7 @@ spec:
       - name: NORDVPN_CATEGORY
         value: "P2P"
       - name: LOCAL_NETWORK
-        value: "10.1.0.0/16"
+        value: "10.0.0.0/8"
       - name: TRANSMISSION_PEER_PORT
         value: "47444"
       - name: TRANSMISSION_DOWNLOAD_DIR
@@ -60,10 +48,6 @@ spec:
         value: "1000"
       - name: PGID
         value: "1000"
-
-    service:
-      type: ClusterIP
-      port: 80
 
     volumes:
       - name: data
