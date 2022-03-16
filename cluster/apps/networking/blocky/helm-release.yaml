@@ -93,7 +93,11 @@ spec:
             - noblock
           192.168.1.249/32:
             - noblock
-          192.168.1.219/32:
+          192.168.10.129/32:
+            - noblock
+          192.168.10.224/32:
+            - noblock
+          192.168.10.249/32:
             - noblock
       
         blockType: nxDomain
