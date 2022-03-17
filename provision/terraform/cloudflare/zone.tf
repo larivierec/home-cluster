@@ -37,3 +37,25 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
     hotlink_protection = "on"
   }
 }
+
+resource "cloudflare_filter" "block_bots" {
+  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+  expression = "(cf.client.bot)"
+}
+
+resource "cloudflare_filter" "block_countries" {
+  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+  expression = "(ip.geoip.country ne \"US\" and ip.geoip.country ne \"CA\")"
+}
+
+resource "cloudflare_firewall_rule" "block_countries" {
+  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+  filter_id = cloudflare_filter.block_countries.id
+  action = "block"
+}
+
+resource "cloudflare_firewall_rule" "block_bots" {
+  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+  filter_id = cloudflare_filter.block_bots.id
+  action = "block"
+}
