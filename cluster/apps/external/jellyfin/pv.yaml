@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: data-volume-plex
+  name: data-volume-jellyfin
   namespace: default
 spec:
   storageClassName: "manual"
   capacity:
-    storage: 50Gi
+    storage: 20Gi
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/home/christopher/persistence/plex"
+    path: "/home/christopher/persistence/jellyfin"
