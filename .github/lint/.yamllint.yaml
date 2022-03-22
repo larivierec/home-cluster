@@ -3,8 +3,6 @@ ignore: |
   .private/
   .vscode/
   *.sops.*
-  ansible/roles/xanmanning.k3s/
-  cluster/base-custom/secrets
   gotk-components.yaml
 extends: default
 rules:

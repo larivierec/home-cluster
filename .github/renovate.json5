@@ -8,7 +8,12 @@
     "config:base"
   ],
   "username": "theriver-bot[bot]",
-  "repositories": ["larivierec/home-cluster"],
+  "repositories": [
+    "larivierec/home-cluster"
+  ],
+  "assignees": [
+    "larivierec"
+  ],
   "platform": "github",
   "timezone": "America/New_York",
   "suppressNotifications": ["prIgnoreNotification"],
