@@ -15,6 +15,6 @@ resources:
   - metallb-charts.yaml
   - dashboard-charts.yaml
   - appscode-charts.yaml
-  - nvidia-operator.yaml
+  - nvidia-operator-charts.yaml
   - nfs-provisioner-charts.yaml
   - weaveworks-charts.yaml
