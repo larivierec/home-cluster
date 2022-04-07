@@ -1,0 +1,68 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vpn-gateway
+  namespace: networking
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: pod-gateway
+      version: 5.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+
+  values:
+    routed_namespaces:
+    - vpn
+
+    addons:
+      vpn:
+        enabled: true
+        # You might use `openvpn` or `wireguard`
+        type: openvpn
+        openvpn:
+          image:
+            repository: jeroenslot/nordvpn-proxy
+            tag: latest
+            pullPolicy: IfNotPresent
+        configFileSecret: vpn-secret
+
+        livenessProbe:
+          exec:
+            # In the example bellow the VPN output is in Belgic (BE) - change appropiatly
+            command:
+              - sh
+              - -c
+              - if [ $(wget -q -O- https://ipinfo.io/country) == 'US' ]; then exit 0; else exit $?; fi
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          failureThreshold: 1
+
+        networkPolicy:
+          enabled: true
+
+          egress:
+            - to:
+              - ipBlock:
+                  cidr: 0.0.0.0/0
+              ports:
+              # VPN traffic port - change if your provider uses a different port
+              - port: 8118
+                protocol: TCP
+            - to:
+                # Allow traffic within K8S - change if your K8S cluster uses a different CIDR
+              - ipBlock:
+                  cidr: 10.0.0.0/8
+    settings:
+      # tun0 for openvpn, wg0 for wireguard
+      VPN_INTERFACE: tun0
+      VPN_BLOCK_OTHER_TRAFFIC: true
+      VPN_TRAFFIC_PORT: 443
+      # Route internal K8s and local home traffic in to the defaullt K8S gateway
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/12 192.168.0.0/16 10.0.0.0/8"
+      VPN_LOCAL_CIDRS: "172.22.0.0/12 192.168.0.0/16 10.0.0.0/8"
+      # Use a different VXLAN network segment that does not conflict with the above
+      VXLAN_IP_NETWORK: "192.168.242.0/24"
