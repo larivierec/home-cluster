@@ -28,6 +28,7 @@ spec:
             repository: ghcr.io/bubuntux/nordvpn
             tag: latest
             pullPolicy: IfNotPresent
+          authSecret: vpn-auth
         envFrom:
         - secretRef:
           name: vpn-config
@@ -65,6 +66,6 @@ spec:
       VPN_TRAFFIC_PORT: 443
       # Route internal K8s and local home traffic in to the defaullt K8S gateway
       NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/12 10.0.0.0/8"
-      VPN_LOCAL_CIDRS: "172.22.0.0/12 10.0.0.0/8"
+      VPN_LOCAL_CIDRS: "172.22.0.0/12 192.168.0.0/16 10.0.0.0/8"
       # Use a different VXLAN network segment that does not conflict with the above
-      VXLAN_IP_NETWORK: "192.168.242.0/24"
+      #VXLAN_IP_NETWORK: "192.168.242.0/24"
