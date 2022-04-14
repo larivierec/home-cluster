@@ -1,0 +1,40 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mosquitto
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mosquitto
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/eclipse-mosquitto
+      tag: v2.0.14
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+    auth:
+      enabled: true
+    persistence:
+      data:
+        enabled: true
+        existingClaim: mosquitto-config-v1
+      configinc:
+        enabled: true
+        type: custom
+        volumeSpec:
+          secret:
+            secretName: mosquitto
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi
