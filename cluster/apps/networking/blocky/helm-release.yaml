@@ -68,6 +68,7 @@ spec:
       customDNS:
         mapping:
           ${SECRET_DOMAIN}: 192.168.2.2
+          mosquitto.${SECRET_DOMAIN}: 192.168.2.3
       
       blocking:
         blackLists:

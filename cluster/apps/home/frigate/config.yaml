@@ -1,0 +1,19 @@
+---
+logger:
+  default: info
+  logs:
+    frigate.record: debug
+
+mqtt:
+  host: mosquitto
+  topic_prefix: frigate
+  user: "${FRIGATE_MQTT_USERNAME}"
+  password: "${FRIGATE_MQTT_PASSWORD}"
+
+database:
+  path: /data/frigate.db
+
+# ffmpeg:
+#   hwaccel_args:
+
+cameras:

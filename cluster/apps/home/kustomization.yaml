@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - hass
   - mosquitto
+  - frigate
