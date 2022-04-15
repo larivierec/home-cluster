@@ -11,10 +11,11 @@ spec:
   failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
-      backoffLimit: 3
+      backoffLimit: 2
       ttlSecondsAfterFinished: 300
       template:
         spec:
+          automountServiceAccountToken: false
           restartPolicy: Never
           containers:
             - name: cloudflare-ddns
