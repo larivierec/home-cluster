@@ -19,15 +19,15 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/k8s-at-home/frigate
-      tag: v0.10.1-amd64
+      repository: docker.io/blakeblackshear/frigate
+      tag: 0.10.1-amd64nvidia
       imagePullPolicy: IfNotPresent
     controller:
       strategy: Recreate
     securityContext:
       privileged: true
     env:
-      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
       NVIDIA_VISIBLE_DEVICES: all
     ingress:
       main:
