@@ -30,9 +30,8 @@ spec:
             pullPolicy: IfNotPresent
           authSecret: vpn-auth
         envFrom:
-        - secretRef:
-          name: vpn-config
-
+          - configMapRef:
+              name: vpn-config 
         livenessProbe:
           exec:
             # In the example bellow the VPN output is in Belgic (BE) - change appropiatly
