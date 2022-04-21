@@ -15,6 +15,12 @@ spec:
         namespace: flux-system
 
   values:
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN
+          - NET_RAW
+
     routed_namespaces:
     - vpn
 
@@ -28,9 +34,10 @@ spec:
             repository: ghcr.io/bubuntux/nordvpn
             tag: latest
             pullPolicy: IfNotPresent
+          authSecret: vpn-auth
         configFileSecret: vpn-secret
         env:
-          NETWORK: "172.22.0.0/12,192.168.0.0/16,10.0.0.0/8"
+          NETWORK: "192.168.0.0/16,10.0.0.0/8"
           CONNECT: "United_States"
         livenessProbe:
           exec:
@@ -64,7 +71,7 @@ spec:
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 443
       # Route internal K8s and local home traffic in to the defaullt K8S gateway
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.22.0.0/12 10.0.0.0/8"
-      VPN_LOCAL_CIDRS: "172.22.0.0/12 192.168.0.0/16 10.0.0.0/8"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "192.168.0.0/16 10.0.0.0/8"
+      VPN_LOCAL_CIDRS: "192.168.0.0/16 10.0.0.0/8"
       # Use a different VXLAN network segment that does not conflict with the above
       #VXLAN_IP_NETWORK: "192.168.242.0/24"
