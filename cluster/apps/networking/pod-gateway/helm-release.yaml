@@ -28,10 +28,10 @@ spec:
             repository: ghcr.io/bubuntux/nordvpn
             tag: latest
             pullPolicy: IfNotPresent
-          authSecret: vpn-auth
-        envFrom:
-          - configMapRef:
-              name: vpn-config 
+        configFileSecret: vpn-secret
+        env:
+          NETWORK: "172.22.0.0/12,192.168.0.0/16,10.0.0.0/8"
+          CONNECT: "United_States"
         livenessProbe:
           exec:
             # In the example bellow the VPN output is in Belgic (BE) - change appropiatly
