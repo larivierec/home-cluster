@@ -67,8 +67,8 @@ spec:
 
       customDNS:
         mapping:
-          ${SECRET_DOMAIN}: 192.168.42.2
-          mosquitto.${SECRET_DOMAIN}: 192.168.42.3
+          ${SECRET_DOMAIN}: 192.168.42.3
+          mosquitto.${SECRET_DOMAIN}: 192.168.42.2
       
       blocking:
         blackLists:
