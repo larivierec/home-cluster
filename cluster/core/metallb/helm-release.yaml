@@ -17,14 +17,20 @@ spec:
       interval: 5m
   values:
     controller:
-      prometheus:
+      metrics:
+        enabled: true
         serviceMonitor:
           enabled: true
+      speaker:
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
     configInline:
       address-pools:
         - name: default
           protocol: layer2
           addresses:
-            - "192.168.2.2-192.168.2.60"
+            - "192.168.42.2-192.168.42.20"
     prometheusRule:
       enabled: true
