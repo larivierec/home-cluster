@@ -29,7 +29,7 @@ spec:
         enabled: true
         type: ClusterIP
         # type: LoadBalancer
-        # loadBalancerIP: "192.168.2.2"
+        # loadBalancerIP: "192.168.42.2"
         # externalTrafficPolicy: Local
     persistence:
       config:
