@@ -7,8 +7,8 @@ logger:
 mqtt:
   host: mosquitto
   topic_prefix: frigate
-  user: "${FRIGATE_MQTT_USERNAME}"
-  password: "${FRIGATE_MQTT_PASSWORD}"
+  user: "{FRIGATE_MQTT_USERNAME}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 
 database:
   path: /data/frigate.db
@@ -22,10 +22,10 @@ cameras:
   camera_1:
     ffmpeg:
       inputs:
-        - path: rtsp://${FRIGATE_RTSP_USER}:${FRIGATE_RTSP_PASSWORD}@192.168.8.3:554
-        roles:
-          - rtmp
-          - record
+        - path: "rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554"
+          roles:
+            - rtmp
+            - record
     rtmp:
       enabled: True
     record:
@@ -35,10 +35,10 @@ cameras:
   camera_2:
     ffmpeg:
       inputs:
-        - path: rtsp://${FRIGATE_RTSP_USER}:${FRIGATE_RTSP_PASSWORD}@192.168.8.5:554
-        roles:
-          - rtmp
-          - record
+        - path: "rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.5:554"
+          roles:
+            - rtmp
+            - record
     rtmp:
       enabled: True
     record:

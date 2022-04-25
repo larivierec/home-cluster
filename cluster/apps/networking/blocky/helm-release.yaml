@@ -69,6 +69,7 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 192.168.42.3
           mosquitto.${SECRET_DOMAIN}: 192.168.42.2
+          wireguard.${SECRET_DOMAIN}: 192.168.9.1
       
       blocking:
         blackLists:
@@ -105,10 +106,10 @@ spec:
         refreshPeriod: 0
 
       caching:
+        prefetching: true
         minTime: 5
         maxTime: 5
-        prefetching: true
-          
+
       prometheus:
         enable: true
         path: /metrics

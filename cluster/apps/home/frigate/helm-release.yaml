@@ -91,10 +91,10 @@ spec:
                   operator: In
                   values:
                     - k8s-gpu
-    valuesFrom:
+  valuesFrom:
     - kind: Secret
       name: frigate
-      valuesKey: mqtt_user
+      valuesKey: mqtt_username
       targetPath: env.FRIGATE_MQTT_USERNAME
       optional: false
     - kind: Secret
