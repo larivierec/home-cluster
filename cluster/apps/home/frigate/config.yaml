@@ -13,7 +13,35 @@ mqtt:
 database:
   path: /data/frigate.db
 
-# ffmpeg:
-#   hwaccel_args:
+ffmpeg:
+  hwaccel_args:
+    - -c:v
+    - hevc_cuvid
 
 cameras:
+  camera_1:
+    ffmpeg:
+      inputs:
+        - path: rtsp://${FRIGATE_RTSP_USER}:${FRIGATE_RTSP_PASSWORD}@192.168.8.3:554
+        roles:
+          - rtmp
+          - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+    detect:
+      enabled: False
+  camera_2:
+    ffmpeg:
+      inputs:
+        - path: rtsp://${FRIGATE_RTSP_USER}:${FRIGATE_RTSP_PASSWORD}@192.168.8.5:554
+        roles:
+          - rtmp
+          - record
+    rtmp:
+      enabled: True
+    record:
+      enabled: True
+    detect:
+      enabled: False

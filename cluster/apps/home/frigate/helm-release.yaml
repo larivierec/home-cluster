@@ -102,3 +102,13 @@ spec:
       valuesKey: mqtt_password
       targetPath: env.FRIGATE_MQTT_PASSWORD
       optional: false
+    - kind: Secret
+      name: frigate
+      valuesKey: rtsp_user
+      targetPath: env.FRIGATE_RTSP_USERNAME
+      optional: false
+    - kind: Secret
+      name: frigate
+      valuesKey: rtsp_password
+      targetPath: env.FRIGATE_RTSP_PASSWORD
+      optional: false
