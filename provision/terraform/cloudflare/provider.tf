@@ -1,4 +1,12 @@
 terraform {
+
+  backend "remote" {
+    organization = "larivierec"
+    workspaces {
+      name = "home-tf"
+    }
+  }
+
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
