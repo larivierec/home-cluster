@@ -22,7 +22,8 @@ spec:
         runAsUser: 101
         allowPrivilegeEscalation: true
       config:
-        use-forwarded-headers: true
+        use-forwarded-headers: "true"
+        forwarded-for-header: "CF-Connecting-IP"
       
       ingressClassResource:
         enabled: true
