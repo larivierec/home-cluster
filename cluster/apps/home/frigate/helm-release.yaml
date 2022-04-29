@@ -81,16 +81,16 @@ spec:
         cpu: 100m
         memory: 250Mi
       limits:
-        memory: 12Gi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-gpu
+        memory: 6Gi
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #         - matchExpressions:
+    #             - key: kubernetes.io/hostname
+    #               operator: In
+    #               values:
+    #                 - k8s-gpu
   valuesFrom:
     - kind: Secret
       name: frigate
