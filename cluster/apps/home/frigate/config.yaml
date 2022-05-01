@@ -1,7 +1,8 @@
 mqtt:
-  host: 192.168.42.2
+  host: mosquitto.home
+  port: 1883
   topic_prefix: frigate
-  user: "{FRIGATE_MQTT_USERNAME}"
+  user: "{FRIGATE_MQTT_USER}"
   password: "{FRIGATE_MQTT_PASSWORD}"
 
 database:
