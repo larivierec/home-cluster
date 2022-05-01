@@ -22,10 +22,6 @@ spec:
       tag: 2022.4.7
     env:
       TZ: "UTC"
-    service:
-      main:
-        type: ClusterIP
-        externalTrafficPolicy: Local
     ingress:
       main:
         enabled: true
