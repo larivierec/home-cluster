@@ -15,8 +15,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2022.4.7

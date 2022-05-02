@@ -23,7 +23,7 @@ spec:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 6
+      replicas: 4
     env:
       TZ: UTC
     service:
@@ -31,32 +31,15 @@ spec:
         ports:
           http:
             port: 4000
-      dns-tcp:
-        enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "192.168.42.4"
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/address-pool: network-services
-          metallb.universe.tf/allow-shared-ip: blocky-svc
-        ports:
-          dns-tcp:
-            enabled: true
-            port: 53
-            protocol: TCP
-            targetPort: 53
       dns-udp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: "192.168.42.4"
+        loadBalancerIP: "192.168.42.5"
         externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/address-pool: network-services
-          metallb.universe.tf/allow-shared-ip: blocky-svc
         ports:
           dns-udp:
             enabled: true
-            port: 53
+            port: 5053
             protocol: UDP
             targetPort: 53
     config: |
@@ -64,12 +47,6 @@ spec:
         default:
           - tcp-tls:1.1.1.1:853
           - tcp-tls:1.0.0.1:853
-
-      customDNS:
-        mapping:
-          ${SECRET_DOMAIN}: 192.168.42.3
-          mosquitto.${SECRET_DOMAIN}: 192.168.42.2
-          wireguard.${SECRET_DOMAIN}: 192.168.9.1
       
       blocking:
         blackLists:

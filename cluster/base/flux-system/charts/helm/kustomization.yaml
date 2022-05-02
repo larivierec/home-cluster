@@ -18,3 +18,4 @@ resources:
   - nvidia-operator-charts.yaml
   - nfs-provisioner-charts.yaml
   - weaveworks-charts.yaml
+  - ori-edge-charts.yaml
