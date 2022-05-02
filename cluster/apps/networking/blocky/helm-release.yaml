@@ -34,12 +34,12 @@ spec:
       dns-udp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: "192.168.42.5"
+        loadBalancerIP: "192.168.42.4"
         externalTrafficPolicy: Local
         ports:
           dns-udp:
             enabled: true
-            port: 5053
+            port: 53
             protocol: UDP
             targetPort: 53
     config: |
@@ -47,6 +47,9 @@ spec:
         default:
           - tcp-tls:1.1.1.1:853
           - tcp-tls:1.0.0.1:853
+        conditional:
+          mapping:
+            ${SECRET_DOMAIN}: 192.168.42.5:5053
       
       blocking:
         blackLists:

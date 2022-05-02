@@ -20,5 +20,6 @@ spec:
     watchedResources: 
     - "Ingress"
     - "Service"
-    extraZonePlugins: "forward . 192.168.42.5:5053 { except ${SECRET_DOMAIN} }"
     replicaCount: 2
+    service:
+      port: 5053

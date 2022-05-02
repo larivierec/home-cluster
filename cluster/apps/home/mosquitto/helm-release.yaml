@@ -22,6 +22,8 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
+        annotations:
+          coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
     auth:
       enabled: true
     persistence:
