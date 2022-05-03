@@ -23,3 +23,15 @@ spec:
     replicaCount: 2
     service:
       port: 5053
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - blocky
+              topologyKey: "kubernetes.io/hostname"
