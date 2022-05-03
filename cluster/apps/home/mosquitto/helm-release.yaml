@@ -26,6 +26,9 @@ spec:
           coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
     auth:
       enabled: true
+    securityContext:
+      runAsUser: 1883
+      runAsGroup: 1883
     persistence:
       data:
         enabled: true
