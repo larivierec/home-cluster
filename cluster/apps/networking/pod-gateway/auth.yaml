@@ -4,35 +4,37 @@ metadata:
     name: vpn-auth
     namespace: networking
 stringData:
-    OPENVPN_USER: ENC[AES256_GCM,data:EgtJszdCR9bVjmdEK0fHNcB4wbwpSWyp,iv:B6jV7ib+Jxr4Xy8SBkTeQpSA1C1z5t+AckK690IlHSo=,tag:a7ZXJZrG9SQjlhDMOuNTUA==,type:str]
-    OPENVPN_PASSWORD: ENC[AES256_GCM,data:4maG/RvMJa6ehao67LijW7l1nrlMZw/g,iv:BZK1wMcXzxtRKe3r5BqVh55ODsvlcd/aW8mCKgIrxcQ=,tag:+MQBpQW9X+BA4o8ty0+7qA==,type:str]
+    VPN_SERVICE_PROVIDER: ENC[AES256_GCM,data:z5mVP2OxJQ==,iv:3wf5awTbsUBNCrILzFvw22vc/vs4o5rYrS+Zr3xHZ58=,tag:VT34WD/2gm44HedZ4kIfQQ==,type:str]
+    OPENVPN_USER: ENC[AES256_GCM,data:454CJZ8ueSGEHYx+JNfdv8JCc6w75qsC,iv:KXMYDSpRJ03Ld5O0nH155pcYhaLDFkHN87jdRH51hUU=,tag:CNg6dnBs7SzjFWtwFympmw==,type:str]
+    OPENVPN_PASSWORD: ENC[AES256_GCM,data:CHzlQ3vM70YmTBdbANQrD0ZBtOa33tJs,iv:DtrHaVBirVdzqfsr3OPsMpvOOk+OCW7llnQms8igpwY=,tag:6qSHfp7Nr/c8wYIBt2QMDQ==,type:str]
+    SERVER_REGIONS: ENC[AES256_GCM,data:8++yLY3sI18hxbpafA==,iv:GFOeuUDn46SzhR04GpLNhG3ffHjfJy4wwA+8OKkrVIs=,tag:A+dbi8wKYTfOGP/PJZ1Zqw==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
     age: []
-    lastmodified: "2022-05-03T23:46:09Z"
-    mac: ENC[AES256_GCM,data:zgQHigLH2I6yVc6rX0tp/62tTkRh2CLp5+g26yBan6g1DoCSdEkvGquPAWf1eHw5iWsg37cIvXfIeitM9jEurgg3rEmO8j4GNvAdacV/ERGHbgn3dh6xeVgFklGFPs8NBMZx4/IGn6UNeN+tK5l66EzHQXlC6uW7DB+uAjzF8ic=,iv:K7fXf+Qtg6tb78DxgKDLeFuTSRW8+IsfOAZKGVQrer8=,tag:4c8xTCRYX3C+oO2aZYKl/w==,type:str]
+    lastmodified: "2022-05-04T11:50:09Z"
+    mac: ENC[AES256_GCM,data:lp+bUTDMIR7mQpMRMz7H/8ket9GVhZWraUEg2KggJl8hiQxGNG9fv3M28pkAtKdL8o3NZ2iK+JyNlwQ4pWgIrpPhexGGsozH+AnpWruqYsJ9DCSSfKtxHX7tmSRkZ6HNYnLvVhUkhMYSJ8EkRCS9i44LIW/wSt1TWQrUcW7u9LQ=,iv:uEnfjL6L7TjpuUd4UYgjjy6fDnEDnH3/Kt2xdl8RbAU=,tag:ebmAae0zlGQs7iiK0WidjQ==,type:str]
     pgp:
-        - created_at: "2022-05-03T23:46:09Z"
+        - created_at: "2022-05-04T11:50:08Z"
           enc: |
             -----BEGIN PGP MESSAGE-----
 
-            hQIMA2ywB6vG5r4wAQ/9Fzb0PuanOugZYSl+yG99xk0hf0G+J30Gwq56lgLz/EjD
-            typbaTZkPM9TZIqbdgkmuIRtnPiWEkIj+xENITiMfpxe8s0eE9H5inf7wGV78pWu
-            B5dsDhgjvARD5695MAdfp74pGpM5ZKVRRe+ipFzpRitHvZy/csdDpO2o+gHApn+j
-            1Bak6lcEwmOy/eOi7JUgBCjUDM+iWpDMxt+Y3dkwTVJxsYAP5U9fdDhBoK/lFTL/
-            STJcGKrwXwKHACl4wf4zycNT8HvHa7q+yxOwE0xMu/xYkBhqYhvgLJv+VL+90vNX
-            Tl5r8Tuw8dHpQlk862bU5ydTMumqnPZR6Nn7sfe/a3RaWQBhX91BgvMiazuHhVKN
-            nUDbNEXj8y/eSFFXGi0z35vbFFJnG/KDbBoCprT6sjKUTcOq2PXTPoJlAAnS/v0u
-            SMYUnllyzoZ4/cd3qj5B/YaISa3HHEResWzIyt5mguqd/gP/iVp2+r7gkONhUZKo
-            JnQS2mivBPdCirH3GF7OPjXHNVeDbBgpNvHT0TcT8yHYEl8/Alec+8F9lfDdUWtI
-            lEYowZuNLiIUajeCw6YFuUap3TGLTW8K2nFBbnCOrrY7JXgB9Pbeg38NkLiSujNV
-            j05bccQkceYcmIVDngT4ydLmC2V5+HHyNsj/2PCTO4YFjNwRNeEF5QYOWQ3GeXPS
-            XgH6bQ6MqSnLhqrR9mwOCSj6aYJENs1OOzBx5H4NWh/+LnzyccKoe1mqub3Ux4oj
-            ojAJgQdmO+5NbqKTfEjPZMdeShZ6PapXexs/shExGVKS2iwMpCYATOE0s+oipW4=
-            =JVr7
+            hQIMA2ywB6vG5r4wAQ//dCAJi9OIaD3RPPgw6/bKHLUKdegdDa7i/+vtnkhUIjQ9
+            GRjwuOmh9dLR2O8NItyy2CmiU62QmbSrMIAwFRIVaNOhtNURPGv/sQer6UDcjIlc
+            I7ENkX4uafw31Uu4LM6A6HZFk656ave1TnOdszQK1MAzusWhSE+r4NWw7I5Jqm1y
+            3YVwwmeY3rRgf2TqM2DPqXpyEpSX1WmXEexKXRCTzutou2qYhqBc+60zGtGSndxQ
+            7D7suHn/0Aik9jTdEmpzWfjN8ntFv4WABFTyul/xnpNIFibQTqqbTfh7YnhB06An
+            TThdyYTT1/SBwkfMqGXnKWC4+kI375GKG0S97bMDCHUoMVOGb5KbjawOiz9QywLc
+            HLkTHGgMH7gDXXidB2nthCSpp6j6X2miNb8wKgZgh2ZyLVoOGj0AzOQlepdn4VP9
+            j/V+tQtqTQ5WF2kWxnPL117rUfyFAczU0qXcEuR+xWWbsr4+p5MVM7uQ8Kcoyk1y
+            LOhdjZ496l4S6DuiXAckBMoMk4ICjO/8nOGije2CTt8piyNJd/OOcuXLKoJg+Uvm
+            /8FThtqkNDLcFQDZ3NGh4PGWwZO6rHBv/TFC+OWHeZVJyVrcQuFzm5DqcIOpgIku
+            j9j8kinaThFP5I8/B7iBmdJreda4fCKzTveyGFt7f9WBxcaFUa9emvUQ7UnBfxnS
+            XgFZqE3UmwgEKO5Ktracs+eOjLVwuQaS6SAoNcua7PTlbWT362DLhwmbKDwJnIcB
+            BpiZUMXYIGW9EokB7yiTSEIfixlR1G5V4gSb+i9JSg1P0XzB7s9DjrX7FAYFGfk=
+            =q3Oc
             -----END PGP MESSAGE-----
           fp: 14A2F242E9B0C13AAEC1DB824AD6DC241DD5293D
     encrypted_regex: ^(data|stringData)$
