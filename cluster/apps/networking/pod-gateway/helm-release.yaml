@@ -60,13 +60,19 @@ spec:
                 cidr: 0.0.0.0/0
           - to:
             - ipBlock:
-                cidr: 172.16.0.0/12
-            - ipBlock:
-                cidr: 169.254.1.1/32 
-            - ipBlock:
                 cidr: 10.1.0.0/16
             - ipBlock:
                 cidr: 10.152.183.0/24
+
+    publicPorts:
+    - hostname: qb #hostname assigned to the pod
+      IP: 2 # must be an integer between 2 and VXLAN_GATEWAY_FIRST_DYNAMIC_IP (20 by default)
+      ports:
+      - type: udp
+        port: 18289
+      - type: tcp
+        port: 18289
+
     webhook:
       image:
         tag: v3.4.0
@@ -76,5 +82,5 @@ spec:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 443
-      VPN_LOCAL_CIDRS: "169.254.1.1/32 172.16.0.0/12 10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "169.254.1.1/32 172.16.0.0/12 10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
+      VPN_LOCAL_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"

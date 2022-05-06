@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: vpn
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: qbittorrent
+      version: 13.4.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/qbittorrent
+      tag: v4.4.2
+    hostname: qbittorrent
+    podAnnotations:
+      setGateway: "true"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "nginx"
+        hosts:
+        - host: "qbittorrent.${SECRET_DOMAIN}"
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - "qbittorrent.${SECRET_DOMAIN}"
+          secretName: wildcard-cert-tls
+      api:
+        enabled: true
+        ingressClassName: "nginx"
+        hosts:
+        - host: "qbittorrent.${SECRET_DOMAIN}"
+          paths:
+          - path: /api
+            pathType: Prefix
+        tls:
+        - hosts:
+          - "qbittorrent.${SECRET_DOMAIN}"
+          secretName: wildcard-cert-tls
+    persistence:
+      config:
+        enabled: true
+        existingClaim: qbittorrent-config-v1
+      media:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "192.168.1.3"
+            path: /volume2/media-sp2
+        mountPath: /media
+    podSecurityContext:
+      supplementalGroups:
+      - 5600
