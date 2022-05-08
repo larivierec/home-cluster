@@ -68,7 +68,7 @@ spec:
                 cidr: 10.152.183.0/24
 
     publicPorts:
-    - hostname: qb #hostname assigned to the pod
+    - hostname: qbittorrent #hostname assigned to the pod
       IP: 2 # must be an integer between 2 and VXLAN_GATEWAY_FIRST_DYNAMIC_IP (20 by default)
       ports:
       - type: udp
@@ -79,12 +79,15 @@ spec:
     webhook:
       image:
         tag: v3.4.0
+      gatewayDefault: false
+      gatewayLabel: setGateway
+      gatewayAnnotation: setGateway
 
     settings:
       # tun0 for openvpn, wg0 for wireguard
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: 443
+      VPN_TRAFFIC_PORT: 1194
       VXLAN_ID: 43
       VXLAN_IP_NETWORK: 172.16.1
       VPN_LOCAL_CIDRS: "172.16.0.0/12 10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
