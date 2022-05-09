@@ -17,18 +17,11 @@ spec:
   values:
     image:
       repository: ghcr.io/k8s-at-home/pod-gateway
-      pullPolicy: IfNotPresent
       tag: v1.5.0
-
-    securityContext:
-      capabilities:
-        add:
-          - NET_ADMIN
 
     routed_namespaces:
     - vpn
 
-    dnsPolicy: ClusterFirst
     DNS: 192.168.42.4
 
     addons:
@@ -67,6 +60,8 @@ spec:
                 cidr: 10.1.0.0/16
             - ipBlock:
                 cidr: 10.152.183.0/24
+            - ipBlock:
+                cidr: 192.168.0.0/16
 
     publicPorts:
     - hostname: qbittorrent #hostname assigned to the pod
@@ -89,7 +84,5 @@ spec:
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 1194
-      VXLAN_ID: 43
-      VXLAN_IP_NETWORK: 172.16.1
-      VPN_LOCAL_CIDRS: "172.16.0.0/12 10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
+      VPN_LOCAL_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
