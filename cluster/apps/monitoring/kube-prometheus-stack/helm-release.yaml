@@ -106,9 +106,6 @@ spec:
           uptimerobot:
             url: https://raw.githubusercontent.com/lekpamartin/uptimerobot_exporter/master/dashboards/grafana.json
             datasource: Prometheus
-          flux-cluster:
-            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/cluster.json
-            datasource: Prometheus
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
 

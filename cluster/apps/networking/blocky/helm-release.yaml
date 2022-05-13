@@ -96,6 +96,10 @@ spec:
         persistence:
           enabled: false
       fullnameOverride: blocky-redis
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
     config: |
       upstream:
         default:
