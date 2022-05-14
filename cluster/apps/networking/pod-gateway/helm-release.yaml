@@ -22,8 +22,6 @@ spec:
     routed_namespaces:
     - vpn
 
-    DNS: 192.168.42.4
-
     addons:
       netshoot:
         enabled: true
@@ -63,6 +61,7 @@ spec:
             - ipBlock:
                 cidr: 192.168.0.0/16
 
+
     publicPorts:
     - hostname: qbittorrent #hostname assigned to the pod
       IP: 2 # must be an integer between 2 and VXLAN_GATEWAY_FIRST_DYNAMIC_IP (20 by default)
@@ -75,9 +74,6 @@ spec:
     webhook:
       image:
         tag: v3.4.0
-      gatewayDefault: false
-      gatewayLabel: setGateway
-      gatewayAnnotation: setGateway
 
     settings:
       # tun0 for openvpn, wg0 for wireguard
