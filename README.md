@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![microk8s](https://img.shields.io/badge/microk8s-v1.23.1-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://microk8s.io/)
+[![microk8s](https://img.shields.io/badge/microk8s-v1.23.X-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://microk8s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -65,16 +65,6 @@ Add this to `/var/snap/microk8s/current/args/kube-controller-manager`
 
 ## Upgrading
 
-Follow the guide here from moving from 1.22.x -> 1.23.0
-[Cluster Upgrade](https://microk8s.io/docs/upgrade-cluster)
-## Calico
-
-```json
-"container_settings": {
-    "allow_ip_forwarding": true
-}
-```
-
 ## Ingress
 
 This will allow wireguard pods to properly forward packets.
@@ -83,6 +73,7 @@ For ingress controller we need to add this in order to get proper ip address fro
 ```yml
 data:
   use-forwarded-headers: "true"
+  forwarded-for-header: "CF-Connecting-IP"
 ```
 
 ## nvidia gpu-operator install
