@@ -70,7 +70,7 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: /volume2/media-sp2/Downloads
-        mountPath: /downloads/qbittorrent
+        mountPath: /downloads
 
     metrics:
       enabled: true
