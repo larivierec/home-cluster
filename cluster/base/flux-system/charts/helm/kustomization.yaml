@@ -10,7 +10,6 @@ resources:
   - minio-charts.yaml
   - prometheus-community-charts.yaml
   - vmware-tanzu-charts.yaml
-  - bananaspliff-charts.yaml
   - kube-state-metrics-charts.yaml
   - metallb-charts.yaml
   - dashboard-charts.yaml

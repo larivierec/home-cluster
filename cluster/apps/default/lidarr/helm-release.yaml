@@ -66,10 +66,12 @@ spec:
       downloads:
         enabled: true
         retain: true
-        type: pvc
-        existingClaim: torrent-config-v2
-        mountPath: /downloads/transmission
-        subPath: downloads/transmission
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "192.168.1.5"
+            path: /volume2/media-sp2/Downloads
+        mountPath: /downloads/qbittorrent
 
     metrics:
       enabled: true
