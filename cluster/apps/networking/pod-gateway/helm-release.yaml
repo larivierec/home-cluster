@@ -23,9 +23,6 @@ spec:
     - vpn
 
     addons:
-      netshoot:
-        enabled: true
-
       vpn:
         enabled: true
         type: openvpn
@@ -70,7 +67,13 @@ spec:
         port: 18289
       - type: tcp
         port: 18289
-
+    - hostname: prowlarr
+      IP: 3
+      ports:
+      - type: udp
+        port: 18290
+      - type: tcp
+        port: 18290
     webhook:
       image:
         tag: v3.4.0
