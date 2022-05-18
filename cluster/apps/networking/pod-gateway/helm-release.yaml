@@ -42,7 +42,6 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 60
           failureThreshold: 1
-
         networkPolicy:
           enabled: true
 
@@ -82,6 +81,6 @@ spec:
       # tun0 for openvpn, wg0 for wireguard
       VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: 1194
+      VPN_TRAFFIC_PORT: 1197
       VPN_LOCAL_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
       NOT_ROUTED_TO_GATEWAY_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
