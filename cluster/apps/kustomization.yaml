@@ -9,3 +9,4 @@ resources:
   - dashboard
   - default
   - vpn
+  - system
