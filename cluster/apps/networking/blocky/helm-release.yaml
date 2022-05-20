@@ -87,6 +87,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: blocky-config
+      secret.reloader.stakater.com/reload: wildcard-cert-tls
     redis:
       enabled: true
       architecture: standalone
