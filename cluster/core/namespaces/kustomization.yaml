@@ -16,3 +16,4 @@ resources:
   - gpu.yaml
   - vpn.yaml
   - system.yaml
+  - mail.yaml

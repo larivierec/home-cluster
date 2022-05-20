@@ -10,3 +10,4 @@ resources:
   - default
   - vpn
   - system
+  - mail
