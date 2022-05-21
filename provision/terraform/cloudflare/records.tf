@@ -60,7 +60,6 @@ resource "cloudflare_record" "mail_dkey_1" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   value   = data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_1"]
   type    = "CNAME"
-  proxied = true
   ttl     = 1
 }
 
@@ -69,7 +68,6 @@ resource "cloudflare_record" "mail_dkey_2" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   value   = data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_2"]
   type    = "CNAME"
-  proxied = true
   ttl     = 1
 }
 
@@ -78,7 +76,6 @@ resource "cloudflare_record" "mail_dkey_3" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
   value   = data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_3"]
   type    = "CNAME"
-  proxied = true
   ttl     = 1
 }
 

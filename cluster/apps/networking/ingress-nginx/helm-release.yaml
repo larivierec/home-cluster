@@ -97,3 +97,5 @@ spec:
     tcp: 
       "8123": "home/home-assistant:8123"
       "1883": "home/mosquitto:1883"
+      "1143": "mail/protonmail-bridge:1143"
+      "1025": "mail/protonmail-bridge:1025"
