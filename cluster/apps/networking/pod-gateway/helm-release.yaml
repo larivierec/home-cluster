@@ -25,17 +25,17 @@ spec:
     addons:
       vpn:
         enabled: true
-        type: wireguard
-        wireguard:
+        type: openvpn
+        openvpn:
           image:
-            repository: thrnz/docker-wireguard-pia
+            repository: qmcgaw/gluetun
             tag: latest
             pullPolicy: IfNotPresent
-          authSecret: vpn-auth-wg
-        configFileSecret: vpn-secret-wg
+          authSecret: vpn-auth
+        configFileSecret: vpn-secret
 
         podAnnotations:
-          secret.reloader.stakater.com/reload: vpn-auth-wg
+          secret.reloader.stakater.com/reload: vpn-auth
 
         livenessProbe:
           exec:
@@ -83,7 +83,7 @@ spec:
 
     settings:
       # tun0 for openvpn, wg0 for wireguard
-      VPN_INTERFACE: wg0
+      VPN_INTERFACE: tun0
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_TRAFFIC_PORT: 1197
       VPN_LOCAL_CIDRS: "10.1.0.0/16 10.152.183.0/24 192.168.0.0/16"
