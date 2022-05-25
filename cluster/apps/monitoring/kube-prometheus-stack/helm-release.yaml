@@ -62,6 +62,7 @@ spec:
       enabled: true
       plugins:
         - "grafana-piechart-panel"
+        - "redis"
       serviceMonitor:
         enabled: true
       dashboardProviders:
@@ -106,6 +107,16 @@ spec:
           uptimerobot:
             url: https://raw.githubusercontent.com/lekpamartin/uptimerobot_exporter/master/dashboards/grafana.json
             datasource: Prometheus
+          redis:
+            gnetId: 12776
+            revision: 2
+            datasource: blocky-redis
+
+      additionalDatasources:
+        - name: blocky-redis
+          type: standalone
+          url: redis://blocky-redis-headless.networking.svc:6379
+
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
 
