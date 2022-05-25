@@ -16,3 +16,5 @@ resources:
   - gpu.yaml
   - vpn.yaml
   - system.yaml
+  - test.yaml
+  - gateway-test.yaml
