@@ -70,7 +70,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex-pvc
+        existingClaim: pvc-plex
       media:
         enabled: true
         type: custom

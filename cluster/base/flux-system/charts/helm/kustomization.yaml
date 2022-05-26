@@ -19,3 +19,4 @@ resources:
   - weaveworks-charts.yaml
   - ori-edge-charts.yaml
   - stakater-charts.yaml
+  - calico-charts.yaml
