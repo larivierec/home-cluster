@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![microk8s](https://img.shields.io/badge/microk8s-v1.23.X-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
+[![k3s](https://img.shields.io/badge/k3s-v1.23.6-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -27,6 +27,11 @@ Find their discord here.
 </div>
 
 # k3s
+
+## Setup
+
+1. Config File
+```
 
 ## Ingress
 
@@ -59,24 +64,4 @@ kubectl label --overwrite \
         nvidia.com/gpu.deploy.dcgm-exporter=false \
         nvidia.com/gpu.deploy.dcgm=false
 
-```
-
-### If you are using pre-installed drivers + toolkit
-
-ensure you set the /var/snap/microk8s/current/args/containerd-template.toml
-default runtime to `nvidia-container-runtime` on your GPU Node
-
-After modify this file restart the microk8s containerd service.
-`sudo systemctl restart snap.microk8s.daemon-containerd.service`
-
-# Flux
-
-Might have to download the flux version `install.yml` from its release.
-i.e. : https://github.com/fluxcd/flux2/releases
-
-```bash
-flux install --version="${VERSION}" \
-          --components-extra=image-reflector-controller,image-automation-controller \
-          --network-policy=false \
-          --export > ./cluster/base/flux-system/gotk-components.yaml
 ```
