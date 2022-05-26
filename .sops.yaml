@@ -1,9 +1,9 @@
 ---
 creation_rules:
-  - path_regex: provision/.*\.ya?ml
-    unencrypted_regex: "^(kind)$"
-    pgp: >-
-      14A2F242E9B0C13AAEC1DB824AD6DC241DD5293D
+  #  - path_regex: provision/.*\.ya?ml
+  #  unencrypted_regex: "^(kind)$"
+  #  pgp: >-
+  #    14A2F242E9B0C13AAEC1DB824AD6DC241DD5293D
   - path_regex: cluster/.*\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     pgp: >-
