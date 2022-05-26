@@ -3,9 +3,7 @@ kind: Kustomization
 resources:
   - namespaces
   - kubed
-  - cert-manager
   - metallb
   - nvidia
   - nfs-subdir-external-provisioner
   - kured
-  
