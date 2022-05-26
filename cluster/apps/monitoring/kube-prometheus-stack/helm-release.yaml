@@ -62,7 +62,6 @@ spec:
       enabled: true
       plugins:
         - "grafana-piechart-panel"
-        - "redis"
       serviceMonitor:
         enabled: true
       dashboardProviders:

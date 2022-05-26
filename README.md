@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![microk8s](https://img.shields.io/badge/microk8s-v1.23.X-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://microk8s.io/)
+[![microk8s](https://img.shields.io/badge/microk8s-v1.23.X-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -26,44 +26,7 @@ Find their discord here.
 
 </div>
 
-# Microk8s
-
-## Some additions added for microk8s
-
-- K8s 1.22+ -> https://github.com/kubernetes/kubernetes/issues/87198 
-> Add this to the `calico-config` in the config maps for kube-system
-
-### Each node configurations
-Add this to `/var/snap/microk8s/current/args/kube-scheduler`
-This is used to bind the api to all interfaces instead of localhost
-
-```
---address=0.0.0.0
---authorization-always-allow-paths=/healthz,/readyz,/livez,/metrics
-```
-
-Add this to `/var/snap/microk8s/current/args/kube-apiserver`
-
-`--feature-gates=RemoveSelfLink=false,MixedProtocolLBService=true`
-
-Add this to `/var/snap/microk8s/current/args/kube-proxy`
-
-```
---cluster-cidr=10.1.0.0/16
---healthz-bind-address=0.0.0.0
---metrics-bind-address=0.0.0.0:10249
-```
-
-Add this to `/var/snap/microk8s/current/args/kube-controller-manager`
-
-```
---address=0.0.0.0
---bind-address=0.0.0.0
---secure-port=10257
---authorization-always-allow-paths=/healthz,/readyz,/livez,/metrics
-```
-
-## Upgrading
+# k3s
 
 ## Ingress
 
