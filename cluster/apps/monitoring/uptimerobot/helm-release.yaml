@@ -33,7 +33,7 @@ spec:
           - hosts:
               - "uptimerobot.${SECRET_DOMAIN}"
             secretName: wildcard-cert-tls
-    metrics:
-      enabled: true
-      prometheusRule:
-        enabled: true
+    # metrics:
+    #   enabled: true
+    #   prometheusRule:
+    #     enabled: true
