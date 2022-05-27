@@ -30,9 +30,20 @@ Find their discord here.
 
 ## Setup
 
-1. Config File
-```
+This setup uses calico cni as a networking backend.
+## Config File
 
+1. Install k3s manually `curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backend none --disable traefik --disable servicelb --disable-network-policy`
+  a. Immediately stop the k3s cluster after it's up
+2. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
+3. Modify the calico-config at the top of the file to include
+```yaml
+"container_settings": {
+  "allow_ip_forwarding": true
+}
+```
+4. Restart the cluster.
+5. Add your flux repo if you have one with bootstrapping.
 ## Ingress
 
 This will allow wireguard pods to properly forward packets.
@@ -63,5 +74,4 @@ kubectl label --overwrite \
         nvidia.com/gpu.deploy.gpu-feature-discovery=false \
         nvidia.com/gpu.deploy.dcgm-exporter=false \
         nvidia.com/gpu.deploy.dcgm=false
-
 ```
