@@ -31,11 +31,11 @@ spec:
             port: 9696
     ingress:
       main:
-        enabled: true      
+        enabled: true
         annotations:
           metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: "nginx"          
+        ingressClassName: "nginx"
         hosts:
           - host: "prowlarr.${SECRET_DOMAIN}"
             paths:
