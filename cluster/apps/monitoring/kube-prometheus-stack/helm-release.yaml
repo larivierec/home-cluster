@@ -151,6 +151,9 @@ spec:
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
+    prometheusOperator:
+      tls:
+        enabled: false
     prometheus:
       enabled: true
       ingress:
