@@ -2,10 +2,11 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-cert
-  annotations:
-    kubed.appscode.com/sync: cert-manager-tls=wildcard-prod
   namespace: default
 spec:
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
   secretName: wildcard-cert-tls
   issuerRef:
     name: letsencrypt-prod
