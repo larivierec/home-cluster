@@ -20,6 +20,15 @@ spec:
       tag: 2022.5.5
     env:
       TZ: "UTC"
+    service:
+      main:
+        type: LoadBalancer
+        externalIPs:
+          - 192.168.42.7
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8123
     ingress:
       main:
         enabled: true
