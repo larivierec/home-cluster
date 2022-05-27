@@ -55,8 +55,10 @@ data:
   forwarded-for-header: "CF-Connecting-IP"
 ```
 
-## nvidia gpu-operator install
-disable nouveau
+## nvidia gpu-operator install + nvidia-daemonset
+
+1. disable nouveau (default driver ubuntu)
+
 ```bash
 lsmod | grep nouveau
 sudo apt-get purge xserver-xorg-video-nouveau
@@ -64,7 +66,12 @@ sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.
 sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
 sudo update-initramfs -u
 cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+```
 
+2. Download [device-plugin-daemonset.yaml](https://k3d.io/v5.4.1/usage/advanced/cuda/device-plugin-daemonset.yaml) to folder `/var/lib/rancher/k3s/server/manifests/`
+3. Remove these labels from the nodes
+
+```
 kubectl label --overwrite \
         node ${NODE_NAME} \
         nvidia.com/gpu.deploy.operator-validator=false \

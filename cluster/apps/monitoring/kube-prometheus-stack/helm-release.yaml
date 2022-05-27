@@ -136,16 +136,25 @@ spec:
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
-    kubeEtcd:
-      enabled: true
-      endpoints:
-        - 192.168.1.13
-        - 192.168.1.8
+      service:
+        enabled: true
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        enabled: true
+        https: true
+        insecureSkipVerify: true
     kubeScheduler:
       enabled: true
       endpoints:
         - 192.168.1.13
         - 192.168.1.8
+      service:
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        https: true
+        insecureSkipVerify: true
     kubeProxy:
       enabled: true
       endpoints:
@@ -153,6 +162,8 @@ spec:
         - 192.168.1.8
     prometheusOperator:
       tls:
+        enabled: false
+      admissionWebhooks:
         enabled: false
     prometheus:
       enabled: true
