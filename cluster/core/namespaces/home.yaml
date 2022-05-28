@@ -3,5 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: home
-  labels:
-    cert-manager-tls: wildcard-prod

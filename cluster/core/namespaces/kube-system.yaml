@@ -3,5 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kube-system
-  labels:
-    cert-manager-tls: wildcard-prod

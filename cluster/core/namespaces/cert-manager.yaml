@@ -3,6 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: cert-manager
-  labels:
-    cert-manager-tls: wildcard-prod
-
