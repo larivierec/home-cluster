@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: /
   name: dashboard-ingress
-  namespace: kube-system
+  namespace: default
 spec:
   ingressClassName: "nginx"
   rules:
