@@ -72,25 +72,25 @@ spec:
             path: /volume2/media-sp2/Downloads
         mountPath: /downloads
 
-    # metrics:
-    #   enabled: true
-    #   serviceMonitor:
-    #     interval: 3m
-    #     scrapeTimeout: 1m
-    #   prometheusRule:
-    #     enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
 
-    #   exporter:
-    #     enabled: true
-    #     podMonitor:
-    #       interval: 3m
-    #       scrapeTimeout: 1m
-    #     image:
-    #       repository: ghcr.io/onedr0p/exportarr
-    #       tag: v1.0.0
-    #       pullPolicy: IfNotPresent
-    #     env:
-    #       additionalMetrics: true
+      exporter:
+        enabled: true
+        podMonitor:
+          interval: 3m
+          scrapeTimeout: 1m
+        image:
+          repository: ghcr.io/onedr0p/exportarr
+          tag: v1.0.0
+          pullPolicy: IfNotPresent
+        env:
+          additionalMetrics: true
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

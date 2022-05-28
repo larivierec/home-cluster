@@ -163,14 +163,6 @@ spec:
       endpoints:
         # - 192.168.1.13
         - 192.168.1.8
-    kubeEtcd:
-      enabled: true
-      endpoints:
-      - 192.168.1.8
-      service:
-        enabled: true
-        port: 2381
-        targetPort: 2381
     prometheusOperator:
       tls:
         enabled: false
