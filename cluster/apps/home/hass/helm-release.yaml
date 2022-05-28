@@ -67,7 +67,7 @@ spec:
       enabled: true
       serviceMonitor:
         bearerTokenSecret:
-          name: "home-prometheus-secrets"
+          name: "prometheus-secrets"
           key: "prom-token"
       prometheusRule:
         enabled: true
