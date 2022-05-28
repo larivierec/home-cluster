@@ -15,8 +15,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    operator:
-      runtimeClass: nvidia-container-runtime
     driver:
       enabled: false
     toolkit:

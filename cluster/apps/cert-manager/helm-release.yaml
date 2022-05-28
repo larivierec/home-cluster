@@ -19,7 +19,7 @@ spec:
     webhook:
       enabled: true
     extraArgs:
-      - --dns01-recursive-nameservers=1.1.1.1:53,1.0.0.1:53
+      - --dns01-recursive-nameservers=192.168.42.4:53,192.168.1.1:53
       - --dns01-recursive-nameservers-only
     cainjector:
       replicaCount: 1

@@ -60,6 +60,8 @@ data:
 
 ## nvidia gpu-operator install + nvidia-daemonset
 
+Stop the cluster before doing anything with the GPU
+
 1. disable nouveau (default driver ubuntu)
 
 ```bash
@@ -72,7 +74,8 @@ cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 ```
 
 2. Download [device-plugin-daemonset.yaml](https://k3d.io/v5.4.1/usage/advanced/cuda/device-plugin-daemonset.yaml) to folder `/var/lib/rancher/k3s/server/manifests/`
-3. Remove these labels from the nodes
+3. Add [config.toml.tmpl](https://k3d.io/v5.4.1/usage/advanced/cuda/?h=container#configure-containerd) to `/var/lib/rancher/k3s/agent/etc/containerd` and restart the cluster
+4. Remove these labels from the nodes
 
 ```
 kubectl label --overwrite \
