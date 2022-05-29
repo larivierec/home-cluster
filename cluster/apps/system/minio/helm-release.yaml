@@ -5,6 +5,9 @@ metadata:
   name: minio
   namespace: system
 spec:
+  dependsOn:
+    - name: csi-driver-nfs
+      namespace: system
   chart:
     spec:
       chart: minio
@@ -16,6 +19,7 @@ spec:
         namespace: flux-system
   interval: 5m
   values:
+    defaultBuckets: "velero"
     envFrom:
       - secretRef:
         name: minio-secrets
@@ -50,7 +54,7 @@ spec:
           - s3.${SECRET_DOMAIN}
     persistence:
       enabled: true
-      existingClaim: minio-nfs
+      existingClaim: nfs-minio
     prometheus:
       servicemonitor:
         enabled: true

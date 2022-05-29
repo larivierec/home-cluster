@@ -1,0 +1,18 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-minio
+  namespace: system
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: "192.168.1.5"
+  share: /volume2/minio
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=4.1
+  - nconnect=8
+  - hard
+  - noatime
