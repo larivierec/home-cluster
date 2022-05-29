@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: velero
-  namespace: velero
+  namespace: recovery
 spec:
   dependsOn:
     - name: minio
@@ -27,7 +27,7 @@ spec:
       provider: aws
       backupStorageLocation:
         name: default
-        bucket: velero-backups
+        bucket: velero
         default: true
         config:
           region: minio
@@ -67,7 +67,6 @@ spec:
       image:
         repository: ghcr.io/k8s-at-home/kubectl
         tag: v1.23.6
-    deployRestic: true
     restic:
       podVolumePath: /var/lib/kubelet/pods
       privileged: false
