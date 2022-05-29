@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  dependsOn:
+    - name: minio
+      namespace: system
+  interval: 5m
+  chart:
+    spec:
+      chart: velero
+      version: 2.29.7
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-tanzu-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/velero
+    configuration:
+      extraEnvVars:
+        TZ: "UTC"
+      provider: aws
+      backupStorageLocation:
+        name: default
+        bucket: velero-backups
+        default: true
+        config:
+          region: minio
+          s3ForcePathStyle: true
+          s3Url: "http://minio.system.svc:9000"
+          publicUrl: https://s3.${SECRET_DOMAIN}
+      resticTimeout: 4h
+    initContainers:
+      - name: velero-plugin-for-aws
+        image: ghcr.io/k8s-at-home/velero-plugin-for-aws:v1.4.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    credentials:
+      existingSecret: velero-credentials
+    schedules:
+      daily-backup:
+        # At 6:00am in the morning every day
+        schedule: "0 6 * * *"
+        template:
+          ttl: "168h"
+      weekly-backup:
+        # At the end of the week on a Sunday morning, at 6:00am
+        schedule: "0 6 * * 0"
+        template:
+          ttl: "672h"
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    backupsEnabled: true
+    snapshotsEnabled: false
+    upgradeCRDs: false
+    cleanUpCRDs: false
+    kubectl:
+      image:
+        repository: ghcr.io/k8s-at-home/kubectl
+        tag: v1.23.6
+    deployRestic: true
+    restic:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: false
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 15m
+        limits:
+          memory: 3000Mi
+    resources:
+      requests:
+        memory: 300Mi
+        cpu: 25m
+      limits:
+        memory: 1500Mi

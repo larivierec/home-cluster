@@ -28,12 +28,7 @@ spec:
         enabled: false
       smtp:
         enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "192.168.42.6"
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/address-pool: mail-services
-          metallb.universe.tf/allow-shared-ip: mail-svc
+        type: ClusterIP
         ports:
           smtp:
             enabled: true
@@ -42,14 +37,9 @@ spec:
             targetPort: 25
       imap:
         enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "192.168.42.6"
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/address-pool: mail-services
-          metallb.universe.tf/allow-shared-ip: mail-svc
+        type: ClusterIP
         ports:
-          dns-tcp:
+          imap-tcp:
             enabled: true
             port: 143
             protocol: TCP

@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - stakater
   - reflector
+  - minio
