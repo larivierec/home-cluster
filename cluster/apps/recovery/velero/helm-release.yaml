@@ -24,6 +24,7 @@ spec:
     configuration:
       extraEnvVars:
         TZ: "UTC"
+        MINIO_LOG_LEVEL: "DEBUG"
       provider: aws
       backupStorageLocation:
         name: default
@@ -32,7 +33,7 @@ spec:
         config:
           region: minio
           s3ForcePathStyle: true
-          s3Url: "http://minio.system.svc:9000"
+          s3Url: "https://s3.${SECRET_DOMAIN}"
           publicUrl: https://s3.${SECRET_DOMAIN}
       resticTimeout: 4h
     initContainers:
@@ -67,15 +68,13 @@ spec:
       image:
         repository: ghcr.io/k8s-at-home/kubectl
         tag: v1.23.6
-    restic:
-      podVolumePath: /var/lib/kubelet/pods
-      privileged: false
-      resources:
-        requests:
-          memory: 200Mi
-          cpu: 15m
-        limits:
-          memory: 3000Mi
+    podSecurityContext:
+      enabled: true
+      fsGroup: 100
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 568
+      runAsNonRoot: true
     resources:
       requests:
         memory: 300Mi
