@@ -163,6 +163,8 @@ spec:
       endpoints:
         # - 192.168.1.13
         - 192.168.1.8
+    kubeEtcd:
+      enabled: false
     prometheusOperator:
       tls:
         enabled: false
