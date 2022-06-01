@@ -5,6 +5,6 @@ metadata:
   name: dashboard-charts
   namespace: flux-system
 spec:
-  interval: 15m
+  interval: 30m
   url: https://kubernetes.github.io/dashboard
   timeout: 3m

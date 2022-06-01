@@ -13,7 +13,6 @@ resources:
   - kube-state-metrics-charts.yaml
   - metallb-charts.yaml
   - dashboard-charts.yaml
-  - appscode-charts.yaml
   - nvidia-operator-charts.yaml
   - nfs-provisioner-charts.yaml
   - weaveworks-charts.yaml
