@@ -19,7 +19,7 @@ spec:
       repository: ghcr.io/k8s-at-home/pod-gateway
       tag: v1.5.0
     
-    DNS: 192.168.42.4
+    DNS: 172.16.1.1
 
     routed_namespaces:
     - vpn
@@ -35,9 +35,6 @@ spec:
             pullPolicy: IfNotPresent
           authSecret: vpn-auth
         configFileSecret: vpn-secret
-
-        podAnnotations:
-          secret.reloader.stakater.com/reload: vpn-auth
 
         livenessProbe:
           exec:
@@ -60,8 +57,6 @@ spec:
                 cidr: 172.16.0.0/12
             - ipBlock:
                 cidr: 10.43.0.0/16
-            - ipBlock:
-                cidr: 192.168.0.0/16
 
 
     publicPorts:

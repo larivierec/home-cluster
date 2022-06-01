@@ -17,12 +17,13 @@ spec:
       interval: 5m
   values:
     domain: ${SECRET_DOMAIN}
+    ttl: 1
     watchedResources: 
     - "Ingress"
     - "Service"
     replicaCount: 2
     service:
-      port: 5053
+      externalTrafficPolicy: Local
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:

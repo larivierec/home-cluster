@@ -23,7 +23,18 @@ spec:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 4
+      replicas: 2
+    autoscaling:
+      enabled: true
+      target: blocky
+      minReplicas: 2
+      maxReplicas: 6
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
+    resources:
+      requests:
+        cpu: 50m
+        memory: 100Mi 
     env:
       TZ: UTC
     service:
@@ -60,20 +71,17 @@ spec:
             port: 53
             protocol: TCP
             targetPort: 53
-      dns-dot:
-        enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "192.168.42.4"
-        externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/address-pool: network-services
-          metallb.universe.tf/allow-shared-ip: blocky-svc
-        ports:
           dns-dot:
             enabled: true
             port: 853
             protocol: TCP
             targetPort: 853
+          dns-https:
+            enabled: true
+            port: 443
+            protocol: TCP
+            targetPort: 443
+
     ingress:
       main:
         enabled: true
@@ -106,12 +114,14 @@ spec:
     config: |
       upstream:
         default:
-          - tcp-tls:1.1.1.1:853
+          - tcp-tls:one.one.one.one
           - tcp-tls:1.0.0.1:853
+          - https://cloudflare-dns.com/dns-query
+      upstreamTimeout: 5
 
       conditional:
         mapping:
-          ${SECRET_DOMAIN}: 192.168.42.5:5053
+          ${SECRET_DOMAIN}: 192.168.42.5:53
 
       bootstrapDns: tcp+udp:1.1.1.1
 
@@ -156,6 +166,12 @@ spec:
         blockType: nxDomain
         refreshPeriod: 0
 
+      clientLookup:
+        upstream: tcp+udp:192.168.1.1
+        singleNameOrder:
+          - 2
+          - 1
+
       caching:
         prefetching: true
         minTime: 5
@@ -166,6 +182,7 @@ spec:
         path: /metrics
       
       tlsPort: 853
+      httpsPort: 443
       certFile: /tls/tls.crt
       keyFile: /tls/tls.key
       httpPort: 4000
@@ -198,8 +215,8 @@ spec:
             podAffinityTerm:
               labelSelector:
                 matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - blocky
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - blocky
               topologyKey: "kubernetes.io/hostname"
