@@ -52,13 +52,13 @@ spec:
       extraTls:
         - hosts:
           - s3.${SECRET_DOMAIN}
-    # podSecurityContext:
-    #   enabled: true
-    #   fsGroup: 100
-    # containerSecurityContext:
-    #   enabled: true
-    #   runAsUser: 568
-    #   runAsNonRoot: true
+    podSecurityContext:
+      enabled: true
+      fsGroup: 100
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 568
+      runAsNonRoot: true
     persistence:
       enabled: true
       existingClaim: nfs-minio
