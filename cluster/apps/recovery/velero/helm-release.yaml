@@ -33,7 +33,6 @@ spec:
           s3ForcePathStyle: true
           s3Url: "http://minio.system.svc:9000"
           publicUrl: https://s3.${SECRET_DOMAIN}
-          multiPartChunkSize: 64Mi
       resticTimeout: 4h
     initContainers:
       - name: velero-plugin-for-aws
