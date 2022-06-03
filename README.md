@@ -37,16 +37,16 @@ This setup uses calico cni as a networking backend.
 ```bash
 curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backend none --disable traefik --disable servicelb --disable-network-policy --kube-controller-manager-arg address=0.0.0.0 --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg bind-address=0.0.0.0 --kube-scheduler-arg address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --expose-etcd-metrics=true
 ```
-  a. Immediately stop the k3s cluster after it's up
-2. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
-3. Modify the calico-config at the top of the file to include
+2. Immediately stop the k3s cluster after it's up
+3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
+4. Modify the calico-config at the top of the file to include
 ```yaml
 "container_settings": {
   "allow_ip_forwarding": true
 }
 ```
-4. Restart the cluster.
-5. Add your flux repo if you have one with bootstrapping.
+5. Restart the cluster.
+6. Add your flux repo if you have one with bootstrapping.
 ## Ingress
 
 This will allow wireguard pods to properly forward packets.
