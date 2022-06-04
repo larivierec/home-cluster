@@ -55,6 +55,10 @@ spec:
           - hosts:
               - "overseerr.${SECRET_DOMAIN}"
             secretName: ca-overseerr-tls
+    
+    podAnnotations:
+      backup.velero.io/backup-volumes: app/config
+    
     persistence:
       config:
         enabled: true

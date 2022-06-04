@@ -49,6 +49,10 @@ spec:
           - hosts:
               - "sonarr.${SECRET_DOMAIN}"
             secretName: wildcard-cert-tls
+    
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+    
     persistence:
       config:
         enabled: true

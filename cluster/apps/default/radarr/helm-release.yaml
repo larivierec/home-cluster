@@ -28,6 +28,10 @@ spec:
         ports:
           http:
             port: 7878
+    
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+    
     ingress:
       main:
         enabled: true      

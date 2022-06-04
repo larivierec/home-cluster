@@ -20,6 +20,8 @@ spec:
       tag: v1.26.2.5797-5bd057d2b
     controller:
       strategy: Recreate
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
     env:
       TZ: "UTC"
       NVIDIA_DRIVER_CAPABILITIES: all
@@ -84,6 +86,7 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
+    
     resources:
       requests:
         cpu: 1000m

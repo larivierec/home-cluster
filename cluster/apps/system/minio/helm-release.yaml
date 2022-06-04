@@ -23,6 +23,9 @@ spec:
       registry: quay.io
       repository: minio/minio
       tag: RELEASE.2022-06-03T01-40-53Z
+    
+    nameOverride: minio
+
     args:
       - server
       - /data
