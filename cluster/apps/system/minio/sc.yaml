@@ -6,7 +6,7 @@ metadata:
   namespace: system
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: "192.168.1.5"
+  server: 192.168.1.5
   share: /volume2/minio
 allowVolumeExpansion: true
 reclaimPolicy: Retain
@@ -16,3 +16,4 @@ mountOptions:
   - nconnect=8
   - hard
   - noatime
+  - nodiratime

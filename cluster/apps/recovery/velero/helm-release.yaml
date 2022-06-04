@@ -31,7 +31,7 @@ spec:
         config:
           region: minio
           s3ForcePathStyle: true
-          s3Url: "http://minio.system.svc:9000"
+          s3Url: "http://minio-kah-common-chart.system.svc:9000"
           publicUrl: https://s3.${SECRET_DOMAIN}
       resticTimeout: 4h
     initContainers:

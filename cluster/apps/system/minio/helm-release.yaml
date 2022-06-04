@@ -8,60 +8,82 @@ spec:
   dependsOn:
     - name: csi-driver-nfs
       namespace: system
+  interval: 15m
   chart:
     spec:
-      chart: minio
-      version: 11.6.7
-      interval: 5m
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
-        name: bitnami-charts
+        name: k8s-at-home-charts
         namespace: flux-system
-  interval: 5m
+
   values:
-    defaultBuckets: "velero"
+    image:
+      registry: quay.io
+      repository: minio/minio
+      tag: RELEASE.2022-06-03T01-40-53Z
+    args:
+      - server
+      - /data
+      - --address
+      - :9000
+      - --console-address
+      - :9001
+
     envFrom:
       - secretRef:
-        name: minio-secrets
+          name: minio-secrets
     env:
       TZ: UTC
-      MINIO_PROMETHEUS_URL: http://prometheus-prometheus.monitoring:9090
-      MINIO_PROMETHEUS_JOB_ID: minio
       MINIO_UPDATE: "off"
-      MINIO_BROWSER_REDIRECT_URL: https://minio.${CLUSTER_DOMAIN}
-      MINIO_SERVER_URL: https://s3.${CLUSTER_DOMAIN}
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+
     auth:
       existingSecret: minio-secrets
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hostname: minio.${SECRET_DOMAIN}
-      tls: true
-      extraTls:
-        - hosts:
-          - minio.${SECRET_DOMAIN}
-    apiIngress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hostname: s3.${SECRET_DOMAIN}
-      tls: true
-      extraTls:
-        - hosts:
-          - s3.${SECRET_DOMAIN}
-    podSecurityContext:
-      enabled: true
-      fsGroup: 100
-    containerSecurityContext:
-      enabled: true
-      runAsUser: 568
-      runAsNonRoot: true
-    persistence:
-      enabled: true
-      existingClaim: nfs-minio
-    prometheus:
-      servicemonitor:
+    
+    service:
+      main:
+        type: ClusterIP
         enabled: true
+        ports:
+          http:
+            enabled: true
+            port: 9001
+          api:
+            enabled: true
+            port: 9000
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+          - host: minio.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9001
+          - host: s3.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9000
+        tls:
+          - hosts:
+              - minio.${SECRET_DOMAIN}
+            secretName: minio.${SECRET_DOMAIN}-tls
+          - hosts:
+              - s3.${SECRET_DOMAIN}
+            secretName: s3.${SECRET_DOMAIN}-tls
+    persistence:
+      data:
+        enabled: true
+        existingClaim: nfs-minio
+        mountPath: /data
+    podAnnotations:
+      secret.reloader.stakater.com/reload: minio-secrets
