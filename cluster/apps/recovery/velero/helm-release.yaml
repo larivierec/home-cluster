@@ -41,6 +41,7 @@ spec:
         volumeMounts:
           - mountPath: /target
             name: plugins
+    deployRestic: true
     credentials:
       existingSecret: velero-credentials
     schedules:
