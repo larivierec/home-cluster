@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: minio
-      version: 11.6.6
+      version: 11.6.7
       interval: 5m
       sourceRef:
         kind: HelmRepository
