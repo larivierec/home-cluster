@@ -1,0 +1,25 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-provision
+  labels:
+    kustomize.toolkit.fluxcd.io/substitute: "disabled"
+    
+provisioner: nfs.csi.k8s.io
+
+parameters:
+  server: 192.168.1.3
+  share: /volume2/pvc
+  pathPattern: "${.PVC.namespace}-${.PVC.name}"
+
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+
+mountOptions:
+  - nfsvers=4.1
+  - nconnect=8
+  - hard
+  - noatime
+  - nodiratime
