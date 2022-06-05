@@ -61,7 +61,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: pvc-jellyfin
+        existingClaim: jellyfin
       media:
         enabled: true
         type: custom

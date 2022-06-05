@@ -5,7 +5,7 @@ metadata:
   name: pvc-plex
   namespace: default
 spec:
-  storageClassName: "manual"
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
