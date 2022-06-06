@@ -72,7 +72,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex-csi
+        existingClaim: plex
       media:
         enabled: true
         type: custom
