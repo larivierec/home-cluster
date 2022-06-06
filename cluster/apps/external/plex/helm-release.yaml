@@ -42,7 +42,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: nginx
         annotations:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -72,13 +72,13 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex
+        existingClaim: plex-csi
       media:
         enabled: true
         type: custom
         volumeSpec:
           nfs:
-            server: "192.168.1.3"
+            server: 192.168.1.3
             path: /volume2/media-sp2
         mountPath: /media
         readOnly: true
