@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/0xerr0r/blocky
-      tag: v0.18
+      tag: v0.19
     controller:
       enabled: true
       type: deployment
@@ -117,13 +117,14 @@ spec:
           - tcp-tls:one.one.one.one
           - tcp-tls:1.0.0.1:853
           - https://cloudflare-dns.com/dns-query
+
       upstreamTimeout: 5
 
       conditional:
         mapping:
           ${SECRET_DOMAIN}: 192.168.42.5:53
 
-      bootstrapDns: tcp+udp:1.1.1.1
+      bootstrapDns: tcp-tls:one.one.one.one
 
       redis:
         address: blocky-redis-headless:6379
@@ -146,6 +147,7 @@ spec:
             - https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
             - https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt
           noblock: [] 
+
         clientGroupsBlock:
           default:
             - ads
@@ -219,4 +221,4 @@ spec:
                     operator: In
                     values:
                       - blocky
-              topologyKey: "kubernetes.io/hostname"
+              topologyKey: kubernetes.io/hostname
