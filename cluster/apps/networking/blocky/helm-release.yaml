@@ -124,7 +124,10 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 192.168.42.5:53
 
-      bootstrapDns: tcp-tls:one.one.one.one
+      bootstrapDns:
+        upstream: tcp-tls:one.one.one.one
+        ips: 
+        - 1.1.1.1
 
       redis:
         address: blocky-redis-headless:6379
