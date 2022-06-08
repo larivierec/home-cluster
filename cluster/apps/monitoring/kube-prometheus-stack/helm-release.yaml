@@ -62,6 +62,7 @@ spec:
       enabled: true
       plugins:
         - "grafana-piechart-panel"
+        - "redis-datasource"
       serviceMonitor:
         enabled: true
       dashboardProviders:
@@ -76,6 +77,17 @@ spec:
               editable: true
               options:
                 path: /var/lib/grafana/dashboards/default
+      additionalDataSources:
+        - name: blocky-redis
+          uid: blocky-redis
+          type: redis-datasource
+          url: redis://blocky-redis-headless.networking.svc:6379/
+          access: proxy
+          orgId: 1
+          editable: false
+          isDefault: false
+          jsonData:
+            timeInterval: 30s
       dashboards:
         default:
           blocky:
@@ -85,10 +97,6 @@ spec:
           ingress:
             gnetId: 9614
             revision: 1
-            datasource: Prometheus
-          dcgm:
-            gnetId: 12239
-            revision: 2
             datasource: Prometheus
           node_exporter:
             gnetId: 1860
@@ -111,11 +119,6 @@ spec:
             revision: 2
             datasource: blocky-redis
 
-      additionalDatasources:
-        - name: blocky-redis
-          type: standalone
-          url: redis://blocky-redis-headless.networking.svc:6379
-
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
 
@@ -129,7 +132,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts: 
               - "grafana.${SECRET_DOMAIN}"
-        ingressClassName: "nginx"
+        ingressClassName: nginx
     kubelet:
       enabled: true
     kubeApiServer:
@@ -183,6 +186,10 @@ spec:
             hosts:
               - "prometheus.${SECRET_DOMAIN}"
         ingressClassName: "nginx"
+      additionalDatasources:
+        - name: blocky-redis
+          type: standalone
+          url: redis://blocky-redis-headless.networking.svc:6379
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
