@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/0xerr0r/blocky
-      tag: v0.18
+      tag: v0.19
     controller:
       enabled: true
       type: deployment
@@ -33,8 +33,8 @@ spec:
       targetMemoryUtilizationPercentage: 80
     resources:
       requests:
-        cpu: 50m
-        memory: 100Mi 
+        cpu: 100m
+        memory: 200Mi
     env:
       TZ: UTC
     service:
@@ -124,7 +124,14 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 192.168.42.5:53
 
-      bootstrapDns: tcp+udp:1.1.1.1
+      bootstrapDns: 
+        upstream: tcp-tls:one.one.one.one
+        ips: 
+        - 1.1.1.1
+
+      filtering:
+        queryTypes:
+          - AAAA
 
       redis:
         address: blocky-redis-headless:6379
