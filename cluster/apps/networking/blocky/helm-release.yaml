@@ -18,19 +18,19 @@ spec:
   values:
     image:
       repository: ghcr.io/0xerr0r/blocky
-      tag: v0.19
+      tag: v0.18
     controller:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 4
-    # autoscaling:
-    #   enabled: true
-    #   target: blocky
-    #   minReplicas: 2
-    #   maxReplicas: 6
-    #   targetCPUUtilizationPercentage: 80
-    #   targetMemoryUtilizationPercentage: 80
+      replicas: 2
+    autoscaling:
+      enabled: true
+      target: blocky
+      minReplicas: 2
+      maxReplicas: 6
+      targetCPUUtilizationPercentage: 80
+      targetMemoryUtilizationPercentage: 80
     resources:
       requests:
         cpu: 50m
@@ -124,14 +124,7 @@ spec:
         mapping:
           ${SECRET_DOMAIN}: 192.168.42.5:53
 
-      bootstrapDns:
-        upstream: tcp-tls:one.one.one.one
-        ips: 
-        - 1.1.1.1
-
-      filtering:
-        queryTypes:
-          - AAAA
+      bootstrapDns: tcp+udp:1.1.1.1
 
       redis:
         address: blocky-redis-headless:6379
