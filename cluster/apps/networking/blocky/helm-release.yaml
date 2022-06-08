@@ -23,14 +23,14 @@ spec:
       enabled: true
       type: deployment
       strategy: RollingUpdate
-      replicas: 2
-    autoscaling:
-      enabled: true
-      target: blocky
-      minReplicas: 2
-      maxReplicas: 6
-      targetCPUUtilizationPercentage: 80
-      targetMemoryUtilizationPercentage: 80
+      replicas: 4
+    # autoscaling:
+    #   enabled: true
+    #   target: blocky
+    #   minReplicas: 2
+    #   maxReplicas: 6
+    #   targetCPUUtilizationPercentage: 80
+    #   targetMemoryUtilizationPercentage: 80
     resources:
       requests:
         cpu: 50m
