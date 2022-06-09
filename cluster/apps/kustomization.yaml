@@ -13,3 +13,4 @@ resources:
   - system
   - recovery
   - mail
+  - system-upgrade

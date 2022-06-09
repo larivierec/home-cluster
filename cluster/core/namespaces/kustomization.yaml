@@ -17,3 +17,4 @@ resources:
   - vpn.yaml
   - system.yaml
   - mail.yaml
+  - system-upgrade.yaml
