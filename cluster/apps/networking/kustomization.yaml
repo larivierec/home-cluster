@@ -7,3 +7,4 @@ resources:
   - cloudflare_ddns
   - external-dns
   - k8s-gateway
+  - test
