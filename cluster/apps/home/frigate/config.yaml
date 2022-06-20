@@ -25,7 +25,7 @@ cameras:
   camera_2:
     ffmpeg:
       inputs:
-        - path: "rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.5:554/cam/realmonitor?channel=1&subtype=0"
+        - path: "rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=0"
           roles:
             - rtmp
             - record
