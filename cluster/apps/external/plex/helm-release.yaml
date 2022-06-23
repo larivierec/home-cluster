@@ -82,6 +82,10 @@ spec:
             path: /volume2/media-sp2
         mountPath: /media
         readOnly: true
+      backup:
+        enabled: true
+        existingClaim: plex-backup
+        mountPath: /config/backup
       tmp:
         enabled: true
         type: emptyDir
