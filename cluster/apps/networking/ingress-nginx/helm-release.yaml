@@ -18,9 +18,6 @@ spec:
   values:
     controller:
       replicaCount: 2
-      image:
-        runAsUser: 101
-        allowPrivilegeEscalation: true
       config:
         use-forwarded-headers: "true"
         forwarded-for-header: "CF-Connecting-IP"
