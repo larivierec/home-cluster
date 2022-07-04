@@ -8,17 +8,13 @@ spec:
   chart:
     spec:
       chart: pod-gateway
-      version: 5.4.2
+      version: 5.5.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
 
   values:
-    image:
-      repository: ghcr.io/k8s-at-home/pod-gateway
-      tag: v1.6.0
-    
     DNS: 172.16.1.1
 
     routed_namespaces:
@@ -74,9 +70,6 @@ spec:
         port: 18290
       - type: tcp
         port: 18290
-    webhook:
-      image:
-        tag: v3.4.0
 
     settings:
       # tun0 for openvpn, wg0 for wireguard
