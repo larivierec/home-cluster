@@ -1,0 +1,16 @@
+general:
+  instance_name: "Searcher"
+  privacypolicy_url: false
+  contact_url: false
+  enable_metrics: true
+search:
+  safe_search: 2
+  autocomplete: "google"
+server:
+  secret_key: "{SEARXNG_SECRET_KEY}"
+  bind_address: 0.0.0.0
+engines:
+- name: google french
+  engine: google
+  language: fr
+    
