@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: redis
+  namespace: system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: redis
+      version: 16.13.2
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    architecture: standalone
+    auth:
+      enabled: false
+    master:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      persistence:
+        enabled: true
+        size: 512Mi
+    replica:
+      replicaCount: 1
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      persistence:
+        enabled: true
+        size: 512Mi
