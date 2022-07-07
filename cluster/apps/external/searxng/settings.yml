@@ -1,3 +1,4 @@
+use_default_settings: true
 general:
   instance_name: "Searcher"
   privacypolicy_url: false
@@ -9,6 +10,11 @@ search:
 server:
   secret_key: "{SEARXNG_SECRET_KEY}"
   bind_address: 0.0.0.0
+  # limiter: true
+  method: "GET"
+  image_proxy: true
+ui:
+  static_use_hash: true
 engines:
 - name: google french
   engine: google

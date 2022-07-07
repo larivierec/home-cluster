@@ -24,7 +24,7 @@ spec:
       tag: 2022.07.07-df837d8b
     searx:
       baseUrl: "https://search.${SECRET_DOMAIN}"
-      mortyKey: ikPva8uJG8+zBAlHkled1qhSekci+Rm
+      mortyKey: "${SECRET_SEARXNG_MORTY_KEY}"
     
     ingress:
       main:
@@ -59,7 +59,7 @@ spec:
         enabled: true
         type: configMap
         name: searxng-settings
-        subPath: settings.yaml
+        subPath: settings.yml
         mountPath: /etc/searxng/settings.yml
         readOnly: true
 

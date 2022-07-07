@@ -4,7 +4,7 @@ resources:
   - pvc.yaml
   - secret.yaml
   - helm-release.yaml
-namespace: home
+namespace: vpn
 configMapGenerator:
   - name: searxng-settings
     files:
