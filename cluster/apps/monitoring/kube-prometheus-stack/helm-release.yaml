@@ -88,6 +88,16 @@ spec:
           isDefault: false
           jsonData:
             timeInterval: 30s
+        - name: default-redis
+          uid: default-redis
+          type: redis-datasource
+          url: redis://redis-headless.system.svc:6379/
+          access: proxy
+          orgId: 1
+          editable: false
+          isDefault: false
+          jsonData:
+            timeInterval: 30s
       dashboards:
         default:
           blocky:
