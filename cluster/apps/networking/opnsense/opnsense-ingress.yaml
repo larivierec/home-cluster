@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: opnsense
+  namespace: networking
+spec:
+  ingressClassName: "nginx"
+  tls:
+    - hosts:
+      - "opnsense.${SECRET_DOMAIN}"
+      secretName: wildcard-cert-tls
+  rules:
+  - host: opnsense.${SECRET_DOMAIN}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: opnsense
+              port:
+                number: 443
