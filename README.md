@@ -46,7 +46,31 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backe
 }
 ```
 5. Restart the cluster.
-6. Add your flux repo if you have one with bootstrapping.
+
+## Flux installation
+1. `Generate a personal access token (PAT) that can create repositories by checking all permissions under repo. If a pre-existing repository is to be used the PAT’s user will require admin permissions on the repository in order to create a deploy key.` [Flux Installation](https://fluxcd.io/docs/installation)
+```bash
+export GITHUB_USER=<user>
+export GITHUB_TOKEN=<token>
+
+flux bootstrap github \
+  --owner=$GITHUB_USER \
+  --repository=home-cluster \
+  --branch=main \
+  --path=./clusters/base \
+  --personal
+```
+2. Install the sops secret either gpg or age [sops age](https://fluxcd.io/docs/guides/mozilla-sops/#encrypting-secrets-using-age)
+```bash
+age-keygen -o age.agekey
+
+cat age.agekey |
+kubectl create secret generic sops-age \
+--namespace=flux-system \
+--from-file=age.agekey=/dev/stdin
+```
+3. Ensure you use this `sops-age` secret for decrypting.
+
 ## Ingress
 
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
