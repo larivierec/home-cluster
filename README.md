@@ -49,7 +49,6 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backe
 6. Add your flux repo if you have one with bootstrapping.
 ## Ingress
 
-This will allow wireguard pods to properly forward packets.
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
 
 ```yml
