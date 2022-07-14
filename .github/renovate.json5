@@ -23,26 +23,26 @@
   "onboarding": false,
   "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
   "helm-values": {
-    "fileMatch": ["cluster/.+\\.yaml$"],
+    "fileMatch": ["cluster/.+\\.ya?ml$"],
   },
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.yaml$"],
+    "fileMatch": ["cluster/.+\\.ya?ml$"],
   },
   "flux": {
     "fileMatch": [
-      "cluster/.+\\.yaml$"
+      "cluster/.+\\.ya?ml$"
     ]
   },
   "regexManagers": [
     {
-      "fileMatch": ["cluster/crds/cert-manager/.+\\.yaml$"],
+      "fileMatch": ["cluster/crds/cert-manager/.+\\.ya?ml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/",
       ],
       "datasourceTemplate": "helm",
     },
     {
-      "fileMatch": ["cluster/crds/kube-prometheus-stack/.+\\.yaml$"],
+      "fileMatch": ["cluster/crds/kube-prometheus-stack/.+\\.ya?ml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
       ],
