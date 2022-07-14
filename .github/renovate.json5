@@ -19,15 +19,14 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "dependencyDashboardTitle": "Renovate Dashboard",
   "rebaseWhen": "conflicted",
-  "requireConfig": false,
+  "requireConfig": "optional",
   "onboarding": false,
   "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
   "helm-values": {
-    fileMatch: ["cluster/.+/helm-release\\.yaml$"],
+    "fileMatch": ["cluster/.+\\.yaml$"],
   },
   "kubernetes": {
-    fileMatch: ["cluster/.+\\.yaml$"],
-    ignorePaths: ["cluster/base/"],
+    "fileMatch": ["cluster/.+\\.yaml$"],
   },
   "flux": {
     "fileMatch": [
@@ -35,58 +34,48 @@
     ]
   },
   "regexManagers": [
-    // regexManager to read and process cert-manager CRD's
     {
-      fileMatch: ["cluster/crds/cert-manager/.+\\.yaml$"],
-      matchStrings: [
+      "fileMatch": ["cluster/crds/cert-manager/.+\\.yaml$"],
+      "matchStrings": [
         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/",
       ],
-      datasourceTemplate: "helm",
+      "datasourceTemplate": "helm",
     },
-    // regexManager to read and process kube-prometheus-stack CRD's
     {
-      fileMatch: ["cluster/crds/kube-prometheus-stack/.+\\.yaml$"],
-      matchStrings: [
+      "fileMatch": ["cluster/crds/kube-prometheus-stack/.+\\.yaml$"],
+      "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
       ],
-      datasourceTemplate: "helm",
-    },
-    // regexManager to read and process Rook-Ceph CRD's
-    {
-      fileMatch: ["cluster/crds/rook-ceph/.+\\.yaml$"],
-      matchStrings: [
-        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n *tag: (?<currentValue>.*)\n",
-      ],
-      datasourceTemplate: "helm",
+      "datasourceTemplate": "helm",
     },
   ],
   "packageRules": [
     // Setup datasources
     {
-      matchDatasources: ["helm"],
-      semanticCommitScope: "charts",
-      commitMessageTopic: "{{depName}}",
-      commitMessageExtra: "to {{{newValue}}}",
-      separateMinorPatch: true,
-      ignoreDeprecated: true,
+      "matchDatasources": ["helm"],
+      "semanticCommitScope": "charts",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "to {{{newValue}}}",
+      "separateMinorPatch": true,
+      "ignoreDeprecated": true,
     },
     {
-      matchDatasources: ["helm"],
-      matchUpdateTypes: ["major"],
-      commitMessagePrefix: "feat(charts)!: ",
-      labels: ["renovate/helm", "dep/major"],
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(charts)!: ",
+      "labels": ["renovate/helm", "dep/major"],
     },
     {
-      matchDatasources: ["helm"],
-      matchUpdateTypes: ["minor"],
-      semanticCommitType: "feat",
-      labels: ["renovate/helm", "dep/minor"],
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
+      "labels": ["renovate/helm", "dep/minor"],
     },
     {
-      matchDatasources: ["helm"],
-      matchUpdateTypes: ["patch"],
-      semanticCommitType: "fix",
-      labels: ["renovate/helm", "dep/patch"],
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
+      "labels": ["renovate/helm", "dep/patch"],
     },
     {
       "matchDatasources": ["docker"],

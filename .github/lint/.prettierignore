@@ -1,5 +1,6 @@
 .private
 .vscode
 *.sops.*
+*unencrypted*
 ansible
 gotk-components.yaml

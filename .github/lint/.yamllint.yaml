@@ -3,6 +3,7 @@ ignore: |
   .private/
   .vscode/
   *.sops.*
+  *unencrypted*
   gotk-components.yaml
 extends: default
 rules:
