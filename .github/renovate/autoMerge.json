@@ -1,20 +1,21 @@
 {
   "packageRules": [
     {
-      "matchDatasources": [
-        "docker",
-        "github-tags"
-      ],
-      "automerge": true,
-      "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchPackageNames": [
-        "renovatebot/github-action"
-      ]
+      // TODO: re-add eventually
+      // "matchDatasources": [
+      //   "docker",
+      //   "github-tags"
+      // ],
+      // "automerge": true,
+      // "automergeType": "branch",
+      // "requiredStatusChecks": null,
+      // "matchUpdateTypes": [
+      //   "minor",
+      //   "patch"
+      // ],
+      // "matchPackageNames": [
+      //   "renovatebot/github-action"
+      // ]
     }
   ]
 }
