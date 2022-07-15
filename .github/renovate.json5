@@ -22,23 +22,15 @@
   "requireConfig": "optional",
   "onboarding": false,
   "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
-  "ignorePaths": [
-    "**/node_modules/**",
-    "**/bower_components/**",
-    "**/vendor/**",
-    "**/examples/**",
-    "**/__tests__/**",
-    "**/test/**",
-    "**/tests/**",
-    "**/__fixtures__/**",
-    "cluster\/.+\\*config.ya?ml$",
-    "cluster\/.+\\*settings?.ya?ml$",
-  ],
+  "ignorePaths": ["cluster/base"],
   "helm-values": {
     "fileMatch": ["cluster/.+\\.ya?ml$"],
   },
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.ya?ml$"],
+  },
+  "terraform": {
+    "fileMatch": ["provision/.+\\.tf$"],
   },
   "flux": {
     "fileMatch": [
