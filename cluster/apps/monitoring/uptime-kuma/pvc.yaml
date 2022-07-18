@@ -10,4 +10,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: nfs-provision-csi
