@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: uptimerobot
+  name: uptimerobot-prometheus
   namespace: monitoring
 spec:
   interval: 5m
@@ -17,23 +17,10 @@ spec:
   values:
     env:
       UPTIMEROBOT_API_KEY: ${SECRET_UPTIMEROBOT_API_KEY}
-    service:
-      main:
-        enabled: true
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "nginx"
-        hosts:
-          - host: "uptimerobot.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - "uptimerobot.${SECRET_DOMAIN}"
-            secretName: wildcard-cert-tls
-    # metrics:
-    #   enabled: true
-    #   prometheusRule:
-    #     enabled: true
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: false
