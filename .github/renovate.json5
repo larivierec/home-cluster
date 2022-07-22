@@ -22,7 +22,6 @@
   "requireConfig": "optional",
   "onboarding": false,
   "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
-  "ignorePaths": ["cluster/base"],
   "helm-values": {
     "fileMatch": ["cluster/.+\\.ya?ml$"],
   },
@@ -103,6 +102,10 @@
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
       "labels": ["renovate/image", "dep/patch"]
+    },
+    {
+      "matchDatasources": ["terraform-provider"],
+      "addLabels": ["renovate/terraform"]
     },
     {
       "matchDatasources": ["docker"],
