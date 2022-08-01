@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: searx
-      version: 5.5.2
+      version: 5.6.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
