@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 3.0.12
+      version: 4.0.2
       sourceRef:
         name: bitnami-charts
         namespace: flux-system
