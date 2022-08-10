@@ -9,23 +9,23 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 4.0.2
+      version: 0.13.4
       sourceRef:
-        name: bitnami-charts
+        name: metallb-charts
         namespace: flux-system
         kind: HelmRepository
       interval: 5m
   values:
-    controller:
-      metrics:
+    crds:
+      enabled: true
+    prometheusRule:
+      enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
         enabled: true
-        serviceMonitor:
-          enabled: true
-      speaker:
-        metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
+      prometheusRule:
+        enabled: true
     configInline:
       peers:
       - peer-address: "192.168.42.1"
