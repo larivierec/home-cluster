@@ -1,3 +1,4 @@
+---
 apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
@@ -5,4 +6,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - bgp-address-pool
+    - bgp-address-pool

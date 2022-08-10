@@ -26,15 +26,3 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-    configInline:
-      peers:
-      - peer-address: "192.168.42.1"
-        peer-asn: 65401
-        my-asn: 65400
-      address-pools:
-        - name: default
-          protocol: bgp
-          addresses:
-          - 192.168.42.2-192.168.42.20
-    prometheusRule:
-      enabled: true
