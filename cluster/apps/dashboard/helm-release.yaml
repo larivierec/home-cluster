@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: kubernetes-dashboard
-      version: 5.7.0
+      version: 5.8.0
       sourceRef:
         kind: HelmRepository
         name: dashboard-charts
@@ -21,7 +21,7 @@ spec:
       unavailable: 1
     image:
       repository: kubernetesui/dashboard
-      tag: v2.6.0
+      tag: v2.6.1
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
