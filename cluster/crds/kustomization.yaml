@@ -6,3 +6,4 @@ resources:
   - kube-prometheus-stack
   - nvidia-operator
   - system-upgrade
+  - metallb
