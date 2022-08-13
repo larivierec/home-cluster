@@ -9,32 +9,20 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 3.0.12
+      version: 0.13.4
       sourceRef:
-        name: bitnami-charts
+        name: metallb-charts
         namespace: flux-system
         kind: HelmRepository
       interval: 5m
   values:
-    controller:
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-      speaker:
-        metrics:
-          enabled: true
-          serviceMonitor:
-            enabled: true
-    configInline:
-      peers:
-      - peer-address: "192.168.42.1"
-        peer-asn: 65401
-        my-asn: 65400
-      address-pools:
-        - name: default
-          protocol: bgp
-          addresses:
-          - 192.168.42.2-192.168.42.20
+    crds:
+      enabled: false
     prometheusRule:
       enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
