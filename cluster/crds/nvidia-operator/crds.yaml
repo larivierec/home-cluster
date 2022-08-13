@@ -8,8 +8,8 @@ spec:
   interval: 30m
   url: https://github.com/NVIDIA/gpu-operator.git
   ref:
-    # renovate: registryUrl=https://github.com/NVIDIA/gpu-operator.git
-    tag: v1.10.1
+    # renovate: registryUrl=https://nvidia.github.io/gpu-operator
+    tag: v1.11.0
   ignore: |
     # exclude all
     /*
