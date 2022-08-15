@@ -20,3 +20,4 @@ resources:
   - stakater-charts.yaml
   - emberstack-charts.yaml
   - csi-driver-nfs-charts.yaml
+  - searxng-charts.yaml

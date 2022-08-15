@@ -10,25 +10,16 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: searx
-      version: 5.6.2
+      chart: searxng
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: searxng-charts
         namespace: flux-system
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
-      surge: 1
-      unavailable: 1
-    image:
-      repository: searxng/searxng
-      tag: 2022.07.07-df837d8b
-    searx:
-      baseUrl: "https://search.${SECRET_DOMAIN}"
-      mortyKey: "${SECRET_SEARXNG_MORTY_KEY}"
-    
+      strategy: RollingUpdate    
     ingress:
       main:
         enabled: true
@@ -48,7 +39,7 @@ spec:
         tls:
           - hosts:
               - "search.${SECRET_DOMAIN}"
-            secretName: ca-searx-tls
+            secretName: ca-searxng-tls
     
     podAnnotations:
       backup.velero.io/backup-volumes: etc/searxng
