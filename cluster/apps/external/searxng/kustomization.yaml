@@ -5,11 +5,11 @@ resources:
   - secret.yaml
   - helm-release.yaml
 namespace: vpn
-configMapGenerator:
-  - name: searxng-settings
-    files:
-      - settings.yml
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+  #configMapGenerator:
+  #- name: searxng-settings
+  #  files:
+  #    - settings.yml
+  #generatorOptions:
+  #disableNameSuffixHash: true
+  #annotations:
+  #  kustomize.toolkit.fluxcd.io/substitute: disabled
