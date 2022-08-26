@@ -21,3 +21,4 @@ resources:
   - emberstack-charts.yaml
   - csi-driver-nfs-charts.yaml
   - searxng-charts.yaml
+  - bjw-s-charts.yaml
