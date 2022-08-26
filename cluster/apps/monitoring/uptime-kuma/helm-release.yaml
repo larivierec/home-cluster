@@ -7,14 +7,22 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: uptime-kuma
-      version: 1.4.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: louislam/uptime-kuma
+      tag: 1.17.1
+    service:
+      main:
+        ports:
+          http:
+            port: 3001
     ingress:
       main:
         enabled: true

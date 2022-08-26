@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - opnsense
   - kube-prometheus-stack
-  - uptimerobot
   - uptime-kuma
