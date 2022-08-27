@@ -66,6 +66,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: plex
+                    port:
+                      number: http
         tls:
           - hosts:
               - "plex.${SECRET_DOMAIN}"

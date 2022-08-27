@@ -44,7 +44,7 @@ spec:
                   service:
                     name: sonarr
                     port:
-                      number: 8989
+                      number: http
         tls:
           - hosts:
               - "sonarr.${SECRET_DOMAIN}"

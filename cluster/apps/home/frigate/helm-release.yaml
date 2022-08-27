@@ -48,6 +48,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: frigate
+                    port:
+                      number: http
         tls:
           - hosts:
               - "frigate.${SECRET_DOMAIN}"

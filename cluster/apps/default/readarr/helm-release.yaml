@@ -44,7 +44,7 @@ spec:
                   service:
                     name: readarr
                     port:
-                      number: 8787
+                      number: http
         tls:
           - hosts:
               - "readarr.${SECRET_DOMAIN}"

@@ -47,7 +47,7 @@ spec:
                   service:
                     name: home-assistant
                     port:
-                      number: 8123
+                      number: http
         tls:
           - hosts:
               - "hass.${SECRET_DOMAIN}"

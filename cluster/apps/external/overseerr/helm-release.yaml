@@ -50,7 +50,7 @@ spec:
                   service:
                     name: overseerr
                     port:
-                      number: 5055
+                      number: http
         tls:
           - hosts:
               - "overseerr.${SECRET_DOMAIN}"

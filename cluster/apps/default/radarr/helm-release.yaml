@@ -48,7 +48,7 @@ spec:
                   service:
                     name: radarr
                     port:
-                      number: 7878
+                      number: http
         tls:
           - hosts:
               - "radarr.${SECRET_DOMAIN}"

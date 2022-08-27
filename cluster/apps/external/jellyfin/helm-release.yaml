@@ -52,6 +52,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: jellyfin
+                    port:
+                      number: http
         tls:
           - hosts:
               - "jellyfin.${SECRET_DOMAIN}"
