@@ -41,11 +41,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: prowlarr
-                    port:
-                      number: 9696
         tls:
           - hosts:
               - "prowlarr.${SECRET_DOMAIN}"

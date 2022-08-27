@@ -46,11 +46,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: overseerr
-                    port:
-                      number: http
         tls:
           - hosts:
               - "overseerr.${SECRET_DOMAIN}"

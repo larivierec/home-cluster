@@ -20,17 +20,18 @@ spec:
       tag: v2.0.15
     service:
       main:
+        enabled: true
         ports:
           http:
             enabled: false
           mqtt:
+            enabled: true
+            primary: true
             type: LoadBalancer
             externalTrafficPolicy: Local
             annotations:
               coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
             port: 1883
-    auth:
-      enabled: true
     securityContext:
       runAsUser: 1883
       runAsGroup: 1883
@@ -38,6 +39,7 @@ spec:
       data:
         enabled: true
         existingClaim: mosquitto-config-v1
+        mountPath: /mosquitto/data
       configinc:
         enabled: true
         type: custom

@@ -7,8 +7,8 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: radarr
-      version: 16.3.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -44,11 +44,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: radarr
-                    port:
-                      number: http
         tls:
           - hosts:
               - "radarr.${SECRET_DOMAIN}"

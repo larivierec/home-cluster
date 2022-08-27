@@ -22,23 +22,12 @@ spec:
     hostname: qbittorrent
     env:
       TZ: "UTC"
-      QBITTORRENT__PORT: &port 80
-      QBITTORRENT__BT_PORT: &port-bt 6881
+      QBITTORRENT__PORT: &port 8080
     service:
       main:
         ports:
           http:
             port: *port
-      bittorrent:
-        enabled: true
-        type: ClusterIP
-        ports:
-          bittorrent:
-            enabled: true
-            port: *port-bt
-            protocol: TCP
-            targetPort: *port-bt
-        externalTrafficPolicy: Local
     ingress:
       main:
         enabled: true

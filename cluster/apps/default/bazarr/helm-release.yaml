@@ -45,11 +45,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: bazarr
-                    port:
-                      number: http
         tls:
           - hosts:
               - "bazarr.${SECRET_DOMAIN}"
