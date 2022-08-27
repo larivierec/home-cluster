@@ -7,11 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: home-assistant
-      version: 13.4.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -47,7 +47,7 @@ spec:
                   service:
                     name: home-assistant
                     port:
-                      number: 8123
+                      number: http
         tls:
           - hosts:
               - "hass.${SECRET_DOMAIN}"

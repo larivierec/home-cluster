@@ -7,11 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: plex
-      version: 6.4.3
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -31,6 +31,11 @@ spec:
       PLEX_PREFERENCE_3: "TranscoderQuality=2"
       PLEX_PREFERENCE_4: "TreatWanIpAsLocal=0"
       PLEX_PREFERENCE_5: "TranscoderH264BackgroundPreset=fast"
+    service:
+      main:
+        ports:
+          http:
+            port: 32400
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -61,6 +66,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: plex
+                    port:
+                      number: http
         tls:
           - hosts:
               - "plex.${SECRET_DOMAIN}"

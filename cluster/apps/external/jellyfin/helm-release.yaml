@@ -7,11 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: jellyfin
-      version: 9.5.3
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -24,6 +24,11 @@ spec:
       TZ: "UTC"
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
+    service:
+      main:
+        ports:
+          http:
+            port: 8096
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -47,6 +52,11 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: jellyfin
+                    port:
+                      number: http
         tls:
           - hosts:
               - "jellyfin.${SECRET_DOMAIN}"

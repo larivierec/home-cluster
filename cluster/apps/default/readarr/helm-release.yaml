@@ -7,11 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: readarr
-      version: 6.4.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -44,7 +44,7 @@ spec:
                   service:
                     name: readarr
                     port:
-                      number: 8787
+                      number: http
         tls:
           - hosts:
               - "readarr.${SECRET_DOMAIN}"

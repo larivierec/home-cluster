@@ -7,11 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: mosquitto
-      version: 4.8.2
+      chart: app-template
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
@@ -20,10 +20,15 @@ spec:
       tag: v2.0.15
     service:
       main:
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        annotations:
-          coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
+        ports:
+          http:
+            enabled: false
+          mqtt:
+            type: LoadBalancer
+            externalTrafficPolicy: Local
+            annotations:
+              coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
+            port: 1883
     auth:
       enabled: true
     securityContext:
