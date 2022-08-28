@@ -75,6 +75,7 @@ spec:
           - hosts:
               - "plex.${SECRET_DOMAIN}"
             secretName: ca-plex-tls
+
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
