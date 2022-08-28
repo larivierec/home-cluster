@@ -78,18 +78,8 @@ spec:
               options:
                 path: /var/lib/grafana/dashboards/default
       additionalDataSources:
-        - name: blocky-redis
-          uid: blocky-redis
-          type: redis-datasource
-          url: redis://blocky-redis-headless.networking.svc:6379/
-          access: proxy
-          orgId: 1
-          editable: false
-          isDefault: false
-          jsonData:
-            timeInterval: 30s
-        - name: default-redis
-          uid: default-redis
+        - name: redis-db
+          uid: redis-db
           type: redis-datasource
           url: redis://redis-headless.system.svc:6379/
           access: proxy
@@ -127,7 +117,7 @@ spec:
           redis:
             gnetId: 12776
             revision: 2
-            datasource: blocky-redis
+            datasource: redis-db
 
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true

@@ -183,19 +183,6 @@ spec:
       configmap.reloader.stakater.com/reload: *config
       secret.reloader.stakater.com/reload: wildcard-cert-tls
 
-    prometheus:
-      serviceMonitor:
-        enabled: true
-
-    metrics:
-      enabled: true
-      serviceMonitor:
-        interval: 30s
-        scrapeTimeout: 10s
-      prometheusRule:
-        enabled: true
-        rules: []
-
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
