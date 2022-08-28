@@ -37,15 +37,19 @@ spec:
       runAsGroup: 1883
     persistence:
       data:
-        enabled: true
-        existingClaim: mosquitto-config-v1
-        mountPath: /mosquitto/data
+        enabled: false
+        existingClaim: &config mosquitto-config-v1
       configinc:
         enabled: true
         type: custom
         volumeSpec:
           secret:
-            secretName: mosquitto
+            secretName: &secret mosquitto
+        mountPath: /mosquitto/config
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: *config
+      secret.reloader.stakater.com/reload: *secret
+
     resources:
       requests:
         cpu: 100m
