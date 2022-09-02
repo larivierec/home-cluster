@@ -20,9 +20,3 @@ spec:
       enabled: false
     prometheusRule:
       enabled: true
-    prometheus:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-      prometheusRule:
-        enabled: true
