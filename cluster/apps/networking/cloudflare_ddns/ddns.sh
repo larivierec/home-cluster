@@ -3,7 +3,7 @@
 set -o nounset
 set -o errexit
 
-ip4=$(curl -s https://api.ipify.org)
+ip4=$(curl -s https://api64.ipify.org)
 record4=$(curl -s -X GET \
     "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONEID/dns_records?name=$CLOUDFLARE_RECORD_NAME&type=A" \
     -H "Authorization: Bearer $CLOUDFLARE_TOKEN" \

@@ -1,11 +1,11 @@
-data "http" "ipv4" {
-  url = "https://api.ipify.org"
+data "http" "ip_address" {
+  url = "https://api64.ipify.org"
 }
 
 resource "cloudflare_record" "ip" {
   name    = data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  value   = chomp(data.http.ipv4.response_body)
+  value   = chomp(data.http.ip_address.response_body)
   proxied = true
   type    = "A"
   ttl     = 1
