@@ -20,7 +20,7 @@ spec:
       strategy: Recreate
     image:
       repository: shenxn/protonmail-bridge
-      tag: 2.2.2-1
+      tag: 2.3.0-1
     env:
       TZ: "America/New_York"
     service:
