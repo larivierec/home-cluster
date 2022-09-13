@@ -21,6 +21,12 @@ spec:
       config:
         use-forwarded-headers: "true"
         forwarded-for-header: "CF-Connecting-IP"
+        client-header-timeout: 120
+        client-body-buffer-size: "100M"
+        client-body-timeout: 120
+        keep-alive: 120
+        keep-alive-requests: 10000
+        proxy-body-size: "100M"
       
       ingressClassResource:
         enabled: true
