@@ -51,6 +51,8 @@ spec:
         annotations:
           metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: blocky-svc
+        monitor:
+          enabled: false
         ports:
           dns-udp:
             enabled: true
@@ -65,6 +67,8 @@ spec:
         annotations:
           metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: blocky-svc
+        monitor:
+          enabled: false
         ports:
           dns-tcp:
             enabled: true

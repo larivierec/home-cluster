@@ -29,6 +29,8 @@ spec:
       smtp:
         enabled: true
         type: ClusterIP
+        monitor:
+          enabled: false
         ports:
           smtp:
             enabled: true
@@ -38,6 +40,8 @@ spec:
       imap:
         enabled: true
         type: ClusterIP
+        monitor:
+          enabled: false
         ports:
           imap-tcp:
             enabled: true
