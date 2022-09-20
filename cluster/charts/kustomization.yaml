@@ -15,7 +15,7 @@ resources:
   - dashboard-charts.yaml
   - nvidia-operator-charts.yaml
   - nfs-provisioner-charts.yaml
-  - weaveworks-charts.yaml
+  - kubereboot-charts.yaml
   - ori-edge-charts.yaml
   - stakater-charts.yaml
   - emberstack-charts.yaml
