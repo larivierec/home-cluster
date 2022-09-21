@@ -32,7 +32,7 @@ spec:
         monitor:
           enabled: false
         ports:
-          smtp:
+          smtp-tcp:
             enabled: true
             port: 25
             protocol: TCP
@@ -50,17 +50,41 @@ spec:
             targetPort: 143
     ingress:
       main:
-        enabled: true
+        enabled: false
+      imap:
         ingressClassName: "nginx"
+        enabled: true
         tls:
           - hosts:
-              - mail.${SECRET_DOMAIN}
+              - imap.${SECRET_DOMAIN}
             secretName: wildcard-cert-tls
         hosts:
-          - host: mail.${SECRET_DOMAIN}
+          - host: imap.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
+                backend:
+                  service:
+                    name: imap
+                    port:
+                      name: imap-tcp
+      smtp:
+        ingressClassName: "nginx"
+        enabled: true
+        tls:
+          - hosts:
+              - smtp.${SECRET_DOMAIN}
+            secretName: wildcard-cert-tls
+        hosts:
+          - host: smtp.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: smtp
+                    port:
+                      name: smtp-tcp
     persistence:
       config:
         enabled: true
