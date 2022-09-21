@@ -7,7 +7,6 @@ resources:
   - flux-system
   - external
   - home
-  - dashboard
   - default
   - vpn
   - system
