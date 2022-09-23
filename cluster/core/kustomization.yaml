@@ -6,3 +6,5 @@ resources:
   - nvidia
   - nfs-subdir-external-provisioner
   - kured
+  - node-feature-discovery
+  - intel-gpu-plugin

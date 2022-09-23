@@ -19,6 +19,8 @@ spec:
       enabled: false
     toolkit:
       enabled: false
+    nfd:
+      enabled: false
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
