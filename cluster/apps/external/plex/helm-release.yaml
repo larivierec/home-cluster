@@ -43,6 +43,7 @@ spec:
       supplementalGroups:
         - 44
         - 109
+        - 65539
     ingress:
       main:
         enabled: true
@@ -76,15 +77,15 @@ spec:
               - "plex.${SECRET_DOMAIN}"
             secretName: ca-plex-tls
 
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - k8s-gpu
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #         - matchExpressions:
+    #             - key: kubernetes.io/hostname
+    #               operator: In
+    #               values:
+    #                 - k8s-gpu
     persistence:
       config:
         enabled: true
@@ -107,9 +108,26 @@ spec:
         type: emptyDir
         medium: Memory
     
+    # resources:
+    #   requests:
+    #     cpu: 1000m
+    #     memory: 2Gi
+    #   limits:
+    #     memory: 10Gi
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: feature.node.kubernetes.io/custom-intel-gpu
+                  operator: In
+                  values:
+                    - "true"
+
     resources:
       requests:
-        cpu: 1000m
-        memory: 2Gi
+        cpu: 100m
+        memory: 4G
       limits:
-        memory: 10Gi
+        memory: 12G
