@@ -22,4 +22,5 @@ resources:
   - csi-driver-nfs-charts.yaml
   - searxng-charts.yaml
   - k8s-at-home-charts.yaml
-  - kubernetes-sigs-nfd.yaml
+  - kubernetes-sigs-nfd-charts.yaml
+  - rook-ceph-charts.yaml

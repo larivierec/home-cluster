@@ -18,3 +18,4 @@ resources:
   - system.yaml
   - mail.yaml
   - system-upgrade.yaml
+  - rook-ceph.yaml
