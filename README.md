@@ -31,11 +31,15 @@ Find their discord here.
 ## Setup
 
 This setup uses calico cni as a networking backend.
+k3s cluster will also be configured as an HA using etcd with the `--cluster-init` flag
+
 ## Config File
+
+### Server
 
 1. Install k3s manually
 ```bash
-curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backend none --disable traefik --disable servicelb --disable-network-policy --kube-controller-manager-arg bind-address=0.0.0.0 --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --expose-etcd-metrics=true
+curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backend none --disable traefik --disable servicelb --disable-network-policy --kube-controller-manager-arg bind-address=0.0.0.0 --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --expose-etcd-metrics=true --cluster-init
 ```
 2. Immediately stop the k3s cluster after it's up
 3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
@@ -47,8 +51,17 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backe
 ```
 5. Restart the cluster.
 
-## Flux installation
+### Worker
+
+```bash
+curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
+```
+
+## Flux
+
+### Installation
 1. `Generate a personal access token (PAT) that can create repositories by checking all permissions under repo. If a pre-existing repository is to be used the PAT’s user will require admin permissions on the repository in order to create a deploy key.` [Flux Installation](https://fluxcd.io/docs/installation)
+
 ```bash
 export GITHUB_USER=<user>
 export GITHUB_TOKEN=<token>
@@ -60,7 +73,9 @@ flux bootstrap github \
   --path=./clusters/base \
   --personal
 ```
+
 2. Install the sops secret either gpg or age [sops age](https://fluxcd.io/docs/guides/mozilla-sops/#encrypting-secrets-using-age)
+
 ```bash
 age-keygen -o age.agekey
 
@@ -69,6 +84,7 @@ kubectl create secret generic sops-age \
 --namespace=flux-system \
 --from-file=age.agekey=/dev/stdin
 ```
+
 3. Ensure you use this `sops-age` secret for decrypting.
 
 ## Ingress
