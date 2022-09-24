@@ -127,3 +127,46 @@ kubectl label --overwrite \
         nvidia.com/gpu.deploy.dcgm-exporter=false \
         nvidia.com/gpu.deploy.dcgm=false
 ```
+
+# Nodes/Hardware
+
+| Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
+|---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
+| J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
+| Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Masters  |
+| Beelink U59 N5105         | 1     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
+| Beelink U59 N5105         | 2     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
+| Synology 920+             | 1     | 26TB  HDD    | -                           | 8GB  | DSM 7            | NAS                 |
+
+# Notes
+
+For Beelink nodes, there was an incompatibility for iGPU transcoding with Ubuntu 22.04.1 LTS and Kernel 5.15.X
+
+To fix this, install a Kernel with the patch:
+
+Beelink U59 uses amd64 architecture.
+[unsigned image](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/amd64/linux-image-unsigned-5.16.0-051600-generic_5.16.0-051600.202201092355_amd64.deb)
+[modules](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/arm64/linux-modules-5.16.0-051600-generic-64k_5.16.0-051600.202201092355_arm64.deb)
+
+1. Add the file /etc/modprobe.d/i915.conf containing the following.
+
+```text
+options i915 enable_guc=3
+```
+
+2. Update grub to take into account the i915 configuration
+```bash
+sudo update-initramfs -u && sudo update-grub2
+```
+
+3. Reboot
+
+4. When everything has reloaded, check the `dmesg` ensure that it loads and something similar should show up in the logs
+```text
+[    1.294988] i915 0000:00:02.0: vgaarb: deactivate vga console
+[    1.296988] i915 0000:00:02.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=io+mem:owns=io+mem
+[    1.297508] i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/icl_dmc_ver1_09.bin (v1.9)
+[    1.318551] i915 0000:00:02.0: [drm] GuC firmware i915/ehl_guc_62.0.0.bin version 62.0 submission:enabled
+[    1.318560] i915 0000:00:02.0: [drm] GuC SLPC: disabled
+[    1.318563] i915 0000:00:02.0: [drm] HuC firmware i915/ehl_huc_9.0.0.bin version 9.0 authenticated:yes
+```
