@@ -18,8 +18,8 @@ spec:
     controller:
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/k8s-at-home/lidarr
-      tag: v1.1.0.2600
+      repository: ghcr.io/onedr0p/lidarr
+      tag: 1.1.0.2592@sha256:b23522768b5a53396db224e982ab969646a23694ab72dd65bf81e08db5b6c732
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"

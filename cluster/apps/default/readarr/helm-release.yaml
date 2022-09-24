@@ -18,8 +18,8 @@ spec:
     controller:
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/k8s-at-home/readarr
-      tag: v0.1.1.1352
+      repository: ghcr.io/onedr0p/readarr-nightly
+      tag: 0.1.1.1409@sha256:00a1098977f6d77dabdad2ba8a65937a45098cd7f41285441cf74994813d5c8f
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"

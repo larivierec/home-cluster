@@ -133,9 +133,9 @@ kubectl label --overwrite \
 | Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
 |---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
 | J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
-| Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Masters  |
-| Beelink U59 N5105         | 1     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
 | Beelink U59 N5105         | 2     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
+| Beelink U59 N5105         | 2     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Workers  |
+| Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
 | Synology 920+             | 1     | 26TB  HDD    | -                           | 8GB  | DSM 7            | NAS                 |
 
 # Notes

@@ -24,8 +24,8 @@ spec:
       backup.velero.io/backup-volumes: config
     
     image:
-      repository: ghcr.io/k8s-at-home/bazarr
-      tag: v1.1.1
+      repository: ghcr.io/onedr0p/bazarr
+      tag: 1.1.1@sha256:cbeb7cc09c7689e8e26b55d74160b10f4030d3436fa9f160f09fed901cf28388 
 
     service:
       main:

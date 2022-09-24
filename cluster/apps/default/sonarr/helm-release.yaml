@@ -18,8 +18,8 @@ spec:
     controller:
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/k8s-at-home/sonarr
-      tag: v3.0.9.1549
+      repository: ghcr.io/onedr0p/sonarr
+      tag: 3.0.9.1549@sha256:790ba3b69b9e959ddf014507b20983794a9b2fad23b4f61c7dccc9890974aaba
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"

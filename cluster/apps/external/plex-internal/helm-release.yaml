@@ -95,10 +95,6 @@ spec:
                   operator: In
                   values:
                     - "true"
-                - key: node-role.kubernetes.io/master
-                  operator: NotIn
-                  values:
-                    - "true"
 
     resources:
       requests:
