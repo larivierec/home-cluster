@@ -140,8 +140,8 @@ spec:
     kubeControllerManager:
       enabled: true
       endpoints:
-        # - 192.168.1.13
-        - 192.168.1.8
+        - 192.168.1.7
+        - 192.168.1.4
       service:
         enabled: true
         port: 10257
@@ -153,8 +153,8 @@ spec:
     kubeScheduler:
       enabled: true
       endpoints:
-        # - 192.168.1.13
-        - 192.168.1.8
+        - 192.168.1.7
+        - 192.168.1.4
       service:
         port: 10259
         targetPort: 10259
@@ -164,8 +164,8 @@ spec:
     kubeProxy:
       enabled: true
       endpoints:
-        # - 192.168.1.13
-        - 192.168.1.8
+        - 192.168.1.7
+        - 192.168.1.4
     kubeEtcd:
       enabled: false
     prometheusOperator:
