@@ -19,7 +19,7 @@ spec:
       strategy: RollingUpdate
     image:
       repository: ghcr.io/onedr0p/radarr
-      tag: 4.1.0.6175@sha256:482c168b3c02381b9e49be9c9e1692077b249514baf5efd19113af51ecf706ac
+      tag: 4.2.4.6635@sha256:21d2d1cfc838f04167989076ac0505e09de110e1f5ea4dd955d5c46463577ad1
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
