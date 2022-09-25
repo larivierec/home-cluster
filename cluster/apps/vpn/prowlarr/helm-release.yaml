@@ -18,8 +18,8 @@ spec:
     controller:
       strategy: RollingUpdate
     image:
-      repository: ghcr.io/k8s-at-home/prowlarr
-      tag: v0.4.0.1802
+      repository: ghcr.io/onedr0p/prowlarr-develop
+      tag: 0.4.6.1969@sha256:e68c2bcf6237ab9e0c1039701f1519f60ae49404883113ec50dfd441bd9c033e
       pullPolicy: IfNotPresent
     hostname: prowlarr
     env:
