@@ -24,3 +24,4 @@ resources:
   - k8s-at-home-charts.yaml
   - kubernetes-sigs-nfd-charts.yaml
   - rook-ceph-charts.yaml
+  - cloudnative-pg-charts.yaml
