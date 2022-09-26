@@ -65,8 +65,8 @@ spec:
     cleanUpCRDs: false
     kubectl:
       image:
-        repository: ghcr.io/k8s-at-home/kubectl
-        tag: v1.25.2
+        repository: ghcr.io/onedr0p/kubernetes-kubectl
+        tag: 1.25.2@sha256:9d7a9880d59feb6d32c3d29cd5e14b9e76dfb1f086d63929db0ca295a98e5b2e
     resources:
       requests:
         memory: 300Mi
