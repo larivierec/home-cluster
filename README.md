@@ -137,8 +137,7 @@ kubectl label --overwrite \
 | Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
 |---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
 | J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
-| Beelink U59 N5105         | 2     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
-| Beelink U59 N5105         | 2     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Workers  |
+| Beelink U59 N5105         | 3     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
 | Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
 | Synology 920+             | 1     | 26TB  HDD    | -                           | 8GB  | DSM 7            | NAS                 |
 
@@ -150,7 +149,7 @@ To fix this, install a Kernel with the patch:
 
 Beelink U59 uses amd64 architecture.
 [unsigned image](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/amd64/linux-image-unsigned-5.16.0-051600-generic_5.16.0-051600.202201092355_amd64.deb)
-[modules](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/arm64/linux-modules-5.16.0-051600-generic-64k_5.16.0-051600.202201092355_arm64.deb)
+[modules](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/amd64/linux-modules-5.16.0-051600-generic_5.16.0-051600.202201092355_amd64.deb)
 
 1. Add the file /etc/modprobe.d/i915.conf containing the following.
 
