@@ -4,5 +4,4 @@ resources:
   - lidarr
   - radarr
   - sonarr
-  - readarr
   - bazarr
