@@ -9,7 +9,6 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 100Gi
-    storageClass: nfs-minio
   superuserSecret:
     name: postgres-superuser
   monitoring:
