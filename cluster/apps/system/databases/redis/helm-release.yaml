@@ -24,6 +24,7 @@ spec:
         kubernetes.io/arch: amd64
       persistence:
         enabled: true
+        storageClass: nfs-minio
         size: 512Mi
     replica:
       replicaCount: 1
