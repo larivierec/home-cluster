@@ -11,6 +11,7 @@ spec:
   tls:
     - hosts:
       - "opnsense.${SECRET_DOMAIN}"
+      - "apiserver.${SECRET_DOMAIN}"
       secretName: wildcard-cert-tls
   rules:
   - host: opnsense.${SECRET_DOMAIN}
@@ -23,3 +24,13 @@ spec:
               name: opnsense
               port:
                 number: 443
+  - host: apiserver.${SECRET_DOMAIN}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: apiserver
+              port:
+                number: 6443
