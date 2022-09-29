@@ -139,7 +139,7 @@ kubectl label --overwrite \
 | J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
 | Beelink U59 N5105         | 3     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
 | Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
-| Synology 920+             | 1     | 26TB  HDD    | -                           | 8GB  | DSM 7            | NAS                 |
+| Synology 920+             | 1     | 26TB  HDD    | -                           | 4GB  | DSM 7            | NAS                 |
 
 # Notes
 
