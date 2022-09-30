@@ -19,7 +19,7 @@ spec:
       strategy: RollingUpdate
     image:
       repository: ghcr.io/onedr0p/sonarr
-      tag: 3.0.9.1549@sha256:790ba3b69b9e959ddf014507b20983794a9b2fad23b4f61c7dccc9890974aaba
+      tag: 3.0.9.1549@sha256:5956752ec9ff621838e87e5369da7a5bbc5cbf8039669afbeb0de442ed738c5b
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
