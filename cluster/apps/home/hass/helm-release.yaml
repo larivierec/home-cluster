@@ -22,10 +22,6 @@ spec:
       TZ: "UTC"
     service:
       main:
-        type: LoadBalancer
-        externalIPs:
-          - 192.168.42.7
-        externalTrafficPolicy: Local
         ports:
           http:
             port: 8123
