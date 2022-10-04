@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: gpu-operator
-      version: v1.11.1
+      version: v22.9.0
       sourceRef:
         kind: HelmRepository
         name: nvidia-operator
