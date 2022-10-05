@@ -44,6 +44,7 @@ spec:
     podAnnotations:
       backup.velero.io/backup-volumes: etc/searxng
       configmap.reloader.stakater.com/reload: searxng-settings
+      setGateway: "true"
     
     env:
       INSTANCE_NAME: "Searcher"

@@ -15,6 +15,10 @@ spec:
         namespace: flux-system
 
   values:
+    image:
+      repository: ghcr.io/angelnu/pod-gateway
+      tag: v1.8.0@sha256:91a51d0cfcec00834ba3878e07fca2d7c3ce72ac259e2a2787600d0222dbdd9b
+
     DNS: 172.16.1.1
 
     routed_namespaces:
@@ -27,7 +31,7 @@ spec:
         openvpn:
           image:
             repository: qmcgaw/gluetun
-            tag: latest
+            tag: v3.31.1@sha256:dabf4efdadafd6acce67bf89b11396e5c87dd1e25705b36fc9211730c943db47
             pullPolicy: IfNotPresent
           authSecret: vpn-auth
         configFileSecret: vpn-secret
@@ -37,7 +41,8 @@ spec:
             command:
               - sh
               - -c
-              - if [ $(wget -q -O- https://ipinfo.io/country) == 'CA' ]; then exit 0; else exit $?; fi
+              - ip=$(wget -q -O- https://api.ipify.org)
+              - if [ $(wget -q -O- "https://ipinfo.io/$ip/country") == 'CA' ]; then exit 0; else exit $?; fi
           initialDelaySeconds: 30
           periodSeconds: 60
           failureThreshold: 1
@@ -80,3 +85,11 @@ spec:
       VPN_TRAFFIC_PORT: 1197
       VPN_LOCAL_CIDRS: "172.16.0.0/12 10.43.0.0/16 192.168.0.0/16"
       NOT_ROUTED_TO_GATEWAY_CIDRS: "172.16.0.0/12 10.43.0.0/16 192.168.0.0/16"
+
+    webhook:
+      gatewayAnnotation: setGateway
+      gatewayDefault: false
+      gatewayLabel: setGateway
+      image:
+        repository: ghcr.io/k8s-at-home/gateway-admision-controller
+        tag: v3.6.0
