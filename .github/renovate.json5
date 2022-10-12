@@ -1,6 +1,7 @@
 {
   "extends": [
     "github>larivierec/home-cluster//.github/renovate/autoMerge",
+    "github>larivierec/home-cluster//.github/renovate/disabledDatasources",
     ":enableRenovate",
     ":dependencyDashboard",
     ":disableRateLimiting",
