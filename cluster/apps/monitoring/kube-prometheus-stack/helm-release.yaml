@@ -102,6 +102,10 @@ spec:
             gnetId: 1860
             revision: 27
             datasource: Prometheus
+          flux:
+            gnetId: 14936
+            revision: 1
+            datasource: Prometheus
           lidarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
             datasource: Prometheus
