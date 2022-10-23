@@ -89,4 +89,3 @@ resource "cloudflare_record" "mail_dmarc" {
   type    = "TXT"
   ttl     = 1
 }
-

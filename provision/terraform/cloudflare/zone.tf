@@ -59,3 +59,7 @@ resource "cloudflare_firewall_rule" "block_bots" {
   filter_id = cloudflare_filter.block_bots.id
   action = "block"
 }
+
+resource "cloudflare_zone_dnssec" "ds" {
+  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+}
