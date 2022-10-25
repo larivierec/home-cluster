@@ -36,7 +36,7 @@ spec:
             enabled: true
             port: 25
             protocol: TCP
-            targetPort: 25
+            targetPort: 1025
       imap:
         enabled: true
         type: ClusterIP
@@ -47,7 +47,7 @@ spec:
             enabled: true
             port: 143
             protocol: TCP
-            targetPort: 143
+            targetPort: 1143
     ingress:
       main:
         enabled: false
