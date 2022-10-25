@@ -26,8 +26,10 @@ spec:
     service:
       main:
         enabled: false
+        primary: false
       smtp:
         enabled: true
+        primary: false
         type: ClusterIP
         monitor:
           enabled: false
@@ -45,18 +47,18 @@ spec:
         ports:
           imap-tcp:
             enabled: true
+            primary: true
             port: 143
             protocol: TCP
             targetPort: 143
     ingress:
       main:
-        enabled: false
-      imap:
-        ingressClassName: "nginx"
         enabled: true
+        ingressClassName: "nginx"
         tls:
           - hosts:
               - imap.${SECRET_DOMAIN}
+              - smtp.${SECRET_DOMAIN}
             secretName: wildcard-cert-tls
         hosts:
           - host: imap.${SECRET_DOMAIN}
@@ -64,27 +66,19 @@ spec:
               - path: /
                 pathType: Prefix
                 backend:
-                  service:
-                    name: imap
+                  service: 
+                    name: protonmail-bridge
                     port:
-                      name: imap-tcp
-      smtp:
-        ingressClassName: "nginx"
-        enabled: true
-        tls:
-          - hosts:
-              - smtp.${SECRET_DOMAIN}
-            secretName: wildcard-cert-tls
-        hosts:
+                      number: 143
           - host: smtp.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 backend:
-                  service:
-                    name: smtp
+                  service: 
+                    name: protonmail-bridge-smtp
                     port:
-                      name: smtp-tcp
+                      number: 25
     persistence:
       config:
         enabled: true
