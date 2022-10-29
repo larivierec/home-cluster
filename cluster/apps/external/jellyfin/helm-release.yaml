@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: jellyfin/jellyfin
-      tag: 10.8.5
+      tag: 10.8.6
     controller:
       strategy: Recreate
     env:
