@@ -26,7 +26,7 @@ spec:
       TZ: "UTC"
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
-      ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443/"
+      ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443,http://plex.${SECRET_DOMAIN}:80"
       PLEX_PREFERENCE_1: "FriendlyName=CPlex-2.1"
       PLEX_PREFERENCE_2: "DisableTLSv1_0=1"
       PLEX_PREFERENCE_3: "TranscoderQuality=2"
