@@ -27,6 +27,15 @@ spec:
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
+        plugins: "strip-port-from-host"
+
+      extraVolumes:
+        - name: strip-port-from-host-plugin
+          configMap:
+            name: strip-port-from-host
+      extraVolumeMounts: 
+        - name: strip-port-from-host-plugin
+          mountPath: /etc/nginx/lua/plugins/strip-port-from-host
       
       ingressClassResource:
         enabled: true
