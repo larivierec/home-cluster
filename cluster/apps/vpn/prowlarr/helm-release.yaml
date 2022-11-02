@@ -19,7 +19,7 @@ spec:
       strategy: RollingUpdate
     image:
       repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 0.4.7.2016@sha256:45507e16205dd78356bd3da9d7129b153238aa3ed7999d05892489d4062aad95
+      tag: 0.4.7.2016@sha256:a78ee7aa3736eac3a142f7485c3680bc400cbbbece525b2f5def7b5378af3a81
       pullPolicy: IfNotPresent
     hostname: prowlarr
     env:
