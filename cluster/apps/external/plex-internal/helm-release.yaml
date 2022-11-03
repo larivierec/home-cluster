@@ -24,6 +24,7 @@ spec:
       backup.velero.io/backup-volumes: config
     env:
       TZ: "UTC"
+      ADVERTISE_IP: "https://plex-internal.${SECRET_DOMAIN}:443,http://plex-internal.${SECRET_DOMAIN}:80"
     service:
       main:
         ports:
@@ -43,12 +44,6 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            location = / {
-              if ($http_x_plex_device = ""){
-                return 301 $scheme://$host/web/index.html;
-              }
-            }
         hosts:
           - host: "plex-internal.${SECRET_DOMAIN}"
             paths:

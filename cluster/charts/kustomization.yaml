@@ -25,3 +25,4 @@ resources:
   - kubernetes-sigs-nfd-charts.yaml
   - rook-ceph-charts.yaml
   - cloudnative-pg-charts.yaml
+  - nvidia-device-plugin-charts.yaml
