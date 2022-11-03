@@ -15,6 +15,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    runtimeClass: nvidia
     image:
       repository: ghcr.io/onedr0p/plex
       tag: 1.29.1.6316-f4cdfea9c@sha256:2882168ac9316dd2490a58b82d7dec3f644140546ad1c64b5a35b50afc68193e
@@ -24,8 +25,6 @@ spec:
       backup.velero.io/backup-volumes: config
     env:
       TZ: "UTC"
-      NVIDIA_DRIVER_CAPABILITIES: all
-      NVIDIA_VISIBLE_DEVICES: all
       ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443,http://plex.${SECRET_DOMAIN}:80"
       PLEX_PREFERENCE_1: "FriendlyName=CPlex-2.1"
       PLEX_PREFERENCE_2: "DisableTLSv1_0=1"
@@ -99,10 +98,10 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: feature.node.kubernetes.io/pci-0300_10de.present
                   operator: In
                   values:
-                    - k8s-gpu
+                    - "true"
 
     resources:
       requests:

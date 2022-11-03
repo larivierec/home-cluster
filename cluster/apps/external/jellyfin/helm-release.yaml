@@ -15,6 +15,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    runtimeClass: nvidia
     image:
       repository: jellyfin/jellyfin
       tag: 10.8.7
@@ -66,10 +67,10 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: feature.node.kubernetes.io/pci-0300_10de.present
                   operator: In
                   values:
-                    - k8s-gpu
+                    - "true"
     persistence:
       config:
         enabled: true
