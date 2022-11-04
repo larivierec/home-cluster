@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    runtimeClass: nvidia
+    runtimeClassName: nvidia
     image:
       repository: jellyfin/jellyfin
       tag: 10.8.7

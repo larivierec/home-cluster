@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    runtimeClass: nvidia
+    runtimeClassName: nvidia
     image:
       repository: ghcr.io/onedr0p/plex
       tag: 1.29.1.6316-f4cdfea9c@sha256:2882168ac9316dd2490a58b82d7dec3f644140546ad1c64b5a35b50afc68193e
@@ -26,6 +26,8 @@ spec:
     env:
       TZ: "UTC"
       ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443,http://plex.${SECRET_DOMAIN}:80"
+      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_VISIBLE_DEVICES: all
       PLEX_PREFERENCE_1: "FriendlyName=CPlex-2.1"
       PLEX_PREFERENCE_2: "DisableTLSv1_0=1"
       PLEX_PREFERENCE_3: "TranscoderQuality=2"
@@ -109,3 +111,4 @@ spec:
         memory: 2Gi
       limits:
         memory: 10Gi
+        nvidia.com/gpu: 1
