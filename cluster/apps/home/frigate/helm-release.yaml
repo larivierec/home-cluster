@@ -11,13 +11,14 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 0.2.2
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
+    runtimeClassName: nvidia
     image:
       repository: docker.io/blakeblackshear/frigate
       tag: 0.10.1-amd64nvidia
@@ -52,7 +53,7 @@ spec:
           - hosts:
               - "frigate.${SECRET_DOMAIN}"
             secretName: ca-frigate-tls
-    configmap:
+    configMaps:
       config:
         enabled: false
         
@@ -92,10 +93,10 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: feature.node.kubernetes.io/pci-0300_10de.present
                   operator: In
                   values:
-                    - k8s-gpu
+                    - "true"
   valuesFrom:
     - kind: Secret
       name: frigate
