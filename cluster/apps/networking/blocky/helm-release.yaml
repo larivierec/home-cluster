@@ -93,7 +93,7 @@ spec:
         name: wildcard-cert-tls
         readOnly: true
 
-    configmap:
+    configmaps:
       config:
         enabled: true
         data:
