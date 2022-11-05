@@ -108,7 +108,7 @@ spec:
 
             conditional:
               mapping:
-                ${SECRET_DOMAIN}: 192.168.42.5:53
+                ${SECRET_DOMAIN}: 10.43.131.47:53
 
             bootstrapDns: tcp+udp:1.1.1.1
 
