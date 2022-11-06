@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/lidarr
       tag: 1.1.0.2592@sha256:b23522768b5a53396db224e982ab969646a23694ab72dd65bf81e08db5b6c732

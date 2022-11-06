@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/radarr
       tag: 4.2.4.6635@sha256:36c79ded9eda223c0490a9cb9224c3ff117023c1b4ef5f6aaeb19936830cfcc8
