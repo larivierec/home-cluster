@@ -41,13 +41,13 @@ spec:
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"          
         hosts:
-          - host: "bazarr.${SECRET_DOMAIN}"
+          - host: &host "bazarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "bazarr.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
     persistence:
       config:

@@ -58,7 +58,7 @@ spec:
           external-dns.alpha.kubernetes.io/hostname: "plex.${SECRET_DOMAIN}"
           external-dns.alpha.kubernetes.io/ttl: "120"
         hosts:
-          - host: "plex.${SECRET_DOMAIN}"
+          - host: &host "plex.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
@@ -69,7 +69,7 @@ spec:
                       number: http
         tls:
           - hosts:
-              - "plex.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
 
     persistence:

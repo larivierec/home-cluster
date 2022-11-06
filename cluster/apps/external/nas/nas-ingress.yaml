@@ -3,7 +3,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/client-body-buffer-size: "500m"
     nginx.ingress.kubernetes.io/proxy-body-size: "500m"
@@ -16,12 +15,8 @@ metadata:
   namespace: default
 spec:
   ingressClassName: "nginx"
-  tls:
-    - hosts:
-      - "nas.${SECRET_DOMAIN}"
-      secretName: ca-nas-tls
   rules:
-  - host: nas.${SECRET_DOMAIN}
+  - host: &host nas.${SECRET_DOMAIN}
     http:
       paths:
         - path: /
@@ -31,3 +26,7 @@ spec:
               name: nas
               port:
                 number: 5001
+  tls:
+    - hosts:
+      - *host
+      secretName: wildcard-cert-tls

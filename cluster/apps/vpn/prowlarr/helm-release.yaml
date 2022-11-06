@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/prowlarr-develop
       tag: 0.4.7.2016@sha256:a78ee7aa3736eac3a142f7485c3680bc400cbbbece525b2f5def7b5378af3a81
@@ -37,13 +37,13 @@ spec:
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"
         hosts:
-          - host: "prowlarr.${SECRET_DOMAIN}"
+          - host: &host "prowlarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "prowlarr.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
     persistence:
       config:

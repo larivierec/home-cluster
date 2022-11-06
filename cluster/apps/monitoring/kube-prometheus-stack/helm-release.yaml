@@ -130,12 +130,12 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - grafana.${SECRET_DOMAIN}
+          - &hostGrafana "grafana.${SECRET_DOMAIN}"
         path: /
         tls:
           - secretName: wildcard-cert-tls
             hosts: 
-              - "grafana.${SECRET_DOMAIN}"
+              - *hostGrafana
         ingressClassName: nginx
     kubelet:
       enabled: true
@@ -185,13 +185,13 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - prometheus.${SECRET_DOMAIN}
+          - &hostPrometheus "prometheus.${SECRET_DOMAIN}"
         paths:
           - /
         tls:
           - secretName: wildcard-cert-tls
             hosts:
-              - "prometheus.${SECRET_DOMAIN}"
+              - *hostPrometheus
         ingressClassName: "nginx"
       additionalDatasources:
         - name: blocky-redis

@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/readarr-nightly
       tag: 0.1.1.1459@sha256:4a08269baab6374168e3f2a9b9249e9ae7ac1265799558be67f7566d10b1d83c
@@ -36,13 +36,13 @@ spec:
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"          
         hosts:
-          - host: "readarr.${SECRET_DOMAIN}"
+          - host: host "readarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "readarr.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
     
     podAnnotations:

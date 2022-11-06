@@ -33,13 +33,13 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-        - host: "qbittorrent.${SECRET_DOMAIN}"
+        - host: &host "qbittorrent.${SECRET_DOMAIN}"
           paths:
           - path: /
             pathType: Prefix
         tls:
         - hosts:
-          - "qbittorrent.${SECRET_DOMAIN}"
+          - *host
           secretName: wildcard-cert-tls
       api:
         enabled: true

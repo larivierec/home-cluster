@@ -36,13 +36,13 @@ spec:
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"          
         hosts:
-          - host: "sonarr.${SECRET_DOMAIN}"
+          - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "sonarr.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
     
     podAnnotations:

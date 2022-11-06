@@ -36,13 +36,13 @@ spec:
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"
         hosts:
-          - host: "lidarr.${SECRET_DOMAIN}"
+          - host: &host "lidarr.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - "lidarr.${SECRET_DOMAIN}"
+              - *host
             secretName: wildcard-cert-tls
     
     podAnnotations:

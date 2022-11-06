@@ -55,13 +55,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "nginx"
-        tls:
-          - hosts:
-              - imap.${SECRET_DOMAIN}
-              - smtp.${SECRET_DOMAIN}
-            secretName: wildcard-cert-tls
         hosts:
-          - host: imap.${SECRET_DOMAIN}
+          - host: &hostImap imap.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -70,7 +65,7 @@ spec:
                     name: protonmail-bridge
                     port:
                       number: 143
-          - host: smtp.${SECRET_DOMAIN}
+          - host: &hostSmtp smtp.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -79,6 +74,11 @@ spec:
                     name: protonmail-bridge-smtp
                     port:
                       number: 25
+        tls:
+          - hosts:
+              - *hostImap
+              - *hostSmtp
+            secretName: wildcard-cert-tls
     persistence:
       config:
         enabled: true

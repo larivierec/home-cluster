@@ -59,16 +59,14 @@ spec:
       main:
         enabled: true
         ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
         hosts:
-          - host: minio.${SECRET_DOMAIN}
+          - host: &minio minio.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   port: 9001
-          - host: s3.${SECRET_DOMAIN}
+          - host: &s3 s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -76,11 +74,11 @@ spec:
                   port: 9000
         tls:
           - hosts:
-              - minio.${SECRET_DOMAIN}
-            secretName: minio.${SECRET_DOMAIN}-tls
+              - *minio
+            secretName: wildcard-cert-tls
           - hosts:
-              - s3.${SECRET_DOMAIN}
-            secretName: s3.${SECRET_DOMAIN}-tls
+              - *s3
+            secretName: wildcard-cert-tls
     persistence:
       data:
         enabled: true
