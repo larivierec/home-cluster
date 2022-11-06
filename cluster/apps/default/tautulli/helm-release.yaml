@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tautulli
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    controller:
+      strategy: RollingUpdate
+    image:
+      repository: ghcr.io/onedr0p/tautulli
+      tag: 2.10.4@sha256:89bed5815ecf542c5b3b0fd6650eddc00e0e80fa99832b70511e54b1dfdeb5b2
+    service:
+      main:
+        ports:
+          http:
+            port: 8181
+    ingress:
+      main:
+        enabled: true      
+        annotations:
+          metallb.universe.tf/address-pool: network-services
+          metallb.universe.tf/allow-shared-ip: default-lb
+        ingressClassName: nginx         
+        hosts:
+          - host: &host "tautulli.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+    
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+    
+    persistence:
+      config:
+        enabled: true
+        existingClaim: tautulli-config-v1
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - frenzy
