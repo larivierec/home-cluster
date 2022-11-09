@@ -61,6 +61,19 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
 curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 ```
 
+
+## nvidia-daemonset-plugin
+
+1. Simply follow instructions on installing the nvidia driver to the node. *Must be done before flux is installed*
+
+As of k3s+1.23, k3s searches for the nvidia drivers everytime the services on the cluster are started.
+
+- /usr/local/nvidia -> this location is used by the gpu-operator (which I don't use)
+- /usr/bin/nvidia-container-runtime -> this is the location used usually when using package manager installation
+
+When the service is started, k3s will automatically add the proper binary to the `config.toml` file
+
+
 ## Flux
 
 ### Installation
@@ -99,37 +112,6 @@ For ingress controller we need to add this in order to get proper ip address fro
 data:
   use-forwarded-headers: "true"
   forwarded-for-header: "CF-Connecting-IP"
-```
-
-## nvidia gpu-operator install + nvidia-daemonset
-
-Stop the cluster before doing anything with the GPU
-
-1. disable nouveau (default driver ubuntu)
-
-```bash
-lsmod | grep nouveau
-sudo apt-get purge xserver-xorg-video-nouveau
-sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
-sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
-sudo update-initramfs -u
-cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
-```
-
-2. Download [device-plugin-daemonset.yaml](https://k3d.io/v5.4.1/usage/advanced/cuda/device-plugin-daemonset.yaml) to folder `/var/lib/rancher/k3s/server/manifests/`
-3. Add [config.toml.tmpl](https://k3d.io/v5.4.1/usage/advanced/cuda/?h=container#configure-containerd) to `/var/lib/rancher/k3s/agent/etc/containerd` and restart the cluster
-4. Remove these labels from the nodes
-
-```
-kubectl label --overwrite \
-        node ${NODE_NAME} \
-        nvidia.com/gpu.deploy.operator-validator=false \
-        nvidia.com/gpu.deploy.driver=false \
-        nvidia.com/gpu.deploy.container-toolkit=false \
-        nvidia.com/gpu.deploy.device-plugin=false \
-        nvidia.com/gpu.deploy.gpu-feature-discovery=false \
-        nvidia.com/gpu.deploy.dcgm-exporter=false \
-        nvidia.com/gpu.deploy.dcgm=false
 ```
 
 # Nodes/Hardware
