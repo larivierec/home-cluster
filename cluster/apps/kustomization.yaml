@@ -13,3 +13,4 @@ resources:
   - recovery
   - mail
   - system-upgrade
+  - openebs

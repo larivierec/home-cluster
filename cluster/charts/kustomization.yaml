@@ -23,6 +23,6 @@ resources:
   - searxng-charts.yaml
   - k8s-at-home-charts.yaml
   - kubernetes-sigs-nfd-charts.yaml
-  - rook-ceph-charts.yaml
+  - openebs-jiva-charts.yaml
   - cloudnative-pg-charts.yaml
   - nvidia-device-plugin-charts.yaml
