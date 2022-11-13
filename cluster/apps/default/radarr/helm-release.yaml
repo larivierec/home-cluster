@@ -48,10 +48,19 @@ spec:
           - hosts:
               - *host 
             secretName: wildcard-cert-tls
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-config-v2
+        existingClaim: radarr-config-v3
       media:
         enabled: true
         type: custom
@@ -70,13 +79,3 @@ spec:
             server: "192.168.1.5"
             path: /volume2/media-sp2/Downloads
         mountPath: /downloads
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - frenzy

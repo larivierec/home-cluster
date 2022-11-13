@@ -48,10 +48,18 @@ spec:
     podAnnotations:
       backup.velero.io/backup-volumes: config
     
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
     persistence:
       config:
         enabled: true
-        existingClaim: lidarr-config-v2
+        existingClaim: lidarr-config-v3
 
       media:
         enabled: true
@@ -71,13 +79,3 @@ spec:
             server: "192.168.1.5"
             path: /volume2/media-sp2/Downloads
         mountPath: /downloads
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - frenzy
