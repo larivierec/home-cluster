@@ -181,7 +181,7 @@ spec:
             certFile: /tls/tls.crt
             keyFile: /tls/tls.key
             httpPort: 4000
-            logLevel: trace
+            logLevel: error
             connectIPVersion: v4
 
     podAnnotations:
