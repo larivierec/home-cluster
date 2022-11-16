@@ -20,18 +20,10 @@ spec:
 
   values:
     image:
-      registry: quay.io
-      repository: minio/minio
-      tag: RELEASE.2022-06-03T01-40-53Z
+      repository: quay.io/minio/minio
+      tag: RELEASE.2022-11-11T03-44-20Z
     
-    args:
-      - server
-      - /data
-      - --address
-      - :9000
-      - --console-address
-      - :9001
-
+    args: ["server", "/data", "--console-address", ":9001"]
     envFrom:
       - secretRef:
           name: minio-secrets
@@ -50,10 +42,10 @@ spec:
         ports:
           http:
             enabled: true
-            port: 9001
+            port: &http-port 9001
           api:
             enabled: true
-            port: 9000
+            port: &api-port 9000
 
     ingress:
       main:
@@ -65,13 +57,13 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  port: 9001
+                  port: *http-port
           - host: &s3 s3.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  port: 9000
+                  port: *api-port
         tls:
           - hosts:
               - *minio
@@ -80,7 +72,7 @@ spec:
               - *s3
             secretName: wildcard-cert-tls
     persistence:
-      data:
+      config:
         enabled: true
         existingClaim: nfs-minio
         mountPath: /data
