@@ -13,7 +13,6 @@ resources:
   - recovery.yaml
   - home.yaml
   - kube-system.yaml
-  - gpu.yaml
   - vpn.yaml
   - system.yaml
   - mail.yaml
