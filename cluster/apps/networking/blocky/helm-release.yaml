@@ -157,9 +157,12 @@ spec:
                   - noblock
                 192.168.10.249/32:
                   - noblock
+                MBPdeMalisabeth*:
+                  - noblock
+                Marie*:
+                  - noblock
 
               blockType: nxDomain
-              refreshPeriod: 0
 
             clientLookup:
               upstream: tcp+udp:192.168.1.1
