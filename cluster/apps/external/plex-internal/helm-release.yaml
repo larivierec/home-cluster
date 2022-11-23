@@ -25,11 +25,18 @@ spec:
     env:
       TZ: "UTC"
       ADVERTISE_IP: "https://plex-internal.${SECRET_DOMAIN}:443,http://plex-internal.${SECRET_DOMAIN}:80"
+
+    dnsConfig:
+      options:
+        - name: ndots
+          value: "1"
+
     service:
       main:
         ports:
           http:
             port: 32400
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568

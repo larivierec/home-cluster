@@ -33,11 +33,18 @@ spec:
       PLEX_PREFERENCE_3: "TranscoderQuality=2"
       PLEX_PREFERENCE_4: "TreatWanIpAsLocal=0"
       PLEX_PREFERENCE_5: "TranscoderH264BackgroundPreset=fast"
+    
+    dnsConfig:
+      options:
+        - name: ndots
+          value: "1"
+
     service:
       main:
         ports:
           http:
             port: 32400
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
