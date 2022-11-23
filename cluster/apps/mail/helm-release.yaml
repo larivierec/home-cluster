@@ -25,45 +25,28 @@ spec:
       TZ: "America/New_York"
     service:
       main:
+        enabled: false
+      mail:
         enabled: true
         ports:
-          smtp-tcp:
-            enabled: true
-            port: 25
-            protocol: TCP
-            targetPort: 25
           imap-tcp:
             enabled: true
             port: 143
-            protocol: TCP
-            targetPort: 143
+          smtp-tcp:
+            enabled: true
+            port: 25
     ingress:
       main:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &hostImap imap.${SECRET_DOMAIN}
+          - host: &host mail.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: protonmail-bridge-imap
-                    port:
-                      name: imap-tcp
-          - host: &hostSmtp smtp.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: protonmail-bridge
-                    port:
-                      name: smtp-tcp
         tls:
           - hosts:
-              - *hostImap
-              - *hostSmtp
+              - *host
             secretName: wildcard-cert-tls
     probes:
       liveness:
