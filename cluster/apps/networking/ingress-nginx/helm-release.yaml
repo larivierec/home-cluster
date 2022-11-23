@@ -106,6 +106,3 @@ spec:
               annotations:
                 description: Too many 5XXs
                 summary: More than 35% of all requests returned 5XX, this requires your attention
-    tcp:
-      "25": "mail/protonmail-bridge-smtp:25"
-      "143": "mail/protonmail-bridge:143"
