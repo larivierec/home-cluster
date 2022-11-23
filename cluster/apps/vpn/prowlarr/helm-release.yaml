@@ -45,10 +45,19 @@ spec:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+
     persistence:
       config:
         enabled: true
-        existingClaim: prowlarr-config-v1
+        existingClaim: prowlarr-config-v2
     podAnnotations:
       backup.velero.io/backup-volumes: config
       setGateway: "true"
