@@ -25,29 +25,15 @@ spec:
       TZ: "America/New_York"
     service:
       main:
-        enabled: false
-        primary: false
-      smtp:
         enabled: true
-        primary: false
-        type: ClusterIP
-        monitor:
-          enabled: false
         ports:
           smtp-tcp:
             enabled: true
             port: 25
             protocol: TCP
             targetPort: 25
-      imap:
-        enabled: true
-        type: ClusterIP
-        monitor:
-          enabled: false
-        ports:
           imap-tcp:
             enabled: true
-            primary: true
             port: 143
             protocol: TCP
             targetPort: 143
@@ -61,24 +47,29 @@ spec:
               - path: /
                 pathType: Prefix
                 backend:
-                  service: 
-                    name: protonmail-bridge
+                  service:
+                    name: protonmail-bridge-imap
                     port:
-                      number: 143
+                      name: imap-tcp
           - host: &hostSmtp smtp.${SECRET_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 backend:
-                  service: 
-                    name: protonmail-bridge-smtp
+                  service:
+                    name: protonmail-bridge
                     port:
-                      number: 25
+                      name: smtp-tcp
         tls:
           - hosts:
               - *hostImap
               - *hostSmtp
             secretName: wildcard-cert-tls
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
     persistence:
       config:
         enabled: true
