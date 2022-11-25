@@ -19,7 +19,7 @@ spec:
       strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/sonarr
-      tag: 3.0.9.1549@sha256:80e51f6f668a65ec49636c50d1acc0613c11d4d5d8c2d37a2e1942347d9fca63
+      tag: 3.0.9.1549@sha256:bdcc9838494de7e521a13590c16244d20c26fd6bed250505a280b38ddfcdcfa2
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
