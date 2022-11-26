@@ -4,9 +4,6 @@ metadata:
   name: searxng
   namespace: vpn
 spec:
-  dependsOn:
-    - name: redis
-      namespace: system
   interval: 5m
   chart:
     spec:
