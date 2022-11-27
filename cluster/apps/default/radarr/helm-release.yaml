@@ -18,8 +18,8 @@ spec:
     controller:
       strategy: Recreate
     image:
-      repository: ghcr.io/onedr0p/radarr
-      tag: 4.2.4.6635@sha256:c828ae77316ec12c98a82a42d5d6fe33db446eafb34a04553305813d69281c9f
+      repository: ghcr.io/onedr0p/radarr-develop
+      tag: 4.3.0.6671@sha256:38661472f781ab30aa0c8c031c3e8314f99eddffd636bd44f2b9b1bc651f684c
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
