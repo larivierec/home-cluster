@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: jiva
-      version: 3.3.0
+      version: 3.3.1
       sourceRef:
         kind: HelmRepository
         name: openebs-jiva-charts
@@ -17,6 +17,5 @@ spec:
   values:
     localprovisioner:
       enabled: true
-      basePath: "/var/openebs/local"
     analytics:
       enabled: false
