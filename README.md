@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![k3s](https://img.shields.io/badge/k3s-v1.25.3-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
+[![k3s](https://img.shields.io/badge/k3s-v1.25.4-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -119,7 +119,7 @@ data:
 | Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
 |---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
 | J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
-| Beelink U59 N5105         | 3     | 500GB NVMe   | -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
+| Beelink U59 N5105         | 3     | 500GB M2 SATA| -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
 | Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
 | Synology 920+             | 1     | 26TB  HDD    | -                           | 4GB  | DSM 7            | NAS                 |
 
