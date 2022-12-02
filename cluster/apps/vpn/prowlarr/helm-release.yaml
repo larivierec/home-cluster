@@ -19,7 +19,7 @@ spec:
       strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 0.4.9.2083@sha256:d94bc939461a2fc0a4a00e1600af4d5919711640a771db348eba7081b937e832
+      tag: 0.4.9.2083@sha256:32e88bfe2209cce192e64c78da94e0fedd00960e7ba942f451dbcb001886878e
       pullPolicy: IfNotPresent
     hostname: prowlarr
     env:
