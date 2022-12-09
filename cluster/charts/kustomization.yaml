@@ -21,8 +21,8 @@ resources:
   - emberstack-charts.yaml
   - csi-driver-nfs-charts.yaml
   - searxng-charts.yaml
-  - k8s-at-home-charts.yaml
   - kubernetes-sigs-nfd-charts.yaml
   - openebs-jiva-charts.yaml
   - cloudnative-pg-charts.yaml
   - nvidia-device-plugin-charts.yaml
+  - angelnu-charts.yaml

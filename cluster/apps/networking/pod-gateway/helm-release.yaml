@@ -8,10 +8,10 @@ spec:
   chart:
     spec:
       chart: pod-gateway
-      version: 5.6.2
+      version: 6.0.0
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: angelnu-charts
         namespace: flux-system
 
   values:
@@ -27,14 +27,30 @@ spec:
     addons:
       vpn:
         enabled: true
-        type: openvpn
-        openvpn:
+        type: gluetun
+        gluetun:
           image:
             repository: qmcgaw/gluetun
-            tag: v3.32.0@sha256:70e2b9fe66941d6de31419c3207b525293f2e6a92a3788869bb337a17e0e5ec8
-            pullPolicy: IfNotPresent
-          authSecret: vpn-auth
-        configFileSecret: vpn-secret
+            tag: latest@sha256:3b6c4c35b173d461dd137ab88a6c4474f166a87754c9d8b84342a5098c536dca
+        env:
+        - name:  FIREWALL
+          value: "off"
+        - name:  DOT
+          value: "off"
+
+        envFrom:
+        - secretRef:
+            name: vpn-auth
+        
+        livenessProbe:
+          exec:
+            command:
+              - sh
+              - -c
+              - if [ $(wget -q -O- https://ipinfo.io/country) == 'CA' ]; then exit 0; else exit $?; fi
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          failureThreshold: 3
 
         networkPolicy:
           enabled: true
