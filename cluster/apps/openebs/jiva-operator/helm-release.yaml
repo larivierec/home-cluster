@@ -15,8 +15,6 @@ spec:
         name: openebs-jiva-charts
         namespace: flux-system
   values:
-    defaultPolicy:
-      replicas: 4
     localprovisioner:
       enabled: true
     analytics:
