@@ -22,7 +22,9 @@ spec:
       strategy: RollingUpdate
     env:
       TZ: "UTC"
-      ENABLE_AVAHI: "1" 
+      ENABLE_AVAHI: "1"
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
     service:
       main:
         ports:
