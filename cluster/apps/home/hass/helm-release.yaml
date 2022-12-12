@@ -25,10 +25,12 @@ spec:
         ports:
           http:
             port: 8123
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: nginx
         annotations:
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
           external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
