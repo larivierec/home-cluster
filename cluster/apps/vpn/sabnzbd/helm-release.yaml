@@ -55,6 +55,7 @@ spec:
         tls:
           - hosts:
               - *host
+            secretName: wildcard-cert-tls
 
     persistence:
       config:
