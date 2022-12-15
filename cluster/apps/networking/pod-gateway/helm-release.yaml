@@ -31,7 +31,7 @@ spec:
         gluetun:
           image:
             repository: qmcgaw/gluetun
-            tag: latest@sha256:7898b92d365db07ab5433f7a63f839db5c6518e9720cb9b6e6a23c3a241263d0
+            tag: latest@sha256:48003cdaffc451adebf65f2b404146ffb021d0653000f8645e0e53a5e66e54f6
         env:
         - name:  FIREWALL
           value: "off"
