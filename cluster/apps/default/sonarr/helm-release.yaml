@@ -32,7 +32,6 @@ spec:
       main:
         enabled: true      
         annotations:
-          metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: default-lb
         ingressClassName: "nginx"          
         hosts:

@@ -42,7 +42,6 @@ spec:
         loadBalancerIP: "192.168.42.4"
         externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: blocky-svc
         monitor:
           enabled: false
@@ -58,7 +57,6 @@ spec:
         loadBalancerIP: "192.168.42.4"
         externalTrafficPolicy: Local
         annotations:
-          metallb.universe.tf/address-pool: network-services
           metallb.universe.tf/allow-shared-ip: blocky-svc
         monitor:
           enabled: false
