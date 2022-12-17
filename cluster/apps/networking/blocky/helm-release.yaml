@@ -166,9 +166,6 @@ spec:
 
             clientLookup:
               upstream: tcp+udp:192.168.1.1
-              singleNameOrder:
-                - 2
-                - 1
 
             caching:
               prefetching: true

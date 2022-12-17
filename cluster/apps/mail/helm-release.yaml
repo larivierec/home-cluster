@@ -28,6 +28,11 @@ spec:
         enabled: false
       mail:
         enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "192.168.42.6"
+        annotations:
+          coredns.io/hostname: "mail.${SECRET_DOMAIN}"
+        externalTrafficPolicy: Local
         ports:
           imap-tcp:
             enabled: true
@@ -35,19 +40,6 @@ spec:
           smtp-tcp:
             enabled: true
             port: 25
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "nginx"
-        hosts:
-          - host: &host mail.${SECRET_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
     probes:
       liveness:
         enabled: false
