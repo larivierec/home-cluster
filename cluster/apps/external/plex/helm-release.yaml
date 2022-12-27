@@ -41,6 +41,11 @@ spec:
 
     service:
       main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: "192.168.42.2"
+        annotations:
+          coredns.io/hostname: "plex.${SECRET_DOMAIN}"
         ports:
           http:
             port: 32400
@@ -59,22 +64,6 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
-            proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
-            send_timeout 100m;
-            gzip on;
-            gzip_vary on;
-            gzip_min_length 1000;
-            gzip_proxied any;
-            gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
-            gzip_disable "MSIE [1-6]\.";
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
           external-dns/is-public: "true"
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
           external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
