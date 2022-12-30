@@ -27,7 +27,6 @@ spec:
     policy: sync
     sources:
       - ingress
-      - service
     txtPrefix: "k8s."
     domainFilters:
       - "${SECRET_DOMAIN}"
