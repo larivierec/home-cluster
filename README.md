@@ -10,7 +10,7 @@
 
 <div align="center">
 
-[![k3s](https://img.shields.io/badge/k3s-v1.25.4-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
+[![k3s](https://img.shields.io/badge/k3s-v1.25-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>
@@ -39,7 +39,15 @@ k3s cluster will also be configured as an HA using etcd with the `--cluster-init
 
 1. Install k3s manually
 ```bash
-curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backend none --disable traefik --disable servicelb --disable-network-policy --kube-controller-manager-arg bind-address=0.0.0.0 --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --cluster-init
+curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s --flannel-backend none \
+        --disable traefik \
+        --disable servicelb \
+        --disable-network-policy \
+        --kube-controller-manager-arg bind-address=0.0.0.0 \
+        --kube-scheduler-arg bind-address=0.0.0.0 \
+        --kube-proxy-arg metrics-bind-address=0.0.0.0 \
+        --etcd-expose-metrics
+        --cluster-init
 ```
 2. Immediately stop the k3s cluster after it's up
 3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
@@ -52,7 +60,14 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s - --flannel-backe
 5. Restart the cluster.
 6. Add extra masters if need be.
 ```bash
-curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://<ip or hostname of server1>:6443 --flannel-backend none --disable traefik --disable servicelb --disable-network-policy --kube-controller-manager-arg bind-address=0.0.0.0 --kube-controller-manager-arg bind-address=0.0.0.0 --kube-proxy-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0 --kube-scheduler-arg bind-address=0.0.0.0
+curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://<hostname or ip>:6443 --flannel-backend none \
+        --disable traefik \
+        --disable servicelb \
+        --disable-network-policy \
+        --kube-controller-manager-arg bind-address=0.0.0.0 \
+        --kube-scheduler-arg bind-address=0.0.0.0 \
+        --kube-proxy-arg metrics-bind-address=0.0.0.0 \
+        --etcd-expose-metrics
 ```
 
 ### Worker
