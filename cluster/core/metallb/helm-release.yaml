@@ -17,6 +17,6 @@ spec:
       interval: 5m
   values:
     crds:
-      enabled: false
+      enabled: true
     prometheusRule:
       enabled: true

@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - kube-prometheus-stack
   - system-upgrade
-  - metallb
