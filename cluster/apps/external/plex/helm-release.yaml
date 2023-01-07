@@ -25,14 +25,9 @@ spec:
       backup.velero.io/backup-volumes: config
     env:
       TZ: "UTC"
-      ADVERTISE_IP: "https://plex.${SECRET_DOMAIN}:443,http://plex.${SECRET_DOMAIN}:80"
+      ADVERTISE_IP: "http://192.168.42.2:32400,https://plex.${SECRET_DOMAIN}:443,http://plex.${SECRET_DOMAIN}:80"
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
-      PLEX_PREFERENCE_1: "FriendlyName=CPlex-2.1"
-      PLEX_PREFERENCE_2: "DisableTLSv1_0=1"
-      PLEX_PREFERENCE_3: "TranscoderQuality=2"
-      PLEX_PREFERENCE_4: "TreatWanIpAsLocal=0"
-      PLEX_PREFERENCE_5: "TranscoderH264BackgroundPreset=fast"
     
     dnsConfig:
       options:
