@@ -62,18 +62,12 @@ spec:
           external-dns/is-public: "true"
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
           external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
-          external-dns.alpha.kubernetes.io/hostname: "plex.${SECRET_DOMAIN}"
           external-dns.alpha.kubernetes.io/ttl: "120"
         hosts:
           - host: &host "plex.${SECRET_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: plex-cluster
-                    port:
-                      number: http
         tls:
           - hosts:
               - *host
