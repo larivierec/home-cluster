@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: Recreate
+      type: statefulset
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.352@sha256:02bcc49b4e35ff6a061c1c1589a7d3a96049db672318d831ef4b4aa8db151c04
