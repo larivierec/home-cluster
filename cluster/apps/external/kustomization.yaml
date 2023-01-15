@@ -6,4 +6,3 @@ resources:
   - plex
   - jellyfin
   - searxng
-  - plex-internal
