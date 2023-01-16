@@ -19,7 +19,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.352@sha256:02bcc49b4e35ff6a061c1c1589a7d3a96049db672318d831ef4b4aa8db151c04
+      tag: 4.0.0.354@sha256:9c90ad1af81558d1b6321c79c8030be637d67756d14027ad6a8a8e22a55056bb
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
