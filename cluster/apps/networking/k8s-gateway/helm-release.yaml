@@ -16,12 +16,16 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
     domain: ${SECRET_DOMAIN}
     ttl: 1
     watchedResources: 
     - "Ingress"
     - "Service"
-    replicaCount: 2
+    replicaCount: 1
     service:
       externalTrafficPolicy: Local
       clusterIP: "10.43.131.47"
