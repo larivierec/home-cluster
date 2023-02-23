@@ -20,7 +20,7 @@ spec:
       type: statefulset
     image:
       repository: shenxn/protonmail-bridge
-      tag: 2.4.8-1
+      tag: 3.0.17-1
     env:
       TZ: "America/New_York"
     service:
