@@ -6,6 +6,7 @@ resources:
   - ingress-nginx
   - blocky
   - cloudflare_ddns
+  - cloudflared
   - external-dns
   - k8s-gateway
   - opnsense

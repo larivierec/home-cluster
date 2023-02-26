@@ -2,3 +2,6 @@
 **/.terraform**
 **/terraform.tfstate**
 **/*.tfstate
+
+## macos
+.DS_Store
