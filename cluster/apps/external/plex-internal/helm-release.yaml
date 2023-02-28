@@ -17,7 +17,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/plex-beta
-      tag: 1.31.1.6733-bc0674160@sha256:e854f1da4812afd3712cea99b6c7d3d056b9bef1a6b376b6798ec673a730f089
+      tag: 1.31.2.6739-a87e876bd@sha256:99c05c57c79a6fa64a32420f72f66e9b72b2421eaba2be87074aaafeba54799a
     controller:
       strategy: Recreate
     podAnnotations:
