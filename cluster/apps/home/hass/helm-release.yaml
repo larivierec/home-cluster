@@ -20,7 +20,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.2.5
+      tag: 2023.3.0
     env:
       TZ: "UTC"
     service:
