@@ -20,7 +20,7 @@ spec:
       type: statefulset
     image:
       repository: ghcr.io/onedr0p/lidarr
-      tag: 1.0.2.2592@sha256:fb88674a0398a8a444e0c5b38544c2954b3d1030358819f9331142639a5c00ce
+      tag: 1.0.2.2592@sha256:cb0d8523fc81d25118387ef8f79dcf44957e44e61e6faa14ac11bb643b47655c
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
