@@ -5,7 +5,6 @@ resources:
   - pod-gateway
   - ingress-nginx
   - blocky
-  - cloudflare_ddns
   - cloudflared
   - ddns
   - external-dns
