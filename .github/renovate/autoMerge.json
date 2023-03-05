@@ -13,7 +13,10 @@
         "patch"
       ],
       "matchPackageNames": [
-        "renovatebot/github-action"
+        "renovatebot/github-action",
+        "larivierec/cloudflare-ddns",
+        "onedr0p/sonarr-develop",
+        "onedr0p/radarr-develop"
       ]
     }
   ]
