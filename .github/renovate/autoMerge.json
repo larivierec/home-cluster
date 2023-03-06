@@ -14,9 +14,9 @@
       ],
       "matchPackageNames": [
         "renovatebot/github-action",
-        "larivierec/cloudflare-ddns",
-        "onedr0p/sonarr-develop",
-        "onedr0p/radarr-develop"
+        "ghcr.io/larivierec/cloudflare-ddns",
+        "ghcr.io/onedr0p/sonarr-develop",
+        "ghcr.io/onedr0p/radarr-develop"
       ]
     }
   ]
