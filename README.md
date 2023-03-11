@@ -39,19 +39,19 @@ k3s cluster will also be configured as an HA using etcd with the `--cluster-init
 
 1. Install k3s manually
 ```bash
-curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" sh -s --flannel-backend none \
+curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none \
         --disable traefik \
         --disable servicelb \
         --disable-network-policy \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
         --kube-scheduler-arg bind-address=0.0.0.0 \
         --kube-proxy-arg metrics-bind-address=0.0.0.0 \
-        --etcd-expose-metrics
+        --etcd-expose-metrics \
         --cluster-init
 ```
 2. Immediately stop the k3s cluster after it's up
-3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://projectcalico.docs.tigera.io/master/manifests/calico.yaml`
-4. Modify the calico-config at the top of the file to include
+3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml`
+4. Modify the calico-config (which is actually the cni-configuration for the cluster) at the top of the file to include
 ```yaml
 "container_settings": {
   "allow_ip_forwarding": true
@@ -133,7 +133,7 @@ data:
 
 | Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
 |---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
-| J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 22      | Router              |
+| J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 23      | Router              |
 | Beelink U59 N5105         | 3     | 500GB M2 SATA| -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
 | Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
 | Synology 920+             | 1     | 26TB  HDD    | -                           | 4GB  | DSM 7            | NAS                 |
