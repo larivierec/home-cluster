@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespaces
   - metallb
+  - cilium
   - nvidia
   - nfs-subdir-external-provisioner
   - kured
