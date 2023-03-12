@@ -30,7 +30,6 @@ Find their discord here.
 
 ## Setup
 
-This setup uses calico cni as a networking backend.
 k3s cluster will also be configured as an HA using etcd with the `--cluster-init` flag
 
 ## Config File
@@ -50,12 +49,24 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
         --cluster-init
 ```
 2. Immediately stop the k3s cluster after it's up
+
+## Calico
+If you want to use calico.
+
 3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml`
 4. Modify the calico-config (which is actually the cni-configuration for the cluster) at the top of the file to include
 ```yaml
 "container_settings": {
   "allow_ip_forwarding": true
 }
+```
+
+## Cilium
+If you want to use cilium.
+
+Install the cilium-cni and execute:
+```bash
+cilium install
 ```
 5. Restart the cluster.
 6. Add extra masters if need be.
