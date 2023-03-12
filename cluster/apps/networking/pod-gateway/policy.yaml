@@ -2,13 +2,15 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: downloads-gateway-pod-gateway
-  namespace: vpn
+  name: vpn-gateway-pod-gateway
+  namespace: networking
   labels:
+    app.kubernetes.io/instance: vpn-gateway
     app.kubernetes.io/name: pod-gateway
 spec:
   endpointSelector:
     matchLabels:
+      app.kubernetes.io/instance: vpn-gateway
       app.kubernetes.io/name: pod-gateway
 
   egress:
@@ -16,9 +18,7 @@ spec:
         - 0.0.0.0/0
       toPorts:
         - ports:
-            - port: "1197"
-              protocol: UDP
-            - port: "1197"
-              protocol: TCP
+          - port: "1197"
+            protocol: UDP
     - toEntities:
         - cluster

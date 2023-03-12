@@ -10,3 +10,4 @@ resources:
   - external-dns
   - k8s-gateway
   - opnsense
+  - multus
