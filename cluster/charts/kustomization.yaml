@@ -26,4 +26,3 @@ resources:
   - cloudnative-pg-charts.yaml
   - nvidia-device-plugin-charts.yaml
   - angelnu-charts.yaml
-  - cilium-charts.yaml
