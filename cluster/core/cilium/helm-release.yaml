@@ -1,0 +1,69 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  chart:
+    spec:
+      chart: cilium
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: cilium-charts
+        namespace: flux-system
+      version: 1.13.0
+  interval: 30m
+  values:
+    cluster:
+      name: k3s
+    containerRuntime:
+      integration: containerd
+    endpointRoutes:
+      enabled: true
+    hubble:
+      enabled: true
+      metrics:
+        enabled:
+          - dns:query;ignoreAAAA
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - http
+      relay:
+        enabled: true
+        rollOutPods: true
+      serviceMonitor:
+        enabled: true
+      ui:
+        enabled: true
+        ingress:
+          enabled: true
+          className: "nginx"
+          hosts:
+            - &host hubble.${SECRET_DOMAIN}
+          tls:
+            - hosts:
+                - *host
+              secretName: wildcard-cert-tls
+        rollOutPods: true
+    autoDirectNodeRoutes: true
+    ipam:
+      mode: kubernetes
+    ipv4NativeRoutingCIDR: 10.42.0.0/16
+    k8sServiceHost: 192.168.30.1
+    k8sServicePort: 6443
+    kubeProxyReplacement: strict
+    loadBalancer:
+      algorithm: maglev
+      mode: dsr
+    localRedirectPolicy: true
+    operator:
+      rollOutPods: true
+    rollOutCiliumPods: true
+    securityContext:
+      privileged: true
+    tunnel: disabled

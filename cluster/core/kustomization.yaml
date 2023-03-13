@@ -9,3 +9,4 @@ resources:
   - kured
   - node-feature-discovery
   - intel-gpu-plugin
+  - cilium

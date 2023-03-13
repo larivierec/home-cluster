@@ -48,28 +48,8 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
         --etcd-expose-metrics \
         --cluster-init
 ```
-2. Immediately stop the k3s cluster after it's up
+2. Add extra masters if need be.
 
-## Calico
-If you want to use calico.
-
-3. In the `/var/lib/rancher/k3s/server/manifests` folder download `https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml`
-4. Modify the calico-config (which is actually the cni-configuration for the cluster) at the top of the file to include
-```yaml
-"container_settings": {
-  "allow_ip_forwarding": true
-}
-```
-
-## Cilium
-If you want to use cilium.
-
-Install the cilium-cni and execute:
-```bash
-cilium install
-```
-5. Restart the cluster.
-6. Add extra masters if need be.
 ```bash
 curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://<hostname or ip>:6443 --flannel-backend none \
         --disable traefik \
@@ -81,11 +61,30 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
         --etcd-expose-metrics
 ```
 
+3. Add workers
+
 ### Worker
 
 ```bash
 curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 ```
+
+## Cilium
+
+4. Optionally, install the cilium-cni and execute:
+
+```bash
+cilium install
+```
+
+4. I recommend to use bootstrap values from cluster/core/cilium/bootstrap/values.yaml
+
+```bash
+helm repo add cilium https://helm.cilium.io/
+helm install cilium cilium/cilium -f cluster/core/cilium/bootstrap/values.yaml --namespace kube-system
+```
+
+## Note: Be sure that if you are using a different Pod CIDR than default for k3s
 
 
 ## nvidia-daemonset-plugin
