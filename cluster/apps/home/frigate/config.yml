@@ -14,6 +14,24 @@ database:
 ffmpeg:
   hwaccel_args: preset-nvidia-h264
 
+snapshots:
+  enabled: true
+  timestamp: false
+  bounding_box: true
+  retain:
+    default: 14
+
+# Global record configuration
+record:
+  enabled: true
+  retain:
+    days: 3
+    mode: all
+  events:
+    retain:
+      default: 14
+      mode: active_objects
+
 objects:
   track:
     - person
@@ -49,6 +67,7 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+            - record
     detect:
       width: 1920
       height: 1080
@@ -60,6 +79,7 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - detect
+            - record
     detect:
       width: 1920
       height: 1080
