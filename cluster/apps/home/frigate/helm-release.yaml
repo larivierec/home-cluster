@@ -21,8 +21,8 @@ spec:
   values:
     runtimeClassName: nvidia
     image:
-      repository: docker.io/blakeblackshear/frigate
-      tag: 0.10.1-amd64nvidia
+      repository: ghcr.io/blakeblackshear/frigate
+      tag: 0.12.0-beta9-tensorrt
       imagePullPolicy: IfNotPresent
     controller:
       strategy: Recreate
@@ -56,7 +56,6 @@ spec:
     configMaps:
       config:
         enabled: false
-        
     persistence:
       data:
         enabled: true
@@ -64,7 +63,7 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: frigate-config
+        name: &config frigate-config
         subPath: config.yml
         mountPath: /config/config.yml
         readOnly: true
@@ -82,6 +81,15 @@ spec:
         mountPath: /dev/shm
         medium: Memory
         sizeLimit: 4Gi
+      tensor:
+        enabled: true
+        type: hostPath
+        hostPath: /home/christopher/trt-models
+        mountPath: /trt-models
+        hostPathType: Directory
+        readOnly: true
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: *config
     resources:
       requests:
         cpu: 100m
