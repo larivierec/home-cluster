@@ -38,7 +38,7 @@ spec:
         enabled: true      
         annotations:
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: "nginx"          
+        ingressClassName: nginx          
         hosts:
           - host: &host "radarr.${SECRET_DOMAIN}"
             paths:

@@ -58,7 +58,7 @@ spec:
         - secretName: wildcard-cert-tls
           hosts:
           - "alertmanager.${SECRET_DOMAIN}"
-        ingressClassName: "nginx"
+        ingressClassName: nginx
     grafana:
       enabled: true
       plugins:
@@ -193,7 +193,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *hostPrometheus
-        ingressClassName: "nginx"
+        ingressClassName: nginx
       additionalDatasources:
         - name: blocky-redis
           type: standalone

@@ -14,7 +14,7 @@ metadata:
   name: external-ingress-nas
   namespace: default
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: nginx
   rules:
   - host: *host
     http:

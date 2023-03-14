@@ -31,7 +31,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
+        ingressClassName: nginx
         hosts:
         - host: &host "qbittorrent.${SECRET_DOMAIN}"
           paths:
