@@ -84,8 +84,9 @@ helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium -f cluster/core/cilium/bootstrap/values.yaml --namespace kube-system
 ```
 
-## Note: Be sure that if you are using a different Pod CIDR than default for k3s
-
+## Cilium CNI -- Note
+Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
+Otherwise, you will more than likely have issues.
 
 ## nvidia-daemonset-plugin
 
@@ -153,6 +154,8 @@ data:
 ## Frigate
 
 I suggest you check the frigate folder for more information regarding nvidia detection.
+
+## Beelink nodes
 
 For Beelink nodes, there was an incompatibility for iGPU transcoding with Ubuntu 22.04.1 LTS and Kernel 5.15.X
 
