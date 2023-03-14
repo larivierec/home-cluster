@@ -9,12 +9,12 @@ metadata:
     external-dns/is-public: "true"
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
-    external-dns.alpha.kubernetes.io/hostname: &host "nas.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: &host "files.${SECRET_DOMAIN}"
     external-dns.alpha.kubernetes.io/ttl: "120"
-  name: external-ingress-nas
+  name: external-ingress-files
   namespace: default
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: nginx
   rules:
   - host: *host
     http:
@@ -23,9 +23,9 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: nas
+              name: files
               port:
-                number: 5001
+                number: 7001
   tls:
     - hosts:
       - *host

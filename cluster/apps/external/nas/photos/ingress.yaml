@@ -9,14 +9,14 @@ metadata:
     external-dns/is-public: "true"
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
-    external-dns.alpha.kubernetes.io/hostname: "photos.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/hostname: &host "photos.${SECRET_DOMAIN}"
     external-dns.alpha.kubernetes.io/ttl: "120"
   name: external-ingress-photos
   namespace: default
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: nginx
   rules:
-  - host: &host photos.${SECRET_DOMAIN}
+  - host: *host
     http:
       paths:
         - path: /
