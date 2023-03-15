@@ -124,15 +124,15 @@ spec:
             revision: 2
             datasource: redis-db
           cilium-agent:
-            gnetid: 16611
+            gnetId: 16611
             revision: 1
             datasource: Prometheus
           cilium-operator:
-            gnetid: 16612
+            gnetId: 16612
             revision: 1
             datasource: Prometheus
           cilium-hubble:
-            gnetid: 16613
+            gnetId: 16613
             revision: 1
             datasource: Prometheus
 
