@@ -123,6 +123,18 @@ spec:
             gnetId: 12776
             revision: 2
             datasource: redis-db
+          cilium-agent:
+            gnetid: 16611
+            revision: 1
+            datasource: Prometheus
+          cilium-operator:
+            gnetid: 16612
+            revision: 1
+            datasource: Prometheus
+          cilium-hubble:
+            gnetid: 16613
+            revision: 1
+            datasource: Prometheus
 
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
