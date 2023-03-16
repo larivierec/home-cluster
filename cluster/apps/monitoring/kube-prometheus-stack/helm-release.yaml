@@ -181,11 +181,7 @@ spec:
         https: true
         insecureSkipVerify: true
     kubeProxy:
-      enabled: true
-      endpoints:
-        - 192.168.1.9
-        - 192.168.1.7
-        - 192.168.1.4
+      enabled: false
     kubeEtcd:
       enabled: false
     prometheusOperator:
