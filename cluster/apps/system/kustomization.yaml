@@ -7,3 +7,4 @@ resources:
   - reflector
   - minio
   - databases
+  - unifi
