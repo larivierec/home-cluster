@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: unifi
+  namespace: system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+
+  values:
+    controller:
+      type: statefulset
+
+    image:
+      repository: lscr.io/linuxserver/unifi-controller
+      tag: 7.3.83
+
+    env:
+      TZ: "America/New_York"
+      MEM_LIMIT: 1024
+      MEM_STARTUP: 512
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: "192.168.42.7"
+        ports:
+          http:
+            port: 8443
+            protocol: HTTPS
+          controller:
+            enabled: true
+            port: 8080
+            protocol: TCP
+          portal-http:
+            enabled: false
+            port: 8880
+            protocol: HTTP
+          portal-https:
+            enabled: false
+            port: 8843
+            protocol: HTTPS
+          speedtest:
+            enabled: true
+            port: 6789
+            protocol: TCP
+          stun:
+            enabled: true
+            port: 3478
+            protocol: UDP
+          syslog:
+            enabled: true
+            port: 5514
+            protocol: UDP
+          discovery:
+            enabled: true
+            port: 10001
+            protocol: UDP
+    probes:
+      liveness:
+        enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: &host unifi.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: unifi-config
+        mountPath: /unifi
