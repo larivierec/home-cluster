@@ -188,6 +188,10 @@ spec:
         - 192.168.1.9
         - 192.168.1.7
         - 192.168.1.4
+      service:
+        enabled: true
+        port: 2381
+        targetPort: 2381
     prometheusOperator:
       tls:
         enabled: false
