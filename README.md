@@ -42,9 +42,9 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
         --disable traefik \
         --disable servicelb \
         --disable-network-policy \
+        --disable-kube-proxy \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
         --kube-scheduler-arg bind-address=0.0.0.0 \
-        --kube-proxy-arg metrics-bind-address=0.0.0.0 \
         --etcd-expose-metrics \
         --cluster-init
 ```
@@ -55,9 +55,9 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
         --disable traefik \
         --disable servicelb \
         --disable-network-policy \
+        --disable-kube-proxy \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
         --kube-scheduler-arg bind-address=0.0.0.0 \
-        --kube-proxy-arg metrics-bind-address=0.0.0.0 \
         --etcd-expose-metrics
 ```
 
@@ -87,6 +87,9 @@ helm install cilium cilium/cilium -f cluster/core/cilium/bootstrap/values.yaml -
 ## Cilium CNI -- Note
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
+
+The APIServer address must also be correct otherwise, the cni will not be installed on the nodes.
+I have the three master node IP addresses registered to the HAProxy on my router on port 6443.
 
 ## nvidia-daemonset-plugin
 
