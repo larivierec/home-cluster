@@ -27,6 +27,8 @@ spec:
       TZ: "America/New_York"
       MEM_LIMIT: 1024
       MEM_STARTUP: 512
+      PUID: 999
+      PGID: 999
 
     service:
       main:
@@ -88,5 +90,6 @@ spec:
     persistence:
       config:
         enabled: true
+        mountPath: /config
         existingClaim: unifi-config
-        mountPath: /unifi
+        subPath: unifi

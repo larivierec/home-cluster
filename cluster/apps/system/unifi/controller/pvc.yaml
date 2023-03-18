@@ -5,7 +5,7 @@ metadata:
   name: unifi-config
   namespace: system
 spec:
-  storageClassName: nfs-minio
+  storageClassName: openebs-jiva-csi-default
   accessModes:
     - ReadWriteOnce
   resources:
