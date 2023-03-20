@@ -34,11 +34,13 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "192.168.42.7"
+        annotations:
+          coredns.io/hostname: "unifi-controller.${SECRET_DOMAIN}"
+          metallb.universe.tf/allow-shared-ip: default-lb
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.7"
         ports:
           http:
             port: 8443
-            protocol: HTTPS
           controller:
             enabled: true
             port: 8080
