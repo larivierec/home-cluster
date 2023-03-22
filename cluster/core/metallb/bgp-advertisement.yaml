@@ -7,4 +7,3 @@ metadata:
 spec:
   ipAddressPools:
     - bgp-address-pool
-    - unifi
