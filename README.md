@@ -18,6 +18,9 @@
 <div align="center">
 
 [![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&label=my%20home%20assistant)](https://www.home-assistant.io/)
+[![Overseerr](https://img.shields.io/uptimerobot/status/m789483603-29e0e1966ab760983f46ed3c?label=Overseerr)](https://overseerr.dev/)
+[![Internet](https://img.shields.io/uptimerobot/status/m789484238-7de3cf2b8346bbd39dfca242?logo=opnsense&logoColor=white&label=opnsense)](https://opnsense.org/)
+
 
 Thanks to the awesome community @ k8s-at-home for their help in getting this setup.
 Find their discord here.

@@ -40,7 +40,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
 
 resource "cloudflare_filter" "block_bots" {
   zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
-  expression = "(cf.client.bot)"
+  expression = "(cf.client.bot and not http.user_agent contains \"UptimeRobot\")"
 }
 
 resource "cloudflare_filter" "block_countries" {
