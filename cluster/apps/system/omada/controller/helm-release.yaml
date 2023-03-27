@@ -114,8 +114,8 @@ spec:
         existingClaim: omada-work
       logs:
         enabled: true
+        type: emptyDir
         mountPath: /opt/tplink/EAPController/logs
-        existingClaim: omada-logs
 
     resources:
       requests:

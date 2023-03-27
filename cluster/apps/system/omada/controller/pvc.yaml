@@ -15,19 +15,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: omada-logs
-  namespace: system
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: openebs-jiva-csi-default
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
   name: omada-work
   namespace: system
 spec:
