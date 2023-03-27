@@ -19,8 +19,8 @@ spec:
     controller:
       type: statefulset
     image:
-      repository: shenxn/protonmail-bridge
-      tag: 2.4.8-1
+      repository: ghcr.io/larivierec/protonmail-bridge-docker
+      tag: v3.0.0-1
     env:
       TZ: "America/New_York"
     service:
