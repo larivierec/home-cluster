@@ -19,3 +19,23 @@ spec:
       enabled: true
     analytics:
       enabled: false
+  postRenderers:
+  - kustomize:
+      patches:
+      - patch: |
+          - op: add
+            path: "/spec/template/spec/hostPID"
+            value: true
+        target:
+          kind: DaemonSet
+          name: openebs-jiva-csi-node
+      - patch: |
+          - op: replace
+            path: "/data/iscsiadm"
+            value: |
+              #!/bin/sh
+              iscsid_pid=$(pgrep iscsid)
+              nsenter --mount="/proc/${iscsid_pid}/ns/mnt" --net="/proc/${iscsid_pid}/ns/net" -- /usr/sbin/iscsiadm "$@"
+        target:
+          kind: ConfigMap
+          name: openebs-jiva-csi-iscsiadm
