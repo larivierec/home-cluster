@@ -19,3 +19,4 @@ spec:
       enabled: true
     analytics:
       enabled: false
+
