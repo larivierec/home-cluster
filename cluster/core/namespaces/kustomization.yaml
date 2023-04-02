@@ -17,5 +17,4 @@ resources:
   - system.yaml
   - mail.yaml
   - system-upgrade.yaml
-  - openebs.yaml
   - longhorn.yaml

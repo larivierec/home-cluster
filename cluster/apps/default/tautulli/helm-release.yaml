@@ -42,10 +42,16 @@ spec:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
-    
+
     podAnnotations:
       backup.velero.io/backup-volumes: config
-    
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+
     persistence:
       config:
         enabled: true
