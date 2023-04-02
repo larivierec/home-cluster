@@ -18,7 +18,8 @@ spec:
   values:
     controller:
       type: deployment
-      strategy: recreate
+      strategy: Recreate
+
     env:
       TZ: "UTC"
     
@@ -71,13 +72,3 @@ spec:
             server: "192.168.1.3"
             path: /volume2/media-sp2
         mountPath: /media
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - frenzy

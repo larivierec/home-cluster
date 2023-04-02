@@ -19,14 +19,17 @@ spec:
     controller:
       type: deployment
       strategy: Recreate
+
     image:
       repository: ghcr.io/onedr0p/tautulli
       tag: 2.12.2@sha256:34072dfc39c1388718a27a33cea7f44fdf89c3ce6108d9c0b5f7b51d40aeb823
+
     service:
       main:
         ports:
           http:
             port: 8181
+
     ingress:
       main:
         enabled: true      

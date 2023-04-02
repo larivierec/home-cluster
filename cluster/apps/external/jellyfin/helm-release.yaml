@@ -17,20 +17,26 @@ spec:
       interval: 5m
   values:
     runtimeClassName: nvidia
+
     image:
       repository: jellyfin/jellyfin
       tag: 10.8.9
+
     controller:
+      type: deployment
       strategy: Recreate
+
     env:
       TZ: "UTC"
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
+
     service:
       main:
         ports:
           http:
             port: 8096
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -38,6 +44,7 @@ spec:
       supplementalGroups:
         - 44
         - 109
+
     ingress:
       main:
         enabled: true

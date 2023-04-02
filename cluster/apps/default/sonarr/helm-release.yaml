@@ -19,17 +19,21 @@ spec:
     controller:
       type: deployment
       strategy: Recreate
+
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.425@sha256:2cb38576ff8e92a39716956cce2c0e89ed901840a93992fadb28272e888e213d
       pullPolicy: IfNotPresent
+
     env:
       TZ: "UTC"
+
     service:
       main:
         ports:
           http:
             port: 8989
+
     ingress:
       main:
         enabled: true      
