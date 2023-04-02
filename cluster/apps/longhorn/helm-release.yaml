@@ -18,9 +18,9 @@ spec:
   values:
     persistence:
       defaultClass: false
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 3
     defaultSettings:
-      defaultReplicaCount: 2
+      defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
     ingress:
       enabled: true
@@ -28,4 +28,4 @@ spec:
       host: longhorn.${SECRET_DOMAIN}
       tls: true
       tlsSecret: wildcard-cert-tls
-      secretBackends: true
+      secureBackends: true
