@@ -17,7 +17,8 @@ spec:
       interval: 5m
   values:
     controller:
-      type: statefulset
+      type: deployment
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/lidarr
       tag: 1.0.2.2592@sha256:cb0d8523fc81d25118387ef8f79dcf44957e44e61e6faa14ac11bb643b47655c
@@ -59,7 +60,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: lidarr-config-v3
+        existingClaim: lidarr-config-v4
 
       media:
         enabled: true

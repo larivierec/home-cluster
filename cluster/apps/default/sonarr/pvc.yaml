@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: bazarr-config-v3
+  name: sonarr-config-v4
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
-  storageClassName: openebs-jiva-csi-default
+      storage: 5Gi
+  storageClassName: longhorn

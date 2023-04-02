@@ -17,7 +17,8 @@ spec:
       interval: 5m
   values:
     controller:
-      type: statefulset
+      type: deployment
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/radarr-develop
       tag: 4.4.2.6956@sha256:900277ef469bcb21cf24963c39b17e0f1a5e64a445b8a9d6ee80750807911339
@@ -60,7 +61,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-config-v3
+        existingClaim: radarr-config-v4
       media:
         enabled: true
         type: custom

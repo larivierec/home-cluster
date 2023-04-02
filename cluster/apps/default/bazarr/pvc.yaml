@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: lidarr-config-v3
+  name: bazarr-config-v4
   namespace: default
 spec:
   accessModes:
@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 100Mi
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: longhorn

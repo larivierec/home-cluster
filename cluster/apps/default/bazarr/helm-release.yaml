@@ -17,7 +17,8 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: Recreate
+      type: deployment
+      strategy: recreate
     env:
       TZ: "UTC"
     
@@ -61,7 +62,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: bazarr-config-v3
+        existingClaim: bazarr-config-v4
       media:
         enabled: true
         type: custom

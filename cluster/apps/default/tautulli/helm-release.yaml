@@ -17,7 +17,8 @@ spec:
       interval: 5m
   values:
     controller:
-      strategy: RollingUpdate
+      type: deployment
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/tautulli
       tag: 2.12.2@sha256:34072dfc39c1388718a27a33cea7f44fdf89c3ce6108d9c0b5f7b51d40aeb823
@@ -48,14 +49,4 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tautulli-config-v1
-
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                    - frenzy
+        existingClaim: tautulli-config-v3

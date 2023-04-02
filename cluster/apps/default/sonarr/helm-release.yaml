@@ -17,7 +17,8 @@ spec:
       interval: 5m
   values:
     controller:
-      type: statefulset
+      type: deployment
+      strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.425@sha256:2cb38576ff8e92a39716956cce2c0e89ed901840a93992fadb28272e888e213d
@@ -59,7 +60,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr-config-v3
+        existingClaim: sonarr-config-v4
       media:
         enabled: true
         type: custom
