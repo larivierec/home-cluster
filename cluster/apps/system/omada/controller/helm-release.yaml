@@ -107,11 +107,11 @@ spec:
       data:
         enabled: true
         mountPath: /opt/tplink/EAPController/data
-        existingClaim: omada-data
+        existingClaim: omada-data-v2
       work:
         enabled: true
         mountPath: /opt/tplink/EAPController/work
-        existingClaim: omada-work
+        existingClaim: omada-work-v2
       logs:
         enabled: true
         type: emptyDir

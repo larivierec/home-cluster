@@ -93,5 +93,5 @@ spec:
       config:
         enabled: true
         mountPath: /config
-        existingClaim: unifi-config
+        existingClaim: unifi-config-v2
         subPath: unifi
