@@ -27,3 +27,4 @@ resources:
   - nvidia-device-plugin-charts.yaml
   - angelnu-charts.yaml
   - cilium-charts.yaml
+  - longhorn-charts.yaml
