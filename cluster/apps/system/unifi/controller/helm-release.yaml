@@ -17,7 +17,8 @@ spec:
 
   values:
     controller:
-      type: statefulset
+      type: deployment
+      strategy: Recreate
 
     image:
       repository: lscr.io/linuxserver/unifi-controller
