@@ -22,7 +22,7 @@ spec:
 
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.431@sha256:c68bc760c384acaf817710900c373494ae8f24505a5f6a895ef6b0b9b88d5372
+      tag: 4.0.0.432@sha256:144eb1dac197fdc9d98407923ec3a40fd5f774c898f97a07be61004d057bac30
       pullPolicy: IfNotPresent
 
     env:
