@@ -6,7 +6,7 @@ resource "cloudflare_tunnel" "this" {
 
 resource "cloudflare_record" "cloudflared" {
   name = "tunnel"
-  zone_id = lookup(data.cloudflare_zones.domain.zones[0], "id")
+  zone_id = data.cloudflare_zone.domain.zone_id
   value = cloudflare_tunnel.this.cname
   type = "CNAME"
 }

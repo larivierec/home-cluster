@@ -31,9 +31,3 @@ provider "cloudflare" {
 data "sops_file" "cloudflare_secrets" {
   source_file = "secrets.sops.yaml"
 }
-
-data "cloudflare_zones" "domain" {
-  filter {
-    name = data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]
-  }
-}
