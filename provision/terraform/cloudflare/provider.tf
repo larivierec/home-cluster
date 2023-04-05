@@ -1,5 +1,4 @@
 terraform {
-
   backend "remote" {
     organization = "larivierec"
     workspaces {
@@ -10,7 +9,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.2.0"
+      version = "4.3.0"
     }
     http = {
       source  = "hashicorp/http"
@@ -26,8 +25,4 @@ terraform {
 provider "cloudflare" {
   email   = data.sops_file.cloudflare_secrets.data["SECRET_EMAIL"]
   api_key = data.sops_file.cloudflare_secrets.data["SECRET_CLOUDFLARE_API_KEY"]
-}
-
-data "sops_file" "cloudflare_secrets" {
-  source_file = "secrets.sops.yaml"
 }
