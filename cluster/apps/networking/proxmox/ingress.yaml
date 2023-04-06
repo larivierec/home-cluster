@@ -1,0 +1,47 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: proxmox-1
+  namespace: networking
+spec:
+  ingressClassName: nginx-internal
+  rules:
+  - host: &host proxmox-1.${SECRET_DOMAIN}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: proxmox
+  tls:
+    - hosts:
+      - *host
+      secretName: wildcard-cert-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: proxmox-2
+  namespace: networking
+spec:
+  ingressClassName: nginx-internal
+  rules:
+  - host: &host proxmox-2.${SECRET_DOMAIN}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: proxmox
+  tls:
+    - hosts:
+      - *host
+      secretName: wildcard-cert-tls
+

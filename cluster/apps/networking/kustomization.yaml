@@ -12,3 +12,4 @@ resources:
   - k8s-gateway
   - opnsense
   - multus
+  - proxmox
