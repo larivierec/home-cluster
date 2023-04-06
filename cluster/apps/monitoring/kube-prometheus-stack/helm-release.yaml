@@ -58,7 +58,7 @@ spec:
         - secretName: wildcard-cert-tls
           hosts:
           - "alertmanager.${SECRET_DOMAIN}"
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
     grafana:
       enabled: true
       plugins:
@@ -149,7 +149,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts: 
               - *hostGrafana
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
     kubelet:
       enabled: true
     kubeApiServer:

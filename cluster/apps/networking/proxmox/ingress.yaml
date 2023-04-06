@@ -17,6 +17,8 @@ spec:
           backend:
             service:
               name: proxmox
+              port:
+                number: 8006
   tls:
     - hosts:
       - *host
@@ -40,6 +42,8 @@ spec:
           backend:
             service:
               name: proxmox
+              port:
+                number: 8006
   tls:
     - hosts:
       - *host
