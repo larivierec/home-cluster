@@ -5,6 +5,7 @@
     ":enableRenovate",
     ":dependencyDashboard",
     ":disableRateLimiting",
+    ":automergeDigest",
     ":semanticCommits",
     "config:base"
   ],
