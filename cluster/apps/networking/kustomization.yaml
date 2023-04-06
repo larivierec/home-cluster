@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - pod-gateway
   - ingress-nginx
+  - ingress-nginx-internal
   - blocky
   - cloudflared
   - ddns

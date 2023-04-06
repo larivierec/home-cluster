@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-internal
+  namespace: ingress
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: 4.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    controller:
+      replicaCount: 2
+      config:
+        client-header-timeout: 120
+        client-body-buffer-size: "100M"
+        client-body-timeout: 120
+        keep-alive: 120
+        keep-alive-requests: 10000
+        proxy-body-size: "100M"
+
+      ingressClass: nginx-internal
+      ingressClassByName: true
+      ingressClassResource:
+        name: nginx-internal
+        enabled: true
+        default: false
+        controllerValue: "k8s.io/ingress-nginx-internal"
+      admissionWebhooks:
+        objectSelector:
+          matchExpressions:
+            - key: ingress-class
+              operator: In
+              values:
+                - nginx-internal
+     
+      service:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: "192.168.42.9"
+        exernalIPs:
+          - "192.168.42.9"
+
+      publishService:
+        enabled: true
+
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
+      
+      resources:
+        requests:
+          cpu: 100m
+          memory: 90Mi
+      
+      enableMimalloc: true
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                    - ingress-nginx
+                topologyKey: "kubernetes.io/hostname"
+
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
