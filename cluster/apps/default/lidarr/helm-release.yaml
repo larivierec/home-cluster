@@ -32,10 +32,10 @@ spec:
             port: 8686
     ingress:
       main:
-        enabled: true      
+        enabled: true
         annotations:
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
         hosts:
           - host: &host "lidarr.${SECRET_DOMAIN}"
             paths:

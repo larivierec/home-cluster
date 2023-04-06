@@ -24,7 +24,7 @@ spec:
       defaultLonghornStaticStorageClass: longhorn
     ingress:
       enabled: true
-      ingressClassName: nginx
+      ingressClassName: nginx-internal
       host: longhorn.${SECRET_DOMAIN}
       tls: true
       tlsSecret: wildcard-cert-tls

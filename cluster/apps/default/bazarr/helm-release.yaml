@@ -38,10 +38,10 @@ spec:
 
     ingress:
       main:
-        enabled: true      
+        enabled: true
         annotations:
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: nginx          
+        ingressClassName: nginx-internal
         hosts:
           - host: &host "bazarr.${SECRET_DOMAIN}"
             paths:

@@ -50,7 +50,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
         hosts:
           - host: &minio minio.${SECRET_DOMAIN}
             paths:

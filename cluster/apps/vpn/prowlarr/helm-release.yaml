@@ -36,7 +36,7 @@ spec:
         enabled: true
         annotations:
           metallb.universe.tf/allow-shared-ip: default-lb
-        ingressClassName: nginx
+        ingressClassName: nginx-internal
         hosts:
           - host: &host "prowlarr.${SECRET_DOMAIN}"
             paths:

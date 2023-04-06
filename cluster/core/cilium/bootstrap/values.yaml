@@ -24,7 +24,7 @@ hubble:
     enabled: true
     ingress:
       enabled: true
-      className: nginx
+      className: nginx-internal
       hosts:
         - &host hubble.test.com
       tls:
