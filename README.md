@@ -161,6 +161,33 @@ data:
 
 I suggest you check the frigate folder for more information regarding nvidia detection.
 
+## Proxmox
+
+GPU Passthrough
+
+1. VT-d enabled in motherboard BIOS
+2. Follow instructions here: https://gist.github.com/qubidt/64f617e959725e934992b080e677656f
+3. Add the PCI-E gpu to the VM
+
+4. install
+
+```bash
+apt-get install \
+    nfs-common \
+    net-tools \
+    nvidia-driver-525 \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+    containerd \
+    vim
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
 ## Beelink nodes
 
 For Beelink nodes, there was an incompatibility for iGPU transcoding with Ubuntu 22.04.1 LTS and Kernel 5.15.X
