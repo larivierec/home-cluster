@@ -1,10 +1,13 @@
 # NVIDIA GPU for Frigate
 
+1. install nerdctl on nodes with gpu
+2. move it to /usr/local/bin
+
 ```bash
 mkdir trt-models
 wget https://raw.githubusercontent.com/blakeblackshear/frigate/dev/docker/tensorrt_models.sh
 chmod +x tensorrt_models.sh
-docker run --gpus=all --rm -it -v `pwd`/trt-models:/tensorrt_models -v `pwd`/tensorrt_models.sh:/tensorrt_models.sh nvcr.io/nvidia/tensorrt:22.07-py3 /tensorrt_models.sh
+sudo nerdctl run --gpus all --rm -it -v `pwd`/trt-models:/tensorrt_models -v `pwd`/tensorrt_models.sh:/tensorrt_models.sh nvcr.io/nvidia/tensorrt:22.07-py3 /tensorrt_models.sh
 ```
 
 these tensor RT models are used in frigate.
