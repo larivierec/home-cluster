@@ -77,7 +77,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex
+        existingClaim: plex-longhorn
       media:
         enabled: true
         type: custom
