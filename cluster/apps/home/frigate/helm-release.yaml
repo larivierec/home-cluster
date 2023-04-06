@@ -84,7 +84,7 @@ spec:
       tensor:
         enabled: true
         type: hostPath
-        hostPath: /home/christopher/trt-models
+        hostPath: /opt/gpu/trt-models
         mountPath: /trt-models
         hostPathType: Directory
         readOnly: true
