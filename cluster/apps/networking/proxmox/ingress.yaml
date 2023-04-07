@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: proxmox-1
+  name: proxmox
   namespace: networking
 spec:
   ingressClassName: nginx-internal
@@ -21,27 +21,3 @@ spec:
     - hosts:
       - *host
       secretName: wildcard-cert-tls
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: proxmox-2
-  namespace: networking
-spec:
-  ingressClassName: nginx-internal
-  rules:
-  - host: &host proxmox-2.${SECRET_DOMAIN}
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: proxmox
-              port:
-                name: http
-  tls:
-    - hosts:
-      - *host
-      secretName: wildcard-cert-tls
-
