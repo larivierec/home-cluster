@@ -16,6 +16,9 @@ spec:
         namespace: flux-system
 
   values:
+    strategy:
+      type: RollingUpdate
+
     image:
       repository: ghcr.io/angelnu/pod-gateway
       tag: v1.8.1@sha256:690b6365728fe9012ad4cdfca38334992664596513dca187d1b93d2025205776
@@ -31,8 +34,8 @@ spec:
         type: gluetun
         gluetun:
           image:
-            repository: docker.io/qmcgaw/gluetun
-            tag: v3.32.0@sha256:70e2b9fe66941d6de31419c3207b525293f2e6a92a3788869bb337a17e0e5ec8
+            repository: ghcr.io/qdm12/gluetun
+            tag: v3.33.0@sha256:cadc352ebed5988c9fbc750f2759ea703dc7587f969d70342cc5eff05282024b
         env:
         - name:  FIREWALL
           value: "off"
