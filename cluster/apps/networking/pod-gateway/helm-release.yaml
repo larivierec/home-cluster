@@ -31,7 +31,7 @@ spec:
         type: gluetun
         gluetun:
           image:
-            repository: docker.io/qmcgaw/gluetun
+            repository: ghcr.io/gdm12/gluetun
             tag: v3.33.0@sha256:cadc352ebed5988c9fbc750f2759ea703dc7587f969d70342cc5eff05282024b
         env:
         - name:  FIREWALL
