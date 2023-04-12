@@ -22,7 +22,7 @@ spec:
     runtimeClassName: nvidia
     image:
       repository: ghcr.io/blakeblackshear/frigate
-      tag: 0.12.0-rc2-tensorrt
+      tag: 0.12.0-tensorrt
       imagePullPolicy: IfNotPresent
     controller:
       strategy: Recreate
@@ -59,7 +59,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: frigate-config-v1
+        existingClaim: frigate-config
       config:
         enabled: true
         type: configMap
