@@ -17,7 +17,7 @@ spec:
       interval: 5m
   values:
     persistence:
-      defaultClass: false
+      defaultClass: true
       defaultClassReplicaCount: 3
     defaultSettings:
       defaultReplicaCount: 3

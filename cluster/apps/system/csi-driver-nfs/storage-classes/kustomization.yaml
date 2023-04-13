@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - minio.yaml
   - provisions.yaml
-  - local-path-immediate.yaml
