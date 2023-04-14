@@ -148,12 +148,21 @@ data:
 
 # Nodes/Hardware
 
-| Device                    | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose             |
-|---------------------------|-------|--------------|-----------------------------|------|------------------|---------------------|
-| J4125 RS34g               | 1     | 250GB mSATA  | -                           | 16GB | Opnsense 23      | Router              |
-| Beelink U59 N5105         | 3     | 500GB M2 SATA| -                           | 16GB | Ubuntu 22.04     | Kubernetes Masters  |
-| Custom NVIDIA GPU PC      | 1     | 2TB   NVMe   | -                           | 32GB | Ubuntu 22.04     | Kubernetes Workers  |
-| Synology 920+             | 1     | 26TB  HDD    | -                           | 4GB  | DSM 7            | NAS                 |
+|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose             |
+|---------------------------|-------|-------------------------|-----------------------------|------|------------------|---------------------|
+| J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | Opnsense 23      | Router              |
+| Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters  |
+| NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 7.2      | Virtual Machine     |
+| NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 7.2      | Virtual Machine     |
+| Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                 |
+|-------------------------------------------------------------------------------------------------------------------------------------------|
+| VMs                       | Count | Ram         | Operating System  | Purpose                                                             |
+|-------------------------------------------------------------------------------------------------------------------------------------------|
+| k3s-worker-#              | 3     | 12Gi / 8 Gi | Ubuntu 22.04      | Kubernetes Workers                                                  |
+| k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers                                                  |
+|-------------------------------------------------------------------------------------------------------------------------------------------|
+
 
 # Notes
 
@@ -168,7 +177,6 @@ GPU Passthrough
 1. VT-d enabled in motherboard BIOS
 2. Follow instructions here: https://gist.github.com/qubidt/64f617e959725e934992b080e677656f
 3. Add the PCI-E gpu to the VM
-
 4. install
 
 ```bash
@@ -186,6 +194,21 @@ apt-get install \
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
 (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+For Z390 there were no issues.
+For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
+
+See [GPU Passthrough - Workaround](https://forum.proxmox.com/threads/gpu-passthrough-issues-after-upgrade-to-7-2.109051/#post-469855)
+
+```bash
+
+if [ $2 == "pre-start" ]
+then
+    echo "gpu-hookscript: Resetting GPU for Virtual Machine $1"
+    echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
+    echo 1 > /sys/bus/pci/rescan
+fi
+
 ```
 
 ## Beelink nodes
