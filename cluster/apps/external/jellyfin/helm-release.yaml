@@ -69,15 +69,7 @@ spec:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: feature.node.kubernetes.io/pci-0300_10de.present
-                  operator: In
-                  values:
-                    - "true"
+
     persistence:
       config:
         enabled: true
@@ -99,5 +91,7 @@ spec:
       requests:
         cpu: 1000m
         memory: 2Gi
+        nvidia.com/gpu: 1
       limits:
         memory: 10Gi
+        nvidia.com/gpu: 1

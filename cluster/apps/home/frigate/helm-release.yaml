@@ -94,17 +94,11 @@ spec:
       requests:
         cpu: 100m
         memory: 250Mi
+        nvidia.com/gpu: 1
       limits:
         memory: 6Gi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: feature.node.kubernetes.io/pci-0300_10de.present
-                  operator: In
-                  values:
-                    - "true"
+        nvidia.com/gpu: 1
+
   valuesFrom:
     - kind: Secret
       name: frigate
