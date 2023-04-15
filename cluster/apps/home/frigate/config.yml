@@ -6,13 +6,13 @@ mqtt:
   password: "{FRIGATE_MQTT_PASSWORD}"
 
 birdseye:
-  enabled: false
+  enabled: true
 
 database:
   path: /data/frigate.db
 
 ffmpeg:
-  hwaccel_args: preset-nvidia-h264
+  hwaccel_args: preset-nvidia-h265
 
 snapshots:
   enabled: true
