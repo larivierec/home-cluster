@@ -107,9 +107,6 @@ spec:
             gnetId: 14936
             revision: 1
             datasource: Prometheus
-          lidarr:
-            url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
-            datasource: Prometheus
           radarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/radarr.json
             datasource: Prometheus
@@ -131,9 +128,9 @@ spec:
             gnetId: 16612
             revision: 1
             datasource: Prometheus
-          cilium-hubble:
-            gnetId: 16613
-            revision: 1
+          nvidia:
+            gnetId: 12239
+            revision: 2
             datasource: Prometheus
 
       env:

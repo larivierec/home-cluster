@@ -13,7 +13,6 @@ resources:
   - kube-state-metrics-charts.yaml
   - metallb-charts.yaml
   - dashboard-charts.yaml
-  - nvidia-operator-charts.yaml
   - nfs-provisioner-charts.yaml
   - kubereboot-charts.yaml
   - ori-edge-charts.yaml
@@ -25,6 +24,8 @@ resources:
   - openebs-jiva-charts.yaml
   - cloudnative-pg-charts.yaml
   - nvidia-device-plugin-charts.yaml
+  - nvidia-operator-charts.yaml
+  - nvidia-dcgm-charts.yaml
   - angelnu-charts.yaml
   - cilium-charts.yaml
   - longhorn-charts.yaml
