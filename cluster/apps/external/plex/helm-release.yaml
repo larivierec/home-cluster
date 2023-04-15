@@ -102,5 +102,5 @@ spec:
         memory: 2Gi
         nvidia.com/gpu: 1
       limits:
-        memory: 10Gi
+        memory: 6Gi
         nvidia.com/gpu: 1
