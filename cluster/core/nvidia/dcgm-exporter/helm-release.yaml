@@ -22,14 +22,13 @@ spec:
     image:
       repository: nvcr.io/nvidia/k8s/dcgm-exporter
       tag: 3.1.7-3.1.4-ubuntu20.04
-    env:
+    extraEnv:
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     nodeSelector:
       feature.node.kubernetes.io/pci-0300_10de.present: "true"
+    runtimeClassName: nvidia
     resources:
-      requests:
-        nvidia.com/gpu: 1
       limits:
         nvidia.com/gpu: 1
     serviceMonitor:
