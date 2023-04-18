@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: ingress-nginx-charts
+  name: cilium
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://kubernetes.github.io/ingress-nginx
+  url: https://helm.cilium.io
   timeout: 3m

@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: metallb-charts
+  name: ori-edge
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://metallb.github.io/metallb
+  url: https://ori-edge.github.io/k8s_gateway/
   timeout: 3m

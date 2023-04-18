@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: openebs-jiva-charts
+  name: emberstack
   namespace: flux-system
 spec:
-  interval: 30m
-  url: https://openebs.github.io/jiva-operator
+  interval: 1h
+  url: https://emberstack.github.io/helm-charts/
   timeout: 3m

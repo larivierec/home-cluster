@@ -11,7 +11,7 @@ spec:
       interval: 30m
       sourceRef:
         kind: HelmRepository
-        name: cilium-charts
+        name: cilium
         namespace: flux-system
       version: 1.13.1
   interval: 30m

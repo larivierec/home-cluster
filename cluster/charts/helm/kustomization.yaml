@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - coredns-charts.yaml
+  - grafana-charts.yaml
+  - ingress-nginx-charts.yaml
+  - jetstack-charts.yaml
+  - bjw-s-charts.yaml
+  - minio-charts.yaml
+  - prometheus-community-charts.yaml
+  - vmware-tanzu-charts.yaml
+  - kube-state-metrics-charts.yaml
+  - metallb-charts.yaml
+  - dashboard-charts.yaml
+  - nfs-provisioner-charts.yaml
+  - kubereboot-charts.yaml
+  - ori-edge-charts.yaml
+  - stakater-charts.yaml
+  - emberstack-charts.yaml
+  - csi-driver-nfs-charts.yaml
+  - searxng-charts.yaml
+  - kubernetes-sigs-nfd-charts.yaml
+  - openebs-jiva-charts.yaml
+  - cloudnative-pg-charts.yaml
+  - nvidia-device-plugin-charts.yaml
+  - nvidia-operator-charts.yaml
+  - nvidia-dcgm-charts.yaml
+  - angelnu-charts.yaml
+  - cilium-charts.yaml
+  - longhorn-charts.yaml

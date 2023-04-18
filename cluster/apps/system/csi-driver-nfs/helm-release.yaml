@@ -12,7 +12,7 @@ spec:
       version: 4.2.0
       sourceRef:
         kind: HelmRepository
-        name: csi-driver-nfs-charts
+        name: csi-driver-nfs
         namespace: flux-system
   values:
     kubeletDir: /var/lib/kubelet

@@ -11,7 +11,7 @@ spec:
       chart: metallb
       version: 0.13.9
       sourceRef:
-        name: metallb-charts
+        name: metallb
         namespace: flux-system
         kind: HelmRepository
       interval: 5m

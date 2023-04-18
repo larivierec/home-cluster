@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: minio-charts
+  name: coredns
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://operator.min.io
+  url: https://coredns.github.io/helm
   timeout: 3m

@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: emberstack-charts
+  name: metallb
   namespace: flux-system
 spec:
-  interval: 1h
-  url: https://emberstack.github.io/helm-charts/
+  interval: 30m
+  url: https://metallb.github.io/metallb
   timeout: 3m

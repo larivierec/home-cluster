@@ -2,10 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: bitnami-charts
+  name: jetstack
   namespace: flux-system
 spec:
   interval: 30m
-  url: oci://registry-1.docker.io/bitnamicharts
-  type: oci
+  url: https://charts.jetstack.io/
   timeout: 3m

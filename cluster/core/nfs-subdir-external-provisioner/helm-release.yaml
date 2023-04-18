@@ -14,7 +14,7 @@ spec:
       version: 4.0.18
       sourceRef:
         kind: HelmRepository
-        name: nfs-provisioner-charts
+        name: nfs-provisioner
         namespace: flux-system
       interval: 5m
   values:
