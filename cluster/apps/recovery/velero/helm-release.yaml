@@ -36,7 +36,7 @@ spec:
       fsBackupTimeout: 4h
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.6.1
+        image: velero/velero-plugin-for-aws:v1.7.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
