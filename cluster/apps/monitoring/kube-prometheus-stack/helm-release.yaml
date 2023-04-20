@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 45.15.0
+      version: 45.17.0
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community-charts
+        name: prometheus-community
         namespace: flux-system
       interval: 5m
   values:
