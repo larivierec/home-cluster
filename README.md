@@ -198,6 +198,11 @@ For Z390 there were no issues.
 For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
 
 See [GPU Passthrough - Workaround](https://forum.proxmox.com/threads/gpu-passthrough-issues-after-upgrade-to-7-2.109051/#post-469855)
+Intel I219 passthrough
+
+```bash
+ethtool -K eno1 gso off gro off tso off tx off rx off rxvlan off txvlan off sg off
+```
 
 ```bash
 
