@@ -51,13 +51,13 @@ spec:
             summary: Host out of memory (instance {{ $labels.instance }})
             description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
         - alert: HostAlmostOutOfMemory
-          expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 25
+          expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 15
           for: 1m
           labels:
             severity: warning
           annotations:
             summary: Host almost out of memory (instance {{ $labels.instance }})
-            description: "Node memory is filling up (< 25% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            description: "Node memory is filling up (< 15% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
         - alert: HostHighCpuLoad
           expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
           for: 0m
