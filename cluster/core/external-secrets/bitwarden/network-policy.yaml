@@ -1,0 +1,17 @@
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: bitwarden
+  name: external-secrets-to-bw-cli
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: bitwarden
+      app.kubernetes.io/name: bitwarden
+  ingress:
+  - from:
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/instance: external-secrets
+            app.kubernetes.io/name: external-secrets

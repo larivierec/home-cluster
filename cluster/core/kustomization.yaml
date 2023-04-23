@@ -10,3 +10,4 @@ resources:
   - node-feature-discovery
   - intel-gpu-plugin
   - cilium
+  - external-secrets

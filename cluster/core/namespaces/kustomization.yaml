@@ -18,3 +18,4 @@ resources:
   - mail.yaml
   - system-upgrade.yaml
   - longhorn.yaml
+  - bitwarden.yaml

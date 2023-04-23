@@ -28,3 +28,4 @@ resources:
   - angelnu-charts.yaml
   - cilium-charts.yaml
   - longhorn-charts.yaml
+  - external-secrets-charts.yaml
