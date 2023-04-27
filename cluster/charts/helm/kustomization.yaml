@@ -29,3 +29,4 @@ resources:
   - cilium-charts.yaml
   - longhorn-charts.yaml
   - external-secrets-charts.yaml
+  - bitnami-charts.yaml

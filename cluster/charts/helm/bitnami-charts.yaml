@@ -6,7 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  # https://docs.renovatebot.com/modules/manager/flux/#ocirepository-support
-  type: oci
-  url: oci://registry-1.docker.io/bitnamicharts
+  url: https://charts.bitnami.com/bitnami
   timeout: 3m
