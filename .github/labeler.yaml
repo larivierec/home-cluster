@@ -1,0 +1,7 @@
+---
+area/ci:
+  - ".github/**/*"
+area/kubernetes:
+  - "kubernetes/**/*"
+area/terraform:
+  - "provision/**/*"
