@@ -1,32 +1,32 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - angelnu-charts.yaml
+  - bitnami-charts.yaml
+  - bjw-s-charts.yaml
+  - cilium-charts.yaml
+  - cloudnative-pg-charts.yaml
   - coredns-charts.yaml
+  - csi-driver-nfs-charts.yaml
+  - dashboard-charts.yaml
+  - emberstack-charts.yaml
+  - external-secrets-charts.yaml
   - grafana-charts.yaml
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
-  - bjw-s-charts.yaml
-  - minio-charts.yaml
-  - prometheus-community-charts.yaml
-  - vmware-tanzu-charts.yaml
   - kube-state-metrics-charts.yaml
-  - metallb-charts.yaml
-  - dashboard-charts.yaml
-  - nfs-provisioner-charts.yaml
   - kubereboot-charts.yaml
-  - ori-edge-charts.yaml
-  - stakater-charts.yaml
-  - emberstack-charts.yaml
-  - csi-driver-nfs-charts.yaml
-  - searxng-charts.yaml
   - kubernetes-sigs-nfd-charts.yaml
-  - openebs-jiva-charts.yaml
-  - cloudnative-pg-charts.yaml
+  - longhorn-charts.yaml
+  - metallb-charts.yaml
+  - minio-charts.yaml
+  - nfs-provisioner-charts.yaml
+  - nvidia-dcgm-charts.yaml
   - nvidia-device-plugin-charts.yaml
   - nvidia-operator-charts.yaml
-  - nvidia-dcgm-charts.yaml
-  - angelnu-charts.yaml
-  - cilium-charts.yaml
-  - longhorn-charts.yaml
-  - external-secrets-charts.yaml
-  - bitnami-charts.yaml
+  - openebs-jiva-charts.yaml
+  - ori-edge-charts.yaml
+  - prometheus-community-charts.yaml
+  - searxng-charts.yaml
+  - stakater-charts.yaml
+  - vmware-tanzu-charts.yaml
