@@ -6,7 +6,6 @@ resources:
   - bjw-s-charts.yaml
   - cilium-charts.yaml
   - cloudnative-pg-charts.yaml
-  - coredns-charts.yaml
   - csi-driver-nfs-charts.yaml
   - dashboard-charts.yaml
   - emberstack-charts.yaml
@@ -24,7 +23,6 @@ resources:
   - nvidia-dcgm-charts.yaml
   - nvidia-device-plugin-charts.yaml
   - nvidia-operator-charts.yaml
-  - openebs-jiva-charts.yaml
   - ori-edge-charts.yaml
   - prometheus-community-charts.yaml
   - searxng-charts.yaml
