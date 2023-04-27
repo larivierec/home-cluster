@@ -23,9 +23,9 @@ spec:
       extraEnvVars:
         TZ: "UTC"
         MINIO_LOG_LEVEL: "DEBUG"
-      provider: aws
       backupStorageLocation:
-        name: default
+      - name: default
+        provider: aws
         bucket: velero
         default: true
         config:
