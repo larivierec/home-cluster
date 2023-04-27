@@ -132,6 +132,18 @@ cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
 --from-file=age.agekey=/dev/stdin
+
+3. Add these secrets
+
+flux create secret ghcr-auth \
+  --url=ghcr.io \
+  --username=flux \
+  --password=${GITHUB_PAT}
+
+flux create secret oci dockerio-auth \
+  --url=registry-1.docker.io \
+  --username=<username> \
+  --password=<password>
 ```
 
 3. Ensure you use this `sops-age` secret for decrypting.

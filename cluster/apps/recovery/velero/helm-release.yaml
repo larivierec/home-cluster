@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: velero
-      version: 3.2.0
+      version: 4.0.1
       sourceRef:
         kind: HelmRepository
         name: vmware-tanzu
@@ -23,16 +23,16 @@ spec:
       extraEnvVars:
         TZ: "UTC"
         MINIO_LOG_LEVEL: "DEBUG"
-      provider: aws
       backupStorageLocation:
-        name: default
-        bucket: velero
-        default: true
-        config:
-          region: us-east-1
-          s3ForcePathStyle: true
-          s3Url: "http://minio.system.svc:9000"
-          publicUrl: https://s3.${SECRET_DOMAIN}
+        - name: default
+          provider: aws
+          bucket: velero
+          default: true
+          config:
+            region: us-east-1
+            s3ForcePathStyle: true
+            s3Url: "http://minio.system.svc:9000"
+            publicUrl: https://s3.${SECRET_DOMAIN}
       fsBackupTimeout: 4h
     initContainers:
       - name: velero-plugin-for-aws
