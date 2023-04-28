@@ -1,0 +1,12 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: opnsense
+  namespace: kube-system
+spec:
+  virtualRouters:
+    - localASN: 65400
+      neighbors:
+        - peerASN: 65401
+          peerAddress: 192.168.42.1/32

@@ -1,3 +1,5 @@
+bgpControlPlane:
+  enabled: true
 cluster:
   name: k3s
 containerRuntime:
