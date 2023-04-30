@@ -55,6 +55,8 @@ spec:
     ingressController:
       enabled: true
       loadbalancerMode: shared
+      service:
+        loadBalancerClass: cilium
     autoDirectNodeRoutes: true
     ipam:
       mode: kubernetes

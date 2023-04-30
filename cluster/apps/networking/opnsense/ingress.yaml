@@ -3,11 +3,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    io.cilium/lb-ipam-ips: "192.168.42.10"
   name: opnsense
   namespace: networking
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: cilium
   rules:
   - host: &host opnsense.${SECRET_DOMAIN}
     http:
@@ -28,11 +28,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    io.cilium/lb-ipam-ips: "192.168.42.10"
   name: apiserver
   namespace: networking
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: cilium
   rules:
   - host: &host apiserver.${SECRET_DOMAIN}
     http:

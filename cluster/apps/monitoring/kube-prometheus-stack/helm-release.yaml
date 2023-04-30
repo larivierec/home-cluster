@@ -58,7 +58,9 @@ spec:
         - secretName: wildcard-cert-tls
           hosts:
           - "alertmanager.${SECRET_DOMAIN}"
-        ingressClassName: nginx-internal
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.42.10"
+        ingressClassName: cilium
     grafana:
       enabled: true
       plugins:
@@ -146,7 +148,9 @@ spec:
           - secretName: wildcard-cert-tls
             hosts: 
               - *hostGrafana
-        ingressClassName: nginx-internal
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.42.10"
+        ingressClassName: cilium
     kubelet:
       enabled: true
     kubeApiServer:
@@ -206,7 +210,9 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *hostPrometheus
-        ingressClassName: nginx-internal
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.42.10"
+        ingressClassName: cilium
       additionalDatasources:
         - name: blocky-redis
           type: standalone

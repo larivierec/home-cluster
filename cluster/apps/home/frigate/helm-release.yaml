@@ -39,11 +39,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
         annotations:
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
-          external-dns.alpha.kubernetes.io/hostname: "frigate.${SECRET_DOMAIN}"
+          io.cilium/lb-ipam-ips: "192.168.42.10"
+        ingressClassName: cilium
         hosts:
           - host: &host "frigate.${SECRET_DOMAIN}"
             paths:
