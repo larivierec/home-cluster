@@ -108,7 +108,7 @@ spec:
                 - https://protected.canadianshield.cira.ca/dns-query
 
 
-            upstreamTimeout: 5
+            upstreamTimeout: 2s
 
             conditional:
               mapping:
@@ -169,6 +169,7 @@ spec:
               prefetching: true
               minTime: 5m
               maxTime: 5m
+              cacheTimeNegative: -1
 
             prometheus:
               enable: true
