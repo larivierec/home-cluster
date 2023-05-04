@@ -5,9 +5,9 @@ metadata:
   name: opnsense
   namespace: networking
   annotations:
-    io.cilium/lb-ipam-ips: "192.168.42.10"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx-internal
   rules:
   - host: &host opnsense.${SECRET_DOMAIN}
     http:
@@ -29,10 +29,8 @@ kind: Ingress
 metadata:
   name: apiserver
   namespace: networking
-  annotations:
-    io.cilium/lb-ipam-ips: "192.168.42.10"
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx-internal
   rules:
   - host: &host apiserver.${SECRET_DOMAIN}
     http:
