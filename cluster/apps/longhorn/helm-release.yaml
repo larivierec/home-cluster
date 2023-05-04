@@ -30,4 +30,4 @@ spec:
       host: longhorn.${SECRET_DOMAIN}
       tls: true
       tlsSecret: wildcard-cert-tls
-      secureBackends: true
+      secureBackends: false
