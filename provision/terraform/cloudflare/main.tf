@@ -11,19 +11,19 @@ module "dns_records" {
   }
 
   cname_records = {
-    "wireguard" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]), ttl = "1", proxied = false},
-    "protonmail._domainkey" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_1"]), ttl = "1", proxied = false},
-    "protonmail2._domainkey" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_2"]), ttl = "1", proxied = false},
-    "protonmail3._domainkey" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_3"]), ttl = "1", proxied = false},
+    "wireguard"              = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]), ttl = "1", proxied = false },
+    "protonmail._domainkey"  = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_1"]), ttl = "1", proxied = false },
+    "protonmail2._domainkey" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_2"]), ttl = "1", proxied = false },
+    "protonmail3._domainkey" = { cname = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_KEY_3"]), ttl = "1", proxied = false },
   }
 
   mx_records = {
     nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]) = {
-      ttl = "300" 
+      ttl = "300"
       records = [
-          { priority = 10, address = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_MX_1"]) },
-          { priority = 20, address = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_MX_2"]) },
-        ]
+        { priority = 10, address = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_MX_1"]) },
+        { priority = 20, address = nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_MX_2"]) },
+      ]
     }
   }
 
@@ -31,13 +31,13 @@ module "dns_records" {
     nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]) = { records = [
       nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_TXT_1"]),
       nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_DATA"]),
-    ], ttl = "300"},
-    "_dmarc" = { records = [nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_DMARC"])], ttl = "1"},
+    ], ttl = "300" },
+    "_dmarc" = { records = [nonsensitive(data.sops_file.cloudflare_secrets.data["SECRET_MX_DOMAIN_DMARC"])], ttl = "1" },
   }
 }
 
 data "http" "ip_address" {
-  url = "https://api64.ipify.org"
+  url = "https://ddns.${data.sops_file.cloudflare_secrets.data["SECRET_DOMAIN"]}/v1/get"
 }
 
 data "sops_file" "cloudflare_secrets" {
