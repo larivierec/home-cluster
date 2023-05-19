@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/larivierec/cloudflare-ddns
-      tag: v0.0.5
+      tag: v0.0.6
     args:
       - --zone-name
       - ${SECRET_DOMAIN}
@@ -30,7 +30,26 @@ spec:
       main:
         ports:
           http:
+            port: 9000
+          health:
             port: 8080
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+          external-dns.alpha.kubernetes.io/target: "${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+        ingressClassName: nginx
+        hosts:
+          - host: &host "ddns.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     probes:
       liveness:
         enabled: true
@@ -38,14 +57,14 @@ spec:
         spec:
           httpGet:
             path: /health/alive
-            port: 8080
+            port: health
       readiness:
         enabled: true
         custom: true
         spec:
           httpGet:
             path: /health/ready
-            port: 8080
+            port: health
     resources:
       requests:
         memory: 64Mi
