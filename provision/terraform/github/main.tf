@@ -4,7 +4,7 @@ module "home-ops" {
 
   name        = "home-cluster"
   description = "k3s cluster using gitops (flux) and renovate automation"
-  topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "nvidia-docker", "k3s"]
+  topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "nvidia-docker", "k3s", "bitwarden"]
   visibility  = "public"
 
   auto_init              = true
@@ -19,7 +19,7 @@ module "home-ops" {
   is_template  = false
 
   plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = data.sops_file.this.data["SECRET_BOT_APP_ID"]
+    "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
     "RIVERBOT_APP_PRIVATE_KEY" = data.sops_file.this.data["SECRET_BOT_PRIVATE_KEY"]
   }
 
