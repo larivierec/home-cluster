@@ -1,7 +1,7 @@
 
 data "cloudflare_zone" "default" {
   account_id = cloudflare_account.this.id
-  name       = data.sops_file.this.data["SECRET_DOMAIN"]
+  name       = lookup(local.cloudflare_secrets, "domain").text
 }
 
 resource "cloudflare_zone_settings_override" "cloudflare_settings" {
