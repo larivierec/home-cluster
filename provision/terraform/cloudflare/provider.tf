@@ -19,10 +19,33 @@ terraform {
       source  = "carlpett/sops"
       version = "0.7.2"
     }
+    bitwarden = {
+      source  = "maxlaverse/bitwarden"
+      version = ">= 0.6.0"
+    }
   }
 }
 
 provider "cloudflare" {
-  email   = data.sops_file.cloudflare_secrets.data["SECRET_EMAIL"]
-  api_key = data.sops_file.cloudflare_secrets.data["SECRET_CLOUDFLARE_API_KEY"]
+  email   = lookup(local.cloudflare_secrets, "email").text
+  api_key = lookup(local.cloudflare_secrets, "cloudflare_api_key").text
+}
+
+provider "bitwarden" {
+  master_password = data.sops_file.this.data["SECRET_PASSWORD"]
+  client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
+  client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
+  email           = data.sops_file.this.data["SECRET_EMAIL"]
+  server          = "https://vault.bitwarden.com"
+}
+
+data "bitwarden_item_login" "cloudflare_secrets" {
+  id = "1698e91f-dc8b-494b-bea9-b00a016f98cb"
+}
+
+locals {
+  cloudflare_secrets = zipmap(
+    data.bitwarden_item_login.cloudflare_secrets.field.*.name,
+    data.bitwarden_item_login.cloudflare_secrets.field.*
+  )
 }

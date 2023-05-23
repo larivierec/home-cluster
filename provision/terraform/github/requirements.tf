@@ -15,5 +15,9 @@ terraform {
       source  = "carlpett/sops"
       version = "0.7.2"
     }
+    bitwarden = {
+      source  = "maxlaverse/bitwarden"
+      version = ">= 0.6.0"
+    }
   }
 }
