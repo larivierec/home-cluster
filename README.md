@@ -87,7 +87,7 @@ helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium -f cluster/core/cilium/bootstrap/values.yaml --namespace kube-system
 ```
 
-## Cilium CNI -- Note
+## Cilium CNI - Note
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
 
@@ -123,7 +123,7 @@ flux bootstrap github \
   --personal
 ```
 
-2. Install the sops secret either gpg or age [sops age](https://fluxcd.io/docs/guides/mozilla-sops/#encrypting-secrets-using-age)
+2. Install the sops secret either age [sops age](https://fluxcd.io/docs/guides/mozilla-sops/#encrypting-secrets-using-age)
 
 ```bash
 age-keygen -o age.agekey
@@ -145,6 +145,13 @@ flux create secret oci dockerio-auth \
   --username=<username> \
   --password=<password>
 ```
+
+SOPS is only used to create the helm-release required for bitwarden and external-secrets.
+Previously, it was used throughout the repository however, with external-secrets bitwarden and webhooks, we're able to remove this dependency slightly.
+
+External-Secrets uses bitwarden-cli container to retrieve my vault items and creates kubernetes secrets with them. Since `external-secrets` doesn't use the bitwarden API directly, we have to use a container with the cli and webhooks.
+
+Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `cluster/core/bitwarden/network-policy.yaml`
 
 3. Ensure you use this `sops-age` secret for decrypting.
 

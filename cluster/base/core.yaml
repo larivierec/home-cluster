@@ -8,7 +8,6 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: charts
-    - name: secrets
     - name: crds
   path: ./cluster/core
   prune: false

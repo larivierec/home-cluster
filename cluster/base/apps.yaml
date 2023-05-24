@@ -7,17 +7,13 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-    - name: secrets
     - name: core
+    - name: secrets
   path: ./cluster/apps
   prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   postBuild:
     substitute: {}
     substituteFrom:
