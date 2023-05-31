@@ -20,3 +20,6 @@ spec:
       enabled: true
     prometheusRule:
       enabled: true
+    speaker:
+      frr:
+        enabled: false
