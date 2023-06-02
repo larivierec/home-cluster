@@ -15,6 +15,7 @@
       "matchPackageNames": [
         "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
+        "ghcr.io/larivierec/bitwarden-cli",
         "ghcr.io/onedr0p/sonarr-develop",
         "ghcr.io/onedr0p/radarr-develop"
       ]
