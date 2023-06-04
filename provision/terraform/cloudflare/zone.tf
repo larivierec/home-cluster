@@ -44,26 +44,22 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
   }
 }
 
-resource "cloudflare_filter" "block_bots" {
-  zone_id    = data.cloudflare_zone.default.zone_id
-  expression = "(cf.client.bot and not http.user_agent contains \"UptimeRobot\")"
-}
+resource "cloudflare_ruleset" "this" {
+  zone_id = data.cloudflare_zone.default.zone_id
+  kind    = "zone"
+  name    = "WAF rules"
+  phase   = "http_request_firewall_custom"
+  rules {
+    action      = "block"
+    description = "block countries"
+    expression  = "(ip.geoip.country ne \"US\" and ip.geoip.country ne \"CA\")"
+  }
 
-resource "cloudflare_filter" "block_countries" {
-  zone_id    = data.cloudflare_zone.default.zone_id
-  expression = "(ip.geoip.country ne \"US\" and ip.geoip.country ne \"CA\")"
-}
-
-resource "cloudflare_firewall_rule" "block_countries" {
-  zone_id   = data.cloudflare_zone.default.zone_id
-  filter_id = cloudflare_filter.block_countries.id
-  action    = "block"
-}
-
-resource "cloudflare_firewall_rule" "block_bots" {
-  zone_id   = data.cloudflare_zone.default.zone_id
-  filter_id = cloudflare_filter.block_bots.id
-  action    = "block"
+  rules {
+    action      = "block"
+    description = "block bots"
+    expression  = "(cf.client.bot and not http.user_agent contains \"UptimeRobot\")"
+  }
 }
 
 resource "cloudflare_zone_dnssec" "ds" {
