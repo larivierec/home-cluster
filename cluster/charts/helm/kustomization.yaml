@@ -9,6 +9,7 @@ resources:
   - csi-driver-nfs-charts.yaml
   - dashboard-charts.yaml
   - emberstack-charts.yaml
+  - external-dns-charts.yaml
   - external-secrets-charts.yaml
   - grafana-charts.yaml
   - ingress-nginx-charts.yaml
