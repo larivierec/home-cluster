@@ -21,16 +21,11 @@ spec:
     provider: cloudflare
 
     env:
-      - name: CF_API_EMAIL
+      - name: CF_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: cloudflare-creds
-            key: SECRET_EMAIL
-      - name: CF_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: cloudflare-creds
-            key: SECRET_CLOUDFLARE_API_KEY
+            key: SECRET_CLOUDFLARE_API_TOKEN
 
     extraArgs:
       - --cloudflare-proxied
