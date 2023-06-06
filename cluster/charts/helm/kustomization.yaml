@@ -12,6 +12,7 @@ resources:
   - external-dns-charts.yaml
   - external-secrets-charts.yaml
   - grafana-charts.yaml
+  - hajimari-charts.yaml
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
   - kube-state-metrics-charts.yaml
