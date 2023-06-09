@@ -60,6 +60,12 @@ resource "cloudflare_ruleset" "this" {
     description = "block bots"
     expression  = "(cf.client.bot and not http.user_agent contains \"UptimeRobot\")"
   }
+
+  rules {
+    action      = "block"
+    description = "block plex notifications"
+    expression  = "(http.host eq \"plex.${data.cloudflare_zone.default.name}\" and http.request.uri.path contains \"/:/eventsource/notifications\")"
+  }
 }
 
 resource "cloudflare_zone_dnssec" "ds" {
