@@ -14,6 +14,12 @@ data:
     credentials-file: /etc/cloudflared/creds.json
     no-autoupdate: true
     ingress:
+    - hostname: ${SECRET_DOMAIN}
+      service: https://ingress-nginx-controller.ingress.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
     - hostname: "*.${SECRET_DOMAIN}"
-      service: http://ingress-ingress-nginx-controller.networking
+      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
     - service: http_status:404

@@ -5,6 +5,9 @@ metadata:
   name: cloudflared
   namespace: networking
 spec:
+  dependsOn:
+  - name: ingress
+    namespace: ingress
   interval: 5m
   chart:
     spec:
