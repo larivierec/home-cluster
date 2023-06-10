@@ -3,3 +3,12 @@ resource "cloudflare_tunnel" "this" {
   name       = "k3s-tunnel"
   secret     = lookup(local.cloudflare_secrets, "cloudflared_pw").text
 }
+
+resource "cloudflare_record" "tunnel-ingress" {
+  name    = "ingress"
+  type    = "CNAME"
+  zone_id = data.cloudflare_zone.default.zone_id
+  proxied = true
+  value   = cloudflare_tunnel.this.cname
+  comment = "Created via Terraform"
+}
