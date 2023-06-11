@@ -10,9 +10,16 @@ metadata:
     reloader.stakater.com/match: "true"
 data:
   config.yaml: |
+    ---
     tunnel: ${SECRET_CLOUDFLARE_TUNNEL}
+    
     credentials-file: /etc/cloudflared/creds.json
+    
+    originRequest:
+      http2Origin: true
+    
     no-autoupdate: true
+    
     ingress:
     - hostname: ${SECRET_DOMAIN}
       service: https://ingress-nginx-controller.ingress.svc.cluster.local:443
