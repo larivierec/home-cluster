@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/larivierec/cloudflare-ddns
-      tag: v0.0.7
+      tag: v0.0.8
     args:
       - --zone-name
       - ${SECRET_DOMAIN}
