@@ -66,7 +66,7 @@ spec:
     kubectl:
       image:
         repository: ghcr.io/onedr0p/kubernetes-kubectl
-        tag: 1.27.2@sha256:86255d3ed5d85686d59444f5fc042bf56bf434c3ad4efe04f532c36326791243
+        tag: 1.27.3@sha256:cebe99354032fffb8b617c6c26f6d5e7086db76b1e21b5eb10a75226248f48b3
     resources:
       requests:
         memory: 300Mi
