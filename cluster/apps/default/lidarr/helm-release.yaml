@@ -21,7 +21,7 @@ spec:
       strategy: Recreate
     image:
       repository: ghcr.io/onedr0p/lidarr
-      tag: 1.1.4.3027@sha256:42e7266cadf9be74f89f64c19c933de1049c5559af9c1f1b685b0df93641fdb8
+      tag: 1.1.4.3027@sha256:f8202155107a5a4624e9f5f1a75e82852b19beca0e8aa9e53136bb817c7c69ba
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
