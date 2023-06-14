@@ -42,7 +42,7 @@ spec:
         annotations:
           io.cilium/lb-ipam-ips: "192.168.42.10"
           hajimari.io/icon: icon-park-solid:surveillance-cameras 
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
         hosts:
           - host: &host "frigate.${SECRET_DOMAIN}"
             paths:

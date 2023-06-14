@@ -9,3 +9,4 @@ resources:
   - databases
   - unifi
   - omada
+  - vaultwarden

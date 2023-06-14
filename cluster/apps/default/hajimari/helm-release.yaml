@@ -122,7 +122,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
         annotations:
           hajimari.io/enable: "false"
           io.cilium/lb-ipam-ips: "192.168.42.10"
