@@ -22,7 +22,7 @@ spec:
       unavailable: 1
     image:
       repository: ghcr.io/sct/overseerr
-      tag: 1.32.5
+      tag: 1.33.0
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
