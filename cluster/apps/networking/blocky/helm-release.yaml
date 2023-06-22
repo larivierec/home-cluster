@@ -120,7 +120,7 @@ spec:
               - 1.1.1.1
 
             redis:
-              address: redis-headless.system.svc:6379
+              address: redis-headless.database.svc:6379
               database: 2
               required: true
               connectionAttempts: 10

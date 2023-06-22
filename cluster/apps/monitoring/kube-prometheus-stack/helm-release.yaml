@@ -82,7 +82,7 @@ spec:
         - name: redis-db
           uid: redis-db
           type: redis-datasource
-          url: redis://redis-headless.system.svc:6379/
+          url: redis://redis-headless.database.svc:6379/
           access: proxy
           orgId: 1
           editable: false

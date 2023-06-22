@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - cert-manager.yaml
   - default.yaml
+  - database.yaml
   - flux-system.yaml
   - ingress.yaml
   - kube-node-lease.yaml
