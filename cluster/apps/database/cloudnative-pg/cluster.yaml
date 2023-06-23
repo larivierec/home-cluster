@@ -32,11 +32,11 @@ spec:
       serverName: "postgres-v2"
       s3Credentials:
         accessKeyId:
-          name: postgres-minio
-          key: MINIO_ACCESS_KEY
+          name: postgres-superuser
+          key: username
         secretAccessKey:
-          name: postgres-minio
-          key: MINIO_SECRET_KEY
+          name: postgres-superuser
+          key: password
   externalClusters:
     - name: postgres-backup
       barmanObjectStore:
@@ -48,8 +48,8 @@ spec:
         serverName: "postgres-v1"
         s3Credentials:
           accessKeyId:
-            name: postgres-minio
-            key: MINIO_ACCESS_KEY
+            name: postgres-superuser
+            key: username
           secretAccessKey:
-            name: postgres-minio
-            key: MINIO_SECRET_KEY
+            name: postgres-superuser
+            key: password

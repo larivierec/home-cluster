@@ -6,7 +6,6 @@ resources:
   - stakater
   - reflector
   - minio
-  - databases
   - unifi
   - omada
   - vaultwarden
