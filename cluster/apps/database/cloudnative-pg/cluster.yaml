@@ -33,10 +33,10 @@ spec:
       s3Credentials:
         accessKeyId:
           name: postgres-superuser
-          key: username
+          key: minio_s3_access_key
         secretAccessKey:
           name: postgres-superuser
-          key: password
+          key: minio_s3_secret_access_key
   externalClusters:
     - name: postgres-backup
       barmanObjectStore:
@@ -49,7 +49,7 @@ spec:
         s3Credentials:
           accessKeyId:
             name: postgres-superuser
-            key: username
+            key: minio_s3_access_key
           secretAccessKey:
             name: postgres-superuser
-            key: password
+            key: minio_s3_secret_access_key
