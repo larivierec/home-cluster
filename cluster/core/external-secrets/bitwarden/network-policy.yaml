@@ -6,7 +6,8 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: external-secrets
+      app.kubernetes.io/instance: external-secrets
+      app.kubernetes.io/name: external-secrets
   ingress:
     - fromEndpoints:
         - matchLabels:
