@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jellyfin-cluster
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    runtimeClassName: nvidia
+
+    image:
+      repository: jellyfin/jellyfin
+      tag: 10.8.10
+
+    controller:
+      strategy: Recreate
+
+    env:
+      TZ: "UTC"
+      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_VISIBLE_DEVICES: all
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8096
+
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      supplementalGroups:
+        - 44
+        - 109
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          hajimari.io/icon: "simple-icons:jellyfin"
+          external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        hosts:
+          - host: &host "jellyfin.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: jellyfin
+                    port:
+                      number: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: jellyfin-longhorn
+      media:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "192.168.1.5"
+            path: /volume2/media-sp2
+        mountPath: /media
+        readOnly: true
+      tmp:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+        nvidia.com/gpu: 1
+      limits:
+        memory: 6Gi
+        nvidia.com/gpu: 1
