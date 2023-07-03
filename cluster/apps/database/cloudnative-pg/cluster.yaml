@@ -12,9 +12,9 @@ spec:
     storageClass: longhorn
   superuserSecret:
     name: postgres-superuser
-  bootstrap:
-    recovery:
-      source: postgres-backup
+  # bootstrap:
+  #   recovery:
+  #     source: postgres-backup
   postgresql:
     parameters:
       max_connections: "800"
@@ -27,7 +27,7 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://postgresql/
+      destinationPath: s3://pgsql/
       endpointURL: http://minio.system.svc:9000
       serverName: "postgres-v2"
       s3Credentials:
@@ -37,19 +37,19 @@ spec:
         secretAccessKey:
           name: postgres-superuser
           key: minio_s3_secret_access_key
-  externalClusters:
-    - name: postgres-backup
-      barmanObjectStore:
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: s3://postgresql/
-        endpointURL: http://minio.system.svc:9000
-        serverName: "postgres-v1"
-        s3Credentials:
-          accessKeyId:
-            name: postgres-superuser
-            key: minio_s3_access_key
-          secretAccessKey:
-            name: postgres-superuser
-            key: minio_s3_secret_access_key
+  # externalClusters:
+  #   - name: postgres-backup
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: s3://pgsql/
+  #       endpointURL: http://minio.system.svc:9000
+  #       serverName: "postgres-v1"
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: postgres-superuser
+  #           key: minio_s3_access_key
+  #         secretAccessKey:
+  #           name: postgres-superuser
+  #           key: minio_s3_secret_access_key

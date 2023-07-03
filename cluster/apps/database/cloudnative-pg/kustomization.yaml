@@ -5,4 +5,5 @@ resources:
   - external-secret.yaml
   - helm-release.yaml
   - cluster.yaml
+  - service.yaml
   - backup.yaml
