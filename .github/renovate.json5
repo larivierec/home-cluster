@@ -43,13 +43,13 @@
   },
   "flux": {
     "fileMatch": [
-      "cluster/.+\\.ya?ml$"
+      "kubernetes/.+\\.ya?ml$"
     ]
   },
   "regexManagers": [
     {
       "description": "Process CRD dependencies",
-      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
+      "fileMatch": ["kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
         // GitRepository where 'Git release/tag' matches 'Helm' version, used when crds are in a folder
         "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",

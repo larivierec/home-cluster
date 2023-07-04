@@ -2,6 +2,6 @@
 area/ci:
   - ".github/**/*"
 area/kubernetes:
-  - "cluster/**/*"
+  - "kubernetes/**/*"
 area/terraform:
-  - "provision/**/*"
+  - "infrastructure/**/*"
