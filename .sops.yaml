@@ -1,11 +1,11 @@
 ---
 creation_rules:
-  - path_regex: provision/.*\.ya?ml
+  - path_regex: infrastructure/.*\.ya?ml
     unencrypted_regex: "^(kind)$"
     key_groups:
       - age:
         - age19mhznjzteas7egvnszjxr0msdd667sezwaz978562q4r30xsjvuqjfve3x
-  - path_regex: cluster/.*\.ya?ml
+  - path_regex: kubernetes/.*\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     key_groups:
       - age:

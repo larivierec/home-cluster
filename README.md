@@ -80,11 +80,11 @@ curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 cilium install
 ```
 
-4. I recommend to use bootstrap values from cluster/core/cilium/bootstrap/values.yaml
+4. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
 
 ```bash
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium -f cluster/core/cilium/bootstrap/values.yaml --namespace kube-system
+helm install cilium cilium/cilium -f kubernetes/core/cilium/bootstrap/values.yaml --namespace kube-system
 ```
 
 ## Cilium CNI - Note
@@ -151,7 +151,7 @@ Previously, it was used throughout the repository however, with external-secrets
 
 External-Secrets uses bitwarden-cli container to retrieve my vault items and creates kubernetes secrets with them. Since `external-secrets` doesn't use the bitwarden API directly, we have to use a container with the cli and webhooks.
 
-Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `cluster/core/bitwarden/network-policy.yaml`
+Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `kubernetes/core/bitwarden/network-policy.yaml`
 
 3. Ensure you use this `sops-age` secret for decrypting.
 
