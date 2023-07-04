@@ -33,35 +33,31 @@
     "ghcr.io/fluxcd/source-controller"
   ],
   "helm-values": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"],
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"],
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
   "terraform": {
-    "fileMatch": ["provision/.+\\.tf$"],
+    "fileMatch": ["infrastructure/.+\\.tf$"],
   },
   "flux": {
     "fileMatch": [
-      "cluster/.+\\.ya?ml$"
+      "kubernetes/.+\\.ya?ml$"
     ]
   },
   "regexManagers": [
     {
-      "description": "Process CRD dependencies",
-      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
+      "description": "Process dependencies",
+      "fileMatch": ["kubernetes/.+\\.ya?ml$"],
       "matchStrings": [
-        // GitRepository where 'Git release/tag' matches 'Helm' version, used when crds are in a folder
-        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
-        // GitRepository where 'Git release/tag' matches 'Helm' version, used for when crd is a file
-        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n *#?- https:\\/\\/raw.githubusercontent.com\\/([\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*\n",
-        "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
-        // Kustomization where 'GitHub release artifact URL' matches 'Docker image' version
-        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n",
-        // Kustomization where 'GitHub release artifact URL' matches 'Docker image' version
-        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n *#?- https:\\/\\/raw.githubusercontent.com\\/([\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*\n"
+        // Example: `k3s_release_version: "v1.27.3+k3s1"`
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n",
+        // Example: `- https://github.com/rancher/system-upgrade-controller/releases/download/v0.11.0/crd.yaml`
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}"
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ],
   "packageRules": [
