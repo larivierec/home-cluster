@@ -6,15 +6,11 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/instance: external-secrets
-      app.kubernetes.io/name: external-secrets
+      app.kubernetes.io/instance: bitwarden
+      app.kubernetes.io/name: bitwarden
   ingress:
     - fromEndpoints:
         - matchLabels:
-            app.kubernetes.io/instance: "external-secrets"
-            app.kubernetes.io/name: "external-secrets"
-  egress:
-    - toEndpoints:
-        - matchLabels:
-            app.kubernetes.io/instance: "bitwarden"
-            app.kubernetes.io/name: "bitwarden"
+            app.kubernetes.io/instance: external-secrets
+            app.kubernetes.io/name: external-secrets
+            k8s:io.kubernetes.pod.namespace: kube-system
