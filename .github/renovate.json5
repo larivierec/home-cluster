@@ -1,12 +1,15 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>larivierec/home-cluster//.github/renovate/autoMerge",
-    "github>larivierec/home-cluster//.github/renovate/disabledDatasources",
+    "github>larivierec/home-cluster//.github/renovate/autoMerge.json5",
+    "github>larivierec/home-cluster//.github/renovate/disabledDatasources.json5",
+    "github>larivierec/home-cluster//.github/renovate/groups.json5",
     ":enableRenovate",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":automergeDigest",
     ":semanticCommits",
+    "docker:enableMajor",
     "config:base"
   ],
   "username": "theriver-bot[bot]",
@@ -24,14 +27,6 @@
   "requireConfig": "optional",
   "onboarding": false,
   "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
-  "ignoreDeps": [
-    "ghcr.io/fluxcd/helm-controller",
-    "ghcr.io/fluxcd/image-automation-controller",
-    "ghcr.io/fluxcd/image-reflector-controller",
-    "ghcr.io/fluxcd/kustomize-controller",
-    "ghcr.io/fluxcd/notification-controller",
-    "ghcr.io/fluxcd/source-controller"
-  ],
   "helm-values": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
