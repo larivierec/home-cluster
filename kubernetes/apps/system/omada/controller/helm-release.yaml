@@ -22,7 +22,7 @@ spec:
     env:
       TZ: "America/New_York"
       MANAGE_HTTP_PORT: "8088"
-      MANAGE_HTTPS_PORT: "8043"
+      MANAGE_HTTPS_PORT: &port 8043
       PORTAL_HTTP_PORT: "8088"
       PORTAL_HTTPS_PORT: "8843"
       SHOW_SERVER_LOGS: "true"
@@ -55,17 +55,14 @@ spec:
         enabled: true
         ports:
           http:
-            enabled: true
-            port: 8043
-            targetPort: 8043
-            protocol: TCP
+            port: *port
       controller:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Local
         annotations:
           coredns.io/hostname: "omada-controller.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "192.168.42.8"
+          # io.cilium/lb-ipam-ips: "192.168.42.8"
           metallb.universe.tf/allow-shared-ip: default-lb
           metallb.universe.tf/loadBalancerIPs: "192.168.42.8"
         ports:
@@ -74,11 +71,6 @@ spec:
             port: 8088
             targetPort: 8088
             protocol: TCP
-          mgmt-8043-tcp:
-            enabled: true
-            port: 8043
-            protocol: TCP
-            targetPort: 8043
           portal-8843-tcp:
             enabled: true
             port: 8843
@@ -94,6 +86,16 @@ spec:
             port: 29814
             protocol: TCP
             targetPort: 29814
+          eap-transfer-v2: # Starting from v5.9, Omada Controller receives Device Info and Packet Capture files from the Omada devices.
+            enabled: true
+            port: 29815
+            targetPort: 29815
+            protocol: TCP
+          eap-rtty: # Starting from v5.9, Omada Controller establishes the remote control terminal session with the Omada devices.
+            enabled: true
+            port: 29816
+            targetPort: 29816
+            protocol: TCP
           init-check:
             enabled: true
             port: 27001

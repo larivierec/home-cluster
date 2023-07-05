@@ -17,7 +17,7 @@ spec:
   interval: 30m
   values:
     bgpControlPlane:
-      enabled: true
+      enabled: false
     cluster:
       name: k3s
     containerRuntime:
@@ -53,7 +53,7 @@ spec:
               secretName: wildcard-cert-tls
         rollOutPods: true
     ingressController:
-      enabled: true
+      enabled: false
       loadbalancerMode: shared
     autoDirectNodeRoutes: true
     ipam:
