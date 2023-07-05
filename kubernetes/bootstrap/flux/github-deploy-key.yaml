@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: github-deploy-key
+    namespace: flux-system
+stringData:
+    identity: ENC[AES256_GCM,data:ywyW950AnjLAYaMMFCmpt0GeLPWz3FF97TRcQ4XBFlJkKW0qlFW7pde9ciIHjm6GcQYyalT/SEI+CaN86dB0JUdrLambSyiaaQWb1JRwmrS2sUikrT3gF6sersGKDR18tR/DTKBoEoDaQ9tAbiDkO0wFGAaiJm/X89oViVErolsH1YXwMrmnq8L1E1JBWi8CtCHUobvB6CCOdg0SyWwxbU471Jezbx/XDMVZmUoPJixS4Mzjargcv9o4leiBg6tBp/uKrMYPpqadPf4apwhjvF1wx47AVPLjnzJHYvsp2JDQbr8IVkSrYvlCi2okYHME/sU55inwbcZ6hgV5be3gXSAWZfg9itSb3Y7LBpiKSVGoWgBcnudpmEbl0B/5aMzO1iiIu03mD1RMhoMVFUjsF50=,iv:a9X6JzEkPXQPMfx4XpGzsWc212sK1yLApUYe5P8nu6M=,tag:Om1IqPEHTv5XGY6RdmeuZw==,type:str]
+    known_hosts: ENC[AES256_GCM,data:FqWWgxTWMg6sn8Ft24XLaY4GcFXQDNOOwIaB7v3ndXC3QOJNvjqy7D2KWjeNVy9AskGshu8uhUQEDY60IVqZ1FgiCruj9y2LfIe6ekv9Iz4AOTdaKaEaXh/vqwo0J0zDcoCMVrdbUYyIJkYZrc2JMevdAAMWmFE4SNoK5UvVMwOqvpnpYr+N/P+jJg6nCj4BxHmPSnvkbgfO2dyQiWuid8D8YKLeH4HJGQM8,iv:5p1DdKhsLSF8ThqC/rsdEOPoh2duu4PYBQRGxaFLGjU=,tag:PnrjbwMX+/cFI5ZmbPnnFQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age19mhznjzteas7egvnszjxr0msdd667sezwaz978562q4r30xsjvuqjfve3x
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwSDhRcVFqbG4xMU83YTYv
+            R1Ewd0ZHWEJnRFBrcTZkcUNCdjhQSVd6S2k0CktlUTgwcmROd2MvdDRNa1FKUHQy
+            OVRUa29VQ2ZQNGZJTEhBMVVEZXRTSEEKLS0tIFhidTZNbDJQVkZOQmFLZXd6QnhR
+            SlA3T1BDaGg1aU50ZVhPQUFLNFRyYXMKcrdTAq8Ey3sM1DL9+DP1yDicX3jzxk/P
+            /geFIJDnC4B82JLWhqYjWlN+PnZnDu0MGDhuVNFDYNtSD/MoK9bgiQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2023-07-05T20:48:11Z"
+    mac: ENC[AES256_GCM,data:8CcoLHZipCBVPNCi+CPHQ9C7oS6PrJBzj44sNVt7QMJo14F86aQERPQOhset4MU3KJqpdn/t6DoBfhAY1EZQgjr0umGDuqkbvkQLY8NNhbKvvN9RnbzMbeFEsQVVXvC534Uuwf7VEoA8aOEPL0yCvbwesh8ZmHqhjU6bnI0Vj1o=,iv:Yb4u/lFiDg8EMx2+Z69dZV4cbsL1pQNimGiqbbOcV20=,tag:ETRDnuwnXR0xZH5EKdvR4A==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
