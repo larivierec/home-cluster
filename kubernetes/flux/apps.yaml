@@ -8,9 +8,9 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
-    - name: secrets
   path: ./kubernetes/apps
   prune: false
+  wait: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
