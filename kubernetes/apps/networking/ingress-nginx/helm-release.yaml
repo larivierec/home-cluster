@@ -46,6 +46,7 @@ spec:
         externalTrafficPolicy: Local
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ingress.${SECRET_DOMAIN}
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.3"
       extraArgs:
         default-ssl-certificate: ingress/wildcard-cert-tls
       publishService:
