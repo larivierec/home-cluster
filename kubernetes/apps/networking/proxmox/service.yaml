@@ -8,7 +8,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8006
-      name: http
+      name: https
 ---
 apiVersion: v1
 kind: Endpoints
@@ -18,5 +18,6 @@ metadata:
 subsets:
   - addresses:
       - ip: 192.168.1.98
+      - ip: 192.168.1.99
     ports:
       - port: 8006

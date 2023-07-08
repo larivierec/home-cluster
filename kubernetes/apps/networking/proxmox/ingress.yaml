@@ -5,11 +5,11 @@ metadata:
   name: proxmox
   namespace: networking
   annotations:
-    # io.cilium/lb-ipam-ips: "192.168.42.10"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: &host proxmox-1.${SECRET_DOMAIN}
+  - host: &host proxmox.${SECRET_DOMAIN}
     http:
       paths:
         - path: /
@@ -18,7 +18,7 @@ spec:
             service:
               name: proxmox
               port:
-                name: http
+                name: https
   tls:
     - hosts:
       - *host
