@@ -16,3 +16,4 @@ resources:
   - system-upgrade
   - longhorn
   - database
+  - infrastructure
