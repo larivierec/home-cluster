@@ -41,7 +41,10 @@ spec:
         enabled: true
         annotations:
           # io.cilium/lb-ipam-ips: "192.168.42.10"
-          hajimari.io/icon: icon-park-solid:surveillance-cameras 
+          hajimari.io/icon: icon-park-solid:surveillance-cameras
+          # websocket
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         ingressClassName: nginx-internal
         hosts:
           - host: &host "frigate.${SECRET_DOMAIN}"
