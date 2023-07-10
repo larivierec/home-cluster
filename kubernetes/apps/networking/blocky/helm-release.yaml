@@ -39,11 +39,11 @@ spec:
       dns-udp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: "192.168.42.4"
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/allow-shared-ip: blocky-svc
-          io.cilium/lb-ipam-ips: "192.168.42.4"
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.4"
+          # io.cilium/lb-ipam-ips: "192.168.42.4"
         monitor:
           enabled: false
         ports:
@@ -55,11 +55,11 @@ spec:
       dns-tcp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: "192.168.42.4"
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/allow-shared-ip: blocky-svc
-          io.cilium/lb-ipam-ips: "192.168.42.4"
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.4"
+          # io.cilium/lb-ipam-ips: "192.168.42.4"
         monitor:
           enabled: false
         ports:

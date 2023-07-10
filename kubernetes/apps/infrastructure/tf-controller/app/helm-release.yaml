@@ -2,28 +2,23 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: external-secrets
-  namespace: kube-system
+  name: tf-controller
+  namespace: infrastructure
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
-      chart: external-secrets
-      version: 0.9.1
+      chart: tf-controller
+      version: 0.15.1
       sourceRef:
         kind: HelmRepository
-        name: external-secrets
+        name: tf-controller
         namespace: flux-system
+      interval: 30m
   values:
     installCRDs: true
-    serviceMonitor:
+    metrics:
       enabled: true
-      interval: 1m
-    webhook:
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    certController:
       serviceMonitor:
         enabled: true
         interval: 1m

@@ -6,6 +6,7 @@ resources:
   - database.yaml
   - flux-system.yaml
   - ingress.yaml
+  - infrastructure.yaml
   - kube-node-lease.yaml
   - kube-public.yaml
   - metallb-system.yaml

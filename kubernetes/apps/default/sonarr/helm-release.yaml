@@ -39,7 +39,7 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "solar:tv-bold"
-          io.cilium/lb-ipam-ips: "192.168.42.10"
+          # io.cilium/lb-ipam-ips: "192.168.42.10"
         ingressClassName: nginx-internal
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"

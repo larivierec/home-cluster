@@ -29,11 +29,11 @@ spec:
       imap:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP : "192.168.42.6"
         annotations:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "imap.${SECRET_DOMAIN}"
           metallb.universe.tf/allow-shared-ip: mail-svc
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.6"
         externalTrafficPolicy: Local
         ports:
           imap-tcp:
@@ -42,11 +42,11 @@ spec:
       smtp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP : "192.168.42.6"
         annotations:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "smtp.${SECRET_DOMAIN}"
           metallb.universe.tf/allow-shared-ip: mail-svc
+          metallb.universe.tf/loadBalancerIPs: "192.168.42.6"
         externalTrafficPolicy: Local
         ports:
           smtp-tcp:

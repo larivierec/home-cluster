@@ -35,7 +35,7 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "mdi:music"
-          io.cilium/lb-ipam-ips: "192.168.42.10"
+          # io.cilium/lb-ipam-ips: "192.168.42.10"
         ingressClassName: nginx-internal
         hosts:
           - host: &host "lidarr.${SECRET_DOMAIN}"

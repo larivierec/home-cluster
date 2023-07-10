@@ -32,7 +32,7 @@ spec:
       main:
         enabled: true
         annotations:
-          io.cilium/lb-ipam-ips: "192.168.42.10"
+          # io.cilium/lb-ipam-ips: "192.168.42.10"
         ingressClassName: nginx-internal
         hosts:
         - host: &host "qbittorrent.${SECRET_DOMAIN}"

@@ -13,11 +13,11 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-      version: 1.14.0-snapshot.4
+      version: 1.14.0-rc.0
   interval: 30m
   values:
     bgpControlPlane:
-      enabled: true
+      enabled: false
     cluster:
       name: k3s
     containerRuntime:
@@ -53,7 +53,7 @@ spec:
               secretName: wildcard-cert-tls
         rollOutPods: true
     ingressController:
-      enabled: true
+      enabled: false
       loadbalancerMode: shared
     autoDirectNodeRoutes: true
     ipam:

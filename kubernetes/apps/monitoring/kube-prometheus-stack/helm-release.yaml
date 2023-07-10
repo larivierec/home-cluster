@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 47.3.0
+      version: 47.5.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -168,7 +168,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         enabled: true
@@ -182,7 +182,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         port: 10259
@@ -196,7 +196,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         enabled: true
