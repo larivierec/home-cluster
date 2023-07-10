@@ -25,6 +25,8 @@ spec:
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
+        proxy-read-timeout: "3600"
+        proxy-send-timeout: "3600"
 
       ingressClass: nginx-internal
       ingressClassByName: true
@@ -46,9 +48,6 @@ spec:
         externalTrafficPolicy: Local
         annotations:
           metallb.universe.tf/loadBalancerIPs: "192.168.42.9"
-          # websocket
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
         exernalIPs:
           - "192.168.42.9"
 
