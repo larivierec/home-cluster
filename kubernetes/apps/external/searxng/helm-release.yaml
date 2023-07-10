@@ -23,9 +23,6 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          # websocket
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
           external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
           external-dns.alpha.kubernetes.io/hostname: "search.${SECRET_DOMAIN}"
           external-dns.alpha.kubernetes.io/ttl: "120"
