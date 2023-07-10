@@ -168,7 +168,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         enabled: true
@@ -182,7 +182,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         port: 10259
@@ -196,7 +196,7 @@ spec:
       enabled: true
       endpoints:
         - 192.168.1.9
-        - 192.168.1.7
+        - 192.168.1.254
         - 192.168.1.4
       service:
         enabled: true
