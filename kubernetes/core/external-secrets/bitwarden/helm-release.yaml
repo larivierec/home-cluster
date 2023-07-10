@@ -22,9 +22,10 @@ spec:
     image:
       repository: ghcr.io/larivierec/bitwarden-cli
       tag: latest
-    envFrom:
-      - secretRef:
-          name: bitwarden-cli
+    env:
+      BW_CLIENTID: ${BW_CLIENTID}
+      BW_CLIENTSECRET: ${BW_CLIENTSECRET}
+      BW_PASSWORD: ${BW_PASSWORD}
     service:
       main:
         ports:

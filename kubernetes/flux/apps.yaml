@@ -8,6 +8,7 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: core
+    - name: secrets
   path: ./kubernetes/apps
   prune: false
   wait: true
@@ -15,7 +16,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   postBuild:
-    substitute: {}
     substituteFrom:
       - kind: Secret
         name: cluster-secrets
