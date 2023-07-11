@@ -20,7 +20,7 @@ module "home-ops" {
 
   plaintext_secrets = {
     "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
-    "RIVERBOT_APP_PRIVATE_KEY" = data.sops_file.this.data["SECRET_BOT_PRIVATE_KEY"]
+    "RIVERBOT_APP_PRIVATE_KEY" = data.bitwarden_item_secure_note.riverbot_private_key.notes
   }
 
   issue_labels_merge_with_github_labels = false
