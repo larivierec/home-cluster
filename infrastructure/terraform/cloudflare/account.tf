@@ -1,5 +1,9 @@
 resource "cloudflare_account" "this" {
   name = "garbinc account"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "cloudflare_r2_bucket" "backup" {
