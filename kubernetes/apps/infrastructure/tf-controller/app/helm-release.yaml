@@ -24,5 +24,5 @@ spec:
         interval: 1m
     runner:
       image:
-        repository: ghcr.io/larivierec/tf-runner-bw-test
+        repository: ghcr.io/larivierec/tf-runner-bw
         tag: latest
