@@ -21,7 +21,7 @@ spec:
   values:
     image:
       repository: cloudflare/cloudflared
-      tag: 2023.6.1
+      tag: 2023.7.0
     args:
       - tunnel
       - --config
