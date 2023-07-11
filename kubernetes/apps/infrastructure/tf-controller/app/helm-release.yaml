@@ -24,8 +24,5 @@ spec:
         interval: 1m
     runner:
       image:
-        # -- Runner image repository
         repository: ghcr.io/larivierec/tf-runner-bw-test
-        # -- Runner image tag
-        # @default -- `.Chart.AppVersion`
         tag: latest
