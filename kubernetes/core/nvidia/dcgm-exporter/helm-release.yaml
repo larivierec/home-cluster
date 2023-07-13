@@ -27,6 +27,7 @@ spec:
       NVIDIA_VISIBLE_DEVICES: all
     nodeSelector:
       feature.node.kubernetes.io/pci-0300_10de.present: "true"
+      laptop: "false"
     runtimeClassName: nvidia
     resources:
       limits:

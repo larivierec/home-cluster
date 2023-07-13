@@ -21,6 +21,7 @@ spec:
       tag: v0.14.1
     nodeSelector:
       feature.node.kubernetes.io/pci-0300_10de.present: "true"
+      laptop: "false"
     runtimeClassName: nvidia
     config: 
       map:
