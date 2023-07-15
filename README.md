@@ -87,6 +87,10 @@ helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium -f kubernetes/core/cilium/bootstrap/values.yaml --namespace kube-system
 ```
 
+# OPNsense
+
+Note: Add an entry to the BGP Neighbors table with the IP address of the Node you're adding.
+
 ## Cilium CNI - Note
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
