@@ -27,8 +27,6 @@ spec:
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
-        proxy-read-timeout: "3600"
-        proxy-send-timeout: "3600"
         plugins: "strip-port-from-host"
 
       extraVolumes:
