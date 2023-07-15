@@ -103,6 +103,18 @@ spec:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
+      admin:
+        enabled: true
+        ingressClassName: nginx-internal
+        hosts:
+          - host: *host
+            paths:
+              - path: /admin
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     resources:
       requests:
         cpu: 100m
