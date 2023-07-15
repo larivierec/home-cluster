@@ -34,7 +34,7 @@ provisioner: nfs.csi.k8s.io
 
 parameters:
   server: 192.168.1.5
-  share: /volume1/pvc
+  share: /volume1/pv
 
 allowVolumeExpansion: true
 reclaimPolicy: Retain
@@ -46,4 +46,3 @@ mountOptions:
   - hard
   - noatime
   - nodiratime
----

@@ -120,7 +120,7 @@ spec:
               - 1.1.1.1
 
             redis:
-              address: redis-headless.database.svc:6379
+              address: redis.database.svc:6379
               database: 2
               required: true
               connectionAttempts: 10
@@ -169,7 +169,7 @@ spec:
               prefetching: true
               minTime: 5m
               maxTime: 5m
-              cacheTimeNegative: -1
+              cacheTimeNegative: -1m
 
             prometheus:
               enable: true
