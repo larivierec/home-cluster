@@ -15,9 +15,18 @@ spec:
         name: searxng
         namespace: flux-system
       interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     controller:
-      strategy: RollingUpdate    
+      strategy: RollingUpdate
     ingress:
       main:
         enabled: true

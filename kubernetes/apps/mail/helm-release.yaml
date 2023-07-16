@@ -15,12 +15,21 @@ spec:
         name: bjw-s
         namespace: flux-system
       interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     controller:
       type: statefulset
     image:
       repository: ghcr.io/larivierec/protonmail-bridge-docker
-      tag: v3.0.0-1
+      tag: v3.3.1
     env:
       TZ: "America/New_York"
     service:

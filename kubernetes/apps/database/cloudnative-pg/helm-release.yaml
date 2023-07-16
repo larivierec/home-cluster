@@ -15,3 +15,12 @@ spec:
         name: cloudnative-pg
         namespace: flux-system
       interval: 15m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3

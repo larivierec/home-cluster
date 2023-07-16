@@ -15,6 +15,15 @@ spec:
         name: longhorn
         namespace: flux-system
       interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     persistence:
       defaultClass: true
