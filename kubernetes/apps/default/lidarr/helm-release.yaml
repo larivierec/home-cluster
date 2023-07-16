@@ -15,16 +15,32 @@ spec:
         name: bjw-s
         namespace: flux-system
       interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.8
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: postgres-lidarr
     controller:
-      type: deployment
-      strategy: Recreate
+      type: statefulset
     image:
       repository: ghcr.io/onedr0p/lidarr
       tag: 1.2.6.3313@sha256:96ca9a2946bf8c96fbd5fb5bf87790752eed937bb769e46bde9850c6f3f67775
       pullPolicy: IfNotPresent
     env:
       TZ: "UTC"
+    envFrom: *envFrom
     service:
       main:
         ports:
@@ -49,7 +65,7 @@ spec:
     
     podAnnotations:
       backup.velero.io/backup-volumes: config
-    
+
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -58,11 +74,14 @@ spec:
       supplementalGroups:
         - 100
 
-    persistence:
-      config:
-        enabled: true
-        existingClaim: lidarr-config-v4
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: longhorn
 
+    persistence:
       media:
         enabled: true
         type: custom
