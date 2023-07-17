@@ -25,15 +25,16 @@ spec:
     remediation:
       retries: 3
   values:
-    initContainers:
-      init:
-        image: ghcr.io/onedr0p/postgres-init:14.8
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: postgres-radarr
+    # initContainers:
+    #   init:
+    #     image: ghcr.io/onedr0p/postgres-init:14.8
+    #     imagePullPolicy: IfNotPresent
+    #     envFrom: &envFrom
+    #       - secretRef:
+    #           name: postgres-radarr
     controller:
-      type: statefulset
+      type: deployment
+      updateStrategy: Recreate
     image:
       repository: ghcr.io/onedr0p/radarr-develop
       tag: 4.7.1.7640@sha256:fd475f0dcc5a2ef00193b17e548b4a4d4776b7b2cf32e0ff3adb5ee2aa836f20
@@ -41,7 +42,7 @@ spec:
 
     env:
       TZ: "UTC"
-    envFrom: *envFrom
+    # envFrom: *envFrom
     service:
       main:
         ports:
@@ -76,14 +77,10 @@ spec:
       supplementalGroups:
         - 100
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: longhorn
-
     persistence:
+      config:
+        enabled: true
+        existingClaim: radarr-config-v4
       media:
         enabled: true
         type: custom
