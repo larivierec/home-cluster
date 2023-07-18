@@ -8,8 +8,8 @@ spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 15Gi
-    storageClass: longhorn
+    size: 20Gi
+    storageClass: local-path
   superuserSecret:
     name: postgres-superuser
   postgresql:
@@ -18,7 +18,7 @@ spec:
       shared_buffers: "512MB"
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v2
+      source: &previousCluster postgres-v3
   monitoring:
     enablePodMonitor: true
   backup:
@@ -29,7 +29,7 @@ spec:
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
       endpointURL: &endpoint http://minio.system.svc:9000
-      serverName: postgres-v3
+      serverName: postgres-v4
       s3Credentials:
         accessKeyId:
           name: postgres-superuser
