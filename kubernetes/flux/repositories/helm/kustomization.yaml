@@ -8,6 +8,7 @@ resources:
   - cloudnative-pg.yaml
   - csi-driver-nfs.yaml
   - dashboard.yaml
+  - descheduler.yaml
   - emberstack.yaml
   - external-dns.yaml
   - external-secrets.yaml

@@ -1,3 +1,4 @@
+*.code-workspace
 **/unencrypted**
 **/.terraform**
 **/terraform.tfstate**

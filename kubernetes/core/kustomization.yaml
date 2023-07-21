@@ -6,7 +6,7 @@ resources:
   - metallb
   - nvidia
   - nfs-subdir-external-provisioner
-  - kured
+  - descheduler
   - node-feature-discovery
   - intel-gpu-plugin
   - cilium
