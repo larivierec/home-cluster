@@ -107,3 +107,6 @@ spec:
         mountPath: /config
         existingClaim: unifi-config-v2
         subPath: unifi
+
+    podAnnotations:
+      backup.velero.io/backup-volumes: config

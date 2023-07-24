@@ -117,6 +117,9 @@ spec:
             protocol: TCP
             targetPort: 27217
 
+    podAnnotations:
+      backup.velero.io/backup-volumes: data,work
+
     persistence:
       data:
         enabled: true

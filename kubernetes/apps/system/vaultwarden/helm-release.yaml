@@ -58,7 +58,7 @@ spec:
       DATA_FOLDER: "data"
       ICON_CACHE_FOLDER: "data/icon_cache"
       ATTACHMENTS_FOLDER: "data/attachments"
-      DOMAIN: "https://vaultwarden.${SECRET_DOMAIN}"
+      DOMAIN: "https://vault.${SECRET_DOMAIN}"
       TZ: "UTC"
       SIGNUPS_ALLOWED: "false"
       WEBSOCKET_ENABLED: "true"
@@ -74,6 +74,7 @@ spec:
           name: &secret postgres-vaultwarden
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
+      backup.velero.io/backup-volumes: data
     service:
       main:
         ports:
