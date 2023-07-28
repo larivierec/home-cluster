@@ -1,4 +1,4 @@
-module "home-ops" {
+module "home-cluster" {
   source  = "mineiros-io/repository/github"
   version = "0.18.0"
 
