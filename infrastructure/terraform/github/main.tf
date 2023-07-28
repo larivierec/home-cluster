@@ -73,3 +73,38 @@ module "cloudflare-ddns" {
     local.default_issue_labels
   )
 }
+
+module "containers" {
+  source  = "mineiros-io/repository/github"
+  version = "0.18.0"
+
+  name        = "containers"
+  description = "Containers used in my kubernetes cluster and other various containers"
+  topics      = ["docker", "containers"]
+  visibility  = "public"
+
+  auto_init              = false
+  allow_merge_commit     = false
+  allow_squash_merge     = true
+  allow_auto_merge       = true
+  delete_branch_on_merge = true
+
+  has_issues   = true
+  has_wiki     = false
+  has_projects = false
+  is_template  = false
+
+  plaintext_secrets = {
+    "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
+    "RIVERBOT_APP_PRIVATE_KEY" = data.bitwarden_item_secure_note.riverbot_private_key.notes
+  }
+
+  issue_labels_merge_with_github_labels = false
+  issue_labels = concat(
+    [
+      { name = "area/ci", color = "72ccf3", description = "Issue relates to CI" },
+      { name = "renovate/container", color = "ffc300", description = "Issue relates to a Renovate container update" },
+    ],
+    local.default_issue_labels
+  )
+}
