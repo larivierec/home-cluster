@@ -26,7 +26,7 @@ spec:
       retries: 3
   values:
     controller:
-      replicas: 3
+      replicas: 1
       strategy: RollingUpdate
     env:
       TZ: "UTC"
