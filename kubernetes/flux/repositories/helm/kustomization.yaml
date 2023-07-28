@@ -32,4 +32,4 @@ resources:
   - stakater.yaml
   - tf-controller.yaml
   - vmware-tanzu.yaml
-  - weave-gitops.yaml
+  - weaveworks.yaml
