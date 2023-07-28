@@ -13,9 +13,6 @@
     "config:base"
   ],
   "username": "theriver-bot[bot]",
-  "repositories": [
-    "larivierec/home-cluster"
-  ],
   "assignees": [
     "larivierec"
   ],
@@ -26,7 +23,6 @@
   "rebaseWhen": "conflicted",
   "requireConfig": "optional",
   "onboarding": false,
-  "gitAuthor": "theriver-bot <98402334+theriver-bot[bot]@users.noreply.github.com>",
   "helm-values": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },

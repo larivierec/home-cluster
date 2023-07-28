@@ -18,12 +18,16 @@ on: # yamllint disable-line rule:truthy
     branches:
       - main
     paths:
-      - ".github/renovate.json5"
-      - ".github/renovate/**.json"
+      - .github/bot.json5
+      - .github/renovate.json5
+      - .github/renovate/**.json
 
 env:
   LOG_LEVEL: info
   DRY_RUN: false
+  RENOVATE_CONFIG_FILE: .github/bot.json5
+  RENOVATE_AUTODISCOVER: true
+  RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
 
 jobs:
   renovate:
@@ -44,5 +48,5 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@v39.0.1
         with:
-          configurationFile: .github/renovate.json5
+          configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
           token: "${{ steps.generate-token.outputs.token }}"
