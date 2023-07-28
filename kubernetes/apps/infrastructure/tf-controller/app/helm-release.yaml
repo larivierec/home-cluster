@@ -31,6 +31,8 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 1m
+    awsPackage:
+      install: false
     runner:
       image:
         repository: ghcr.io/larivierec/tf-runner-bw
