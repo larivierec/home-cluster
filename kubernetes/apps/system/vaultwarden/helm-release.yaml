@@ -65,13 +65,13 @@ spec:
       WEBSOCKET_ADDRESS: 0.0.0.0
       WEBSOCKET_PORT: 3012
       SMTP_HOST: protonmail-bridge-smtp.mail.svc
-      SMTP_FROM: vaultwarden@${SECRET_DOMAIN}
+      SMTP_FROM: postmaster@${SECRET_DOMAIN}
       SMTP_FROM_NAME: vaultwarden
       SMTP_PORT: 25
       SMTP_SECURITY: "off"
     envFrom:
       - secretRef:
-          name: &secret postgres-vaultwarden
+          name: &secret vaultwarden
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
       backup.velero.io/backup-volumes: data
