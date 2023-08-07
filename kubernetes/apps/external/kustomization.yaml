@@ -5,5 +5,4 @@ resources:
   - nas
   - overseerr
   - plex
-  - searxng
   - jellyfin
