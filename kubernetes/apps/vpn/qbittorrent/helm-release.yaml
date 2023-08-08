@@ -68,7 +68,7 @@ spec:
     
     podAnnotations:
       setGateway: "true"
-    
+  
     podSecurityContext:
       supplementalGroups:
       - 100

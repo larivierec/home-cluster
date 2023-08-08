@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - prowlarr
   - qbittorrent
+  - sabnzbd

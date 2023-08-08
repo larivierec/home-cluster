@@ -69,7 +69,6 @@ spec:
       config:
         enabled: true
         existingClaim: prowlarr-config
+
     podAnnotations:
       backup.velero.io/backup-volumes: config
-      setGateway: "true"
-

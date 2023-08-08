@@ -84,9 +84,6 @@ spec:
       incomplete:
         enabled: true
         type: emptyDir
-    
-    podAnnotations:
-      setGateway: "true"
 
     resources:
       requests:
