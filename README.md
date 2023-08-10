@@ -202,7 +202,8 @@ GPU Passthrough
 4. install
 
 ```bash
-apt-get install \
+apt install \
+    nftables \
     nfs-common \
     net-tools \
     nvidia-driver-525 \
@@ -239,6 +240,21 @@ fi
 ```
 
 ## Beelink nodes
+
+Base install
+
+```bash
+apt install \
+  r8168-dkms \
+  nftables \
+  nfs-common \
+  curl \
+  containerd \
+  vim \
+  gnupg \
+  net-tools \
+  dnsutils
+```
 
 For Beelink nodes, there was an incompatibility for iGPU transcoding with Ubuntu 22.04.1 LTS and Kernel 5.15.X
 
