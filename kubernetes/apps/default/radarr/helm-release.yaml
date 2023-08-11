@@ -77,14 +77,11 @@ spec:
       supplementalGroups:
         - 100
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: longhorn
-
     persistence:
+      config:
+        enabled: true
+        existingClaim: radarr-config-v4
+
       media:
         enabled: true
         type: custom

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: lidarr-config-v4
+  name: config-lidarr-0
   namespace: default
 spec:
   accessModes:

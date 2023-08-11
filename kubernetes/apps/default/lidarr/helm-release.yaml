@@ -33,7 +33,8 @@ spec:
           - secretRef:
               name: postgres-lidarr
     controller:
-      type: statefulset
+      type: deployment
+      updateStrategy: Recreate
     image:
       repository: ghcr.io/onedr0p/lidarr
       tag: 1.2.6.3313@sha256:6f3296b08dd92ad36f6ac4e624944a4cf168ec758b6073c9c6d1d73e179091cb
@@ -74,14 +75,11 @@ spec:
       supplementalGroups:
         - 100
 
-    volumeClaimTemplates:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
-        size: 5Gi
-        storageClass: longhorn
-
     persistence:
+      config:
+        enabled: true
+        existingClaim: config-lidarr-0
+
       media:
         enabled: true
         type: custom
