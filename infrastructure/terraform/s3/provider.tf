@@ -19,6 +19,10 @@ terraform {
       source  = "aminueza/minio"
       version = "1.17.2"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "4.12.0"
+    }
   }
 }
 
@@ -37,6 +41,10 @@ provider "minio" {
   minio_ssl      = true
 }
 
+provider "cloudflare" {
+  email   = lookup(local.cloudflare_secrets, "email").text
+  api_key = lookup(local.cloudflare_secrets, "cloudflare_api_key").text
+}
 
 data "bitwarden_item_login" "minio_secret" {
   id = "0a39c7b4-2e5d-4afa-8469-aea401037d8b"

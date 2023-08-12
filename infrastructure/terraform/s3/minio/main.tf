@@ -2,37 +2,29 @@ data "minio_iam_policy_document" "bucket" {
   statement {
     sid    = "read"
     effect = "Allow"
-    actions = [
-      "s3:Get*"
-    ]
-    resources = [
+    actions = sort([
+      "s3:Get*",
+      "s3:Put*"
+    ])
+    resources = sort([
       minio_s3_bucket.this.arn,
       "${minio_s3_bucket.this.arn}/*"
-    ]
+    ])
     principal = "*"
-  }
-
-  dynamic "statement" {
-    for_each = var.require_write ? [1] : []
-    content {
-      effect  = "Allow"
-      actions = ["s3:Put*"]
-      resources = [
-        minio_s3_bucket.this.arn,
-        "${minio_s3_bucket.this.arn}/*"
-      ]
-    }
   }
 }
 
 data "minio_iam_policy_document" "user" {
   statement {
-    effect  = "Allow"
-    actions = ["s3:Put*"]
-    resources = [
+    effect = "Allow"
+    actions = sort([
+      "s3:Get*",
+      "s3:Put*"
+    ])
+    resources = sort([
       minio_s3_bucket.this.arn,
       "${minio_s3_bucket.this.arn}/*"
-    ]
+    ])
   }
 }
 

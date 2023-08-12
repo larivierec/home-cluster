@@ -2,6 +2,10 @@ data "sops_file" "this" {
   source_file = "secrets.sops.yaml"
 }
 
+module "cloudflare" {
+  source = "./cloudflare"
+}
+
 module "minio" {
   for_each   = toset(local.buckets)
   source     = "./minio"
