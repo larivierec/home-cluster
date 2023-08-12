@@ -2,18 +2,18 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: oci-terraform-cloudflare
+  name: oci-terraform-s3
   namespace: infrastructure
 spec:
   interval: 1m
-  url: oci://ghcr.io/larivierec/terraform/cloudflare
+  url: oci://ghcr.io/larivierec/terraform/s3
   ref:
     tag: main
 ---
 apiVersion: infra.contrib.fluxcd.io/v1alpha1
 kind: Terraform
 metadata:
-  name: cloudflare
+  name: s3
   namespace: infrastructure
 spec:
   interval: 12h
@@ -25,7 +25,7 @@ spec:
   path: ./
   sourceRef:
     kind: OCIRepository
-    name: oci-terraform-cloudflare
+    name: oci-terraform-s3
     namespace: infrastructure
   tfstate:
     forceUnlock: auto

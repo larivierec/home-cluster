@@ -52,7 +52,7 @@ spec:
             name: plugins
     deployNodeAgent: true
     credentials:
-      existingSecret: velero-credentials
+      existingSecret: minio-velero
     schedules:
       daily-backup:
         # At 6:00am in the morning every day
