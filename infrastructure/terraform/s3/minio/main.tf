@@ -9,7 +9,7 @@ data "minio_iam_policy_document" "bucket" {
       minio_s3_bucket.this.arn,
       "${minio_s3_bucket.this.arn}/*"
     ]
-    principal = minio_iam_user.this.id
+    principal = "*"
   }
 
   dynamic "statement" {

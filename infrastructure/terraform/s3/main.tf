@@ -9,11 +9,11 @@ module "minio" {
 }
 
 resource "bitwarden_item_login" "this" {
-  for_each = module.minio
-  name     = "minio-tf-${each.value.access_key}"
-  username = each.value.access_key
-  password = each.value.secret_key
-
+  for_each  = module.minio
+  name      = "minio-tf-${each.value.access_key}"
+  username  = each.value.access_key
+  password  = each.value.secret_key
+  folder_id = "d8947594-b7a8-4553-aad2-ac010149ee32"
   field {
     name = "terraform"
     text = "true"
