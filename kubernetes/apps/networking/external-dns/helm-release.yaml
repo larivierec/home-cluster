@@ -26,7 +26,6 @@ spec:
       retries: 3
   values:
     interval: 5m
-    logLevel: debug
     provider: cloudflare
 
     env:
@@ -44,7 +43,7 @@ spec:
     sources:
       - ingress
     txtPrefix: "k8s."
-    txtOwnerId: "default"
+    txtOwnerId: "public"
     domainFilters:
       - "${SECRET_DOMAIN}"
     podAnnotations:
