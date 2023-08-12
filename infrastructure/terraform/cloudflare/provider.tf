@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
     organization = "larivierec"
     workspaces {
-      name = "home-cloudflare-provisionner"
+      name = "home-cloudflare-provisioner"
     }
   }
 
