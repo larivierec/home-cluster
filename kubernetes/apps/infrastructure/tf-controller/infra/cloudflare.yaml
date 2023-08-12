@@ -40,5 +40,5 @@ spec:
           secret:
             secretName: sops-age
             items:
-            - key: age.key
-              path: keys.txt
+              - key: age.key
+                path: keys.txt
