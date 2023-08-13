@@ -47,11 +47,11 @@ provider "cloudflare" {
 }
 
 data "bitwarden_item_login" "minio_secret" {
-  id = "0a39c7b4-2e5d-4afa-8469-aea401037d8b"
+  id = "b7e7c4fc-4d81-4f12-8652-b05d01565916"
 }
 
 data "bitwarden_item_login" "cloudflare_secrets" {
-  id = "1698e91f-dc8b-494b-bea9-b00a016f98cb"
+  id = "4c5c42aa-0951-4950-974b-b05d01565917"
 }
 
 locals {

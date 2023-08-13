@@ -40,7 +40,7 @@ provider "bitwarden" {
 }
 
 data "bitwarden_item_login" "cloudflare_secrets" {
-  id = "1698e91f-dc8b-494b-bea9-b00a016f98cb"
+  id = "4c5c42aa-0951-4950-974b-b05d01565917"
 }
 
 locals {
