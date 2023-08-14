@@ -32,6 +32,7 @@ resource "bitwarden_item_login" "this" {
 locals {
   buckets = [
     "velero",
-    "pgsql"
+    "pgsql",
+    "thanos"
   ]
 }
