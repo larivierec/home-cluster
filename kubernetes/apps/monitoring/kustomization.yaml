@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - opnsense
   - kube-prometheus-stack
+  - ./thanos/ks.yaml
   - alertmanager-discord
