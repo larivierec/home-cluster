@@ -95,7 +95,7 @@ spec:
         - name: redis-db
           uid: redis-db
           type: redis-datasource
-          url: redis://redis-headless.database.svc:6379/
+          url: redis://redis.database.svc:6379/
           access: proxy
           orgId: 1
           editable: false
@@ -115,10 +115,6 @@ spec:
           node_exporter:
             gnetId: 1860
             revision: 27
-            datasource: Prometheus
-          flux:
-            gnetId: 14936
-            revision: 1
             datasource: Prometheus
           radarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/radarr.json
@@ -224,6 +220,10 @@ spec:
         - name: blocky-redis
           type: standalone
           url: redis://blocky-redis-headless.networking.svc:6379
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
@@ -234,3 +234,18 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+
+        thanos:
+          image: quay.io/thanos/thanos:v0.31.0
+          objectStorageConfig:
+            name: thanos-objstore-secret
+            key: objstore.yml
+          retention: 2d
+          retentionSize: 15GB
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: longhorn
+                resources:
+                  requests:
+                    storage: 20Gi
