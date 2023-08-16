@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: public.ecr.aws/docker/library/eclipse-mosquitto
-      tag: 2.0.15
+      tag: 2.0.16
     service:
       main:
         enabled: true
