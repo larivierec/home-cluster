@@ -36,3 +36,4 @@ locals {
     "thanos"
   ]
 }
+
