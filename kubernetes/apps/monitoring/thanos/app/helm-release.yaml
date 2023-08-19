@@ -88,17 +88,6 @@ spec:
         storageClass: longhorn
         size: 10Gi
       extraFlags: ["--web.prefix-header=X-Forwarded-Prefix"]
-      config: |-
-        groups:
-          - name: PrometheusWatcher
-            rules:
-              - alert: PrometheusDown
-                annotations:
-                  summary: A Prometheus has disappeared from Prometheus target discovery
-                expr: absent(up{job="prometheus_ready"})
-                for: 5m
-                labels:
-                  severity: critical
       dnsDiscovery:
         enabled: true
     metrics:
