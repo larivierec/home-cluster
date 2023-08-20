@@ -17,3 +17,4 @@ resources:
   - longhorn
   - database
   - infrastructure
+  - actions-runner-system
