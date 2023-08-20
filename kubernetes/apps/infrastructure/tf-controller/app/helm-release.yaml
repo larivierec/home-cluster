@@ -37,5 +37,3 @@ spec:
       image:
         repository: ghcr.io/larivierec/tf-runner-bw
         tag: latest
-    branchPlanner:
-      enabled: true

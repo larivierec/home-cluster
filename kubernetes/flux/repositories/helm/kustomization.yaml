@@ -29,7 +29,6 @@ resources:
   - nvidia-operator.yaml
   - ori-edge.yaml
   - prometheus-community.yaml
-  - searxng.yaml
   - stakater.yaml
   - tf-controller.yaml
   - vmware-tanzu.yaml
