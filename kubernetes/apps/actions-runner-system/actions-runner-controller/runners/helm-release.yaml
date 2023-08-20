@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: arc-home-cluster
+  name: home-cluster
   namespace: actions-runner-system
 spec:
   interval: 30m
@@ -38,14 +38,14 @@ spec:
             image: ghcr.io/onedr0p/github-actions-runner:rolling@sha256:b595cf0735825bfb5f2da427da993b128b64f10cd3d8e5631a0e67546155f1eb
   valuesFrom:
     - kind: Secret
-      name: actions-runner-controller-auth-secret
+      name: actions-runner-controller-auth
       valuesKey: github_app_id
       targetPath: githubConfigSecret.github_app_id
     - kind: Secret
-      name: actions-runner-controller-auth-secret
+      name: actions-runner-controller-auth
       valuesKey: github_app_installation_id
       targetPath: githubConfigSecret.github_app_installation_id
     - kind: Secret
-      name: actions-runner-controller-auth-secret
+      name: actions-runner-controller-auth
       valuesKey: github_app_private_key
       targetPath: githubConfigSecret.github_app_private_key
