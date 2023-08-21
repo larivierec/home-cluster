@@ -13,9 +13,6 @@
     "config:base"
   ],
   "username": "theriver-bot[bot]",
-  "assignees": [
-    "larivierec"
-  ],
   "platform": "github",
   "timezone": "America/New_York",
   "suppressNotifications": ["prIgnoreNotification"],
