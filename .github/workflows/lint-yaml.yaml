@@ -9,7 +9,7 @@ on: # yamllint disable-line rule:truthy
 
 jobs:
   yamllint:
-    runs-on: ["arc-runner-set-home-cluster", "ubuntu-latest"]
+    runs-on: ["arc-runner-set-home-cluster"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
