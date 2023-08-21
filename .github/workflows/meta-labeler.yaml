@@ -9,7 +9,7 @@ on: # yamllint disable-line rule:truthy
 jobs:
   labeler:
     name: Labeler
-    runs-on: ubuntu-latest
+    runs-on: ["arc-runner-set-home-cluster"]
     steps:
       - name: Generate Token
         uses: tibdex/github-app-token@v1
