@@ -26,6 +26,13 @@ spec:
       retries: 3
 
   values:
+    initContainers:
+      init:
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: postgres-prowlarr
     controller:
       type: deployment
       strategy: Recreate
@@ -36,6 +43,7 @@ spec:
     hostname: prowlarr
     env:
       TZ: "UTC"
+    envFrom: *envFrom
     service:
       main:
         ports:
