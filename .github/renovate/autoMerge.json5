@@ -1,19 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  packageRules: [
     {
-      "matchDatasources": [
+      matchDatasources: [
         "docker",
         "github-tags"
       ],
-      "automerge": true,
-      "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": [
+      automerge: true,
+      automergeType: "branch",
+      requiredStatusChecks: null,
+      matchUpdateTypes: [
         "minor",
         "patch"
       ],
-      "matchPackageNames": [
+      matchPackageNames: [
         "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
         "ghcr.io/larivierec/bitwarden-cli",
