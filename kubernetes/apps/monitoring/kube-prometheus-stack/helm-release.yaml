@@ -224,32 +224,32 @@ spec:
         - name: blocky-redis
           type: standalone
           url: redis://blocky-redis-headless.networking.svc:6379
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
-      prometheusSpec:
-        replicas: 2
-        podAntiAffinity: hard
-        retention: 2d
-        replicaExternalLabelNameClear: false
-        prometheusExternalLabelNameClear: false
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
+      # thanosService:
+      #   enabled: true
+      # thanosServiceMonitor:
+      #   enabled: true
+      # prometheusSpec:
+      #   replicas: 2
+      #   podAntiAffinity: hard
+      #   retention: 2d
+      #   replicaExternalLabelNameClear: false
+      #   prometheusExternalLabelNameClear: false
+      #   ruleSelectorNilUsesHelmValues: false
+      #   serviceMonitorSelectorNilUsesHelmValues: false
+      #   podMonitorSelectorNilUsesHelmValues: false
+      #   probeSelectorNilUsesHelmValues: false
 
-        thanos:
-          image: quay.io/thanos/thanos:v0.32.0
-          objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
-          retention: 2d
-          retentionSize: 15GB
-          storageSpec:
-            volumeClaimTemplate:
-              spec:
-                storageClassName: longhorn
-                resources:
-                  requests:
-                    storage: 20Gi
+      #   thanos:
+      #     image: quay.io/thanos/thanos:v0.32.0
+      #     objectStorageConfig:
+      #       name: thanos-objstore-secret
+      #       key: objstore.yml
+      #     retention: 2d
+      #     retentionSize: 15GB
+      #     storageSpec:
+      #       volumeClaimTemplate:
+      #         spec:
+      #           storageClassName: longhorn
+      #           resources:
+      #             requests:
+      #               storage: 20Gi
