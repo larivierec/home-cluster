@@ -240,7 +240,7 @@ spec:
         probeSelectorNilUsesHelmValues: false
 
         thanos:
-          image: quay.io/thanos/thanos:v0.31.0
+          image: quay.io/thanos/thanos:v0.32.0
           objectStorageConfig:
             name: thanos-objstore-secret
             key: objstore.yml
