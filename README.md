@@ -174,15 +174,15 @@ data:
 
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
-| J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | Opnsense 23      | Router               |
+| J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | Opnsense 27      | Router               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
-| NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 7.2      | Virtual Machine      |
-| NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 7.2      | Virtual Machine      |
+| NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
+| NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
 
 | VMs                       | Count | Ram         | Operating System  | Purpose             |
 | --------------------------|-------|-------------|-------------------|-------------------- |
-| k3s-worker-#              | 3     | 12Gi / 8 Gi | Ubuntu 22.04      | Kubernetes Workers  |
+| k3s-worker-#              | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 | k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 
 
