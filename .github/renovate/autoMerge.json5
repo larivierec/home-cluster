@@ -8,6 +8,7 @@
       ],
       automerge: true,
       automergeType: "branch",
+      platformCommit: true,
       matchUpdateTypes: [
         "minor",
         "patch",
