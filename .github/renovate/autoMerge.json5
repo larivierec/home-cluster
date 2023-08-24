@@ -8,6 +8,7 @@
       ],
       automerge: true,
       automergeType: "branch",
+      ignoreTests: true,
       platformCommit: true,
       matchUpdateTypes: [
         "minor",
@@ -28,6 +29,7 @@
       ],
       automerge: true,
       automergeType: "pr",
+      ignoreTests: true,
       platformCommit: true,
       matchUpdateTypes: [
         "minor",
