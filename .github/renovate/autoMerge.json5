@@ -22,19 +22,19 @@
         "ghcr.io/onedr0p/radarr-develop"
       ]
     },
-    {
-      matchDatasources: [
-        "docker",
-        "github-tags"
-      ],
-      automerge: true,
-      automergeType: "pr",
-      ignoreTests: true,
-      platformCommit: true,
-      matchUpdateTypes: [
-        "minor",
-        "patch"
-      ]
-    }
+    // {
+    //   matchDatasources: [
+    //     "docker",
+    //     "github-tags"
+    //   ],
+    //   automerge: true,
+    //   automergeType: "pr",
+    //   ignoreTests: true,
+    //   platformCommit: true,
+    //   matchUpdateTypes: [
+    //     "minor",
+    //     "patch"
+    //   ]
+    // }
   ]
 }
