@@ -12,4 +12,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: nvme
+  storageClassName: nfs-minio
