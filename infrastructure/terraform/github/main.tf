@@ -103,6 +103,7 @@ module "containers" {
   issue_labels = concat(
     [
       { name = "area/ci", color = "72ccf3", description = "Issue relates to CI" },
+      { name = "area/containers", color = "72ccf3", description = "Issue related to dockerfiles" },
       { name = "renovate/container", color = "ffc300", description = "Issue relates to a Renovate container update" },
     ],
     local.default_issue_labels
