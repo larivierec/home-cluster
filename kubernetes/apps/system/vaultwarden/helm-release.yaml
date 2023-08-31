@@ -53,7 +53,7 @@ spec:
                 key: postgres_password
     image:
       repository: vaultwarden/server
-      tag: 1.29.1
+      tag: 1.29.2
     env:
       DATA_FOLDER: "data"
       ICON_CACHE_FOLDER: "data/icon_cache"
