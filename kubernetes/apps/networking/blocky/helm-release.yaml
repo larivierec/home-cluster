@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: blocky
+  name: &app blocky
   namespace: networking
 spec:
   interval: 5m
@@ -45,7 +45,7 @@ spec:
         ports:
           http:
             port: 4000
-      dns-udp:
+      dns:
         enabled: true
         type: LoadBalancer
         externalTrafficPolicy: Cluster
@@ -61,17 +61,6 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-      dns-tcp:
-        enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          metallb.universe.tf/allow-shared-ip: blocky-svc
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.4"
-          # io.cilium/lb-ipam-ips: "192.168.42.4"
-        monitor:
-          enabled: false
-        ports:
           dns-tcp:
             enabled: true
             port: 53
@@ -104,7 +93,7 @@ spec:
       main:
         enabled: true
         endpoints:
-          - ports: http
+          - port: http
             scheme: http
             path: /metrics
             interval: 30s
@@ -228,13 +217,10 @@ spec:
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
       secret.reloader.stakater.com/reload: wildcard-cert-tls
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - blocky
-          topologyKey: "kubernetes.io/hostname"
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: *app

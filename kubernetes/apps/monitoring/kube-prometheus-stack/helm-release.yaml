@@ -240,21 +240,21 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-      # thanosService:
-      #   enabled: true
-      # thanosServiceMonitor:
-      #   enabled: true
-      #   thanos:
-      #     image: quay.io/thanos/thanos:v0.32.0
-      #     objectStorageConfig:
-      #       name: thanos-objstore-secret
-      #       key: objstore.yml
-      #     retention: 2d
-      #     retentionSize: 15GB
-      #     storageSpec:
-      #       volumeClaimTemplate:
-      #         spec:
-      #           storageClassName: longhorn
-      #           resources:
-      #             requests:
-      #               storage: 20Gi
+        # thanosService:
+        #   enabled: true
+        # thanosServiceMonitor:
+        #   enabled: true
+        # thanos:
+        #   image: quay.io/thanos/thanos:v0.32.0
+        #   objectStorageConfig:
+        #     name: thanos-objstore-secret
+        #     key: objstore.yml
+        #   retention: 2d
+        #   retentionSize: 15GB
+        #   storageSpec:
+        #     volumeClaimTemplate:
+        #       spec:
+        #         storageClassName: longhorn
+        #         resources:
+        #           requests:
+        #             storage: 20Gi
