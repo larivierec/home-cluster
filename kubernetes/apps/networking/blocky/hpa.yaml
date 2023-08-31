@@ -5,7 +5,7 @@ metadata:
   name: blocky
   namespace: networking
 spec:
-  maxReplicas: 8
+  maxReplicas: 7
   metrics:
   - resource:
       name: memory
