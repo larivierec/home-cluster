@@ -224,21 +224,26 @@ spec:
         - name: blocky-redis
           type: standalone
           url: redis://blocky-redis-headless.networking.svc:6379
+      prometheusSpec:
+        replicas: 2
+        podAntiAffinity: hard
+        retention: 2d
+        replicaExternalLabelName: __replica__
+        prometheusExternalLabelNameClear: false
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        enableAdminAPI: true
+        walCompression: true
+        enableFeatures:
+          - auto-gomaxprocs
+          - memory-snapshot-on-shutdown
+          - new-service-discovery-manager
       # thanosService:
       #   enabled: true
       # thanosServiceMonitor:
       #   enabled: true
-      # prometheusSpec:
-      #   replicas: 2
-      #   podAntiAffinity: hard
-      #   retention: 2d
-      #   replicaExternalLabelNameClear: false
-      #   prometheusExternalLabelNameClear: false
-      #   ruleSelectorNilUsesHelmValues: false
-      #   serviceMonitorSelectorNilUsesHelmValues: false
-      #   podMonitorSelectorNilUsesHelmValues: false
-      #   probeSelectorNilUsesHelmValues: false
-
       #   thanos:
       #     image: quay.io/thanos/thanos:v0.32.0
       #     objectStorageConfig:
