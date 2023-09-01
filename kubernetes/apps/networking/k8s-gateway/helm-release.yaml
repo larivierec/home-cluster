@@ -28,7 +28,7 @@ spec:
     resources:
       requests:
         cpu: 50m
-        memory: 50Mi
+        memory: 100Mi
     domain: ${SECRET_DOMAIN}
     ttl: 1
     watchedResources: 

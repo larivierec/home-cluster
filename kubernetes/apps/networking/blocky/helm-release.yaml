@@ -36,7 +36,7 @@ spec:
     resources:
       requests:
         cpu: 50m
-        memory: 100Mi 
+        memory: 200Mi 
     env:
       TZ: UTC
     service:
@@ -217,6 +217,7 @@ spec:
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
       secret.reloader.stakater.com/reload: wildcard-cert-tls
+
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
