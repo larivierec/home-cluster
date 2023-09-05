@@ -28,6 +28,7 @@ resource "minio_iam_user" "this" {
 
 resource "minio_iam_service_account" "this" {
   target_user = minio_iam_user.this.name
+  policy      = data.minio_iam_policy_document.user.json
 }
 
 resource "minio_iam_user_policy_attachment" "this" {
