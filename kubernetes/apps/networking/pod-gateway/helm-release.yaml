@@ -41,12 +41,6 @@ spec:
           image:
             repository: ghcr.io/qdm12/gluetun
             tag: v3.35.0@sha256:a98d1ec99e09a1b806aff7f0c3d8a133a8ede7d3d7a250b62029a39a61f01525
-        env:
-        - name:  FIREWALL
-          value: "off"
-        - name:  DOT
-          value: "off"
-
         envFrom:
         - secretRef:
             name: vpn-auth
@@ -85,11 +79,11 @@ spec:
 
     settings:
       # tun0 for openvpn, wg0 for wireguard
-      VPN_INTERFACE: tun0
+      VPN_INTERFACE: wg0
       VXLAN_ID: 43
       VXLAN_IP_NETWORK: 192.168.242
       VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: 1197
+      VPN_TRAFFIC_PORT: 51820
       VPN_LOCAL_CIDRS: 10.42.0.0/16 10.43.0.0/16 192.168.0.0/16
       NOT_ROUTED_TO_GATEWAY_CIDRS: 10.42.0.0/16 10.43.0.0/16 192.168.0.0/16
 
