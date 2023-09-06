@@ -5,8 +5,6 @@ metadata:
   name: cluster-apps-weave-gitops
   namespace: flux-system
 spec:
-  # dependsOn:
-  #   - name: cluster-apps-external-secrets-stores
   path: ./kubernetes/apps/infrastructure/weave-gitops/app
   prune: true
   sourceRef:
@@ -16,7 +14,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
+  # postBuild:
+  #   substituteFrom:
+  #     - kind: Secret
+  #       name: cluster-secrets
+  dependsOn:
+    - name: cluster-apps-external-secrets-stores

@@ -12,9 +12,10 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: false # no flux ks dependents
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
-  # dependsOn:
-  #   - name: cluster-apps-external-secrets-stores
+  # postBuild:
+  #   substituteFrom:
+  #     - kind: Secret
+  #       name: cluster-secrets
+  dependsOn:
+    - name: cluster-apps-nginx-external
+    - name: cluster-apps-external-secrets-stores

@@ -16,5 +16,6 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-secrets
-  # dependsOn:
-  #   - name: cluster-apps-external-secrets-stores
+  dependsOn:
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-external-secrets-stores

@@ -2,5 +2,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - redis
-  - cloudnative-pg
+  # Pre Flux-Kustomizations
+  - ./namespace.yaml
+  # Flux-Kustomizations
+  - ./redis/ks.yaml
+  - ./cloudnative-pg/ks.yaml

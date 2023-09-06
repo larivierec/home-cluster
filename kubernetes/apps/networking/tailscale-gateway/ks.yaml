@@ -14,5 +14,5 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  # dependsOn:
-  #   - name: cluster-apps-external-secrets-bitwarden
+  dependsOn:
+    - name: cluster-apps-external-secrets-stores

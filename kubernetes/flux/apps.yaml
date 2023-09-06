@@ -6,16 +6,19 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  dependsOn:
-    - name: core
-    - name: secrets
   path: ./kubernetes/apps
   prune: false
   wait: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   postBuild:
     substituteFrom:
+      # - kind: Secret
+      #   name: cluster-secrets
       - kind: Secret
-        name: cluster-secrets
+        name: vault-secrets
