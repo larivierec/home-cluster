@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: vpn
+resources:
+  - ./external-secret.yaml
+  - ./pvc.yaml
+  - ./helm-release.yaml
+configMapGenerator:
+  - name: qbittorrent-dnsdist
+    files:
+      - ./config/dnsdist.conf
+generatorOptions:
+  disableNameSuffixHash: true

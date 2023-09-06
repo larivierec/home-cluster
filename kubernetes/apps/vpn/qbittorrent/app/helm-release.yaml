@@ -65,10 +65,47 @@ spec:
             server: "192.168.1.5"
             path: /volume2/media-sp2
         mountPath: /media
-    
-    podAnnotations:
-      setGateway: "true"
-  
+      dnsdist-config:
+        enabled: true
+        type: configMap
+        name: qbittorrent-dnsdist
+        mountPath: "-"
+    securityContext:
+      runAsUser: 568
+      runAsGroup: 568
+    sidecars:
+      dnsdist:
+        image: docker.io/powerdns/dnsdist-18:1.8.0
+        volumeMounts:
+          - name: dnsdist-config
+            mountPath: /etc/dnsdist/dnsdist.conf
+            subPath: dnsdist.conf
+            readOnly: true
+      gluetun:
+        image: ghcr.io/qdm12/gluetun:latest@sha256:8d744532dc4a2394f9b6544637b1c1312be8e38903777df6081fd1511d5d1223
+        env:
+          - name: VPN_SERVICE_PROVIDER
+            value: surfshark
+          - name: VPN_TYPE
+            value: wireguard
+          - name: VPN_INTERFACE
+            value: wg0
+          - name: FIREWALL_INPUT_PORTS
+            value: "8080"
+          - name: FIREWALL_OUTBOUND_SUBNETS
+            # Allow access to k8s subnets
+            value: "10.42.0.0/16,10.43.0.0/16"
+          - name: DOT
+            value: "off"
+          - name: DNS_ADDRESS
+            value: "127.0.0.2"
+        envFrom:
+          - secretRef:
+              name: vpn-auth
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
     podSecurityContext:
       supplementalGroups:
-      - 100
+        - 65539
