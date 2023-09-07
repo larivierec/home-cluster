@@ -16,8 +16,6 @@ spec:
     substituteFrom:
       - kind: Secret
         name: vault-secrets
-  dependsOn:
-    - name: cluster-apps-nginx-external
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -36,8 +34,6 @@ spec:
     substituteFrom:
       - kind: Secret
         name: vault-secrets
-  dependsOn:
-    - name: cluster-apps-nginx-external
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -56,5 +52,3 @@ spec:
     substituteFrom:
       - kind: Secret
         name: vault-secrets
-  dependsOn:
-    - name: cluster-apps-nginx-external

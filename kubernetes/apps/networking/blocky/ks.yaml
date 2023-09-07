@@ -19,5 +19,4 @@ spec:
         optional: false
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-    - name: cluster-apps-nginx-internal
     - name: cluster-apps-redis
