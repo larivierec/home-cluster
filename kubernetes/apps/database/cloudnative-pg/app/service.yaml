@@ -6,7 +6,7 @@ metadata:
   namespace: database
   annotations:
     coredns.io/hostname: "postgres.${SECRET_DOMAIN}"
-    # io.cilium/lb-ipam-ips: "192.168.42.11"
+    # io.cilium/lb-ipam-ips: "192.168.50.11"
     metallb.universe.tf/loadBalancerIPs: "192.168.42.11"
 spec:
   type: LoadBalancer
