@@ -11,11 +11,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  wait: false # no flux ks dependents
-  # postBuild:
-  #   substituteFrom:
-  #     - kind: Secret
-  #       name: cluster-secrets
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets-stores
 ---
@@ -31,10 +31,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  wait: false # no flux ks dependents
-  # postBuild:
-  #   substituteFrom:
-  #     - kind: Secret
-  #       name: cluster-secrets
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets-stores

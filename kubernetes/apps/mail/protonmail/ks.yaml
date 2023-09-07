@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  wait: false # no flux ks dependents
+  wait: true
   postBuild:
     substituteFrom:
       - kind: Secret
