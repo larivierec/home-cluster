@@ -10,6 +10,6 @@ resources:
   - ./ddns/ks.yaml
   - ./external-dns/ks.yaml
   - ./k8s-gateway/ks.yaml
+  - ./opnsense/ks.yaml
+  - ./proxmox/ks.yaml
   - ./tailscale-gateway/ks.yaml
-  - ./opnsense
-  - ./proxmox
