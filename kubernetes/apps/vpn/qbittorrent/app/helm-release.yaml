@@ -75,7 +75,7 @@ spec:
       runAsGroup: 568
     sidecars:
       dnsdist:
-        image: docker.io/powerdns/dnsdist-18:1.8.0
+        image: docker.io/powerdns/dnsdist-18:1.8.1
         volumeMounts:
           - name: dnsdist-config
             mountPath: /etc/dnsdist/dnsdist.conf
