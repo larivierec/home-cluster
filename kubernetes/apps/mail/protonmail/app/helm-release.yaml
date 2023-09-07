@@ -42,8 +42,6 @@ spec:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "imap.${SECRET_DOMAIN}"
           io.cilium/lb-ipam-ips: "192.168.50.5"
-          # metallb.universe.tf/allow-shared-ip: mail-svc
-          # metallb.universe.tf/loadBalancerIPs: "192.168.42.6"
         externalTrafficPolicy: Cluster
         ports:
           imap-tcp:
@@ -56,8 +54,6 @@ spec:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "smtp.${SECRET_DOMAIN}"
           io.cilium/lb-ipam-ips: "192.168.50.6"
-          # metallb.universe.tf/allow-shared-ip: mail-svc
-          # metallb.universe.tf/loadBalancerIPs: "192.168.42.6"
         externalTrafficPolicy: Cluster
         ports:
           smtp-tcp:

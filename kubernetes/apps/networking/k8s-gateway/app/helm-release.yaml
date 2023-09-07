@@ -40,7 +40,6 @@ spec:
       clusterIP: "10.43.131.47"
       annotations:
         io.cilium/lb-ipam-ips: "192.168.50.10"
-        # metallb.universe.tf/loadBalancerIPs: "192.168.42.5"
     affinity:
       podAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
