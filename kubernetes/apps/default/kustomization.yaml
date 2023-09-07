@@ -7,7 +7,6 @@ resources:
   # Flux-Kustomizations
   - ./bazarr/ks.yaml
   - ./hajimari/ks.yaml
-  - ./jellyfin/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml
   - ./overseerr/ks.yaml
