@@ -5,6 +5,7 @@ metadata:
   name: cluster-apps-jellyfin
   namespace: flux-system
 spec:
+  suspend: true
   interval: 10m
   path: "./kubernetes/apps/default/jellyfin/app"
   prune: true

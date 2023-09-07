@@ -15,6 +15,7 @@ spec:
         name: bjw-s
         namespace: flux-system
       interval: 5m
+  suspend: true
   maxHistory: 2
   install:
     createNamespace: true
