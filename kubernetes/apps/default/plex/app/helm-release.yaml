@@ -35,7 +35,7 @@ spec:
       backup.velero.io/backup-volumes: config
     env:
       TZ: "UTC"
-      ADVERTISE_IP: "https://192.168.42.2:32400,https://plex.${SECRET_DOMAIN}:443"
+      ADVERTISE_IP: "https://192.168.50.4:32400,https://plex.${SECRET_DOMAIN}:443"
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     
