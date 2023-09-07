@@ -134,7 +134,6 @@ spec:
         ingressClassName: nginx-internal
         annotations:
           hajimari.io/enable: "false"
-          # io.cilium/lb-ipam-ips: "192.168.50.10"
         hosts:
           - host: &host "hajimari.${SECRET_DOMAIN}"
             paths:

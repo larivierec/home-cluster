@@ -50,9 +50,9 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          metallb.universe.tf/allow-shared-ip: blocky-svc
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.4"
-          # io.cilium/lb-ipam-ips: "192.168.50.4"
+          # metallb.universe.tf/allow-shared-ip: blocky-svc
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.4"
+          io.cilium/lb-ipam-ips: "192.168.50.7"
         monitor:
           enabled: false
         ports:

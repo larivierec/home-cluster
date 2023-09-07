@@ -38,7 +38,7 @@ spec:
             enabled: true
             primary: true
             type: LoadBalancer
-            externalTrafficPolicy: Local
+            externalTrafficPolicy: Cluster
             annotations:
               coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
             port: 1883

@@ -47,10 +47,11 @@ spec:
     service:
       main:
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
           coredns.io/hostname: "plex.${SECRET_DOMAIN}"
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.2"
+          io.cilium/lb-ipam-ips: "192.168.50.4"
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.2"
         ports:
           http:
             port: 32400

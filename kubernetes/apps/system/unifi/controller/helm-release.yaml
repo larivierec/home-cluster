@@ -43,13 +43,13 @@ spec:
     service:
       main:
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
           hajimari.io/icon: "mdi:lan"
           coredns.io/hostname: "unifi-controller.${SECRET_DOMAIN}"
-          # io.cilium/lb-ipam-ips: "192.168.50.7"
+          io.cilium/lb-ipam-ips: "192.168.50.9"
           metallb.universe.tf/allow-shared-ip: default-lb
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.7"
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.7"
         ports:
           http:
             port: 8443

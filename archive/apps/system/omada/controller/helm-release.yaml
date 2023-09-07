@@ -69,12 +69,12 @@ spec:
       controller:
         enabled: true
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
           coredns.io/hostname: "omada-controller.${SECRET_DOMAIN}"
-          # io.cilium/lb-ipam-ips: "192.168.50.8"
-          metallb.universe.tf/allow-shared-ip: default-lb
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.8"
+          io.cilium/lb-ipam-ips: "192.168.50.8"
+          # metallb.universe.tf/allow-shared-ip: default-lb
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.8"
         ports:
           mgmt-8088-tcp:
             enabled: true

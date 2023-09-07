@@ -26,7 +26,7 @@ spec:
       retries: 3
   values:
     bgpControlPlane:
-      enabled: false
+      enabled: true
     cluster:
       name: k3s
     containerRuntime:
@@ -62,7 +62,7 @@ spec:
               secretName: wildcard-cert-tls
         rollOutPods: true
     ingressController:
-      enabled: true
+      enabled: false
     autoDirectNodeRoutes: true
     ipam:
       mode: kubernetes

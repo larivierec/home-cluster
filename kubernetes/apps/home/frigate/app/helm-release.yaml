@@ -49,7 +49,6 @@ spec:
       main:
         enabled: true
         annotations:
-          # io.cilium/lb-ipam-ips: "192.168.50.10"
           hajimari.io/icon: icon-park-solid:surveillance-cameras
         ingressClassName: nginx-internal
         hosts:

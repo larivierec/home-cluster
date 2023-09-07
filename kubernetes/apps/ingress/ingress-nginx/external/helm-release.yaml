@@ -52,11 +52,11 @@ spec:
      
       service:
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ingress.${SECRET_DOMAIN}
-          # io.cilium/lb-ipam-ips: "192.168.50.3"
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.3"
+          io.cilium/lb-ipam-ips: "192.168.50.3"
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.3"
       extraArgs:
         default-ssl-certificate: ingress/wildcard-cert-tls
       publishService:

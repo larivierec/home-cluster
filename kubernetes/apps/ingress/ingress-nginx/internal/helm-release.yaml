@@ -52,10 +52,10 @@ spec:
      
       service:
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         annotations:
-          # io.cilium/lb-ipam-ips: "192.168.50.9"
-          metallb.universe.tf/loadBalancerIPs: "192.168.42.9"
+          io.cilium/lb-ipam-ips: "192.168.50.2"
+          # metallb.universe.tf/loadBalancerIPs: "192.168.42.9"
 
       publishService:
         enabled: true

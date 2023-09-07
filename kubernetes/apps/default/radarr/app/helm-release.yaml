@@ -57,7 +57,6 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "iconoir:movie"
-          # io.cilium/lb-ipam-ips: "192.168.50.10"
         ingressClassName: nginx-internal
         hosts:
           - host: &host "radarr.${SECRET_DOMAIN}"
