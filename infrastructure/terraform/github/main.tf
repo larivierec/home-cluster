@@ -4,7 +4,7 @@ module "home-cluster" {
 
   name        = "home-cluster"
   description = "k3s cluster using gitops (flux) and renovate automation"
-  topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "nvidia-docker", "k3s", "bitwarden"]
+  topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "k3s", "bitwarden", "nvidia-docker"]
   visibility  = "public"
 
   auto_init              = true
