@@ -212,7 +212,7 @@ spec:
               http: 4000
             certFile: /tls/tls.crt
             keyFile: /tls/tls.key
-            logLevel: debug
+            logLevel: info
 
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
