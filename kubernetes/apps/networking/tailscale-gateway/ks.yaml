@@ -16,3 +16,21 @@ spec:
   timeout: 5m
   dependsOn:
     - name: cluster-apps-external-secrets-stores
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-tailscale-operator
+  namespace: flux-system
+spec:
+  path: ./kubernetes/apps/networking/tailscale-gateway/operator
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: cluster-apps-external-secrets-stores
