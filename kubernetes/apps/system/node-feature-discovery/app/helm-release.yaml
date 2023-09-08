@@ -17,6 +17,7 @@ spec:
       interval: 15m
   maxHistory: 2
   install:
+    crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 3
@@ -26,6 +27,7 @@ spec:
       retries: 3
   values:
     master:
+      crdController: true
       tolerations:
         - effect: "NoExecute"
           operator: "Exists"
