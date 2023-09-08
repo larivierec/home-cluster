@@ -91,6 +91,20 @@ helm install cilium cilium/cilium -f kubernetes/core/cilium/bootstrap/values.yam
 
 Note: Add an entry to the BGP Neighbors table with the IP address of the Node you're adding.
 
+## Networking
+
+I use Tailscale on the router and another one inside the cluster.
+Both of them broadcasts my network and act as exit nodes for Tailscale clients.
+
+Router exit node
+Cluster exit node
+
+Having both isn't necessary because if you lose internet you won't be able to access either remotely.
+The difference is if i'm playing around with stuff inside the cluster and the cluster breaks, I may no longer be able to use the exit node in the cluster; The exit node inside the cluster is the main exit node.
+
+Having the ability to not put unnecessary strain on the router is the reason why i'm running 2 exit nodes + 2 subnet broadcasts.
+If I have internet access and the cluster explodes for whatever reason, at least, i'll still be able to access my network remotely.
+
 ## Cilium CNI - Note
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.

@@ -46,7 +46,7 @@ spec:
       CLIENT_ID_FILE: "/oauth/client_id"
       CLIENT_SECRET_FILE: "/oauth/client_secret"
       OPERATOR_LOGGING: "debug"
-      PROXY_IMAGE: "tailscale/tailscale:v1.48.1"
+      PROXY_IMAGE: "ghcr.io/tailscale/tailscale:v1.48.1"
       PROXY_TAGS: "tag:k8s"
       AUTH_PROXY: "true"
 
