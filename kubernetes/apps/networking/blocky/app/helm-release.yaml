@@ -195,7 +195,8 @@ spec:
 
             clientLookup:
               upstream: tcp+udp:192.168.1.1
-
+            ede:
+              enable: true
             caching:
               prefetching: true
               prefetchExpires: 2h
