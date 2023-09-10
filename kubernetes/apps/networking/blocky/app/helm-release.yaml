@@ -116,14 +116,14 @@ spec:
         data:
           config.yml: |-
             connectIPVersion: v4
-            upstream:
-              default:
-                - tcp-tls:one.one.one.one
-                - tcp-tls:dns.quad9.net
-                - https://cloudflare-dns.com/dns-query
-                - https://dns.quad9.net/dns-query
-
-            upstreamTimeout: 2s
+            upstreams:
+              groups:
+                default:
+                  - tcp-tls:one.one.one.one
+                  - tcp-tls:dns.quad9.net
+                  - https://cloudflare-dns.com/dns-query
+                  - https://dns.quad9.net/dns-query
+              timeout: 2s
 
             conditional:
               mapping:
@@ -197,7 +197,10 @@ spec:
                   - noblock
 
             clientLookup:
-              upstream: tcp+udp:192.168.1.1
+              upstream: 192.168.1.1
+              singleNameOrder:
+                - 2
+                - 1
 
             caching:
               prefetching: true
@@ -215,7 +218,8 @@ spec:
               http: 4000
             certFile: /tls/tls.crt
             keyFile: /tls/tls.key
-            logLevel: info
+            log:
+              level: info
 
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
