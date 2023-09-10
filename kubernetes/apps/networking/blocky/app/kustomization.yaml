@@ -5,3 +5,9 @@ resources:
   - ./helm-release.yaml
   - ./hpa.yaml
   - ./monitoring
+configMapGenerator:
+  - name: blocky-config
+    files:
+      - ./configs/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
