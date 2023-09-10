@@ -38,6 +38,7 @@ spec:
       NO_AUTOUPDATE: "true"
       TS_KUBE_SECRET: "tailscale-auth"
       SA_NAME: tailscale
+      TS_HOSTNAME: "tailscale-k8s-gateway"
       TS_USERSPACE: "true"
       TS_ROUTES: "192.168.0.0/16"
       TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:k8s --accept-routes"
