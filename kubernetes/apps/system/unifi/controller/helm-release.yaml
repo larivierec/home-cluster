@@ -103,7 +103,7 @@ spec:
       config:
         enabled: true
         mountPath: /config
-        existingClaim: unifi-config-v2
+        existingClaim: unifi-config
         subPath: unifi
 
     podAnnotations:

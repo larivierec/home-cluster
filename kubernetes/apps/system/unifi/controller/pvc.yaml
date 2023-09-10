@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: unifi-config-v2
+  name: unifi-config
   namespace: system
 spec:
   storageClassName: longhorn
