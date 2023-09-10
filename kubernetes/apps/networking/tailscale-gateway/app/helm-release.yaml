@@ -36,7 +36,7 @@ spec:
     env:
       TZ: "UTC"
       NO_AUTOUPDATE: "true"
-      TS_KUBE_SECRET: "tailscale-auth"
+      TS_KUBE_SECRET: tailscale-state
       SA_NAME: tailscale
       TS_HOSTNAME: "tailscale-k8s-gateway"
       TS_USERSPACE: "true"
