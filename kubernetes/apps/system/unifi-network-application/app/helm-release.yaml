@@ -1,0 +1,114 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: unifi-network-application
+  namespace: system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  values:
+    controller:
+      type: deployment
+      strategy: Recreate
+
+    image:
+      repository: lscr.io/linuxserver/unifi-network-application
+      tag: 7.5.174
+
+    env:
+      TZ: "America/New_York"
+      MEM_LIMIT: 1024
+      MEM_STARTUP: 512
+      PUID: 999
+      PGID: 999
+      MONGO_USER: unifi
+      MONGO_HOST: unifi-db
+      MONGO_PORT: 27017
+      MONGO_DBNAME: unifi
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          hajimari.io/icon: "mdi:lan"
+          coredns.io/hostname: "unifi-nap.${SECRET_DOMAIN}"
+          io.cilium/lb-ipam-ips: "192.168.50.20"
+        ports:
+          http:
+            port: 8443
+          controller:
+            enabled: true
+            port: 8080
+            protocol: TCP
+          portal-http:
+            enabled: false
+            port: 8880
+            protocol: HTTP
+          portal-https:
+            enabled: false
+            port: 8843
+            protocol: HTTPS
+          speedtest:
+            enabled: true
+            port: 6789
+            protocol: TCP
+          stun:
+            enabled: true
+            port: 3478
+            protocol: UDP
+          syslog:
+            enabled: true
+            port: 5514
+            protocol: UDP
+          discovery:
+            enabled: true
+            port: 10001
+            protocol: UDP
+    probes:
+      liveness:
+        enabled: false
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx-internal
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: &host unifi-test.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        existingClaim: unifi-config-nap
+        subPath: unifi
+
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
