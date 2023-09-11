@@ -57,6 +57,10 @@ spec:
         rollOutPods: true
       serviceMonitor:
         enabled: true
+      dashboards:
+        enabled: true
+        annotations:
+          grafana_folder: Cilium
       ui:
         enabled: true
         ingress:
