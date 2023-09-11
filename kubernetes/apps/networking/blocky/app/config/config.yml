@@ -81,6 +81,11 @@ blocking:
 
 clientLookup:
   upstream: 192.168.1.1
+  singleNameOrder:
+    - 4
+    - 3
+    - 2
+    - 1
 
 caching:
   prefetching: true
