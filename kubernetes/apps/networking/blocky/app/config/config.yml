@@ -81,11 +81,6 @@ blocking:
 
 clientLookup:
   upstream: 192.168.1.1
-  singleNameOrder:
-    - 4
-    - 3
-    - 2
-    - 1
 
 caching:
   prefetching: true
@@ -105,3 +100,4 @@ certFile: /tls/tls.crt
 keyFile: /tls/tls.key
 log:
   level: info
+  format: json
