@@ -6,3 +6,4 @@ resources:
   - ./helm-release.yaml
   - ./address-pool.yaml
   - ./peering-policy.yaml
+  - ./l2.yaml

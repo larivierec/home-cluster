@@ -41,6 +41,11 @@ spec:
       lbBypassFIBLookup: true
       masquerade: true
       tproxy: true
+    l2announcements:
+      enabled: true
+      leaseDuration: 120s
+      leaseRenewDeadline: 60s
+      leaseRetryPeriod: 1s
     hubble:
       enabled: true
       metrics:
@@ -57,6 +62,10 @@ spec:
         rollOutPods: true
       serviceMonitor:
         enabled: true
+      dashboards:
+        enabled: true
+        annotations:
+          grafana_folder: Cilium
       ui:
         enabled: true
         ingress:
