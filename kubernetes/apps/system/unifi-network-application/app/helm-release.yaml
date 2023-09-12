@@ -39,11 +39,14 @@ spec:
       MEM_STARTUP: 512
       PUID: 999
       PGID: 999
-      MONGO_USER: unifi
-      MONGO_HOST: unifi-db
+      MONGO_HOST: mongodb.database.svc.cluster.local
+      MONGO_DBNAME: mongo
       MONGO_PORT: 27017
-      MONGO_DBNAME: unifi
 
+    envFrom:
+      - secretRef:
+          name: mongodb-creds
+  
     service:
       main:
         type: LoadBalancer
