@@ -39,8 +39,8 @@ spec:
       MEM_STARTUP: 512
       PUID: 999
       PGID: 999
-      MONGO_HOST: mongodb.database.svc.cluster.local
-      MONGO_DBNAME: mongo
+      MONGO_HOST: localhost
+      MONGO_DBNAME: &db mongo
       MONGO_PORT: 27017
 
     envFrom:
@@ -112,6 +112,43 @@ spec:
         mountPath: /config
         existingClaim: unifi-config-nap
         subPath: unifi
+      mongo-init:
+        enabled: true
+        accessMode: ReadWriteOnce
+        type: configMap
+        name: mongo-init
+        readOnly: true
+      data:
+        enabled: true
+        existingClaim: mongodb-data
 
     podAnnotations:
       backup.velero.io/backup-volumes: config
+
+    sidecars:
+      mongodb:
+        image: docker.io/library/mongo:7.0
+        env:
+          MONGO_DBNAME: *db
+        volumeMounts:
+          - name: mongo-init
+            mountPath: /docker-entrypoint-initdb.d/init-unifi.js
+            subPath: init-unifi.js
+            readOnly: true
+          - name: data
+            mountPath: /data
+    
+    nodeSelector:
+      feature.node.kubernetes.io/pci-0300_10de.present: "true"
+
+    valuesFrom:
+    - kind: Secret
+      name: mongodb-creds
+      valuesKey: MONGO_USER
+      targetPath: env.MONGO_USER
+      optional: false
+    - kind: Secret
+      name: mongodb-creds
+      valuesKey: MONGO_PASS
+      targetPath: env.MONGO_PASS
+      optional: false

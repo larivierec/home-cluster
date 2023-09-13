@@ -1,0 +1,2 @@
+db.getSiblingDB("mongo").createUser({user: "{MONGO_USER}", pwd: "{MONGO_PASS}", roles: [{role: "readWrite", db: "mongo"}]});
+db.getSiblingDB("mongo_stat").createUser({user: "{MONGO_USER}", pwd: "{MONGO_PASS}", roles: [{role: "readWrite", db: "mongo_stat"}]});
