@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: system
 resources:
   - ./pvc.yaml
+  - ./app-secret.yaml
   - ./external-secret.yaml
   - ./helm-release.yaml
 configMapGenerator:
