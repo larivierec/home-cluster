@@ -32,13 +32,20 @@ spec:
     envFrom:
       - secretRef:
           name: mongodb-creds
-    env:
-      MONGO_INITDB_DATABASE: mongo
 
     persistence:
-      config:
+      data:
         enabled: true
         existingClaim: mongodb-data
+        mountPath: /data
+      mongo-init:
+        enabled: true
+        accessMode: ReadWriteOnce
+        type: configMap
+        name: mongo-init
+        mountPath: /docker-entrypoint-initdb.d/init-db.js
+        subPath: init-db.js
+
     service:
       main:
         type: LoadBalancer
@@ -49,3 +56,23 @@ spec:
         ports:
           http:
             port: 27017
+
+    valuesFrom:
+      - kind: Secret
+        name: mongodb-creds
+        valuesKey: MONGO_USER
+        targetPath: env.MONGO_USER
+        optional: false
+      - kind: Secret
+        name: mongodb-creds
+        valuesKey: MONGO_INITDB_ROOT_PASSWORD
+        targetPath: env.MONGO_PASS
+        optional: false
+      - kind: Secret
+        name : mongodb-creds
+        valuesKey: MONGO_DBNAME
+        targetPath: env.MONGO_DBNAME
+        optional: false
+
+    nodeSelector:
+      feature.node.kubernetes.io/pci-0300_10de.present: "true"

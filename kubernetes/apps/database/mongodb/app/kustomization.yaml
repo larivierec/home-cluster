@@ -6,3 +6,9 @@ resources:
   - ./pvc.yaml
   - ./external-secret.yaml
   - ./helm-release.yaml
+configMapGenerator:
+  - name: mongo-init
+    files:
+      - ./config/init-db.js
+generatorOptions:
+  disableNameSuffixHash: true

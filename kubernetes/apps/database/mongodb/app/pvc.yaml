@@ -11,5 +11,5 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 3Gi
+      storage: 10Gi
   storageClassName: nfs-minio
