@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-actions-runner-controller
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/app
+  path: ./kubernetes/apps/arc-system/actions-runner-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -19,7 +19,7 @@ metadata:
   name: cluster-apps-actions-runner-controller-runners
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/runners
+  path: ./kubernetes/apps/arc-system/actions-runner-controller/runners
   prune: true
   sourceRef:
     kind: GitRepository

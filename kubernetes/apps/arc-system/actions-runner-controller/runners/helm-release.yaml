@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: home-cluster
-  namespace: actions-runner-system
+  name: runner-home-cluster
+  namespace: arc-system
 spec:
   interval: 30m
   chart:
