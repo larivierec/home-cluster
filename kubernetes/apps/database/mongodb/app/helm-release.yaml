@@ -28,7 +28,8 @@ spec:
     image:
       repository: docker.io/library/mongo
       tag: 7.0
-
+    env:
+      MONGO_DBNAME: mongo
     envFrom:
       - secretRef:
           name: mongodb-creds
@@ -56,23 +57,6 @@ spec:
         ports:
           http:
             port: 27017
-
-    valuesFrom:
-      - kind: Secret
-        name: mongodb-creds
-        valuesKey: MONGO_USER
-        targetPath: env.MONGO_USER
-        optional: false
-      - kind: Secret
-        name: mongodb-creds
-        valuesKey: MONGO_INITDB_ROOT_PASSWORD
-        targetPath: env.MONGO_PASS
-        optional: false
-      - kind: Secret
-        name : mongodb-creds
-        valuesKey: MONGO_DBNAME
-        targetPath: env.MONGO_DBNAME
-        optional: false
 
     nodeSelector:
       feature.node.kubernetes.io/pci-0300_10de.present: "true"
