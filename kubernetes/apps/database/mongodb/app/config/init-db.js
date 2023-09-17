@@ -1,31 +1,29 @@
-console.log("MONGO_USER " + process.env.MONGO_USER);
-console.log("MONGO_PASS " + process.env.MONGO_PASSWORD);
-console.log("MONGO_DB " + process.env.MONGO_DBNAME);
+console.log("MONGO_USER " + {MONGO_USER});
+console.log("MONGO_PASS " + {MONGO_PASSWORD});
+console.log("MONGO_DB " + {MONGO_DBNAME});
 
-db = new Mongo().getDB(process.env.MONGO_DBNAME)
-dbStat = new Mongo().getDB(process.env.MONGO_DBNAME + "_stat")
+db = new Mongo().getDB({MONGO_DBNAME})
+dbStat = new Mongo().getDB({MONGO_DBNAME} + "_stat")
 
 db.createCollection("users", {capped: false});
 dbStat.createCollection("users", {capped: false});
 
-db.createUser(
-  {
-    user: process.env.MONGO_USER, 
-    pwd: process.env.MONGO_PASSWORD, 
-    roles: [
-      {
-        role: "readWrite", db: process.env.MONGO_DBNAME
-      }
-    ]
-  });
+db.createUser({
+  user: {MONGO_USER},
+  pwd: {MONGO_PASSWORD},
+  roles: [
+    {
+      role: "readWrite", db: {MONGO_DBNAME}
+    }
+  ]
+});
 
-dbStat.createUser(
-  {
-    user: process.env.MONGO_USER, 
-    pwd: process.env.MONGO_PASSWORD, 
-    roles: [
-      {
-        role: "readWrite", db: process.env.MONGO_DBNAME + "_stat"
-      }
-    ]
-  });
+dbStat.createUser({
+  user: {MONGO_USER},
+  pwd: {MONGO_PASSWORD},
+  roles: [
+    {
+      role: "readWrite", db: {MONGO_DBNAME} + "_stat"
+    }
+  ]
+});
