@@ -16,12 +16,13 @@ resources:
   - grafana.yaml
   - hajimari.yaml
   - ingress-nginx.yaml
+  - intel.yaml
   - jetstack.yaml
   - kube-state-metrics.yaml
   - kubereboot.yaml
   - kubernetes-sigs-nfd.yaml
   - longhorn.yaml
-  - metallb.yaml
+  # - metallb.yaml
   - minio.yaml
   - nfs-provisioner.yaml
   - nvidia-dcgm.yaml

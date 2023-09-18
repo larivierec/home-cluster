@@ -9,6 +9,8 @@ resources:
   - ./coredns/ks.yaml
   - ./descheduler/ks.yaml
   - ./external-secrets/ks.yaml
+  - ./intel/ks.yaml
   - ./nfs-subdir-external-provisioner/ks.yaml
+  - ./node-feature-discovery/ks.yaml
   - ./nvidia/dcgm-exporter/ks.yaml
   - ./nvidia/device-plugin/ks.yaml
