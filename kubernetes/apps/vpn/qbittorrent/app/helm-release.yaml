@@ -80,7 +80,7 @@ spec:
             subPath: dnsdist.conf
             readOnly: true
       gluetun:
-        image: ghcr.io/qdm12/gluetun:latest@sha256:088a23ddfe3d4843b0c14d5b7a2101ebfd0143e177a374fe4786da95b78583e0
+        image: ghcr.io/qdm12/gluetun:latest@sha256:438619e7a79f6d4343d26e2d88af026b969be627597b8595e535b6838264797e
         env:
           - name: VPN_SERVICE_PROVIDER
             value: surfshark
