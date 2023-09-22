@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: ghcr.io/larivierec/bitwarden-cli
-      tag: latest
+      tag: v0.0.9
     env:
       BW_CLIENTID: ${BW_CLIENTID}
       BW_CLIENTSECRET: ${BW_CLIENTSECRET}
