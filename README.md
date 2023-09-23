@@ -189,6 +189,7 @@ data:
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
 | J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | Opnsense 23      | Router               |
+| Cisco 2960s               | 1     |            -            | -                           |  -   | Cisco Legacy IOS | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
 | NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
@@ -268,35 +269,4 @@ apt install \
   gnupg \
   net-tools \
   dnsutils
-```
-
-For Beelink nodes, there was an incompatibility for iGPU transcoding with Ubuntu 22.04.1 LTS and Kernel 5.15.X
-
-To fix this, install a Kernel with the patch:
-
-Beelink U59 uses amd64 architecture.
-[unsigned image](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/amd64/linux-image-unsigned-5.16.0-051600-generic_5.16.0-051600.202201092355_amd64.deb)
-[modules](https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.16/amd64/linux-modules-5.16.0-051600-generic_5.16.0-051600.202201092355_amd64.deb)
-
-1. Add the file /etc/modprobe.d/i915.conf containing the following.
-
-```text
-options i915 enable_guc=3
-```
-
-2. Update grub to take into account the i915 configuration
-```bash
-sudo update-initramfs -u && sudo update-grub2
-```
-
-3. Reboot
-
-4. When everything has reloaded, check the `dmesg` ensure that it loads and something similar should show up in the logs
-```text
-[    1.294988] i915 0000:00:02.0: vgaarb: deactivate vga console
-[    1.296988] i915 0000:00:02.0: vgaarb: changed VGA decodes: olddecodes=io+mem,decodes=io+mem:owns=io+mem
-[    1.297508] i915 0000:00:02.0: [drm] Finished loading DMC firmware i915/icl_dmc_ver1_09.bin (v1.9)
-[    1.318551] i915 0000:00:02.0: [drm] GuC firmware i915/ehl_guc_62.0.0.bin version 62.0 submission:enabled
-[    1.318560] i915 0000:00:02.0: [drm] GuC SLPC: disabled
-[    1.318563] i915 0000:00:02.0: [drm] HuC firmware i915/ehl_huc_9.0.0.bin version 9.0 authenticated:yes
 ```
