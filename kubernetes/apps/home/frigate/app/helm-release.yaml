@@ -31,7 +31,7 @@ spec:
     runtimeClassName: nvidia
     image:
       repository: ghcr.io/blakeblackshear/frigate
-      tag: 0.12.1-tensorrt
+      tag: 0.13.0-beta2-tensorrt
       imagePullPolicy: IfNotPresent
     controller:
       strategy: Recreate
@@ -40,6 +40,7 @@ spec:
     env:
       NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
       NVIDIA_VISIBLE_DEVICES: all
+      YOLO_MODELS: yolov7-tiny-416
     service:
       main:
         ports:
@@ -91,19 +92,27 @@ spec:
       tensor:
         enabled: true
         type: hostPath
-        hostPath: /opt/gpu/trt-models
-        mountPath: /trt-models
+        hostPath: /config/model_cache/tensorrt
+        mountPath: /config/model_cache/tensorrt
         hostPathType: Directory
-        readOnly: true
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
     resources:
       requests:
         cpu: 100m
         memory: 250Mi
+        # gpu.intel.com/i915: 1
         nvidia.com/gpu: 1
       limits:
         memory: 6Gi
+        # gpu.intel.com/i915: 1
         nvidia.com/gpu: 1
 
   valuesFrom:

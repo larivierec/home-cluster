@@ -47,7 +47,7 @@ detectors:
     device: 0
 
 model:
-  path: /trt-models/yolov7-tiny-416.trt
+  path: /config/model_cache/tensorrt/yolov7-tiny-416.trt
   input_tensor: nchw
   input_pixel_format: rgb
   width: 416
