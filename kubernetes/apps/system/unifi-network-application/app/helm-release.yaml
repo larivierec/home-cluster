@@ -31,7 +31,7 @@ spec:
 
     image:
       repository: lscr.io/linuxserver/unifi-network-application
-      tag: 7.5.174
+      tag: 7.5.176
 
     env:
       TZ: "America/New_York"
