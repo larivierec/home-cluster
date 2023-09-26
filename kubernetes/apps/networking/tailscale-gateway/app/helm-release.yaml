@@ -30,7 +30,7 @@ spec:
       name: tailscale
     image:
       repository: ghcr.io/tailscale/tailscale
-      tag: v1.48.2
+      tag: v1.50.0
     podAnnotations:
       configmap.reloader.stakater.com/reload: tailscale-auth
     env:
