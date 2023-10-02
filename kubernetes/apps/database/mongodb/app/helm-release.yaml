@@ -27,7 +27,7 @@ spec:
 
     image:
       repository: docker.io/library/mongo
-      tag: 7.0
+      tag: 5.0
     env:
       MONGO_DBNAME: mongo
     envFrom:
