@@ -7,4 +7,3 @@ resources:
   # Flux-Kustomizations
   - ./redis/ks.yaml
   - ./cloudnative-pg/ks.yaml
-  - ./mongodb/ks.yaml

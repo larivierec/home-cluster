@@ -10,5 +10,4 @@ resources:
   - ./reflector/ks.yaml
   - ./minio/ks.yaml
   - ./unifi/ks.yaml
-  - ./unifi-network-application/ks.yaml
   - ./vaultwarden/ks.yaml
