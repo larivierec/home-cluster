@@ -173,6 +173,24 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 3. Ensure you use this `sops-age` secret for decrypting.
 
+# Notes
+
+## Frigate
+
+I suggest you check the frigate folder for more information regarding nvidia detection.
+
+## Unifi
+
+As I have unifi hardware, you cannot wait for the Unifi Software controller.
+You have 2 options.
+
+1. Get a cloud key / security gateway
+2. Self-host on something reliable like a NAS. 
+
+I opted for option 2 because it's cheaper and does almost the same, except you manage your own backups and etc.
+When I just had APs this didn't bother me, however, now with Switches your NAS must be up and running before setting up the switch.
+
+Maybe this could've been run on a router but I did not want to introduce more stress
 ## Ingress
 
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
@@ -202,11 +220,7 @@ data:
 | k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 
 
-# Notes
-
-## Frigate
-
-I suggest you check the frigate folder for more information regarding nvidia detection.
+# Base Node Install
 
 ## Proxmox
 
