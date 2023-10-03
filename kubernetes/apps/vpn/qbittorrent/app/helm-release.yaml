@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,13 +26,59 @@ spec:
       retries: 3
 
   values:
-    image:
-      repository: ghcr.io/onedr0p/qbittorrent
-      tag: 4.5.5@sha256:30dffe7ad04ea0e39db0b50c0bd5e79362f99f7ff6b250526d2f389b58d96f14
-    hostname: qbittorrent
-    env:
-      TZ: "UTC"
-      QBITTORRENT__PORT: &port 8080
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 4.5.5@sha256:30dffe7ad04ea0e39db0b50c0bd5e79362f99f7ff6b250526d2f389b58d96f14
+            hostname: qbittorrent
+            env:
+              TZ: "UTC"
+              QBITTORRENT__PORT: &port 8080
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-18
+              tag: 1.8.1
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: latest@sha256:15cc7c1b531a1200fc5f8fd55bfcc96a3de596691d56a4dd8c2a31ee1f86f8e6
+            env:
+              - name: VPN_SERVICE_PROVIDER
+                value: surfshark
+              - name: VPN_TYPE
+                value: wireguard
+              - name: VPN_INTERFACE
+                value: wg0
+              - name: FIREWALL_INPUT_PORTS
+                value: "8080"
+              - name: FIREWALL_OUTBOUND_SUBNETS
+                # Allow access to k8s subnets
+                value: "10.42.0.0/16,10.43.0.0/16"
+              - name: DOT
+                value: "off"
+              - name: DNS_ADDRESS
+                value: "127.0.0.2"
+            envFrom:
+              - secretRef:
+                  name: vpn-auth
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+        annotations:
+          configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
+        pod:
+          securityContext:
+              fsGroup: 568
+              fsGroupChangePolicy: "OnRootMismatch"
+              supplementalGroups:
+                - 65539
     service:
       main:
         ports:
@@ -41,20 +87,26 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
-        - host: &host "qbittorrent.${SECRET_DOMAIN}"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host "qbittorrent.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
         tls:
-        - hosts:
-          - *host
-          secretName: wildcard-cert-tls
+          - hosts:
+            - *host
+            secretName: wildcard-cert-tls
     persistence:
       config:
         enabled: true
         existingClaim: qbittorrent-config-v1
+        advancedMounts:
+          main:
+            main:
+              - path: /config
       media:
         enabled: true
         type: custom
@@ -62,48 +114,17 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: /volume2/media-sp2
-        mountPath: /media
+        advancedMounts:
+          main:
+            main:
+              - path: /media
       dnsdist-config:
         enabled: true
         type: configMap
         name: qbittorrent-dnsdist
-        mountPath: "-"
-    securityContext:
-      runAsUser: 568
-      runAsGroup: 568
-    sidecars:
-      dnsdist:
-        image: docker.io/powerdns/dnsdist-18:1.8.1
-        volumeMounts:
-          - name: dnsdist-config
-            mountPath: /etc/dnsdist/dnsdist.conf
-            subPath: dnsdist.conf
-            readOnly: true
-      gluetun:
-        image: ghcr.io/qdm12/gluetun:latest@sha256:15cc7c1b531a1200fc5f8fd55bfcc96a3de596691d56a4dd8c2a31ee1f86f8e6
-        env:
-          - name: VPN_SERVICE_PROVIDER
-            value: surfshark
-          - name: VPN_TYPE
-            value: wireguard
-          - name: VPN_INTERFACE
-            value: wg0
-          - name: FIREWALL_INPUT_PORTS
-            value: "8080"
-          - name: FIREWALL_OUTBOUND_SUBNETS
-            # Allow access to k8s subnets
-            value: "10.42.0.0/16,10.43.0.0/16"
-          - name: DOT
-            value: "off"
-          - name: DNS_ADDRESS
-            value: "127.0.0.2"
-        envFrom:
-          - secretRef:
-              name: vpn-auth
-        securityContext:
-          capabilities:
-            add:
-              - NET_ADMIN
-    podSecurityContext:
-      supplementalGroups:
-        - 65539
+        advancedMounts:
+          main:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
