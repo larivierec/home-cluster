@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,24 +26,38 @@ spec:
       retries: 3
 
   values:
-    initContainers:
-      init:
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: postgres-prowlarr
-    controller:
-      type: deployment
-      strategy: Recreate
-    image:
-      repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 1.9.1.3981@sha256:ab99cd7c9ff6724dc2e9ac42ad5d10bed5aeb77cb70ccf02f8f3ce3a787cb7eb
-      pullPolicy: IfNotPresent
-    hostname: prowlarr
-    env:
-      TZ: "UTC"
-    envFrom: *envFrom
+    controllers:
+      main:
+        type: deployment
+        strategy: Recreate
+
+        initContainers:
+          init:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-prowlarr
+        pod:
+          securityContext:
+          runAsUser: 568
+          runAsGroup: 568
+          fsGroup: 568
+          fsGroupChangePolicy: "OnRootMismatch"
+          supplementalGroups:
+            - 65539
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/prowlarr-develop
+              tag: 1.9.1.3981@sha256:ab99cd7c9ff6724dc2e9ac42ad5d10bed5aeb77cb70ccf02f8f3ce3a787cb7eb
+              pullPolicy: IfNotPresent
+            hostname: prowlarr
+            env:
+              TZ: "UTC"
+            envFrom: *envFrom
     service:
       main:
         ports:
@@ -52,29 +66,22 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "prowlarr.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
 
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 100
-
     persistence:
       config:
         enabled: true
         existingClaim: prowlarr-config
-
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
+        globalMounts:
+          - path: /config
