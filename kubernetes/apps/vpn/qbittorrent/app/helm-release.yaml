@@ -75,10 +75,10 @@ spec:
           configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
         pod:
           securityContext:
-              fsGroup: 568
-              fsGroupChangePolicy: "OnRootMismatch"
-              supplementalGroups:
-                - 65539
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 65539
     service:
       main:
         ports:

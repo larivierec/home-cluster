@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s 
@@ -26,42 +26,48 @@ spec:
       retries: 3
 
   values:
-    image:
-      repository: ghcr.io/onedr0p/sabnzbd
-      tag: 4.1.0@sha256:d7eabae44168417a6acbc8f6e8510b0187a3f26d648941b3cf61b4c04a904da2
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 65539
-
-    env:
-      SABNZBD__PORT: &port 8080
-      SABNZBD__HOST_WHITELIST_ENTRIES: >-
-        sabnzbd,
-        sabnzbd.vpn,
-        sabnzbd.vpn.svc,
-        sabnzbd.vpn.svc.cluster,
-        sabnzbd.vpn.svc.cluster.local,
-        sabnzbd.${SECRET_DOMAIN}
-
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sabnzbd
+              tag: 4.1.0@sha256:d7eabae44168417a6acbc8f6e8510b0187a3f26d648941b3cf61b4c04a904da2
+            env:
+              SABNZBD__PORT: &port 8080
+              SABNZBD__HOST_WHITELIST_ENTRIES: >-
+                sabnzbd,
+                sabnzbd.vpn,
+                sabnzbd.vpn.svc,
+                sabnzbd.vpn.svc.cluster,
+                sabnzbd.vpn.svc.cluster.local,
+                sabnzbd.${SECRET_DOMAIN}
+            resources:
+              requests:
+                cpu: 247m
+                memory: 161M
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 65539
     service:
       main:
         ports:
           http:
             port: *port
-
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "sabnzbd.${SECRET_DOMAIN}"
             paths:
               - path: /
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -71,6 +77,8 @@ spec:
       config:
         enabled: true
         existingClaim: sabnzbd-config
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         type: custom
@@ -78,12 +86,8 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: /volume2/media-sp2
-        mountPath: /media
+        globalMounts:
+          - path: /media
       incomplete:
         enabled: true
         type: emptyDir
-
-    resources:
-      requests:
-        cpu: 247m
-        memory: 161M
