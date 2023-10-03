@@ -25,13 +25,23 @@ spec:
     remediation:
       retries: 3
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.9.3
-    env:
-      TZ: "UTC"
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2023.9.3
+            env:
+              TZ: "UTC"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
     service:
       main:
         ports:
@@ -42,7 +52,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           hajimari.io/icon: "vscode-icons:file-type-homeassistant"
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
@@ -51,12 +61,10 @@ spec:
           - host: &host "hass.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: home-assistant
-                    port:
-                      number: http
+                service:
+                  name: main
+                  port:
+                    number: http
         tls:
           - hosts:
               - *host
@@ -65,13 +73,8 @@ spec:
       config:
         enabled: true
         existingClaim: home-assistant-v2
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
+        globalMounts:
+          - path: /config
     metrics:
       enabled: true
       serviceMonitor:

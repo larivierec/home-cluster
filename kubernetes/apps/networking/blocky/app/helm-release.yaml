@@ -25,20 +25,33 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      repository: ghcr.io/0xerr0r/blocky
-      tag: v0.22
-    controller:
-      enabled: true
-      type: deployment
-      strategy: RollingUpdate
-      replicas: 2
-    resources:
-      requests:
-        cpu: 50m
-        memory: 200Mi 
-    env:
-      TZ: UTC
+    controllers:
+      main:
+        type: deployment
+        strategy: RollingUpdate
+        replicas: 2
+        annotations:
+          configmap.reloader.stakater.com/reload: &config blocky-config
+          secret.reloader.stakater.com/reload: wildcard-cert-tls
+        containers:
+          main:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.22
+            resources:
+              requests:
+                cpu: 50m
+                memory: 200Mi 
+            env:
+              TZ: UTC
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
     service:
       main:
         enabled: true
@@ -82,7 +95,9 @@ spec:
           - host: &host blocky.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host 
@@ -100,24 +115,13 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: &config blocky-config
-        subPath: config.yml
-        mountPath: /app/config.yml
-        readOnly: true
+        name: *config
+        globalMounts:
+          - path: /app/config.yml
+            subPath: config.yml
+            readOnly: true
       tls:
         enabled: true
         type: secret
         name: wildcard-cert-tls
         readOnly: true
-
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: *config
-      secret.reloader.stakater.com/reload: wildcard-cert-tls
-
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: *app

@@ -25,25 +25,37 @@ spec:
     remediation:
       retries: 3
   values:
-    runtimeClassName: nvidia
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.6.7557-1cf77d501@sha256:0d5a12bddc5ab41e0f055254335cbe09374972d04c147209321060e59f2cd506
-    controller:
-      strategy: Recreate
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-    env:
-      TZ: "UTC"
-      ADVERTISE_IP: "https://192.168.50.4:32400,https://plex.${SECRET_DOMAIN}:443"
-      NVIDIA_DRIVER_CAPABILITIES: all
-      NVIDIA_VISIBLE_DEVICES: all
-    
-    dnsConfig:
-      options:
-        - name: ndots
-          value: "1"
-
+    controllers:
+      main:
+        strategy: Recreate
+        annotations:
+          backup.velero.io/backup-volumes: config
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            supplementalGroups:
+              - 65539
+        containers:
+          main:
+            runtimeClassName: nvidia
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.6.7557-1cf77d501@sha256:0d5a12bddc5ab41e0f055254335cbe09374972d04c147209321060e59f2cd506
+            env:
+              TZ: "UTC"
+              ADVERTISE_IP: "https://192.168.50.4:32400,https://plex.${SECRET_DOMAIN}:443"
+              NVIDIA_DRIVER_CAPABILITIES: all
+              NVIDIA_VISIBLE_DEVICES: all
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 2Gi
+                nvidia.com/gpu: 1
+              limits:
+                memory: 6Gi
+                nvidia.com/gpu: 1
     service:
       main:
         type: LoadBalancer
@@ -55,18 +67,10 @@ spec:
           http:
             port: 32400
 
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      supplementalGroups:
-        - 44
-        - 109
-        - 65539
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        className: nginx
         annotations:
           hajimari.io/icon: "simple-icons:plex"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -76,7 +80,9 @@ spec:
           - host: &host "plex.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -93,22 +99,15 @@ spec:
           nfs:
             server: 192.168.1.3
             path: /volume2/media-sp2
-        mountPath: /media
+        globalMounts:
+          - path: /media
         readOnly: true
       backup:
         enabled: true
         existingClaim: plex-backup
-        mountPath: /config/backup
+        globalMounts:
+          - path: /config/backup
       tmp:
         enabled: true
         type: emptyDir
         medium: Memory
-
-    resources:
-      requests:
-        cpu: 1000m
-        memory: 2Gi
-        nvidia.com/gpu: 1
-      limits:
-        memory: 6Gi
-        nvidia.com/gpu: 1

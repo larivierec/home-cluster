@@ -28,19 +28,42 @@ spec:
     remediation:
       retries: 3
   values:
-    runtimeClassName: nvidia
-    image:
-      repository: ghcr.io/blakeblackshear/frigate
-      tag: 0.13.0-beta2-tensorrt
-      imagePullPolicy: IfNotPresent
-    controller:
-      strategy: Recreate
-    securityContext:
-      privileged: true
-    env:
-      NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
-      NVIDIA_VISIBLE_DEVICES: all
-      YOLO_MODELS: yolov7-tiny-416
+    controllers:
+      main:
+        annotations:
+          configmap.reloader.stakater.com/reload: &config frigate-config
+        containers:
+          main:
+            runtimeClassName: nvidia
+            image:
+              repository: ghcr.io/blakeblackshear/frigate
+              tag: 0.13.0-beta2-tensorrt
+              imagePullPolicy: IfNotPresent
+            controller:
+              strategy: Recreate
+            securityContext:
+              privileged: true
+            env:
+              NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
+              NVIDIA_VISIBLE_DEVICES: all
+              YOLO_MODELS: yolov7-tiny-416
+            resources:
+              requests:
+                cpu: 100m
+                memory: 250Mi
+                # gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
+              limits:
+                memory: 6Gi
+                # gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
     service:
       main:
         ports:
@@ -51,12 +74,14 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: icon-park-solid:surveillance-cameras
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "frigate.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
@@ -68,13 +93,16 @@ spec:
       data:
         enabled: true
         existingClaim: frigate-config
+        globalMounts:
+          - path: /config
       config:
         enabled: true
         type: configMap
-        name: &config frigate-config
-        subPath: config.yml
-        mountPath: /config/config.yml
-        readOnly: true
+        name: *config
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
+            readOnly: true
       media:
         enabled: true
         type: custom
@@ -82,38 +110,22 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: "/volume2/frigate"
-        mountPath: /media
+        globalMounts:
+          - path: /media
       cache:
         enabled: true
         type: emptyDir
-        mountPath: /dev/shm
         medium: Memory
         sizeLimit: 4Gi
+        globalMounts:
+          - path: /dev/shm
       tensor:
         enabled: true
         type: hostPath
         hostPath: /config/model_cache/tensorrt
-        mountPath: /config/model_cache/tensorrt
         hostPathType: Directory
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: *config
-    resources:
-      requests:
-        cpu: 100m
-        memory: 250Mi
-        # gpu.intel.com/i915: 1
-        nvidia.com/gpu: 1
-      limits:
-        memory: 6Gi
-        # gpu.intel.com/i915: 1
-        nvidia.com/gpu: 1
+        globalMounts:
+          - path: /config/model_cache/tensorrt
 
   valuesFrom:
     - kind: Secret

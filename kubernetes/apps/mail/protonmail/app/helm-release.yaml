@@ -25,13 +25,20 @@ spec:
     remediation:
       retries: 3
   values:
-    controller:
-      type: statefulset
-    image:
-      repository: ghcr.io/larivierec/protonmail-bridge-docker
-      tag: v3.4.2
-    env:
-      TZ: "America/New_York"
+    controllers:
+      main:
+        type: statefulset
+        containers:
+          image:
+            repository: ghcr.io/larivierec/protonmail-bridge-docker
+            tag: v3.4.2
+          env:
+            TZ: "America/New_York"
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
     service:
       main:
         enabled: false
@@ -59,13 +66,9 @@ spec:
           smtp-tcp:
             enabled: true
             port: 25
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
     persistence:
       config:
         enabled: true
         existingClaim: protonmail-bridge-config-v1
-        mountPath: /root
+        globalMounts:
+          - path: /root
