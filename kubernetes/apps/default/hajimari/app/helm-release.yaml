@@ -103,11 +103,6 @@ spec:
             - name: "Amazon Canada"
               url: "https://amazon.ca/"
       searchProviders:
-        - name: Searx
-          token: w
-          icon: ci:search
-          searchUrl: https:/search.${SECRET_DOMAIN}/search?q={query}
-          url: https://search.${SECRET_DOMAIN}
         - name: DuckDuckGo
           token: d
           icon: simple-icons:duckduckgo

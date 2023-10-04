@@ -90,7 +90,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host blocky.${SECRET_DOMAIN}
             paths:
