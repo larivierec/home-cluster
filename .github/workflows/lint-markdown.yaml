@@ -15,8 +15,8 @@ jobs:
       - name: generate_token
         uses: tibdex/github-app-token@v2.1.0
         with:
-          app_id: ${{ secrets.RIVER_BOT_ID }}
-          private_key: ${{ secrets.RIVER_BOT_PK }}
+          app_id: ${{ secrets.RIVERBOT_APP_ID }}
+          private_key: ${{ secrets.RIVERBOT_APP_PRIVATE_KEY }}
       - name: Get changes
         uses: dorny/paths-filter@v2
         id: filter
