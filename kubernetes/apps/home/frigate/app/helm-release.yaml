@@ -38,7 +38,7 @@ spec:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.13.0-beta2-tensorrt
-              imagePullPolicy: IfNotPresent
+              pullPolicy: IfNotPresent
             controller:
               strategy: Recreate
             securityContext:
@@ -131,15 +131,15 @@ spec:
     - kind: Secret
       name: frigate
       valuesKey: mqtt_password
-      targetPath: env.FRIGATE_MQTT_PASSWORD
+      targetPath: controllers.main.containers.main.env.FRIGATE_MQTT_PASSWORD
       optional: false
     - kind: Secret
       name: frigate
       valuesKey: rtsp_user
-      targetPath: env.FRIGATE_RTSP_USERNAME
+      targetPath: controllers.main.containers.main.env.FRIGATE_RTSP_USERNAME
       optional: false
     - kind: Secret
       name: frigate
       valuesKey: rtsp_password
-      targetPath: env.FRIGATE_RTSP_PASSWORD
+      targetPath: controllers.main.containers.main.env.FRIGATE_RTSP_PASSWORD
       optional: false

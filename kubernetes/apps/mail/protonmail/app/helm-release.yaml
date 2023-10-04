@@ -29,21 +29,23 @@ spec:
       main:
         type: statefulset
         containers:
-          image:
-            repository: ghcr.io/larivierec/protonmail-bridge-docker
-            tag: v3.4.2
-          env:
-            TZ: "America/New_York"
-          probes:
-            liveness:
-              enabled: false
-            readiness:
-              enabled: false
+          main:
+            image:
+              repository: ghcr.io/larivierec/protonmail-bridge-docker
+              tag: v3.4.2
+            env:
+              TZ: "America/New_York"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
     service:
       main:
         enabled: false
       imap:
         enabled: true
+        controller: main
         type: LoadBalancer
         annotations:
           hajimari.io/icon: "material-symbols:mail"
@@ -56,6 +58,7 @@ spec:
             port: 143
       smtp:
         enabled: true
+        controller: main
         type: LoadBalancer
         annotations:
           hajimari.io/icon: "material-symbols:mail"

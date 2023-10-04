@@ -28,6 +28,9 @@ spec:
     controllers:
       main:
         type: statefulset
+        pod:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
         containers:
           main:
             image:
@@ -47,8 +50,6 @@ spec:
         ports:
           http:
             port: 8123
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
     ingress:
       main:
         enabled: true
@@ -63,8 +64,7 @@ spec:
               - path: /
                 service:
                   name: main
-                  port:
-                    number: http
+                  port: http
         tls:
           - hosts:
               - *host
