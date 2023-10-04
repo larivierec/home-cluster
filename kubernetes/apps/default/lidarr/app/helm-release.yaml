@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,59 +25,69 @@ spec:
     remediation:
       retries: 3
   values:
-    initContainers:
-      init:
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: postgres-lidarr
-    controller:
-      type: deployment
-      updateStrategy: Recreate
-    image:
-      repository: ghcr.io/onedr0p/lidarr
-      tag: 1.3.5.3530@sha256:864d49b6557061e4165f957695200cfc0c86753e4459db05fc886c3cb8f763e1
-      pullPolicy: IfNotPresent
-    env:
-      TZ: "UTC"
-    envFrom: *envFrom
+    controllers:
+      main:
+        type: deployment
+        updateStrategy: Recreate
+        annotations:
+          backup.velero.io/backup-volumes: config
+        initContainers:
+          init:
+            image: 
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-lidarr
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 100
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/lidarr
+              tag: 1.3.5.3530@sha256:864d49b6557061e4165f957695200cfc0c86753e4459db05fc886c3cb8f763e1
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "UTC"
+            envFrom: *envFrom
+
     service:
       main:
         ports:
           http:
             port: 8686
+
     ingress:
       main:
         enabled: true
         annotations:
           hajimari.io/icon: "mdi:music"
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "lidarr.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
-    
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 100
 
     persistence:
       config:
         enabled: true
         existingClaim: config-lidarr-0
+        globalMounts:
+          - path: /config
 
       media:
         enabled: true
@@ -86,7 +96,8 @@ spec:
           nfs:
             server: "192.168.1.3"
             path: /volume2/media-sp2/Music
-        mountPath: /music
+        globalMounts:
+          - path: /music
 
       downloads:
         enabled: true
@@ -96,4 +107,5 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: /volume2/media-sp2/Downloads
-        mountPath: /downloads
+        globalMounts:
+          - path: /downloads

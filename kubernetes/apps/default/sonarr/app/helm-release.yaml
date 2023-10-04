@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,25 +25,38 @@ spec:
     remediation:
       retries: 3
   values:
-    initContainers:
-      init:
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
-        envFrom: &envFrom
-          - secretRef:
-              name: postgres-sonarr
-    controller:
-      type: deployment
-      strategy: Recreate
-
-    image:
-      repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.688@sha256:651261e5fdcc5399edda1bff312a50cad131a36d6a8f8dc39e43a352f4f2e0c3
-      pullPolicy: IfNotPresent
-
-    env:
-      TZ: "UTC"
-    envFrom: *envFrom
+    controllers:
+      main:
+        type: deployment
+        strategy: Recreate
+        annotations:
+          backup.velero.io/backup-volumes: config
+        initContainers:
+          init:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-sonarr
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 65539
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.0.688@sha256:651261e5fdcc5399edda1bff312a50cad131a36d6a8f8dc39e43a352f4f2e0c3
+              pullPolicy: IfNotPresent
+            env:
+              TZ: "UTC"
+            envFrom: *envFrom
 
     service:
       main:
@@ -56,32 +69,26 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "solar:tv-bold"
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
-    
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-    
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-        - 100
+
 
     persistence:
       config:
         enabled: true
         existingClaim: sonarr-config-v4
+        globalMounts:
+          - path: /config
       media:
         enabled: true
         type: custom
@@ -89,7 +96,8 @@ spec:
           nfs:
             server: "192.168.1.3"
             path: /volume2/media-sp2/Shows
-        mountPath: /tv
+        globalMounts:
+          - path: /tv
 
       downloads:
         enabled: true
@@ -99,4 +107,5 @@ spec:
           nfs:
             server: "192.168.1.5"
             path: /volume2/media-sp2/Downloads
-        mountPath: /downloads
+        globalMounts:
+          - path: /downloads

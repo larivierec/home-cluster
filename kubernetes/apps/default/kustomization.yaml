@@ -11,7 +11,6 @@ resources:
   - ./nas/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
-  - ./plex-intel/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml

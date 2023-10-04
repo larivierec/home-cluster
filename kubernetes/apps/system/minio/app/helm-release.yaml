@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -28,25 +28,30 @@ spec:
       retries: 3
 
   values:
-    image:
-      repository: quay.io/minio/minio
-      tag: RELEASE.2023-09-30T07-02-29Z
-    
-    args: ["server", "/data", "--console-address", ":9001"]
-    envFrom:
-      - secretRef:
-          name: minio-secrets
-    env:
-      TZ: UTC
-      MINIO_UPDATE: "off"
-      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: quay.io/minio/minio
+              tag: RELEASE.2023-09-30T07-02-29Z
+            args: ["server", "/data", "--console-address", ":9001"]
+            envFrom:
+              - secretRef:
+                  name: minio-secrets
+            env:
+              TZ: UTC
+              MINIO_UPDATE: "off"
+              MINIO_PROMETHEUS_AUTH_TYPE: "public"
 
-    auth:
-      existingSecret: minio-secrets
-    
+            auth:
+              existingSecret: minio-secrets
+        pod:
+          annotations:
+            secret.reloader.stakater.com/reload: minio-secrets
+
     service:
       main:
-        type: ClusterIP
         enabled: true
         ports:
           http:
@@ -59,19 +64,19 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &minio minio.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
                 service:
+                  name: main
                   port: *http-port
           - host: &s3 s3.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
                 service:
+                  name: main
                   port: *api-port
         tls:
           - hosts:
@@ -84,6 +89,5 @@ spec:
       config:
         enabled: true
         existingClaim: minio
-        mountPath: /data
-    podAnnotations:
-      secret.reloader.stakater.com/reload: minio-secrets
+        globalMounts:
+          - path: /data

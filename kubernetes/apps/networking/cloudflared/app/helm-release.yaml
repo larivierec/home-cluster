@@ -12,7 +12,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -28,16 +28,29 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      repository: cloudflare/cloudflared
-      tag: 2023.8.2
-    args:
-      - tunnel
-      - --config
-      - /etc/cloudflared/config.yaml
-      - --metrics
-      - 0.0.0.0:9090
-      - run
+    controllers:
+      main:
+        annotations:
+          configmap.reloader.stakater.com/reload: &config cloudflared-config
+          secret.reloader.stakater.com/reload: &secret cloudflared-creds
+        containers:
+          main:
+            image:
+              repository: cloudflare/cloudflared
+              tag: 2023.8.2
+            args:
+              - tunnel
+              - --config
+              - /etc/cloudflared/config.yaml
+              - --metrics
+              - 0.0.0.0:9090
+              - run
+            resources:
+              requests:
+                memory: 64Mi
+                cpu: 10m
+              limits:
+                memory: 128Mi
     service:
       main:
         nameOverride: metrics
@@ -48,23 +61,16 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: &config cloudflared-config
-        subPath: config.yaml
-        mountPath: /etc/cloudflared/config.yaml
-        readOnly: true
+        name: *config
+        globalMounts:
+          - path: /etc/cloudflared/config.yaml
+            subPath: config.yaml
+            readOnly: true
       creds:
         enabled: true
         type: secret
-        name: &secret cloudflared-creds
-        mountPath: /etc/cloudflared/creds.json
-        subPath: creds.json
-        readOnly: true
-    resources:
-      requests:
-        memory: 64Mi
-        cpu: 10m
-      limits:
-        memory: 128Mi
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: *config
-      secret.reloader.stakater.com/reload: *secret
+        name: *secret
+        globalMounts:
+          - path: /etc/cloudflared/creds.json
+            subPath: creds.json
+            readOnly: true

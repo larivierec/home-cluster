@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,14 +25,23 @@ spec:
     remediation:
       retries: 3
   values:
-    controller:
-      type: deployment
-      strategy: Recreate
-
-    image:
-      repository: ghcr.io/onedr0p/tautulli
-      tag: 2.13.1@sha256:0a995c25a9c56b609c80dedfd9432c006b0d4835bd4fa2ba911ed112b50c5034
-
+    controllers:
+      main:
+        type: deployment
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/tautulli
+              tag: 2.13.1@sha256:0a995c25a9c56b609c80dedfd9432c006b0d4835bd4fa2ba911ed112b50c5034
+        pod:
+          annotations:
+            backup.velero.io/backup-volumes: config
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         ports:
@@ -42,27 +51,22 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        className: nginx-internal
         hosts:
           - host: &host "tautulli.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
 
-    podAnnotations:
-      backup.velero.io/backup-volumes: config
-
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-
     persistence:
       config:
         enabled: true
         existingClaim: tautulli-config-v3
+        globalMounts:
+          - path: /config

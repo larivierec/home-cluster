@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,47 +25,52 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    fullnameOverride: tailscale
-    serviceAccount:
-      name: tailscale
-    image:
-      repository: ghcr.io/tailscale/tailscale
-      tag: v1.50.0
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: tailscale-auth
-    env:
-      TZ: "UTC"
-      NO_AUTOUPDATE: "true"
-      TS_KUBE_SECRET: tailscale-state
-      SA_NAME: tailscale
-      TS_HOSTNAME: "tailscale-k8s-gateway"
-      TS_USERSPACE: "true"
-      TS_ROUTES: "192.168.0.0/16"
-      TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:k8s --accept-routes --snat-subnet-routes=false"
-    envFrom:
-      - secretRef:
-          name: tailscale-auth
+    controllers:
+      main:
+        containers:
+          main:
+            fullnameOverride: tailscale
+            serviceAccount:
+              name: tailscale
+            image:
+              repository: ghcr.io/tailscale/tailscale
+              tag: v1.50.0
+            env:
+              TZ: "UTC"
+              NO_AUTOUPDATE: "true"
+              TS_KUBE_SECRET: tailscale-state
+              SA_NAME: tailscale
+              TS_HOSTNAME: "tailscale-k8s-gateway"
+              TS_USERSPACE: "true"
+              TS_ROUTES: "192.168.0.0/16"
+              TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:k8s --accept-routes --snat-subnet-routes=false"
+            envFrom:
+              - secretRef:
+                  name: tailscale-auth
+            resources:
+              requests:
+                cpu: 10m
+                memory: 50M
+              limits:
+                memory: 278M
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          annotations:
+            configmap.reloader.stakater.com/reload: tailscale-auth
     service:
       main:
         ports:
           http:
             port: 45387
-    probes:
-      liveness:
-        enabled: false
-      readiness:
-        enabled: false
-      startup:
-        enabled: false
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
     ingress:
       main:
         enabled: false
-    resources:
-      requests:
-        cpu: 10m
-        memory: 50M
-      limits:
-        memory: 278M
