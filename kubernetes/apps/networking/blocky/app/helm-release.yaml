@@ -41,7 +41,7 @@ spec:
             resources:
               requests:
                 cpu: 50m
-                memory: 200Mi 
+                memory: 200Mi
             env:
               TZ: UTC
         pod:
