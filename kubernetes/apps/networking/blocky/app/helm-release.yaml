@@ -55,13 +55,19 @@ spec:
     service:
       main:
         enabled: true
+        ports:
+          http:
+            port: 4000
+      dns:
+        enabled: true
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.50.7"
+        monitor:
+          enabled: false
         ports:
-          http:
-            port: 4000
           dns-udp:
             enabled: true
             port: 53
