@@ -30,8 +30,6 @@ spec:
         containers:
           main:
             fullnameOverride: tailscale
-            serviceAccount:
-              name: tailscale
             image:
               repository: ghcr.io/tailscale/tailscale
               tag: v1.50.1
@@ -74,3 +72,5 @@ spec:
     ingress:
       main:
         enabled: false
+    serviceAccount:
+      name: tailscale
