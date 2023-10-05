@@ -11,7 +11,6 @@ module "dns_records" {
   }
 
   cname_records = {
-    "wg"              = { cname = nonsensitive(lookup(local.cloudflare_secrets, "domain").text), ttl = "1", proxied = false },
     "protonmail._domainkey"  = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_1").text), ttl = "1", proxied = false },
     "protonmail2._domainkey" = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_2").text), ttl = "1", proxied = false },
     "protonmail3._domainkey" = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_3").text), ttl = "1", proxied = false },
