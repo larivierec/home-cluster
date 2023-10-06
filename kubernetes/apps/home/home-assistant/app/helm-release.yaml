@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2023.10.0
+              tag: 2023.10.1
             env:
               TZ: "UTC"
             probes:
