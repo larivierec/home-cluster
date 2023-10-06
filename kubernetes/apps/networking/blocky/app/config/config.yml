@@ -11,7 +11,7 @@ upstreams:
 conditional:
   mapping:
     cluster.local: 10.43.0.10
-    ${SECRET_DOMAIN}: 10.43.131.47
+    ${SECRET_DOMAIN}: 10.43.195.229
 
 bootstrapDns:
   upstream: tcp-tls:one.one.one.one
@@ -85,7 +85,8 @@ prometheus:
   path: /metrics
 
 ports:
+  dns: 53
   http: 4000
 log:
   level: info
-  format: json
+  format: text

@@ -1,6 +1,14 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: networking
 resources:
+  - ./rbac.yaml
   - ./helm-release.yaml
   - ./hpa.yaml
+configMapGenerator:
+  - name: k8s-gateway
+    files:
+      - ./config/Corefile
+generatorOptions:
+  disableNameSuffixHash: true

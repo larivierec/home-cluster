@@ -2,48 +2,120 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: k8s-gateway
+  name: &app k8s-gateway
   namespace: networking
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
-      chart: k8s-gateway
-      version: 2.0.4
+      chart: app-template
+      version: 2.0.2
       sourceRef:
         kind: HelmRepository
-        name: ori-edge
+        name: bjw-s
         namespace: flux-system
-      interval: 5m
   maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    resources:
-      requests:
-        cpu: 50m
-        memory: 100Mi
-    domain: ${SECRET_DOMAIN}
-    ttl: 1
-    replicaCount: 1
+    controllers:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          configmap.reloader.stakater.com/reload: *app
+        containers:
+          main:
+            image:
+              repository: quay.io/oriedge/k8s_gateway
+              tag: v0.3.4
+            args: ["-conf", "/etc/coredns/Corefile"]
+            probes:
+              readiness:
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: 8181
+              liveness:
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+            pod:
+              topologySpreadConstraints:
+                - maxSkew: 1
+                  topologyKey: kubernetes.io/hostname
+                  whenUnsatisfiable: DoNotSchedule
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: *app
     service:
-      externalTrafficPolicy: Cluster
-      clusterIP: "10.43.131.47"
-      annotations:
-        io.cilium/lb-ipam-ips: "192.168.50.10"
-    affinity:
-      podAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values: 
-                - "blocky"
-          topologyKey: kubernetes.io/hostname
+      main:
+        ports:
+          http:
+            enabled: false
+          metrics:
+            enabled: true
+            port: 9153
+      dns:
+        enabled: true
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        clusterIP: "10.43.195.229"
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.50.10"
+        ports:
+          dns-tcp:
+            enabled: true
+            port: 53
+            protocol: TCP
+            targetPort: 1053
+          dns-udp:
+            enabled: true
+            port: 53
+            protocol: UDP
+            targetPort: 1053
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 30s
+    serviceAccount:
+      create: true
+      name: *app
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: *app
+        globalMounts:
+          - path: /etc/coredns/Corefile
+            subPath: Corefile
+            readOnly: true
+      hosts:
+        enabled: true
+        type: hostPath
+        hostPath: /etc/hosts
+        readOnly: true
+        globalMounts:
+          - path: /etc/hosts
