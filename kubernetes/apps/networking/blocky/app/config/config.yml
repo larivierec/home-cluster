@@ -21,6 +21,10 @@ bootstrapDns:
 ede:
   enable: true
 
+filtering:
+  queryTypes:
+    - HTTPS
+
 redis:
   address: redis.database.svc:6379
   database: 2
