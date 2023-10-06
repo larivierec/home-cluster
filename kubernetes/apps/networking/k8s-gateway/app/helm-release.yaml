@@ -30,6 +30,7 @@ spec:
         cpu: 50m
         memory: 100Mi
     domain: ${SECRET_DOMAIN}
+    ttl: 1
     replicaCount: 1
     service:
       externalTrafficPolicy: Cluster
