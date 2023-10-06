@@ -21,10 +21,6 @@ bootstrapDns:
 ede:
   enable: true
 
-filtering:
-  queryTypes:
-    - HTTPS
-
 redis:
   address: redis.database.svc:6379
   database: 2
@@ -90,7 +86,13 @@ prometheus:
 
 ports:
   dns: 53
+  tls: 853
+  https: 443
   http: 4000
+  
+certFile: /tls/tls.crt
+keyFile: /tls/tls.key
+
 log:
   level: info
   format: text

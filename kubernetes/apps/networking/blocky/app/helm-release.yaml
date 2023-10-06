@@ -78,6 +78,16 @@ spec:
             port: 53
             protocol: TCP
             targetPort: 53
+          dns-dot:
+            enabled: true
+            port: 853
+            protocol: TCP
+            targetPort: 853
+          dns-https:
+            enabled: true
+            port: 443
+            protocol: TCP
+            targetPort: 443
     ingress:
       main:
         enabled: true
