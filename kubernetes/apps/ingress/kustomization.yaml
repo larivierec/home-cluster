@@ -6,3 +6,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./ingress-nginx/ks.yaml
+  - ./gateway/ks.yaml
