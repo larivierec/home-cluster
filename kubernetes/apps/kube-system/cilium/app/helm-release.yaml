@@ -71,7 +71,7 @@ spec:
               secretName: wildcard-cert-tls
         rollOutPods: true
     ingressController:
-      enabled: false
+      enabled: true
     autoDirectNodeRoutes: true
     ipam:
       mode: kubernetes
