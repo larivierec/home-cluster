@@ -69,7 +69,7 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "iconoir:movie"
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "radarr.${SECRET_DOMAIN}"
             paths:

@@ -60,7 +60,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "sabnzbd.${SECRET_DOMAIN}"
             paths:

@@ -51,7 +51,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "tautulli.${SECRET_DOMAIN}"
             paths:

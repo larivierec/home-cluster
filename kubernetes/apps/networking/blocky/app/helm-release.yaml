@@ -91,7 +91,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host blocky.${SECRET_DOMAIN}
             paths:

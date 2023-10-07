@@ -56,7 +56,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "bazarr.${SECRET_DOMAIN}"
             paths:

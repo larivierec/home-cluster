@@ -62,7 +62,7 @@ spec:
         enabled: true
         ingress:
           enabled: true
-          className: nginx-internal
+          className: cilium
           hosts:
             - &host hubble.${SECRET_DOMAIN}
           tls:

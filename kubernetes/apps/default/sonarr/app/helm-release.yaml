@@ -69,7 +69,7 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: "solar:tv-bold"
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "sonarr.${SECRET_DOMAIN}"
             paths:

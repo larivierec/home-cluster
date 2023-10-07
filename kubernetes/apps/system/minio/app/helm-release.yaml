@@ -64,7 +64,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &minio minio.${SECRET_DOMAIN}
             paths:

@@ -75,7 +75,7 @@ spec:
         enabled: true
         annotations:
           hajimari.io/icon: icon-park-solid:surveillance-cameras
-        className: nginx-internal
+        className: cilium
         hosts:
           - host: &host "frigate.${SECRET_DOMAIN}"
             paths:

@@ -31,7 +31,7 @@ spec:
       username: admin
     ingress:
       enabled: true
-      className: nginx-internal
+      className: cilium
       hosts:
         - host: &host "gitops.${SECRET_DOMAIN}"
           paths:
