@@ -64,24 +64,17 @@ spec:
           http:
             port: 8989
 
-    ingress:
+    route:
       main:
         enabled: true
-        annotations:
-          hajimari.io/icon: "solar:tv-bold"
-        className: cilium
-        hosts:
-          - host: &host "sonarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
-
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "sonarr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

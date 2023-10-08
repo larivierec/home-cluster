@@ -57,21 +57,17 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       main:
         enabled: true
-        className: cilium
-        hosts:
-          - host: &host "sabnzbd.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "sabnzbd.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

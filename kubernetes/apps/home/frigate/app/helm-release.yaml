@@ -70,23 +70,19 @@ spec:
         ports:
           http:
             port: 5000
-    ingress:
+
+    route:
       main:
         enabled: true
-        annotations:
-          hajimari.io/icon: icon-park-solid:surveillance-cameras
-        className: cilium
-        hosts:
-          - host: &host "frigate.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "frigate.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
+
     configMaps:
       config:
         enabled: false

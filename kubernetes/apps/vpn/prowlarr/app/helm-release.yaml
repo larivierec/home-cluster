@@ -63,21 +63,18 @@ spec:
         ports:
           http:
             port: 9696
-    ingress:
+
+    route:
       main:
         enabled: true
-        className: cilium
-        hosts:
-          - host: &host "prowlarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "prowlarr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

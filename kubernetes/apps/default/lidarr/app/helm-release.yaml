@@ -64,23 +64,17 @@ spec:
           http:
             port: 8686
 
-    ingress:
+    route:
       main:
         enabled: true
-        annotations:
-          hajimari.io/icon: "mdi:music"
-        className: cilium
-        hosts:
-          - host: &host "lidarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "lidarr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

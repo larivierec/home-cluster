@@ -84,21 +84,17 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       main:
         enabled: true
-        className: cilium
-        hosts:
-          - host: &host "qbittorrent.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-            - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "qbittorrent.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
     persistence:
       config:
         enabled: true

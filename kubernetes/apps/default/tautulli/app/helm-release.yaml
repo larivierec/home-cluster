@@ -48,21 +48,17 @@ spec:
           http:
             port: 8181
 
-    ingress:
+    route:
       main:
         enabled: true
-        className: cilium
-        hosts:
-          - host: &host "tautulli.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "tautulli.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

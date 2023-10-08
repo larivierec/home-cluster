@@ -64,13 +64,12 @@ spec:
             runAsGroup: 1000
           annotations:
             configmap.reloader.stakater.com/reload: tailscale-auth
+
     service:
       main:
         ports:
           http:
             port: 45387
-    ingress:
-      main:
-        enabled: false
+
     serviceAccount:
       name: tailscale

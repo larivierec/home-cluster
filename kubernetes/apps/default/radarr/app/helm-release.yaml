@@ -64,23 +64,17 @@ spec:
           http:
             port: 7878
 
-    ingress:
+    route:
       main:
         enabled: true
-        annotations:
-          hajimari.io/icon: "iconoir:movie"
-        className: cilium
-        hosts:
-          - host: &host "radarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host 
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "radarr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:
