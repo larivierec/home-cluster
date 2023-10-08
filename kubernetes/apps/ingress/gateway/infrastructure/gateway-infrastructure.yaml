@@ -6,6 +6,9 @@ metadata:
   namespace: infrastructure
 spec:
   gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "192.168.50.20"
   listeners:
     - name: http-1
       protocol: HTTP
@@ -33,6 +36,9 @@ metadata:
   namespace: infrastructure
 spec:
   gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "192.168.50.21"
   listeners:
     - name: http-1
       protocol: HTTP

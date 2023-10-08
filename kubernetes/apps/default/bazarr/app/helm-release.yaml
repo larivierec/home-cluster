@@ -53,21 +53,17 @@ spec:
           http:
             port: 6767
 
-    ingress:
+    route:
       main:
         enabled: true
-        className: cilium
-        hosts:
-          - host: &host "bazarr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "bazarr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:
