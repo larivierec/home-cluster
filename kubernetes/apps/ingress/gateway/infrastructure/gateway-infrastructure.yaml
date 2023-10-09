@@ -34,6 +34,9 @@ kind: Gateway
 metadata:
   name: cilium-external
   namespace: infrastructure
+  # TODO will be supported in next release of external-dns
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
 spec:
   gatewayClassName: cilium
   addresses:

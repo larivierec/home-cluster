@@ -88,6 +88,21 @@ spec:
               - *host
             secretName: wildcard-cert-tls
 
+    # route:
+    #   main:
+    #     enabled: true
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/hostname: plex.${SECRET_DOMAIN}
+    #       external-dns.alpha.kubernetes.io/ttl: "120"
+    #     parentRefs:
+    #       - name: cilium-external
+    #         namespace: infrastructure
+    #     hostnames:
+    #       - "plex.${SECRET_DOMAIN}"
+    #     rules:
+    #       backendRefs:
+    #         - port: http
+
     persistence:
       config:
         enabled: true

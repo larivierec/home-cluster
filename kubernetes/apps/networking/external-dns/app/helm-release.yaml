@@ -38,10 +38,13 @@ spec:
     extraArgs:
       - --cloudflare-proxied
       - --annotation-filter=external-dns.alpha.kubernetes.io/target
+      - --gateway-namespace=infrastructure
 
     policy: sync
     sources:
       - ingress
+      - gateway-httproute
+
     txtPrefix: "k8s."
     txtOwnerId: "public"
     domainFilters:
