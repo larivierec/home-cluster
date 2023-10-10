@@ -52,7 +52,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.0.688@sha256:cc88687162269b73c0e9bd6f147d4f7957639a4bdae3741cffe4bcabd7978e1f
+              tag: 4.0.0.694@sha256:279c4e62e73b1d9973eb6ed66004926b1d86962014e9ec370cb52b22f44d2d1c
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
