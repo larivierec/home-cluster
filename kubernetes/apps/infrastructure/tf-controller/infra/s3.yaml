@@ -16,6 +16,7 @@ metadata:
   name: s3
   namespace: infrastructure
 spec:
+  suspend: true
   interval: 12h
   approvePlan: "auto"
   backendConfig:
