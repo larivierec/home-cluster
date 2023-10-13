@@ -52,7 +52,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/lidarr
-              tag: 1.4.5.3639@sha256:abb6b2a5417554d87b596b4b1feac6d0e963a0769b3780ee588e968a091d7466
+              tag: 1.4.5.3639@sha256:9bbde38907fccd60c358948b42ae6ecf27b0e39efacb9369647a82f3bfed8259
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
