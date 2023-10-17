@@ -16,7 +16,7 @@ conditional:
 bootstrapDns:
   upstream: tcp-tls:one.one.one.one
   ips:
-  - 1.1.1.1
+    - 1.1.1.1
 
 ede:
   enable: true
@@ -62,13 +62,15 @@ blocking:
       - noblock
     192.168.10.249/32:
       - noblock
-    192.168.10.4/32:
+    192.168.10.8/32:
       - noblock
-    192.168.1.111/32:
+    192.168.1.132/32:
       - noblock
     MBPdeMalisabeth*:
       - noblock
     mefouquetbouchard-mbp*:
+      - noblock
+    marie-mba-work*:
       - noblock
 
 clientLookup:
@@ -89,7 +91,7 @@ ports:
   tls: 853
   https: 443
   http: 4000
-  
+
 certFile: /tls/tls.crt
 keyFile: /tls/tls.key
 
