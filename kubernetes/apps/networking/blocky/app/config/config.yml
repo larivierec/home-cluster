@@ -24,7 +24,7 @@ ede:
 redis:
   address: redis.database.svc:6379
   database: 2
-  required: true
+  required: false
   connectionAttempts: 10
   connectionCooldown: 3s
 
