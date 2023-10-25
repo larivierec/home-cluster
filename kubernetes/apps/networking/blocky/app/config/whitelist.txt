@@ -1,3 +1,5 @@
 amazon.ca
 amazon.com
 newrelic.com
+eu.newrelic.com
+one.eu.newrelic.com
