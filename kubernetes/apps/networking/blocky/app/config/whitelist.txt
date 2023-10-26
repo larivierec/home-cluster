@@ -3,3 +3,5 @@ amazon.com
 newrelic.com
 eu.newrelic.com
 one.eu.newrelic.com
+*.newrelic.com
+*.eu.newrelic.com
