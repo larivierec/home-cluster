@@ -69,8 +69,8 @@ cameras:
             - detect
             - record
     detect:
-      width: 1920
-      height: 1080
+      width: 2592
+      height: 1944
       fps: 15
   camera_2:
     ffmpeg:
