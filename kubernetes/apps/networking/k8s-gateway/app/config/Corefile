@@ -1,4 +1,5 @@
 .:1053 {
+    debug
     errors
     health {
         lameduck 5s
