@@ -24,7 +24,7 @@ arch: host
 
 # Container runtime to be used (docker, containerd).
 # Default: docker
-runtime: docker
+runtime: containerd
 
 # Kubernetes configuration for the virtual machine.
 kubernetes:
@@ -35,14 +35,14 @@ kubernetes:
   # Kubernetes version to use.
   # This needs to exactly match a k3s version https://github.com/k3s-io/k3s/releases
   # Default: latest stable release
-  version: v1.28.2+k3s1
+  version: v1.28.3+k3s1
 
   # Additional args to pass to k3s https://docs.k3s.io/cli/server
   # Default: traefik is disabled
   k3sArgs:
-    - --flannel-backend none
-    - --disable servicelb
-    - --disable traefik
+    - --flannel-backend=none
+    - --disable=servicelb
+    - --disable=traefik
     - --disable-network-policy
     - --disable-kube-proxy
 
@@ -83,7 +83,7 @@ network:
   #   - slirp is the default user mode networking provided by Qemu
   #   - gvproxy is an alternative to VPNKit based on gVisor https://github.com/containers/gvisor-tap-vsock
   # Default: gvproxy
-  driver: gvproxy
+  driver: slirp
 
 # ===================================================================== #
 # ADVANCED CONFIGURATION
@@ -111,8 +111,6 @@ forwardAgent: false
 # Colima default behaviour: buildkit enabled
 # Default: {}
 docker:
-  features:
-    buildkit: true
   insecure-registries:
     - localhost:5000
     - host.docker.internal:5000
@@ -179,12 +177,16 @@ layer: false
 provision:
   - mode: system
     script: |
-      mount -t bpf bpffs /sys/fs/bpf
+      set -e
+
+      # needed for cilium
+      mount bpffs -t bpf /sys/fs/bpf
       mount --make-shared /sys/fs/bpf
+
       mkdir -p /run/cilium/cgroupv2
       mount -t cgroup2 none /run/cilium/cgroupv2
-      mount --make-shared /run/cilium/cgroupv2
-      mount --make-shared /
+      mount --make-shared /run/cilium/cgroupv2/
+      ln -s /opt/cni/bin/cilium-cni /usr/libexec/cni/cilium-cni
 
 # Modify ~/.ssh/config automatically to include a SSH config for the virtual machine.
 # SSH config will still be generated in ~/.colima/ssh_config regardless.
@@ -219,7 +221,7 @@ env: {}
 # Enable cgroups v2 as a temporary workaround for https://github.com/abiosoft/colima/issues/764.
 # NOTE: this is incompatible with Kubernetes and Ubuntu Layer.
 # NOTE: this config will be removed in future versions.
-cgroupsV2: true
+cgroupsV2: false
 ```
 
 ### Note
