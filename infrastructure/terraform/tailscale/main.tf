@@ -51,9 +51,12 @@ resource "tailscale_device_tags" "k8s-gateway" {
 resource "tailscale_device_subnet_routes" "routes" {
   for_each = toset([data.tailscale_device.router.id, data.tailscale_device.k8s-gateway.id])
   device_id = each.key
-  routes = [
+  routes = sort([
     "192.168.0.0/16",
-  ]
+        # Or configure as an exit node
+    "0.0.0.0/0",
+    "::/0"
+  ])
 }
 
 resource "tailscale_acl" "account_acl" {
@@ -78,10 +81,10 @@ resource "tailscale_acl" "account_acl" {
     "autoApprovers": {
       // Alice can create subnet routers advertising routes in 10.0.0.0/24 that are auto-approved
       "routes": {
-        "192.168.0.0/16": [lookup(local.secrets, "tailscale-email").text, "tag:k8s", "tag:k8s-operator", "tag:router"],
+        "192.168.0.0/16": [lookup(local.secrets, "tailscale-email").text, "tag:k8s", "tag:router"],
       },
       // A device tagged security can advertise exit nodes that are auto-approved
-      "exitNode": ["tag:router", "tag:k8s", "tag:k8s-operator"],
+      "exitNode": ["tag:router", "tag:k8s"],
     },
 
     // Define users and devices that can use Tailscale SSH.
@@ -107,7 +110,6 @@ resource "tailscale_acl" "account_acl" {
     "tagOwners": {
       "tag:router":       [lookup(local.secrets, "tailscale-email").text],
       "tag:k8s":          [lookup(local.secrets, "tailscale-email").text],
-      "tag:k8s-operator": [lookup(local.secrets, "tailscale-email").text],
     },
   })
 }
