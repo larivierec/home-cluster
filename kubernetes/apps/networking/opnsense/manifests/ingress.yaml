@@ -9,19 +9,19 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: &host opnsense.${SECRET_DOMAIN}
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: opnsense
-              port:
-                number: 443
+    - host: &host opnsense.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: opnsense
+                port:
+                  number: 443
   tls:
     - hosts:
-      - *host
+        - *host
       secretName: wildcard-cert-tls
 ---
 apiVersion: networking.k8s.io/v1
@@ -32,17 +32,17 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: &host apiserver.${SECRET_DOMAIN}
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: apiserver
-              port:
-                number: 443
+    - host: &host apiserver.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apiserver
+                port:
+                  number: 443
   tls:
     - hosts:
-      - *host
+        - *host
       secretName: wildcard-cert-tls
