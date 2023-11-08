@@ -53,7 +53,7 @@ resource "tailscale_device_subnet_routes" "routes" {
   device_id = each.key
   routes = sort([
     "192.168.0.0/16",
-        # Or configure as an exit node
+    # Or configure as an exit node
     "0.0.0.0/0",
     "::/0"
   ])
