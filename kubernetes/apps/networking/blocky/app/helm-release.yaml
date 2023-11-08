@@ -41,7 +41,7 @@ spec:
             resources:
               requests:
                 cpu: 50m
-                memory: 200Mi 
+                memory: 200Mi
             env:
               TZ: UTC
         pod:
@@ -65,7 +65,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          io.cilium/lb-ipam-ips: "192.168.50.7"
+          io.cilium/lb-ipam-ips: "192.168.40.7"
         monitor:
           enabled: false
         ports:

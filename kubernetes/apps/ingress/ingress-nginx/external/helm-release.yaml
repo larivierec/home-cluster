@@ -42,20 +42,20 @@ spec:
         - name: strip-port-from-host-plugin
           configMap:
             name: strip-port-from-host
-      extraVolumeMounts: 
+      extraVolumeMounts:
         - name: strip-port-from-host-plugin
           mountPath: /etc/nginx/lua/plugins/strip-port-from-host
-      
+
       ingressClassResource:
         enabled: true
         default: false
-     
+
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ingress.${SECRET_DOMAIN}
-          io.cilium/lb-ipam-ips: "192.168.50.3"
+          io.cilium/lb-ipam-ips: "192.168.40.3"
       extraArgs:
         default-ssl-certificate: ingress/wildcard-cert-tls
       publishService:
@@ -65,12 +65,12 @@ spec:
         type: RollingUpdate
         rollingUpdate:
           maxUnavailable: 1
-      
+
       resources:
         requests:
           cpu: 100m
           memory: 90Mi
-      
+
       enableMimalloc: true
 
       affinity:
@@ -80,10 +80,10 @@ spec:
               podAffinityTerm:
                 labelSelector:
                   matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                    - ingress-nginx
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - ingress-nginx
                 topologyKey: "kubernetes.io/hostname"
 
       metrics:
@@ -94,8 +94,8 @@ spec:
           enabled: true
           additionalLabels: {}
           namespace: ""
-          
-          rules: 
+
+          rules:
             - alert: NGINXConfigFailed
               expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
               for: 1s

@@ -50,7 +50,6 @@ spec:
         annotations:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "imap.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "192.168.50.5"
         externalTrafficPolicy: Cluster
         ports:
           imap-tcp:
@@ -63,7 +62,6 @@ spec:
         annotations:
           hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "smtp.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "192.168.50.6"
         externalTrafficPolicy: Cluster
         ports:
           smtp-tcp:

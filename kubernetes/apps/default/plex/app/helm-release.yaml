@@ -45,7 +45,7 @@ spec:
               tag: 1.32.7.7621-871adbd44@sha256:f9f77dc5e17cab9fae5ece663a64d026e3c75142b3b60bb4a52bf061957412be
             env:
               TZ: "UTC"
-              ADVERTISE_IP: "https://192.168.50.4:32400,https://plex.${SECRET_DOMAIN}:443"
+              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.${SECRET_DOMAIN}:443"
               NVIDIA_DRIVER_CAPABILITIES: all
               NVIDIA_VISIBLE_DEVICES: all
             resources:
@@ -62,7 +62,7 @@ spec:
         externalTrafficPolicy: Cluster
         annotations:
           coredns.io/hostname: "plex.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "192.168.50.4"
+          io.cilium/lb-ipam-ips: "192.168.40.4"
         ports:
           http:
             port: 32400

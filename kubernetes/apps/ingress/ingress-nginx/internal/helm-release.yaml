@@ -49,12 +49,12 @@ spec:
               operator: In
               values:
                 - nginx-internal
-     
+
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          io.cilium/lb-ipam-ips: "192.168.50.2"
+          io.cilium/lb-ipam-ips: "192.168.40.2"
 
       publishService:
         enabled: true
@@ -63,12 +63,12 @@ spec:
         type: RollingUpdate
         rollingUpdate:
           maxUnavailable: 1
-      
+
       resources:
         requests:
           cpu: 100m
           memory: 90Mi
-      
+
       enableMimalloc: true
 
       affinity:
@@ -78,10 +78,10 @@ spec:
               podAffinityTerm:
                 labelSelector:
                   matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                    - ingress-nginx
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - ingress-nginx
                 topologyKey: "kubernetes.io/hostname"
 
       metrics:
