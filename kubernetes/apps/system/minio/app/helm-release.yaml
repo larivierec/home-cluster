@@ -60,29 +60,54 @@ spec:
             enabled: true
             port: &api-port 9000
 
-    route:
+    ingress:
       main:
         enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: infrastructure
-        hostnames:
-          - "minio.${SECRET_DOMAIN}"
-        rules:
-          - backendRefs:
-            - port: *http-port
-              name: *app
-      s3:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: infrastructure
-        hostnames:
-          - "s3.${SECRET_DOMAIN}"
-        rules:
-          - backendRefs:
-            - port: *api-port
-              name: *app
+        className: cilium
+        hosts:
+          - host: &minio minio.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: *http-port
+          - host: &s3 s3.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: *api-port
+        tls:
+          - hosts:
+              - *minio
+            secretName: wildcard-cert-tls
+          - hosts:
+              - *s3
+            secretName: wildcard-cert-tls
+
+    # route:
+    #   main:
+    #     enabled: true
+    #     parentRefs:
+    #       - name: cilium-internal
+    #         namespace: infrastructure
+    #     hostnames:
+    #       - "minio.${SECRET_DOMAIN}"
+    #     rules:
+    #       - backendRefs:
+    #           - port: *http-port
+    #             name: *app
+    #   s3:
+    #     enabled: true
+    #     parentRefs:
+    #       - name: cilium-internal
+    #         namespace: infrastructure
+    #     hostnames:
+    #       - "s3.${SECRET_DOMAIN}"
+    #     rules:
+    #       - backendRefs:
+    #           - port: *api-port
+    #             name: *app
 
     persistence:
       config:
