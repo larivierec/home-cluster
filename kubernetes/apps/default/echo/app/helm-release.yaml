@@ -76,6 +76,7 @@ spec:
       main:
         enabled: true
         annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
           external-dns.alpha.kubernetes.io/hostname: echo.${SECRET_DOMAIN}
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:

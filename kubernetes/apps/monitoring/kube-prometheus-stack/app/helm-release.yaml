@@ -34,11 +34,11 @@ spec:
         global:
           resolve_timeout: 5m
         route:
-          group_by: ['alertname','job']
+          group_by: ["alertname", "job"]
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: 'discord'
+          receiver: "discord"
           routes:
             - receiver: "null"
               match:
@@ -48,13 +48,13 @@ spec:
                 alertname: InfoInhibitor
             - receiver: "discord"
               match:
-                severity: 'critical'
+                severity: "critical"
               continue: true
         receivers:
-          - name: 'null'
-          - name: 'discord'
+          - name: "null"
+          - name: "discord"
             webhook_configs:
-              - url: 'http://alertmanager-discord:9094'
+              - url: "http://alertmanager-discord:9094"
         inhibit_rules:
           - source_match:
               severity: "critical"
@@ -68,9 +68,9 @@ spec:
         paths:
           - /
         tls:
-        - secretName: wildcard-cert-tls
-          hosts:
-          - "alertmanager.${SECRET_DOMAIN}"
+          - secretName: wildcard-cert-tls
+            hosts:
+              - "alertmanager.${SECRET_DOMAIN}"
         ingressClassName: cilium
     grafana:
       enabled: true
@@ -157,7 +157,7 @@ spec:
         path: /
         tls:
           - secretName: wildcard-cert-tls
-            hosts: 
+            hosts:
               - *hostGrafana
         ingressClassName: cilium
     kubelet:
