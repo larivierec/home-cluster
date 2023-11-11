@@ -71,7 +71,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - "alertmanager.${SECRET_DOMAIN}"
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
     grafana:
       enabled: true
       plugins:
@@ -159,7 +159,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *hostGrafana
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
     kubelet:
       enabled: true
     kubeApiServer:
@@ -219,7 +219,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *hostPrometheus
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
       additionalDatasources:
         - name: blocky-redis
           type: standalone

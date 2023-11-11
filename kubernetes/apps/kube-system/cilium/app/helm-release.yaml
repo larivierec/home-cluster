@@ -66,7 +66,7 @@ spec:
         enabled: true
         ingress:
           enabled: true
-          className: cilium
+          className: nginx-internal
           hosts:
             - &host hubble.${SECRET_DOMAIN}
           tls:
@@ -87,9 +87,14 @@ spec:
     gatewayAPI:
       enabled: true
     l7Proxy: true
-    envoy:
+    loadBalancer:
+      algorithm: maglev
+      mode: dsr
+      l7:
+        backend: envoy
+    debug:
       enabled: true
-      rollOutPods: true
+      verbose: flow
     autoDirectNodeRoutes: true
     ipam:
       mode: kubernetes
@@ -98,9 +103,6 @@ spec:
     k8sServicePort: 6443
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    loadBalancer:
-      algorithm: maglev
-      mode: dsr
     localRedirectPolicy: true
     operator:
       rollOutPods: true

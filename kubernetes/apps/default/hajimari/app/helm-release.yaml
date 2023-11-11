@@ -126,7 +126,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: cilium
+        ingressClassName: nginx-internal
         annotations:
           hajimari.io/enable: "false"
         hosts:
