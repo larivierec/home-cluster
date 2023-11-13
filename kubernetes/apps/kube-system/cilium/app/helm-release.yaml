@@ -92,9 +92,6 @@ spec:
       mode: dsr
       l7:
         backend: envoy
-    debug:
-      enabled: true
-      verbose: flow
     autoDirectNodeRoutes: true
     ipam:
       mode: kubernetes
