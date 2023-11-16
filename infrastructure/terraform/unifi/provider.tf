@@ -1,0 +1,53 @@
+terraform {
+  backend "remote" {
+    organization = "larivierec"
+    workspaces {
+      name = "home-unifi-provisioner"
+    }
+  }
+
+  required_providers {
+    sops = {
+      source  = "carlpett/sops"
+      version = "1.0.0"
+    }
+    bitwarden = {
+      source  = "maxlaverse/bitwarden"
+      version = "0.7.2"
+    }
+    unifi = {
+      source = "paultyng/unifi"
+      version = "0.41.0"
+    }
+  }
+}
+
+provider "bitwarden" {
+  master_password = data.sops_file.this.data["SECRET_PASSWORD"]
+  client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
+  client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
+  email           = data.sops_file.this.data["SECRET_EMAIL"]
+  server          = "https://vault.bitwarden.com"
+}
+
+provider "unifi" {
+  username = "tfapi"
+  password = lookup(local.secrets, "tf-unifi-password").text
+  api_url  = lookup(local.secrets, "tf-unifi-api").text
+  allow_insecure = true
+}
+
+data "bitwarden_item_login" "secrets" {
+  id = "336e4bd7-6293-48cc-8d5e-b05d01565916"
+}
+
+data "sops_file" "this" {
+  source_file = "secrets.sops.yaml"
+}
+
+locals {
+  secrets = zipmap(
+    data.bitwarden_item_login.secrets.field.*.name,
+    data.bitwarden_item_login.secrets.field.*
+  )
+}
