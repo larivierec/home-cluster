@@ -28,23 +28,6 @@ spec:
       retries: 3
   values:
     master:
-      crdController: true
-      tolerations:
-        - effect: "NoExecute"
-          operator: "Exists"
-        - effect: "NoSchedule"
-          operator: "Exists"
-
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: "node-role.kubernetes.io/master"
-                    operator: In
-                    values: [""]
-
       resources:
         requests:
           cpu: 23m
@@ -53,46 +36,9 @@ spec:
           memory: 64M
 
     worker:
-      annotations:
-        configmap.reloader.stakater.com/reload: "nfd-worker-conf"
-
-      config:
-        core:
-          labelSources:
-            - custom
-            - pci
-            - usb
-
-        sources:
-          usb:
-            deviceClassWhitelist:
-              - "02"
-              - "03"
-              - "0a"
-              - "ef"
-              - "fe"
-              - "ff"
-            deviceLabelFields:
-              - "class"
-              - "vendor"
-              - "device"
-
-          custom:
-            - name: "intel-gpu"
-              matchOn:
-                - pciId:
-                    class: ["0300"]
-                    vendor: ["8086"]
-
       resources:
         requests:
           cpu: 15m
           memory: 64M
         limits:
           memory: 64M
-
-      tolerations:
-        - effect: "NoExecute"
-          operator: "Exists"
-        - effect: "NoSchedule"
-          operator: "Exists"

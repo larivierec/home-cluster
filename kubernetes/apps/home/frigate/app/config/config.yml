@@ -5,14 +5,12 @@ mqtt:
   user: mqtt_user
   password: "{FRIGATE_MQTT_PASSWORD}"
 
-birdseye:
-  enabled: true
-
 database:
   path: /data/frigate.db
 
 ffmpeg:
-  hwaccel_args: preset-nvidia-h265
+  hwaccel_args: preset-vaapi
+  # hwaccel_args: preset-nvidia-h265
 
 snapshots:
   enabled: true
@@ -39,48 +37,49 @@ objects:
     person:
       min_area: 5000
       max_area: 100000
-      threshold: 0.75
+      threshold: 0.70
 
 detectors:
-  tensorrt:
-    type: tensorrt
-    device: 0
+  coral1:
+    type: edgetpu
+    device: pci:0
+  # tensorrt:
+  #   type: tensorrt
+  #   device: 0
 
-model:
-  path: /config/model_cache/tensorrt/yolov7-tiny-416.trt
-  input_tensor: nchw
-  input_pixel_format: rgb
-  width: 416
-  height: 416
+# model:
+#   path: /config/model_cache/tensorrt/yolov7-tiny-416.trt
+#   input_tensor: nchw
+#   input_pixel_format: rgb
+#   width: 416
+#   height: 416
 
 go2rtc:
   streams:
-    front:
-      - rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=0
-    back:
-      - rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=0
+    front_high: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=0
+    front_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=1
+    back_high: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=0
+    back_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=1
 cameras:
   camera_1:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/front?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-            - record
+        - path: rtsp://localhost:8554/front_low
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/front_high
+          roles: ["record"]
     detect:
-      width: 2592
-      height: 1944
+      width: 704
+      height: 480
       fps: 15
   camera_2:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/back?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
-            - record
+        - path: rtsp://localhost:8554/back_low
+          roles: ["detect"]
+        - path: rtsp://localhost:8554/back_high
+          roles: ["record"]
     detect:
-      width: 2592
-      height: 1944
+      width: 704
+      height: 480
       fps: 15

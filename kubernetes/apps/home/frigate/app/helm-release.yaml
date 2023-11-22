@@ -33,12 +33,15 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: &config frigate-config
         pod:
-          runtimeClassName: nvidia
+          nodeSelector:
+            google.feature.node.kubernetes.io/coral: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
+          # runtimeClassName: nvidia
         containers:
           main:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.13.0-beta5-tensorrt
+              tag: 0.13.0-beta5
               pullPolicy: IfNotPresent
             controller:
               strategy: Recreate
@@ -47,17 +50,17 @@ spec:
             env:
               NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
               NVIDIA_VISIBLE_DEVICES: all
-              YOLO_MODELS: yolov7-tiny-416
+            #   YOLO_MODELS: yolov7-tiny-416
             resources:
               requests:
                 cpu: 100m
                 memory: 250Mi
                 # gpu.intel.com/i915: 1
-                nvidia.com/gpu: 1
+                # nvidia.com/gpu: 1
               limits:
                 memory: 6Gi
                 # gpu.intel.com/i915: 1
-                nvidia.com/gpu: 1
+                # nvidia.com/gpu: 1
             probes:
               liveness:
                 enabled: false
@@ -65,23 +68,42 @@ spec:
                 enabled: false
               startup:
                 enabled: false
+
     service:
       main:
         ports:
           http:
             port: 5000
 
-    route:
+    ingress:
       main:
         enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: infrastructure
-        hostnames:
-          - "frigate.${SECRET_DOMAIN}"
-        rules:
-          backendRefs:
-            - port: http
+        annotations:
+          hajimari.io/icon: icon-park-solid:surveillance-cameras
+        className: nginx-internal
+        hosts:
+          - host: &host "frigate.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+
+    # route:
+    #   main:
+    #     enabled: true
+    #     parentRefs:
+    #       - name: cilium-internal
+    #         namespace: infrastructure
+    #     hostnames:
+    #       - "frigate.${SECRET_DOMAIN}"
+    #     rules:
+    #       backendRefs:
+    #         - port: http
 
     configMaps:
       config:
@@ -116,13 +138,13 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
-      tensor:
-        enabled: true
-        type: hostPath
-        hostPath: /config/model_cache/tensorrt
-        hostPathType: Directory
-        globalMounts:
-          - path: /config/model_cache/tensorrt
+      # tensor:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /config/model_cache/tensorrt
+      #   hostPathType: Directory
+      #   globalMounts:
+      #     - path: /config/model_cache/tensorrt
 
   valuesFrom:
     - kind: Secret
