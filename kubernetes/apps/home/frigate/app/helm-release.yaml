@@ -47,9 +47,9 @@ spec:
               strategy: Recreate
             securityContext:
               privileged: true
-            env:
-              NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
-              NVIDIA_VISIBLE_DEVICES: all
+            # env:
+            #   NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
+            #   NVIDIA_VISIBLE_DEVICES: all
             #   YOLO_MODELS: yolov7-tiny-416
             resources:
               requests:
