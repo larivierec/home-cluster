@@ -64,22 +64,22 @@ cameras:
   camera_1:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/front_low
-          roles: ["detect"]
         - path: rtsp://localhost:8554/front_high
           roles: ["record"]
+        - path: rtsp://localhost:8554/front_low
+          roles: ["detect"]
     detect:
       width: 704
       height: 480
-      fps: 15
+      fps: 10
   camera_2:
     ffmpeg:
       inputs:
-        - path: rtsp://localhost:8554/back_low
-          roles: ["detect"]
         - path: rtsp://localhost:8554/back_high
           roles: ["record"]
+        - path: rtsp://localhost:8554/back_low
+          roles: ["detect"]
     detect:
       width: 704
       height: 480
-      fps: 15
+      fps: 10

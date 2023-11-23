@@ -36,6 +36,7 @@ spec:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
+            # nvidia.feature.node.kubernetes.io/gpu: "true"
           # runtimeClassName: nvidia
         containers:
           main:
@@ -47,6 +48,8 @@ spec:
               strategy: Recreate
             securityContext:
               privileged: true
+              supplementalGroups:
+                - 109
             # env:
             #   NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
             #   NVIDIA_VISIBLE_DEVICES: all
