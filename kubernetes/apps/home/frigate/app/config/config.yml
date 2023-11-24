@@ -10,7 +10,6 @@ database:
 
 ffmpeg:
   hwaccel_args: preset-vaapi
-  # hwaccel_args: preset-nvidia-h265
 
 snapshots:
   enabled: true
@@ -43,16 +42,6 @@ detectors:
   coral1:
     type: edgetpu
     device: pci:0
-  # tensorrt:
-  #   type: tensorrt
-  #   device: 0
-
-# model:
-#   path: /config/model_cache/tensorrt/yolov7-tiny-416.trt
-#   input_tensor: nchw
-#   input_pixel_format: rgb
-#   width: 416
-#   height: 416
 
 go2rtc:
   streams:

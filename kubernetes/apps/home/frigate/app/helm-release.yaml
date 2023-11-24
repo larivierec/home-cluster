@@ -36,8 +36,6 @@ spec:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
-            # nvidia.feature.node.kubernetes.io/gpu: "true"
-          # runtimeClassName: nvidia
         containers:
           main:
             image:
@@ -50,20 +48,12 @@ spec:
               privileged: true
               supplementalGroups:
                 - 109
-            # env:
-            #   NVIDIA_DRIVER_CAPABILITIES: compute,utility,video
-            #   NVIDIA_VISIBLE_DEVICES: all
-            #   YOLO_MODELS: yolov7-tiny-416
             resources:
               requests:
                 cpu: 100m
                 memory: 250Mi
-                # gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
               limits:
                 memory: 6Gi
-                # gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
             probes:
               liveness:
                 enabled: false
@@ -78,35 +68,17 @@ spec:
           http:
             port: 5000
 
-    ingress:
+    route:
       main:
         enabled: true
-        annotations:
-          hajimari.io/icon: icon-park-solid:surveillance-cameras
-        className: nginx-internal
-        hosts:
-          - host: &host "frigate.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
-
-    # route:
-    #   main:
-    #     enabled: true
-    #     parentRefs:
-    #       - name: cilium-internal
-    #         namespace: infrastructure
-    #     hostnames:
-    #       - "frigate.${SECRET_DOMAIN}"
-    #     rules:
-    #       backendRefs:
-    #         - port: http
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "frigate.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     configMaps:
       config:

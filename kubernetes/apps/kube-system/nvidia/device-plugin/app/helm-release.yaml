@@ -29,9 +29,9 @@ spec:
       repository: nvcr.io/nvidia/k8s-device-plugin
       tag: v0.14.3
     nodeSelector:
-      feature.node.kubernetes.io/pci-0300_10de.present: "true"
+      nvidia.feature.node.kubernetes.io/gpu: "true"
     runtimeClassName: nvidia
-    config: 
+    config:
       map:
         default: |-
           version: v1
