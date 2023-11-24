@@ -11,9 +11,20 @@ database:
 ffmpeg:
   hwaccel_args: preset-vaapi
 
+live:
+  stream_name: front_high
+
+timestamp_style:
+  position: "tr"
+  format: "%m/%d/%Y %H:%M:%S"
+  color:
+    red: 255
+    green: 255
+    blue: 255
+
 snapshots:
   enabled: true
-  timestamp: false
+  timestamp: true
   bounding_box: true
   retain:
     default: 14
@@ -32,16 +43,22 @@ record:
 objects:
   track:
     - person
+    - dog
   filters:
     person:
       min_area: 5000
       max_area: 100000
-      threshold: 0.70
+      threshold: 0.60
 
 detectors:
   coral1:
     type: edgetpu
-    device: pci:0
+    device: pci
+
+detect:
+  width: 704
+  height: 480
+  fps: 5
 
 go2rtc:
   streams:
@@ -57,10 +74,7 @@ cameras:
           roles: ["record"]
         - path: rtsp://localhost:8554/front_low
           roles: ["detect"]
-    detect:
-      width: 704
-      height: 480
-      fps: 10
+
   camera_2:
     ffmpeg:
       inputs:
@@ -68,7 +82,3 @@ cameras:
           roles: ["record"]
         - path: rtsp://localhost:8554/back_low
           roles: ["detect"]
-    detect:
-      width: 704
-      height: 480
-      fps: 10
