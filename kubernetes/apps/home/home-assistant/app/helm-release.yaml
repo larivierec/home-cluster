@@ -27,7 +27,17 @@ spec:
   values:
     controllers:
       main:
-        type: statefulset
+        type: deployment
+        strategy: Recreate
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-hass
         pod:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
@@ -38,6 +48,9 @@ spec:
               tag: 2023.11.3
             env:
               TZ: "UTC"
+              POSTGRES_HOST: postgres-rw.database.svc.cluster.local
+              POSTGRES_DB: home_assistant
+            envFrom: *envFrom
             probes:
               liveness:
                 enabled: false
