@@ -56,8 +56,8 @@ detectors:
     device: pci
 
 detect:
-  width: 704
-  height: 480
+  width: 1920
+  height: 1080
   fps: 5
 
 go2rtc:
@@ -71,14 +71,10 @@ cameras:
     ffmpeg:
       inputs:
         - path: rtsp://localhost:8554/front_high
-          roles: ["record"]
-        - path: rtsp://localhost:8554/front_low
-          roles: ["detect"]
+          roles: ["record", "detect"]
 
   camera_2:
     ffmpeg:
       inputs:
         - path: rtsp://localhost:8554/back_high
-          roles: ["record"]
-        - path: rtsp://localhost:8554/back_low
-          roles: ["detect"]
+          roles: ["record", "detect"]
