@@ -21,8 +21,15 @@ data:
     no-autoupdate: true
 
     ingress:
-    # TODO: for testing, doesn't seem to work
     - hostname: "echo.${SECRET_DOMAIN}"
+      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
+    - hostname: "overseerr.${SECRET_DOMAIN}"
+      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
+    - hostname: "hass.${SECRET_DOMAIN}"
       service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:
         originServerName: ingress.${SECRET_DOMAIN}

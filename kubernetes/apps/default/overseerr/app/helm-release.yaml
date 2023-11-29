@@ -46,42 +46,21 @@ spec:
           http:
             port: 5055
 
-    ingress:
+    route:
       main:
         enabled: true
-        className: nginx
         annotations:
-          hajimari.io/icon: "charm:git-request"
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-          external-dns.alpha.kubernetes.io/hostname: "overseerr.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: overseerr.${SECRET_DOMAIN}
           external-dns.alpha.kubernetes.io/ttl: "120"
-        hosts:
-          - host: &host "overseerr.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
-
-    # TODO will be supported in next release of external-dns
-    # route:
-    #   main:
-    #     enabled: true
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/hostname: overseerr.${SECRET_DOMAIN}
-    #       external-dns.alpha.kubernetes.io/ttl: "120"
-    #     parentRefs:
-    #       - name: cilium-external
-    #         namespace: infrastructure
-    #     hostnames:
-    #       - "overseerr.${SECRET_DOMAIN}"
-    #     rules:
-    #       backendRefs:
-    #         - port: http
+        parentRefs:
+          - name: cilium-external
+            namespace: infrastructure
+        hostnames:
+          - "overseerr.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
 
     persistence:
       config:

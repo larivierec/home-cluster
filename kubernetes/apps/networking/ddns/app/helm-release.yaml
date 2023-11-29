@@ -67,36 +67,19 @@ spec:
             port: 9000
           health:
             port: 8080
-    ingress:
+
+    route:
       main:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-        className: nginx
-        hosts:
-          - host: &host "ddns.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
-
-    # route:
-    #   main:
-    #     enabled: true
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/hostname: ddns.${SECRET_DOMAIN}
-    #       external-dns.alpha.kubernetes.io/ttl: "120"
-    #     parentRefs:
-    #       - name: cilium-external
-    #         namespace: infrastructure
-    #     hostnames:
-    #       - "ddns.${SECRET_DOMAIN}"
-    #     rules:
-    #       backendRefs:
-    #         - port: http
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: ddns.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: cilium-external
+            namespace: infrastructure
+        hostnames:
+          - "ddns.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http

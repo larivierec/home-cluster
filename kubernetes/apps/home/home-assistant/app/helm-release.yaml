@@ -63,25 +63,22 @@ spec:
         ports:
           http:
             port: 8123
-    ingress:
+    route:
       main:
         enabled: true
-        className: nginx
         annotations:
-          hajimari.io/icon: "vscode-icons:file-type-homeassistant"
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: hass.${SECRET_DOMAIN}
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-        hosts:
-          - host: &host "hass.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: cilium-external
+            namespace: infrastructure
+        hostnames:
+          - "hass.${SECRET_DOMAIN}"
+        rules:
+          backendRefs:
+            - port: http
     persistence:
       config:
         enabled: true
