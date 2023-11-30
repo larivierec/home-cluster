@@ -67,39 +67,18 @@ spec:
           http:
             port: 32400
 
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        annotations:
-          hajimari.io/icon: "simple-icons:plex"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        hosts:
-          - host: &host "plex.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
-
     route:
       main:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-internal.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: plex.${SECRET_DOMAIN}
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
-          - name: cilium-internal
+          - name: cilium-external
             namespace: infrastructure
         hostnames:
-          - "plex-internal.${SECRET_DOMAIN}"
+          - "plex.${SECRET_DOMAIN}"
         rules:
           backendRefs:
             - port: http
