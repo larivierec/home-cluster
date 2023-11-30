@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./service.yaml
   - ./ingress.yaml
+  # - ./route.yaml
