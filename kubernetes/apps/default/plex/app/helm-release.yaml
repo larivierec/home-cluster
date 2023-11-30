@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: plex-cluster
+  name: &app plex-cluster
   namespace: default
 spec:
   interval: 5m
@@ -65,7 +65,7 @@ spec:
           io.cilium/lb-ipam-ips: "192.168.40.4"
         ports:
           http:
-            port: 32400
+            port: &port 32400
 
     route:
       main:
@@ -77,11 +77,13 @@ spec:
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
+            sectionName: https
         hostnames:
           - "plex.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app
 
     persistence:
       config:

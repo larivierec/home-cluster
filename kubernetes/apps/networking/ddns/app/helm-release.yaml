@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: cloudflare-ddns
+  name: &app cloudflare-ddns
   namespace: networking
 spec:
   interval: 5m
@@ -46,14 +46,14 @@ spec:
                 spec:
                   httpGet:
                     path: /health/alive
-                    port: 8080
+                    port: &healthPort 8080
               readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health/ready
-                    port: 8080
+                    port: *healthPort
             resources:
               requests:
                 memory: 64Mi
@@ -64,9 +64,9 @@ spec:
       main:
         ports:
           http:
-            port: 9000
+            port: &port 9000
           health:
-            port: 8080
+            port: *healthPort
 
     route:
       main:
@@ -78,8 +78,10 @@ spec:
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
+            sectionName: https
         hostnames:
           - "ddns.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app

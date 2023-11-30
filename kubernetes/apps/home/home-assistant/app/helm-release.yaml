@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: home-assistant
+  name: &app home-assistant
   namespace: home
 spec:
   interval: 5m
@@ -62,23 +62,25 @@ spec:
       main:
         ports:
           http:
-            port: 8123
+            port: &port 8123
     route:
       main:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
           external-dns.alpha.kubernetes.io/hostname: hass.${SECRET_DOMAIN}
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
+            sectionName: https
         hostnames:
           - "hass.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       config:
         enabled: true
