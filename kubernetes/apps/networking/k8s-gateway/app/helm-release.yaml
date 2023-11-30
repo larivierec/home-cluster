@@ -34,9 +34,10 @@ spec:
         containers:
           main:
             image:
-              # repository: quay.io/oriedge/k8s_gateway
-              repository: ghcr.io/larivierec/k8s_gateway
-              tag: v0.4.0-3.gw-api-1.0.0
+              repository: quay.io/oriedge/k8s_gateway
+              tag: v0.4.0
+              # repository: ghcr.io/larivierec/k8s_gateway
+              # tag: v0.4.0-3.gw-api-1.0.0
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
