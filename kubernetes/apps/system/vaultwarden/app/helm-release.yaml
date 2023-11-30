@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: vault
+  name: &app vault
   namespace: system
 spec:
   dependsOn:
@@ -32,28 +32,11 @@ spec:
         initContainers:
           init-db:
             image:
-              repository: ghcr.io/onedr0p/postgres-initdb
+              repository: ghcr.io/onedr0p/postgres-init
               tag: 14.9
-            env:
-              - name: POSTGRES_HOST
-                value: postgres-rw.database.svc
-              - name: POSTGRES_DB
-                value: vaultwarden
-              - name: POSTGRES_SUPER_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-vaultwarden
-                    key: postgres_superuser_pw
-              - name: POSTGRES_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-vaultwarden
-                    key: postgres_user
-              - name: POSTGRES_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-vaultwarden
-                    key: postgres_password
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-vaultwarden
         containers:
           main:
             image:
@@ -81,6 +64,7 @@ spec:
           annotations:
             secret.reloader.stakater.com/reload: *secret
             backup.velero.io/backup-volumes: data
+
     service:
       main:
         ports:
@@ -89,49 +73,61 @@ spec:
           websocket:
             enabled: true
             port: &websocket-port 3012
+
     persistence:
       data:
         enabled: true
         existingClaim: vaultwarden-data
         globalMounts:
           - path: /data
-    ingress:
+
+    route:
       main:
         enabled: true
-        className: nginx
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-        hosts:
-          - host: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: main
-                  port: *port
-              - path: /notifications/hub/negotiate
-                service:
-                  name: main
-                  port: *port
-              - path: /notifications/hub
-                service:
-                  name: main
-                  port: *websocket-port
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: cilium-external
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - *host
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - port: *port
+                name: *app
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /notifications/hub/negotiate
+            backendRefs:
+              - port: *port
+                name: *app
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /notifications/hub
+            backendRefs:
+              - port: *websocket-port
+                name: *app
       admin:
         enabled: true
-        className: nginx-internal
-        hosts:
-          - host: "{{ .Release.Name }}-admin.${SECRET_DOMAIN}"
-            paths:
-              - path: /admin
-                service:
-                  name: main
-                  port: *port
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "{{ .Release.Name }}-admin.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /admin
