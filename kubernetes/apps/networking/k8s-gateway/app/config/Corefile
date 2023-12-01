@@ -11,6 +11,7 @@
         192.168.1.4 whirlwind.${SECRET_DOMAIN}
         192.168.1.7 frenzy.${SECRET_DOMAIN}
         192.168.1.9 fluffy.${SECRET_DOMAIN}
+        192.168.1.6 k3s-worker-3.${SECRET_DOMAIN}
         192.168.1.11 k3s-worker-gpu-1.${SECRET_DOMAIN}
         192.168.1.14 k3s-worker-gpu-4.${SECRET_DOMAIN}
         192.168.1.12 k3s-worker-2.${SECRET_DOMAIN}
@@ -19,7 +20,7 @@
     }
     k8s_gateway ${SECRET_DOMAIN} {
         apex k8s-gateway.networking
-        resources HTTPRoute Ingress Service
+        resources HTTPRoute TLSRoute Ingress Service
         fallthrough ${SECRET_DOMAIN}
     }
     forward ${SECRET_DOMAIN} tls://1.1.1.1 tls://1.0.0.1 {

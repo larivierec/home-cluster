@@ -20,24 +20,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-nas
-  namespace: flux-system
-spec:
-  interval: 10m
-  path: "./kubernetes/apps/default/nas/nas"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-cluster
-  wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: vault-secrets
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: cluster-apps-nas-photos
   namespace: flux-system
 spec:
