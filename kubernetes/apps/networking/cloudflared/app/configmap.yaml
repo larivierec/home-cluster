@@ -37,6 +37,14 @@ data:
       service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:
         originServerName: ingress.${SECRET_DOMAIN}
+    - hostname: "vault.${SECRET_DOMAIN}"
+      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
+    - hostname: "ddns.${SECRET_DOMAIN}"
+      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.${SECRET_DOMAIN}
     - hostname: "*.${SECRET_DOMAIN}"
       service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
