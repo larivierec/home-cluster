@@ -21,32 +21,16 @@ data:
     no-autoupdate: true
 
     ingress:
-    - hostname: "echo.${SECRET_DOMAIN}"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+    - hostname: "files.${SECRET_DOMAIN}"
+      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "plex.garb.dev"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
-      originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "overseerr.${SECRET_DOMAIN}"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
-      originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "hass.${SECRET_DOMAIN}"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
-      originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "vault.${SECRET_DOMAIN}"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
-      originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "ddns.${SECRET_DOMAIN}"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+    - hostname: "photos.${SECRET_DOMAIN}"
+      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.${SECRET_DOMAIN}
     - hostname: "*.${SECRET_DOMAIN}"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:
         originServerName: ingress.${SECRET_DOMAIN}
     - service: http_status:404
