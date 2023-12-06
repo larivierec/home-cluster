@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/larivierec/bitwarden-cli
-              tag: v0.0.13
+              tag: v2023.10.0
             env:
               BW_CLIENTID: ${BW_CLIENTID}
               BW_CLIENTSECRET: ${BW_CLIENTSECRET}
@@ -42,7 +42,12 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command:  ["sh", "-c", "curl -X POST -s http://127.0.0.1:8087/sync | jq -e '.success == true'"]
+                    command:
+                      [
+                        "sh",
+                        "-c",
+                        "curl -X POST -s http://127.0.0.1:8087/sync | jq -e '.success == true'",
+                      ]
                   timeoutSeconds: 5
               readiness:
                 enabled: false
