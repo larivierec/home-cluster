@@ -10,7 +10,8 @@
     ":automergeDigest",
     ":semanticCommits",
     "docker:enableMajor",
-    "config:base"
+    "config:base",
+    "security:openssf-scorecard"
   ],
   "username": "theriver-bot[bot]",
   "platform": "github",
