@@ -33,7 +33,8 @@ locals {
   buckets = [
     "velero",
     "pgsql",
-    "thanos"
+    "thanos",
+    "longhorn"
   ]
 }
 
