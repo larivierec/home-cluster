@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app ollama
+  namespace: default
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
+    controllers:
+      main:
+        type: deployment
+        updateStrategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: docker.io/ollama/ollama
+              tag: 0.1.13
+            env:
+              TZ: UTC
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
+              OLLAMA_HOST: 0.0.0.0
+              OLLAMA_ORIGINS: "*"
+            resources:
+              requests:
+                cpu: 200m
+                memory: 8Gi
+                nvidia.com/gpu: 1
+              limits:
+                memory: 16Gi
+                nvidia.com/gpu: 1
+              startup:
+                enabled: false
+    service:
+      main:
+        ports:
+          http:
+            port: &port 11434
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "ollama.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
