@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.3.0
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -58,7 +58,7 @@ spec:
         enabled: true
         ports:
           http:
-            port: 4000
+            port: &port 4000
       dns:
         enabled: true
         controller: main
@@ -99,8 +99,9 @@ spec:
         hostnames:
           - "blocky.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app
 
     serviceMonitor:
       main:

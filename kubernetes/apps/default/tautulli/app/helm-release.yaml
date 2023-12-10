@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: tautulli
+  name: &app tautulli
   namespace: default
 spec:
   interval: 5m
   chart:
     spec:
       chart: app-template
-      version: 2.3.0
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -46,7 +46,7 @@ spec:
       main:
         ports:
           http:
-            port: 8181
+            port: &port 8181
 
     route:
       main:
@@ -57,8 +57,9 @@ spec:
         hostnames:
           - "tautulli.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app
 
     persistence:
       config:

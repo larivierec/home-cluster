@@ -2,17 +2,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: sabnzbd
+  name: &app sabnzbd
   namespace: vpn
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.3.0
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s 
+        name: bjw-s
         namespace: flux-system
       interval: 15m
   maxHistory: 2
@@ -66,8 +66,9 @@ spec:
         hostnames:
           - "sabnzbd.${SECRET_DOMAIN}"
         rules:
-          backendRefs:
-            - port: http
+          - backendRefs:
+              - port: *port
+                name: *app
 
     persistence:
       config:
