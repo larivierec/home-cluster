@@ -28,7 +28,6 @@ spec:
     controllers:
       main:
         type: deployment
-        updateStrategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:

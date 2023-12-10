@@ -72,3 +72,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+            # TODO likely supported in a future release of bjw-s helm charts
+            # timeouts:
+            #   backendRequest: 10m
