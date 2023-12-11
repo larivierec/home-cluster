@@ -1,0 +1,41 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-v16
+  namespace: database
+spec:
+  instances: 3
+  primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-7
+  storage:
+    size: 20Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgres-superuser
+  postgresql:
+    parameters:
+      max_connections: "800"
+      shared_buffers: "512MB"
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases: ["*"]
+        roles: ["*"]
+        source:
+          externalCluster: postgres-v4
+  monitoring:
+    enablePodMonitor: true
+  externalClusters:
+    - name: postgres-v4
+      connectionParameters:
+        # Use the correct IP or host name for the source database
+        host: postgres-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: postgres-superuser
+        key: password

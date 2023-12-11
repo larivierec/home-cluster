@@ -1,0 +1,56 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-v16
+  namespace: database
+spec:
+  instances: 3
+  primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-7
+  storage:
+    size: 20Gi
+    storageClass: local-path
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgres-superuser
+  postgresql:
+    parameters:
+      max_connections: "800"
+      shared_buffers: "512MB"
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v16-v1
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: &s3 s3://pgsql/
+      endpointURL: &endpoint http://minio.system.svc:9000
+      serverName: postgres-v16-v2
+      s3Credentials:
+        accessKeyId:
+          name: minio-pgsql
+          key: minio_s3_access_key
+        secretAccessKey:
+          name: minio-pgsql
+          key: minio_s3_secret_access_key
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: *s3
+        endpointURL: *endpoint
+        s3Credentials:
+          accessKeyId:
+            name: minio-pgsql
+            key: minio_s3_access_key
+          secretAccessKey:
+            name: minio-pgsql
+            key: minio_s3_secret_access_key

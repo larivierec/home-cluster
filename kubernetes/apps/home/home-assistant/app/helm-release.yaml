@@ -33,7 +33,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 14.9
+              tag: 16.1
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
@@ -48,7 +48,7 @@ spec:
               tag: 2023.12.1
             env:
               TZ: "UTC"
-              POSTGRES_HOST: postgres-rw.database.svc.cluster.local
+              POSTGRES_HOST: postgres-v16-rw.database.svc.cluster.local
               POSTGRES_DB: home_assistant
             envFrom: *envFrom
             probes:

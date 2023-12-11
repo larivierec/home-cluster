@@ -2,14 +2,16 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres-v16
   namespace: database
 spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-7
   storage:
     size: 20Gi
     storageClass: local-path
+  enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
   postgresql:
@@ -18,7 +20,7 @@ spec:
       shared_buffers: "512MB"
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v3
+      source: &previousCluster postgres-v16-v1
   monitoring:
     enablePodMonitor: true
   backup:
@@ -29,7 +31,7 @@ spec:
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
       endpointURL: &endpoint http://minio.system.svc:9000
-      serverName: postgres-v4
+      serverName: postgres-v16-v2
       s3Credentials:
         accessKeyId:
           name: minio-pgsql
