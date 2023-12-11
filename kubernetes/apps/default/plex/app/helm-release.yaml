@@ -54,7 +54,7 @@ spec:
                 memory: 2Gi
                 nvidia.com/gpu: 1
               limits:
-                memory: 6Gi
+                memory: 10Gi
                 nvidia.com/gpu: 1
     service:
       main:
