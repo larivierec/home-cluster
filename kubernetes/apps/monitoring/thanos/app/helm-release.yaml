@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: thanos
@@ -82,7 +82,7 @@ spec:
       enabled: true
       replicaCount: 2
       replicaLabel: __replica__
-      alertmanagers: 
+      alertmanagers:
         - "http://alertmanager-operated.monitoring.svc.cluster.local:9093"
       persistence:
         enabled: true

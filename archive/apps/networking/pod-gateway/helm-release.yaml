@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: vpn-gateway
@@ -29,7 +29,7 @@ spec:
       tag: v1.8.1@sha256:690b6365728fe9012ad4cdfca38334992664596513dca187d1b93d2025205776
 
     routed_namespaces:
-    - vpn
+      - vpn
 
     addons:
       netshoot:
@@ -42,9 +42,9 @@ spec:
             repository: ghcr.io/qdm12/gluetun
             tag: v3.35.0@sha256:a98d1ec99e09a1b806aff7f0c3d8a133a8ede7d3d7a250b62029a39a61f01525
         envFrom:
-        - secretRef:
-            name: vpn-auth
-        
+          - secretRef:
+              name: vpn-auth
+
         livenessProbe:
           exec:
             command:
