@@ -43,7 +43,6 @@ record:
 objects:
   track:
     - person
-    - dog
   filters:
     person:
       min_area: 5000
