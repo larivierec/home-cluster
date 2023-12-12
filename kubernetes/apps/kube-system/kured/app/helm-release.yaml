@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: kured
@@ -48,7 +48,7 @@ spec:
     service:
       create: true
   valuesFrom:
-  - targetPath: configuration.notifyUrl
-    kind: Secret
-    name: kured
-    valuesKey: DISCORD_CHANNEL
+    - targetPath: configuration.notifyUrl
+      kind: Secret
+      name: kured
+      valuesKey: DISCORD_CHANNEL
