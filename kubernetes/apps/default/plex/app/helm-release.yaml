@@ -84,6 +84,8 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+            timeouts:
+              backendRequest: 3m
 
     persistence:
       config:
