@@ -54,6 +54,16 @@ spec:
                 nvidia.com/gpu: 1
               startup:
                 enabled: false
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["plex-cluster"]
+                  topologyKey: kubernetes.io/hostname
     service:
       main:
         ports:
