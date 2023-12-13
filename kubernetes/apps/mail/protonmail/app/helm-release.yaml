@@ -27,7 +27,8 @@ spec:
   values:
     controllers:
       main:
-        type: statefulset
+        type: deployment
+        updateStrategy: Recreate
         containers:
           main:
             image:
