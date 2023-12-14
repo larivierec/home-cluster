@@ -56,18 +56,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: nas-gw
-      protocol: TLS
-      port: 443
-      hostname: "nas-gw.${SECRET_DOMAIN}"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Passthrough
-        certificateRefs:
-          - kind: Secret
-            name: wildcard-cert-tls
     - name: https
       protocol: HTTPS
       port: 443
