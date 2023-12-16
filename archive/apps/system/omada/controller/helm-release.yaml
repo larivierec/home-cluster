@@ -43,7 +43,6 @@ spec:
         enabled: true
         ingressClassName: nginx-internal
         annotations:
-          hajimari.io/icon: "simple-icons:tp-link"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
           nginx.ingress.kubernetes.io/use-regex: "true"

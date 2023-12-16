@@ -3,7 +3,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    hajimari.io/icon: "mdi:files"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
     nginx.ingress.kubernetes.io/proxy-body-size: "850m"
@@ -15,17 +14,17 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: *host
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: files
-              port:
-                number: 7001
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: files
+                port:
+                  number: 7001
   tls:
     - hosts:
-      - *host
+        - *host
       secretName: wildcard-cert-tls

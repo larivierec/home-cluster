@@ -49,7 +49,6 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "imap.${SECRET_DOMAIN}"
         externalTrafficPolicy: Cluster
         ports:
@@ -61,7 +60,6 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          hajimari.io/icon: "material-symbols:mail"
           coredns.io/hostname: "smtp.${SECRET_DOMAIN}"
         externalTrafficPolicy: Cluster
         ports:

@@ -45,10 +45,6 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
-        annotations:
-          hajimari.io/icon: "mdi:lan"
-          # coredns.io/hostname: "unifi-controller.${SECRET_DOMAIN}"
-          # io.cilium/lb-ipam-ips: "192.168.50.9"
         ports:
           http:
             port: 8443
