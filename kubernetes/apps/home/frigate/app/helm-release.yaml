@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.13.0-beta6
+              tag: 0.13.0-beta7
               pullPolicy: IfNotPresent
             controller:
               strategy: Recreate
