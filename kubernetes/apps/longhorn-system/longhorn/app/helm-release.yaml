@@ -29,6 +29,8 @@ spec:
       defaultClass: true
       defaultClassReplicaCount: 3
     defaultSettings:
+      backupTarget: s3://longhorn@us-east-1/
+      backupTargetCredentialSecret: minio-longhorn
       defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
     ingress:
