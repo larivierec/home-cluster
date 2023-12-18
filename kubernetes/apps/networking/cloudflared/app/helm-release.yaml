@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: cloudflared
+  name: &app cloudflared
   namespace: networking
 spec:
   dependsOn:
@@ -30,6 +30,8 @@ spec:
   values:
     controllers:
       main:
+        replicas: 2
+        strategy: RollingUpdate
         annotations:
           configmap.reloader.stakater.com/reload: &config cloudflared-config
           secret.reloader.stakater.com/reload: &secret cloudflared-creds
@@ -45,12 +47,23 @@ spec:
               - --metrics
               - 0.0.0.0:9090
               - run
+            env:
+              TUNNEL_TRANSPORT_PROTOCOL: quic
+              TUNNEL_POST_QUANTUM: true
             resources:
               requests:
                 memory: 64Mi
                 cpu: 10m
               limits:
                 memory: 128Mi
+        pod:
+          topologySpreadConstraints:
+            - topologyKey: kubernetes.io/hostname
+              maxSkew: 1
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
     service:
       main:
         nameOverride: metrics
