@@ -10,6 +10,7 @@
 
 <div align="center">
 
+[![Discord](https://img.shields.io/discord/673534664354430999?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/sTMX7Vh)
 [![k3s](https://img.shields.io/badge/k3s-v1.28-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
@@ -20,12 +21,7 @@
 [![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&label=my%20home%20assistant)](https://www.home-assistant.io/)
 [![Overseerr](https://img.shields.io/uptimerobot/status/m789483603-29e0e1966ab760983f46ed3c?label=Overseerr)](https://overseerr.dev/)
 [![Internet](https://img.shields.io/uptimerobot/status/m789484238-7de3cf2b8346bbd39dfca242?logo=opnsense&logoColor=white&label=opnsense)](https://opnsense.org/)
-
-
-Thanks to the awesome community @ k8s-at-home for their help in getting this setup.
-Find their discord here.
   
-[![Discord](https://img.shields.io/discord/673534664354430999?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/sTMX7Vh)
 
 </div>
 
@@ -285,6 +281,9 @@ apt install \
   net-tools \
   dnsutils
 ```
+## ⭐ Stargazers
+
+[![Star History Chart](https://api.star-history.com/svg?repos=larivierec/home-cluster&type=Date)](https://star-history.com/#larivierec/home-cluster&Date)
 
 ## 🤝 Gratitude and Thanks
 
