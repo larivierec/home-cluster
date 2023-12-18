@@ -11,9 +11,6 @@ database:
 ffmpeg:
   hwaccel_args: preset-vaapi
 
-live:
-  stream_name: front_high
-
 timestamp_style:
   position: "tr"
   format: "%m/%d/%Y %H:%M:%S"
@@ -55,8 +52,8 @@ detectors:
     device: pci
 
 detect:
-  width: 1920
-  height: 1080
+  # width: 1920
+  # height: 1080
   fps: 5
 
 go2rtc:
