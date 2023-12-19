@@ -14,3 +14,4 @@ resources:
   - ./node-feature-discovery/ks.yaml
   - ./nvidia/dcgm-exporter/ks.yaml
   - ./nvidia/device-plugin/ks.yaml
+  - ./snapshot-controller/ks.yaml

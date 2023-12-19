@@ -6,3 +6,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./longhorn/ks.yaml
+  - ./recurring-jobs/ks.yaml

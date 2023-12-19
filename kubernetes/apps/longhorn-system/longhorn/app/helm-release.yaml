@@ -25,6 +25,9 @@ spec:
     remediation:
       retries: 3
   values:
+    monitoring:
+      enabled: true
+      createPrometheusRules: true
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 3
@@ -33,6 +36,9 @@ spec:
       backupTargetCredentialSecret: minio-longhorn
       defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
+      orphanAutoDeletion: true
+      concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
     ingress:
       enabled: true
       ingressClassName: nginx-internal
