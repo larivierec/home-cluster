@@ -45,6 +45,10 @@ spec:
             s3Url: "http://minio.system.svc:9000"
             publicUrl: https://s3.${SECRET_DOMAIN}
       fsBackupTimeout: 4h
+    deployRestic: true
+    restic:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: true
     initContainers:
       - name: velero-plugin-for-aws
         image: velero/velero-plugin-for-aws:v1.8.2
