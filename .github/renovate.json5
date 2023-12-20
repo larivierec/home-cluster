@@ -9,8 +9,9 @@
     ":disableRateLimiting",
     ":automergeDigest",
     ":semanticCommits",
+    "helpers:pinGitHubActionDigests",
     "docker:enableMajor",
-    "config:base",
+    "config:recommended",
     "security:openssf-scorecard"
   ],
   "username": "theriver-bot[bot]",
@@ -95,13 +96,15 @@
       "semanticCommitType": "fix",
     },
     {
-      "matchDatasources": ["terraform-provider"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "container",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )"
     },
     {
-      "description": "minio",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
-      "matchPackageNames": ["quay.io/minio/minio"]
+      "matchDatasources": ["terraform-provider"],
     },
     {
       "matchDatasources": ["docker"],
@@ -110,6 +113,24 @@
         "ghcr.io/onedr0p/plex",
         "ghcr.io/onedr0p/plex-beta",
       ]
+    },
+    {
+      "description": "Custom versioning for frigate",
+      "matchDatasources": ["docker"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$",
+      "matchPackagePatterns": ["frigate"]
+    },
+    {
+      "description": "Custom versioning for k3s",
+      "matchDatasources": ["github-releases"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
+      "matchPackagePatterns": ["k3s"]
+    },
+    {
+      "description": "minio",
+      "matchDatasources": ["docker"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
+      "matchPackageNames": ["quay.io/minio/minio"]
     },
   ],
 }
