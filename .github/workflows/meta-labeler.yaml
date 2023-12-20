@@ -13,19 +13,19 @@ jobs:
     steps:
       - name: Generate Token
         id: generate-token
-        uses: actions/create-github-app-token@v1.6.2
+        uses: actions/create-github-app-token@2986852ad836768dfea7781f31828eb3e17990fa # v1.6.2
         with:
           app-id: ${{ secrets.RIVERBOT_APP_ID }}
           private-key: ${{ secrets.RIVERBOT_APP_PRIVATE_KEY }}
 
       - name: Labeler
-        uses: actions/labeler@v5
+        uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9 # v5
         with:
           repo-token: "${{ steps.generate-token.outputs.token }}"
           configuration-path: .github/labeler.yaml
       
       - name: Label Size
-        uses: pascalgn/size-label-action@v0.5.0
+        uses: pascalgn/size-label-action@37a5ad4ae20ea8032abf169d953bcd661fd82cd3 # v0.5.0
         env:
           GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
         with:
