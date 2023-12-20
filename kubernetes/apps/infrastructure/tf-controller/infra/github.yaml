@@ -28,7 +28,7 @@ spec:
     name: oci-terraform-github
     namespace: infrastructure
   tfstate:
-    forceUnlock: auto
+    forceUnlock: "no"
   runnerPodTemplate:
     spec:
       volumeMounts:

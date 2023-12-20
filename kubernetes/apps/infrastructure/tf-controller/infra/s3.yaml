@@ -28,7 +28,7 @@ spec:
     name: oci-terraform-s3
     namespace: infrastructure
   tfstate:
-    forceUnlock: auto
+    forceUnlock: "no"
   runnerPodTemplate:
     spec:
       volumeMounts:

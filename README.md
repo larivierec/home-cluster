@@ -20,8 +20,6 @@
 
 [![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&label=my%20home%20assistant)](https://www.home-assistant.io/)
 [![Overseerr](https://img.shields.io/uptimerobot/status/m789483603-29e0e1966ab760983f46ed3c?label=Overseerr)](https://overseerr.dev/)
-[![Internet](https://img.shields.io/uptimerobot/status/m789484238-7de3cf2b8346bbd39dfca242?logo=opnsense&logoColor=white&label=opnsense)](https://opnsense.org/)
-  
 
 </div>
 
@@ -112,7 +110,7 @@ I have the three master node IP addresses registered to the HAProxy on my router
 
 1. Simply follow instructions on installing the nvidia driver to the node. *Must be done before flux is installed*
 
-As of k3s+1.23, k3s searches for the nvidia drivers everytime the services on the cluster are started.
+As of k3s+1.23, k3s searches for the nvidia drivers every time the services on the cluster are started.
 
 - /usr/local/nvidia -> this location is used by the gpu-operator (which I don't use)
 - /usr/bin/nvidia-container-runtime -> this is the location used usually when using package manager installation
@@ -204,7 +202,7 @@ data:
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
 | J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | Opnsense 23      | Router               |
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
-| Unifi Enterprise 24 POE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
+| Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
 | NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
@@ -212,13 +210,13 @@ data:
 
 | VMs                       | Count | Ram         | Operating System  | Purpose             |
 | --------------------------|-------|-------------|-------------------|-------------------- |
-| k3s-worker-#              | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
+| k3s-worker-#              | 3     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 | k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 
 
 # Base Node Install
 
-## Proxmox
+## Proxmox / Worker Nodes
 
 GPU Passthrough
 
@@ -248,21 +246,14 @@ For Z390 there were no issues.
 For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
 
 See [GPU Passthrough - Workaround](https://forum.proxmox.com/threads/gpu-passthrough-issues-after-upgrade-to-7-2.109051/#post-469855)
-Intel I219 passthrough
 
 ```bash
-ethtool -K eno1 gso off gro off tso off tx off rx off rxvlan off txvlan off sg off
-```
-
-```bash
-
 if [ $2 == "pre-start" ]
 then
     echo "gpu-hookscript: Resetting GPU for Virtual Machine $1"
     echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
     echo 1 > /sys/bus/pci/rescan
 fi
-
 ```
 
 ## Beelink nodes
