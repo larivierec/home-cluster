@@ -64,7 +64,6 @@ spec:
           annotations:
             secret.reloader.stakater.com/reload: *secret
             backup.velero.io/backup-volumes: data
-
     service:
       main:
         ports:
@@ -73,14 +72,12 @@ spec:
           websocket:
             enabled: true
             port: &websocket-port 3012
-
     persistence:
       data:
         enabled: true
         existingClaim: vaultwarden-data
         globalMounts:
           - path: /data
-
     route:
       main:
         enabled: true

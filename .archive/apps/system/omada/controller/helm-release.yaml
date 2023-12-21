@@ -1,0 +1,131 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: omada-controller
+  namespace: system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: mbentley/omada-controller
+      tag: 5.9@sha256:d76d4b2a1f5ab6525a20968af7a6bab51e1ef023924e0570ddb7793a131d2711
+    env:
+      TZ: "America/New_York"
+      MANAGE_HTTP_PORT: "8088"
+      MANAGE_HTTPS_PORT: &port 8043
+      PORTAL_HTTP_PORT: "8088"
+      PORTAL_HTTPS_PORT: "8843"
+      SHOW_SERVER_LOGS: "true"
+      SHOW_MONGODB_LOGS: "true"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx-internal
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
+          nginx.ingress.kubernetes.io/use-regex: "true"
+          nginx.ingress.kubernetes.io/upstream-vhost: "omada.${SECRET_DOMAIN}:8043"
+          nginx.ingress.kubernetes.io/proxy-redirect-from: "~https://(.+):8043/(.+)/login$"
+          nginx.ingress.kubernetes.io/proxy-redirect-to: "https://$1/$2/login"
+        hosts:
+          - host: &host omada.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: *port
+      controller:
+        enabled: true
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          coredns.io/hostname: "omada-controller.${SECRET_DOMAIN}"
+        ports:
+          mgmt-8088-tcp:
+            enabled: true
+            port: 8088
+            targetPort: 8088
+            protocol: TCP
+          portal-8843-tcp:
+            enabled: true
+            port: 8843
+            protocol: TCP
+            targetPort: 8843
+          eap-discovery:
+            enabled: true
+            port: 29810
+            protocol: UDP
+            targetPort: 29810
+          eap-adopt:
+            enabled: true
+            port: 29814
+            protocol: TCP
+            targetPort: 29814
+          eap-transfer-v2: # Starting from v5.9, Omada Controller receives Device Info and Packet Capture files from the Omada devices.
+            enabled: true
+            port: 29815
+            targetPort: 29815
+            protocol: TCP
+          eap-rtty: # Starting from v5.9, Omada Controller establishes the remote control terminal session with the Omada devices.
+            enabled: true
+            port: 29816
+            targetPort: 29816
+            protocol: TCP
+          init-check:
+            enabled: true
+            port: 27001
+            protocol: UDP
+            targetPort: 27001
+          db-access:
+            enabled: true
+            port: 27217
+            protocol: TCP
+            targetPort: 27217
+    podAnnotations:
+      backup.velero.io/backup-volumes: data,work
+    persistence:
+      data:
+        enabled: true
+        mountPath: /opt/tplink/EAPController/data
+        existingClaim: omada-data-v2
+      work:
+        enabled: true
+        mountPath: /opt/tplink/EAPController/work
+        existingClaim: omada-work-v2
+      logs:
+        enabled: true
+        type: emptyDir
+        mountPath: /opt/tplink/EAPController/logs
+    resources:
+      requests:
+        memory: 1200Mi
+        cpu: 1200m
+      limits:
+        memory: 1500Mi

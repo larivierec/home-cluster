@@ -14,7 +14,7 @@ spec:
     matchNames:
       - monitoring
   endpoints:
-  - port: metrics
-    path: /metrics
-    interval: 10s
-    honorLabels: true
+    - port: metrics
+      path: /metrics
+      interval: 10s
+      honorLabels: true

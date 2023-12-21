@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app tailscale-operator
+  namespace: &ns networking
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    image:
+      repository: tailscale/k8s-operator
+      tag: unstable-v1.49.197
+    updateStrategy:
+      type: Recreate
+    service:
+      main:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    serviceAccount:
+      create: false
+      name: *app
+    env:
+      OPERATOR_HOSTNAME: *app
+      OPERATOR_SECRET: *app
+      OPERATOR_NAMESPACE: *ns
+      CLIENT_ID_FILE: "/oauth/client_id"
+      CLIENT_SECRET_FILE: "/oauth/client_secret"
+      OPERATOR_LOGGING: "debug"
+      PROXY_IMAGE: "ghcr.io/tailscale/tailscale:v1.48.1"
+      PROXY_TAGS: "tag:k8s"
+      AUTH_PROXY: "true"
+    persistence:
+      oauth:
+        enabled: true
+        type: secret
+        name: tailscale-operator
+        mountPath: /oauth
+        readOnly: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi

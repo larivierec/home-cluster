@@ -45,7 +45,6 @@ spec:
         ports:
           http:
             port: &port 5055
-
     route:
       main:
         enabled: true
@@ -63,7 +62,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     persistence:
       config:
         enabled: true

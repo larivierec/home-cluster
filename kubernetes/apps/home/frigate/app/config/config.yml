@@ -1,16 +1,14 @@
+---
 mqtt:
   host: mosquitto.home
   port: 1883
   topic_prefix: frigate
   user: mqtt_user
   password: "{FRIGATE_MQTT_PASSWORD}"
-
 database:
   path: /data/frigate.db
-
 ffmpeg:
   hwaccel_args: preset-vaapi
-
 timestamp_style:
   position: "tr"
   format: "%m/%d/%Y %H:%M:%S"
@@ -18,14 +16,12 @@ timestamp_style:
     red: 255
     green: 255
     blue: 255
-
 snapshots:
   enabled: true
   timestamp: true
   bounding_box: true
   retain:
     default: 14
-
 # Global record configuration
 record:
   enabled: true
@@ -36,7 +32,6 @@ record:
     retain:
       default: 14
       mode: active_objects
-
 objects:
   track:
     - person
@@ -45,17 +40,14 @@ objects:
       min_area: 5000
       max_area: 100000
       threshold: 0.7
-
 detectors:
   coral1:
     type: edgetpu
     device: pci
-
 detect:
   # width: 1920
   # height: 1080
   fps: 5
-
 go2rtc:
   streams:
     front_high: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=0
@@ -68,7 +60,6 @@ cameras:
       inputs:
         - path: rtsp://localhost:8554/front_high
           roles: ["record", "detect"]
-
   camera_2:
     ffmpeg:
       inputs:

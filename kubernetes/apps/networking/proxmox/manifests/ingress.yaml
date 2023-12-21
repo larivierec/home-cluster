@@ -9,17 +9,17 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: &host proxmox.${SECRET_DOMAIN}
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: proxmox
-              port:
-                name: https
+    - host: &host proxmox.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: proxmox
+                port:
+                  name: https
   tls:
     - hosts:
-      - *host
+        - *host
       secretName: wildcard-cert-tls

@@ -52,7 +52,6 @@ spec:
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: *app
-
     service:
       main:
         enabled: true
@@ -89,7 +88,6 @@ spec:
             port: 443
             protocol: TCP
             targetPort: 443
-
     route:
       main:
         enabled: true
@@ -102,7 +100,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     serviceMonitor:
       main:
         enabled: true
@@ -112,7 +109,6 @@ spec:
             path: /metrics
             interval: 30s
             scrapeTimeout: 30s
-
     persistence:
       config:
         enabled: true

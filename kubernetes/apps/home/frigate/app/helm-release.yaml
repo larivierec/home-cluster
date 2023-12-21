@@ -61,13 +61,11 @@ spec:
                 enabled: false
               startup:
                 enabled: false
-
     service:
       main:
         ports:
           http:
             port: &port 5000
-
     route:
       main:
         enabled: true
@@ -80,7 +78,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     configMaps:
       config:
         enabled: false
@@ -121,7 +118,6 @@ spec:
       #   hostPathType: Directory
       #   globalMounts:
       #     - path: /config/model_cache/tensorrt
-
   valuesFrom:
     - kind: Secret
       name: frigate

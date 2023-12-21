@@ -67,7 +67,6 @@ spec:
             port: &port 9000
           health:
             port: *healthPort
-
     route:
       main:
         enabled: true

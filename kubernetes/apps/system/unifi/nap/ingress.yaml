@@ -9,17 +9,17 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: &host unifi.${SECRET_DOMAIN}
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: unifi-network-application
-              port:
-                number: 8443
+    - host: &host unifi.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: unifi-network-application
+                port:
+                  number: 8443
   tls:
     - hosts:
-      - *host
+        - *host
       secretName: wildcard-cert-tls

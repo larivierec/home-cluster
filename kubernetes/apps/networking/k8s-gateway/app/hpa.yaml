@@ -7,18 +7,18 @@ metadata:
 spec:
   maxReplicas: 4
   metrics:
-  - resource:
-      name: memory
-      target:
-        averageUtilization: 75
-        type: Utilization
-    type: Resource
-  - resource:
-      name: cpu
-      target:
-        averageUtilization: 75
-        type: Utilization
-    type: Resource
+    - resource:
+        name: memory
+        target:
+          averageUtilization: 75
+          type: Utilization
+      type: Resource
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 75
+          type: Utilization
+      type: Resource
   minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1

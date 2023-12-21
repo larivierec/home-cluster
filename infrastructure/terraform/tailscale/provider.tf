@@ -31,7 +31,7 @@ provider "bitwarden" {
 }
 
 provider "tailscale" {
-  oauth_client_id = lookup(local.secrets, "tailscale-clientid").text
+  oauth_client_id     = lookup(local.secrets, "tailscale-clientid").text
   oauth_client_secret = lookup(local.secrets, "tailscale-clientsecret").text
 }
 

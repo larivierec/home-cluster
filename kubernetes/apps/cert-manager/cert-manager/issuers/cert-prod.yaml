@@ -16,6 +16,6 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   commonName: ${SECRET_DOMAIN}
-  dnsNames: 
+  dnsNames:
     - "*.${SECRET_DOMAIN}"
     - "${SECRET_DOMAIN}"

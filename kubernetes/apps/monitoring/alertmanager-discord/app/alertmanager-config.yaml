@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   receivers:
-  - name: discord
-    webhookConfigs:
-    - url: 'http://alertmanager-discord:9094'
-      sendResolved: true
+    - name: discord
+      webhookConfigs:
+        - url: 'http://alertmanager-discord:9094'
+          sendResolved: true

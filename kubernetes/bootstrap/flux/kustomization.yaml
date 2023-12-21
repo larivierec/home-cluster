@@ -1,6 +1,6 @@
+---
 # IMPORTANT: This file is not tracked by flux and should never be. Its
 # purpose is to only install the Flux components and CRDs into your cluster.
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:

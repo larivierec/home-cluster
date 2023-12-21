@@ -145,10 +145,8 @@ spec:
             gnetId: 12239
             revision: 2
             datasource: Prometheus
-
       env:
         GF_PANELS_DISABLE_SANITIZE_HTML: true
-
       adminPassword: ${SECRET_GRAFANA_PASSWORD}
       ingress:
         enabled: true

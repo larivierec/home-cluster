@@ -57,13 +57,11 @@ spec:
             env:
               TZ: "UTC"
             envFrom: *envFrom
-
     service:
       main:
         ports:
           http:
             port: &port 8989
-
     route:
       main:
         enabled: true
@@ -76,7 +74,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     persistence:
       config:
         enabled: true
@@ -92,7 +89,6 @@ spec:
             path: /volume2/media-sp2/Shows
         globalMounts:
           - path: /tv
-
       downloads:
         enabled: true
         retain: true

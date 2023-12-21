@@ -48,6 +48,8 @@ jobs:
                 ','
               )
             }}
+          ACTION_DIRECTORY: .ci/action
+          ACTION_ACTIONLINT_CONFIG_FILE: actionlint.yaml
           COPYPASTE_JSCPD_CONFIG_FILE: .ci/jscpd/jscpd.json
           KUBERNETES_DIRECTORY: k8s
           KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas

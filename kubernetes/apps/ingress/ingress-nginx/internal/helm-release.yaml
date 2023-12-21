@@ -34,7 +34,6 @@ spec:
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
-
       ingressClass: nginx-internal
       ingressClassByName: true
       ingressClassResource:
@@ -49,28 +48,22 @@ spec:
               operator: In
               values:
                 - nginx-internal
-
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.40.2"
-
       publishService:
         enabled: true
-
       updateStrategy:
         type: RollingUpdate
         rollingUpdate:
           maxUnavailable: 1
-
       resources:
         requests:
           cpu: 100m
           memory: 90Mi
-
       enableMimalloc: true
-
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -83,7 +76,6 @@ spec:
                       values:
                         - ingress-nginx
                 topologyKey: "kubernetes.io/hostname"
-
       metrics:
         enabled: true
         serviceMonitor:

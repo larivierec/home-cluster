@@ -81,14 +81,12 @@ spec:
         ports:
           http:
             port: 6379
-
     persistence:
       config:
         enabled: true
         existingClaim: redis-data
         globalMounts:
           - path: /data
-
       healthcheck:
         enabled: true
         type: custom

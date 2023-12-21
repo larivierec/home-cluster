@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: searxng
+  namespace: vpn
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: searxng
+      version: 1.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: searxng
+        namespace: flux-system
+      interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controller:
+      strategy: RollingUpdate
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: "search.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        hosts:
+          - host: &host "search.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
+    podAnnotations:
+      backup.velero.io/backup-volumes: etc/searxng
+      configmap.reloader.stakater.com/reload: searxng-settings
+      setGateway: "true"
+    env:
+      INSTANCE_NAME: "Searcher"
+      BASE_URL: "http://localhost:8080/"
+      AUTOCOMPLETE: "duckduckgo"
+    searxng:
+      config:
+        use_default_settings: true
+        general:
+          instance_name: "Searcher"
+          privacypolicy_url: false
+          contact_url: false
+          donation_url: false
+          enable_metrics: true
+        search:
+          safe_search: 2
+          autocomplete: "google"
+          default_lang: "en"
+        server:
+          secret_key: "{SEARXNG_SECRET_KEY}"
+          bind_address: 0.0.0.0
+          limiter: false
+          method: "GET"
+          image_proxy: true
+        engines:
+          - name: google french
+            engine: google
+            use_mobile_ui: true
+            language: fr
+          - name: google
+            engine: google
+            use_mobile_ui: true
+            language: en
+        ui:
+          static_use_hash: true
+    persistence:
+      config:
+        enabled: true
+        existingClaim: searxng-config-v1
+  valuesFrom:
+    - kind: Secret
+      name: searxng
+      valuesKey: searxng_secret_key
+      targetPath: env.SEARXNG_SECRET_KEY
+      optional: false

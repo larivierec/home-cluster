@@ -37,7 +37,6 @@ spec:
         keep-alive-requests: 10000
         proxy-body-size: "100M"
         plugins: "strip-port-from-host"
-
       extraVolumes:
         - name: strip-port-from-host-plugin
           configMap:
@@ -45,11 +44,9 @@ spec:
       extraVolumeMounts:
         - name: strip-port-from-host-plugin
           mountPath: /etc/nginx/lua/plugins/strip-port-from-host
-
       ingressClassResource:
         enabled: true
         default: false
-
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
@@ -60,19 +57,15 @@ spec:
         default-ssl-certificate: ingress/wildcard-cert-tls
       publishService:
         enabled: true
-
       updateStrategy:
         type: RollingUpdate
         rollingUpdate:
           maxUnavailable: 1
-
       resources:
         requests:
           cpu: 100m
           memory: 90Mi
-
       enableMimalloc: true
-
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -85,7 +78,6 @@ spec:
                       values:
                         - ingress-nginx
                 topologyKey: "kubernetes.io/hostname"
-
       metrics:
         enabled: true
         serviceMonitor:
@@ -94,7 +86,6 @@ spec:
           enabled: true
           additionalLabels: {}
           namespace: ""
-
           rules:
             - alert: NGINXConfigFailed
               expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0

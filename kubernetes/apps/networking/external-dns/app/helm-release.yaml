@@ -30,24 +30,20 @@ spec:
       tag: v0.14.0
     interval: 5m
     provider: cloudflare
-
     env:
       - name: CF_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: cloudflare-creds
             key: CF_API_TOKEN
-
     extraArgs:
       - --cloudflare-proxied
       - --annotation-filter=external-dns.alpha.kubernetes.io/target
       - --gateway-namespace=infrastructure
-
     policy: sync
     sources:
       - ingress
       - gateway-httproute
-
     txtPrefix: "k8s."
     txtOwnerId: "public"
     domainFilters:

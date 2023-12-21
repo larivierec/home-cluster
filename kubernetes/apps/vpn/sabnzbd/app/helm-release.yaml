@@ -24,7 +24,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-
   values:
     controllers:
       main:
@@ -36,12 +35,7 @@ spec:
             env:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd,
-                sabnzbd.vpn,
-                sabnzbd.vpn.svc,
-                sabnzbd.vpn.svc.cluster,
-                sabnzbd.vpn.svc.cluster.local,
-                sabnzbd.${SECRET_DOMAIN}
+                sabnzbd, sabnzbd.vpn, sabnzbd.vpn.svc, sabnzbd.vpn.svc.cluster, sabnzbd.vpn.svc.cluster.local, sabnzbd.${SECRET_DOMAIN}
             resources:
               requests:
                 cpu: 247m
@@ -69,7 +63,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     persistence:
       config:
         enabled: true

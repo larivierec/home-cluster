@@ -4,7 +4,7 @@ data "sops_file" "this" {
 
 data "tailscale_device" "router" {
   provider = tailscale
-  name = "opnsense.${lookup(local.secrets, "tailscale-tailnet").text}"
+  name     = "opnsense.${lookup(local.secrets, "tailscale-tailnet").text}"
 }
 
 data "tailscale_device" "k8s-gateway" {
@@ -40,16 +40,16 @@ resource "tailscale_dns_search_paths" "search" {
 
 resource "tailscale_device_tags" "router" {
   device_id = data.tailscale_device.router.id
-  tags = ["tag:router"]
+  tags      = ["tag:router"]
 }
 
 resource "tailscale_device_tags" "k8s-gateway" {
   device_id = data.tailscale_device.k8s-gateway.id
-  tags = ["tag:k8s"]
+  tags      = ["tag:k8s"]
 }
 
 resource "tailscale_device_subnet_routes" "routes" {
-  for_each = toset([data.tailscale_device.router.id, data.tailscale_device.k8s-gateway.id])
+  for_each  = toset([data.tailscale_device.router.id, data.tailscale_device.k8s-gateway.id])
   device_id = each.key
   routes = sort([
     "192.168.0.0/16",
@@ -70,32 +70,32 @@ resource "tailscale_acl" "account_acl" {
     // "tagOwners": {
     //  	"tag:example": ["autogroup:admin"],
     // },
-    "randomizeClientPort": true,
+    "randomizeClientPort" : true,
     // Define access control lists for users, groups, autogroups, tags,
     // Tailscale IP addresses, and subnet ranges.
-    "acls": [
+    "acls" : [
       // Allow all connections.
       // Comment this section out if you want to define specific restrictions.
-      {"action": "accept", "src": ["*"], "dst": ["*:*"]},
+      { "action" : "accept", "src" : ["*"], "dst" : ["*:*"] },
     ],
-    "autoApprovers": {
+    "autoApprovers" : {
       // Alice can create subnet routers advertising routes in 10.0.0.0/24 that are auto-approved
-      "routes": {
-        "192.168.0.0/16": [lookup(local.secrets, "tailscale-email").text, "tag:k8s", "tag:router"],
+      "routes" : {
+        "192.168.0.0/16" : [lookup(local.secrets, "tailscale-email").text, "tag:k8s", "tag:router"],
       },
       // A device tagged security can advertise exit nodes that are auto-approved
-      "exitNode": ["tag:router", "tag:k8s"],
+      "exitNode" : ["tag:router", "tag:k8s"],
     },
 
     // Define users and devices that can use Tailscale SSH.
-    "ssh": [
+    "ssh" : [
       // Allow all users to SSH into their own devices in check mode.
       // Comment this section out if you want to define specific restrictions.
       {
-        "action": "check",
-        "src":    ["autogroup:member"],
-        "dst":    ["autogroup:self"],
-        "users":  ["autogroup:nonroot", "root"],
+        "action" : "check",
+        "src" : ["autogroup:member"],
+        "dst" : ["autogroup:self"],
+        "users" : ["autogroup:nonroot", "root"],
       },
     ],
 
@@ -107,9 +107,9 @@ resource "tailscale_acl" "account_acl" {
     //  		"deny": ["100.101.102.103:443"],
     //  	},
     // ],
-    "tagOwners": {
-      "tag:router":       [lookup(local.secrets, "tailscale-email").text],
-      "tag:k8s":          [lookup(local.secrets, "tailscale-email").text],
+    "tagOwners" : {
+      "tag:router" : [lookup(local.secrets, "tailscale-email").text],
+      "tag:k8s" : [lookup(local.secrets, "tailscale-email").text],
     },
   })
 }

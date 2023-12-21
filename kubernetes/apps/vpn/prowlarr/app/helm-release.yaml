@@ -24,13 +24,11 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-
   values:
     controllers:
       main:
         type: deployment
         strategy: Recreate
-
         initContainers:
           init:
             image:
@@ -63,7 +61,6 @@ spec:
         ports:
           http:
             port: &port 9696
-
     route:
       main:
         enabled: true
@@ -76,7 +73,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     persistence:
       config:
         enabled: true

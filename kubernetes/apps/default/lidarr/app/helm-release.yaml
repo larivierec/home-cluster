@@ -57,13 +57,11 @@ spec:
             env:
               TZ: "UTC"
             envFrom: *envFrom
-
     service:
       main:
         ports:
           http:
             port: &port 8686
-
     route:
       main:
         enabled: true
@@ -76,14 +74,12 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-
     persistence:
       config:
         enabled: true
         existingClaim: config-lidarr-0
         globalMounts:
           - path: /config
-
       media:
         enabled: true
         type: custom
@@ -93,7 +89,6 @@ spec:
             path: /volume2/media-sp2/Music
         globalMounts:
           - path: /music
-
       downloads:
         enabled: true
         retain: true

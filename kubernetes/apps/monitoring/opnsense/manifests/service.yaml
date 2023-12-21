@@ -11,7 +11,7 @@ spec:
   externalName: 192.168.1.1
   clusterIP: ""
   ports:
-  - name: metrics
-    port: 9100
-    protocol: TCP
-    targetPort: 9100
+    - name: metrics
+      port: 9100
+      protocol: TCP
+      targetPort: 9100

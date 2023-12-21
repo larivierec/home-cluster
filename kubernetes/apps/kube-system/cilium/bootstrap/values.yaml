@@ -1,3 +1,4 @@
+---
 bgpControlPlane:
   enabled: true
 cluster:

@@ -26,7 +26,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-
   values:
     controllers:
       main:
@@ -43,13 +42,11 @@ spec:
               TZ: UTC
               MINIO_UPDATE: "off"
               MINIO_PROMETHEUS_AUTH_TYPE: "public"
-
             auth:
               existingSecret: minio-secrets
         pod:
           annotations:
             secret.reloader.stakater.com/reload: minio-secrets
-
     service:
       main:
         enabled: true
@@ -59,7 +56,6 @@ spec:
           api:
             enabled: true
             port: &api-port 9000
-
     route:
       main:
         enabled: true
@@ -83,7 +79,6 @@ spec:
           - backendRefs:
               - port: *api-port
                 name: *app
-
     persistence:
       config:
         enabled: true

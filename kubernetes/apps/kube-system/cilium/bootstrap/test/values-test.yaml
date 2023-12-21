@@ -1,3 +1,4 @@
+---
 bpf:
   masquerade: true
 cluster:

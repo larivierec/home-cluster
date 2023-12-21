@@ -12,7 +12,6 @@ spec:
     matchLabels:
       app.kubernetes.io/instance: qbittorrent
       app.kubernetes.io/name: qbittorrent
-
   egress:
     - toCIDR:
         - 0.0.0.0/0
