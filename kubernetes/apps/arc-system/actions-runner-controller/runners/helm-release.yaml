@@ -27,13 +27,16 @@ spec:
   values:
     runnerScaleSetName: arc-runner-set-home-cluster
     githubConfigUrl: https://github.com/larivierec/home-cluster
+    minRunners: 1
+    maxRunners: 3
     containerMode:
       type: dind
     template:
       spec:
         containers:
           - name: runner
-            image: ghcr.io/onedr0p/github-actions-runner:rolling@sha256:97b74a2c9ae3f573e5168a247d3e0a14bd18aaf1e7b1003192090f4a089a8c07
+            image: ghcr.io/actions/actions-runner:2.311.0
+            command: ["/home/runner/run.sh"]
   valuesFrom:
     - kind: Secret
       name: actions-runner-controller-auth
