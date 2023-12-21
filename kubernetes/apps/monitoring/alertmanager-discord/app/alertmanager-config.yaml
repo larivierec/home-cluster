@@ -8,5 +8,5 @@ spec:
   receivers:
     - name: discord
       webhookConfigs:
-        - url: 'http://alertmanager-discord:9094'
+        - url: "http://alertmanager-discord:9094"
           sendResolved: true

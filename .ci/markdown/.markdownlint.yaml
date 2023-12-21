@@ -10,5 +10,11 @@ MD024:
   # Only check sibling headings
   siblings_only: true
 
+# MD029/ol-prefix Ordered list item prefix
+MD029: false
+
 # MD033/no-inline-html - Inline HTML
 MD033: false
+
+# MD041/first-line-heading/first-line-h1
+MD041: false

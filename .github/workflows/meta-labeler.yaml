@@ -23,7 +23,7 @@ jobs:
         with:
           repo-token: "${{ steps.generate-token.outputs.token }}"
           configuration-path: .ci/labeler/labeler.yaml
-      
+
       - name: Label Size
         uses: pascalgn/size-label-action@37a5ad4ae20ea8032abf169d953bcd661fd82cd3 # v0.5.0
         env:

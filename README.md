@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://camo.githubusercontent.com/5b298bf6b0596795602bd771c5bddbb963e83e0f/68747470733a2f2f692e696d6775722e636f6d2f7031527a586a512e706e67" align="center" width="144px" height="144px"/>
+<img src="https://camo.githubusercontent.com/5b298bf6b0596795602bd771c5bddbb963e83e0f/68747470733a2f2f692e696d6775722e636f6d2f7031527a586a512e706e67" align="center" width="144px" height="144px" alt="kubernetes"/>
 
-### Home Kubernetes cluster
+## Home Kubernetes cluster
 
 </div>
 
@@ -34,6 +34,7 @@ k3s cluster will also be configured as an HA using etcd with the `--cluster-init
 ### Server
 
 1. Install k3s manually
+
 ```bash
 curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none \
         --disable traefik \
@@ -45,6 +46,7 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
         --etcd-expose-metrics \
         --cluster-init
 ```
+
 2. Add extra masters if need be.
 
 ```bash
@@ -74,7 +76,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 cilium install
 ```
 
-4. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
+5. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
 
 ```bash
 helm repo add cilium https://helm.cilium.io/
@@ -100,6 +102,7 @@ Having the ability to not put unnecessary strain on the router is the reason why
 If I have internet access and the cluster explodes for whatever reason, at least, i'll still be able to access my network remotely.
 
 ## Cilium CNI - Note
+
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
 
@@ -117,10 +120,10 @@ As of k3s+1.23, k3s searches for the nvidia drivers every time the services on t
 
 When the service is started, k3s will automatically add the proper binary to the `config.toml` file
 
-
 ## Flux
 
 ### Installation
+
 1. `Generate a personal access token (PAT) that can create repositories by checking all permissions under repo. If a pre-existing repository is to be used the PAT’s user will require admin permissions on the repository in order to create a deploy key.` [Flux Installation](https://fluxcd.io/docs/installation)
 
 ```bash
@@ -144,9 +147,11 @@ cat age.agekey |
 kubectl create secret generic sops-age \
 --namespace=flux-system \
 --from-file=age.agekey=/dev/stdin
+```
 
 3. Add these secrets
 
+```bash
 flux create secret ghcr-auth \
   --url=ghcr.io \
   --username=flux \
@@ -179,24 +184,29 @@ As I have unifi hardware, you cannot wait for the Unifi Software controller.
 You have 2 options.
 
 1. Get a cloud key / security gateway
-2. Self-host on something reliable like a NAS. 
+2. Self-host on something reliable like a NAS.
 
 I opted for option 2 because it's cheaper and does almost the same, except you manage your own backups and etc.
 When I just had APs this didn't bother me, however, now with Switches your NAS must be up and running before setting up the switch.
 
 Maybe this could've been run on a router but I did not want to introduce more stress
+
+## Gateway API
+
+Ingress and Gateway API can co-exist.
+Keep in mind, the DNS must simply be unique.
+
 ## Ingress
 
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
 
-```yml
+```yaml
 data:
   use-forwarded-headers: "true"
   forwarded-for-header: "CF-Connecting-IP"
 ```
 
 # Nodes/Hardware
-
 
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
@@ -213,7 +223,6 @@ data:
 | k3s-worker-#              | 3     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 | k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 
-
 # Base Node Install
 
 ## Proxmox / Worker Nodes
@@ -221,7 +230,7 @@ data:
 GPU Passthrough
 
 1. VT-d enabled in motherboard BIOS
-2. Follow instructions here: https://gist.github.com/qubidt/64f617e959725e934992b080e677656f
+2. Follow instructions here: [Pass Thru](https://gist.github.com/qubidt/64f617e959725e934992b080e677656f)
 3. Add the PCI-E gpu to the VM
 4. install
 
@@ -242,6 +251,7 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
 (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
+
 For Z390 there were no issues.
 For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
 
@@ -272,6 +282,7 @@ apt install \
   net-tools \
   dnsutils
 ```
+
 ## ⭐ Stargazers
 
 [![Star History Chart](https://api.star-history.com/svg?repos=larivierec/home-cluster&type=Date)](https://star-history.com/#larivierec/home-cluster&Date)

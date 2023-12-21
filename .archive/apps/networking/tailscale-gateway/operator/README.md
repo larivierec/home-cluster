@@ -3,6 +3,7 @@
 While the concept is nice, I don't like have 1 pod for each service that I expose.
 
 tailscale operator requires the use of these 2 annotations on services
+
 ```yaml
     tailscale.com/expose: "true"
     tailscale.com/hostname: name

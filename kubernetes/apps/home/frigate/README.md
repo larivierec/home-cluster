@@ -24,8 +24,7 @@ They should look like this.
 -rw-r--r--  1 user user 37133752 Mar 14 18:27 yolov7-tiny-416.trt
 ```
 
-
-# Running
+## Running
 
 If everything works, you should see that detection is going through `nvidia-smi`.
 

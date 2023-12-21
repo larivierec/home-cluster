@@ -111,13 +111,6 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
-      # tensor:
-      #   enabled: true
-      #   type: hostPath
-      #   hostPath: /config/model_cache/tensorrt
-      #   hostPathType: Directory
-      #   globalMounts:
-      #     - path: /config/model_cache/tensorrt
   valuesFrom:
     - kind: Secret
       name: frigate
