@@ -1,0 +1,59 @@
+---
+name: Lint files on Pull Requests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  linter:
+    runs-on: ["arc-runner-set-home-cluster"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - name: Generate Token
+        id: generate-token
+        uses: actions/create-github-app-token@2986852ad836768dfea7781f31828eb3e17990fa # v1.6.2
+        with:
+          app-id: ${{ secrets.RIVERBOT_APP_ID }}
+          private-key: ${{ secrets.RIVERBOT_APP_PRIVATE_KEY }}
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v7.7.0
+        env:
+          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
+          PRINT_ALPACA: false
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
+          ENABLE_LINTERS: |-
+            ${{
+              join(
+                fromJSON('
+                  [
+                    "ACTION_ACTIONLINT",
+                    "COPYPASTE_JSCPD",
+                    "KUBERNETES_KUBEVAL",
+                    "MARKDOWN_MARKDOWNLINT",
+                    "REPOSITORY_GIT_DIFF",
+                    "REPOSITORY_SECRETLINT",
+                    "TERRAFORM_TERRAFORM_FMT",
+                    "YAML_PRETTIER",
+                    "YAML_YAMLLINT"
+                  ]
+                '),
+                ','
+              )
+            }}
+          COPYPASTE_JSCPD_CONFIG_FILE: .ci/jscpd/jscpd.json
+          KUBERNETES_DIRECTORY: k8s
+          KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
+          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
+          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .github/linters/.markdownlint.yaml
+          MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
+          YAML_YAMLLINT_CONFIG_FILE: .ci/yamllint/.yamllint.yaml
+          YAML_PRETTIER_CONFIG_FILE: .ci/prettier/.prettierrc.yaml
+          YAML_PRETTIER_ARGUMENTS: --ignore-path .ci/prettier/.prettierignore

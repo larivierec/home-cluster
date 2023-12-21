@@ -1,0 +1,19 @@
+{
+  "threshold": 0,
+  "reporters": ["html", "markdown", "console"],
+  "ignore": [
+    "**/.git/**",
+    "**/.direnv/**",
+    "**/.rbenv/**",
+    "**/.terraform/**",
+    "**/.venv/**",
+    "**/report/**",
+    "**/*cache*/**",
+    "**/*.json",
+    "**/*.yaml",
+    "**/*.yml",
+    "**/*.md",
+    "**/*.html",
+    "**/*.xml"
+  ]
+}
