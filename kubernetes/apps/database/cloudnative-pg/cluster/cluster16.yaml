@@ -7,7 +7,7 @@ metadata:
 spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-7
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-11
   storage:
     size: 20Gi
     storageClass: local-path
@@ -18,6 +18,7 @@ spec:
     parameters:
       max_connections: "800"
       shared_buffers: "512MB"
+      ssl_min_protocol_version: TLSv1.2
   bootstrap:
     recovery:
       source: &previousCluster postgres-v16-v1
@@ -30,7 +31,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
-      endpointURL: &endpoint http://minio.system.svc:9000
+      endpointURL: &endpoint https://s3.${SECRET_DOMAIN}
       serverName: postgres-v16-v2
       s3Credentials:
         accessKeyId:
