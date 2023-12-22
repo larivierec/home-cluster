@@ -11,7 +11,7 @@
 <div align="center">
 
 [![Discord](https://img.shields.io/discord/673534664354430999?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/sTMX7Vh)
-[![k3s](https://img.shields.io/badge/k3s-v1.28.4+k3s2-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
+[![k3s](https://img.shields.io/badge/k3s-v1.29.0+k3s1-brightgreen?style=for-the-badge&logo=kubernetes&logoColor=white)](https://k3s.io/)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
   
 </div>

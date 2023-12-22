@@ -7,13 +7,13 @@ metadata:
 spec:
   serviceAccountName: system-upgrade
   # renovate: datasource=github-releases depName=k3s-io/k3s
-  version: "v1.28.4+k3s2"
+  version: "v1.29.0+k3s1"
   concurrency: 1
   nodeSelector:
     matchExpressions:
-      - { key: node-role.kubernetes.io/control-plane, operator: DoesNotExist }
+      - { key: node-role.kubernetes.io/worker, operator: Exists }
   prepare:
     image: rancher/k3s-upgrade
-    args: ["prepare", "server"]
+    args: ["prepare", "k3s-server"]
   upgrade:
     image: rancher/k3s-upgrade
