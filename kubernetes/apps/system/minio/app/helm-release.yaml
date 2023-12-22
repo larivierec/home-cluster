@@ -82,6 +82,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: minio
+        existingClaim: minio-csi
         globalMounts:
           - path: /data

@@ -1,28 +1,13 @@
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: minio
-spec:
-  capacity:
-    storage: 500Gi
-  accessModes:
-    - ReadWriteMany
-  storageClassName: nfs-minio
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: 192.168.1.5
-    path: /volume2/pvc/minio
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: minio
+  name: minio-csi
   namespace: system
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: nfs-minio
+  storageClassName: nfs-provision-csi
   resources:
     requests:
       storage: 500Gi

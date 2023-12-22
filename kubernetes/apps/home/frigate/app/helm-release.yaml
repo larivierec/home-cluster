@@ -100,7 +100,7 @@ spec:
         type: custom
         volumeSpec:
           nfs:
-            server: "192.168.1.5"
+            server: "192.168.1.3"
             path: "/volume2/frigate"
         globalMounts:
           - path: /media

@@ -5,7 +5,7 @@ metadata:
   name: plex-backup
   namespace: default
 spec:
-  storageClassName: nfs-minio
+  storageClassName: nfs-provision-csi
   accessModes:
     - ReadWriteOnce
   resources:
