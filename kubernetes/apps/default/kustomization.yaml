@@ -5,7 +5,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./bazarr/ks.yaml
   - ./echo/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml
