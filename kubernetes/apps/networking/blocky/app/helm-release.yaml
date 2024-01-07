@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: ghcr.io/0xerr0r/blocky
-              tag: v0.22
+              tag: v0.23
             resources:
               requests:
                 cpu: 50m
