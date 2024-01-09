@@ -31,14 +31,20 @@ spec:
           main:
             image:
               repository: ghcr.io/larivierec/cloudflare-ddns
-              tag: v0.0.16
+              tag: main@sha256:a4c4c6db139ce0f1bf42719c337a7aee79373b7567df0acbd87937129db41e70
             args:
               - --zone-name
               - ${SECRET_DOMAIN}
               - --record-name
               - ${SECRET_DOMAIN}
+              - --provider
+              - random
             env:
-              ACCOUNT_TOKEN: ${SECRET_CLOUDFLARE_TOKEN}
+              ACCOUNT_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: ddns
+                    key: ACCOUNT_TOKEN
             probes:
               liveness:
                 enabled: true
