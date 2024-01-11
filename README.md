@@ -68,15 +68,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
 curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 ```
 
-## Cilium
-
-4. Optionally, install the cilium-cni and execute:
-
-```bash
-cilium install
-```
-
-5. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
+4. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
 
 ```bash
 helm repo add cilium https://helm.cilium.io/
@@ -174,10 +166,6 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 # Notes
 
-## Frigate
-
-I suggest you check the frigate folder for more information regarding nvidia detection.
-
 ## Unifi
 
 As I have unifi hardware, you cannot wait for the Unifi Software controller.
@@ -234,6 +222,39 @@ GPU Passthrough
 3. Add the PCI-E gpu to the VM
 4. install
 
+
+For Z390 there were no issues.
+For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
+
+See [GPU Passthrough - Workaround](https://forum.proxmox.com/threads/gpu-passthrough-issues-after-upgrade-to-7-2.109051/#post-469855)
+
+```bash
+if [ $2 == "pre-start" ]
+then
+    echo "gpu-hookscript: Resetting GPU for Virtual Machine $1"
+    echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
+    echo 1 > /sys/bus/pci/rescan
+fi
+```
+
+## Nodes
+
+### Base install
+
+```bash
+apt install \
+  nftables \
+  nfs-common \
+  curl \
+  containerd \
+  vim \
+  gnupg \
+  net-tools \
+  dnsutils
+```
+
+### GPU Install
+
 ```bash
 apt install \
     nftables \
@@ -252,36 +273,15 @@ echo \
 (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-For Z390 there were no issues.
-For X99-Deluxe-ii motherboard, gpu-passthrough has issues with Kernel 5.15.104-1+. When the node is booted it needs to execute
+### Note
 
-See [GPU Passthrough - Workaround](https://forum.proxmox.com/threads/gpu-passthrough-issues-after-upgrade-to-7-2.109051/#post-469855)
+Package `r8168-dkms` is no longer required as of kernel 6.5.X it uses r8169.
 
-```bash
-if [ $2 == "pre-start" ]
-then
-    echo "gpu-hookscript: Resetting GPU for Virtual Machine $1"
-    echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
-    echo 1 > /sys/bus/pci/rescan
-fi
-```
+If you upgrade to this security update and it restarts [Kernel version missing from 8.0.48.0](https://github.com/mtorromeo/r8168/blob/master/src/r8168_n.c#L84-L86) the driver will not load and you
+will no longer have network access.
 
-## Beelink nodes
+If ubuntu is already installed and you do not want to reinstall the OS download r8168 [R8168 - Build From Source + Autorun](https://github.com/mtorromeo/r8168/archive/refs/tags/8.052.01.tar.gz)
 
-Base install
-
-```bash
-apt install \
-  r8168-dkms \
-  nftables \
-  nfs-common \
-  curl \
-  containerd \
-  vim \
-  gnupg \
-  net-tools \
-  dnsutils
-```
 
 ## ⭐ Stargazers
 
