@@ -242,7 +242,7 @@ fi
 ### Base install
 
 ```bash
-apt install \
+sudo apt install \
   nftables \
   nfs-common \
   curl \
@@ -256,7 +256,7 @@ apt install \
 ### GPU Install
 
 ```bash
-apt install \
+sudo apt install \
     nftables \
     nfs-common \
     net-tools \
@@ -273,7 +273,33 @@ echo \
 (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-### Note
+### Kernel 6.5.X HWE woes
+
+#### Frigate Install - PCIe TPU
+
+For Kernel 6.5.X HWE more instability was detected.
+
+```bash
+sudo apt remove gasket-dkms
+sudo apt install git
+sudo apt install devscripts
+sudo apt install dkms
+sudo apt install debhelper
+
+git clone https://github.com/google/gasket-driver.git
+cd gasket-driver/
+debuild -us -uc -tc -b
+cd ..
+sudo dpkg -i gasket-dkms_1.0-18_all.deb
+
+sudo apt update && sudo apt upgrade
+```
+
+This allows us to build the module for the new kernel
+
+[Reference](https://forum.proxmox.com/threads/update-error-with-coral-tpu-drivers.136888/#post-608975)
+
+#### Note
 
 Package `r8168-dkms` is no longer required as of kernel 6.5.X it uses r8169.
 
