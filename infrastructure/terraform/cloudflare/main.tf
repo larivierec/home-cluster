@@ -14,6 +14,7 @@ module "dns_records" {
     "protonmail._domainkey"  = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_1").text), ttl = "1", proxied = false },
     "protonmail2._domainkey" = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_2").text), ttl = "1", proxied = false },
     "protonmail3._domainkey" = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_3").text), ttl = "1", proxied = false },
+    "sig1._domainkey"        = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_4").text), ttl = "1", proxied = false },
   }
 
   mx_records = {
@@ -21,7 +22,9 @@ module "dns_records" {
       ttl = "300"
       records = [
         { priority = 10, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_1").text) },
-        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_2").text) },
+        { priority = 10, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_2").text) },
+        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_3").text) },
+        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_4").text) },
       ]
     }
   }
@@ -29,7 +32,8 @@ module "dns_records" {
   txt_records = {
     nonsensitive(lookup(local.cloudflare_secrets, "domain").text) = { records = [
       nonsensitive(lookup(local.cloudflare_secrets, "MX_1_TXT").text),
-      nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_DATA").text),
+      nonsensitive(lookup(local.cloudflare_secrets, "MX_2_TXT").text),
+      nonsensitive(lookup(local.cloudflare_secrets, "SPF_1").text),
     ], ttl = "300" },
     "_dmarc" = { records = [nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_DMARC").text)], ttl = "1" },
   }
