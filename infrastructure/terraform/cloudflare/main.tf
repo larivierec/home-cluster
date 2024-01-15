@@ -22,9 +22,9 @@ module "dns_records" {
       ttl = "300"
       records = [
         { priority = 10, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_1").text) },
-        { priority = 10, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_2").text) },
-        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_3").text) },
-        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_4").text) },
+        { priority = 20, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_2").text) },
+        { priority = 30, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_3").text) },
+        { priority = 30, address = nonsensitive(lookup(local.cloudflare_secrets, "MX_4").text) },
       ]
     }
   }
