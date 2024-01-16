@@ -16,6 +16,10 @@ bootstrapDns:
   upstream: tcp-tls:one.one.one.one
   ips:
     - 1.1.1.1
+filtering:
+  queryTypes:
+    - AAAA
+    - HTTPS
 ede:
   enable: true
 redis:
