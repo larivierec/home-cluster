@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/larivierec/protonmail-bridge-docker
-              tag: 3.7.1@sha256:dfa26bd5b492df00583b1262002aa88f994fc35bd5dfb9bbff4d6341e41f966e
+              tag: 3.8.1@sha256:40c507e2dfd6829d6b1d1a119a2d1deb63f34164ceaeb99f24749b748fdb58d7
             env:
               TZ: "America/New_York"
             probes:
