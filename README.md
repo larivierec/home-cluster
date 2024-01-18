@@ -16,14 +16,9 @@
 
 </div>
 
-<div align="center">
+---
 
-[![Home-Assistant](https://img.shields.io/uptimerobot/status/m789483406-6089c85ad33bdfdc889ae5a7?logo=homeassistant&logoColor=white&label=my%20home%20assistant)](https://www.home-assistant.io/)
-[![Overseerr](https://img.shields.io/uptimerobot/status/m789483603-29e0e1966ab760983f46ed3c?label=Overseerr)](https://overseerr.dev/)
-
-</div>
-
-# k3s
+# Kubernetes with k3s
 
 ## Setup
 
@@ -62,7 +57,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
 
 3. Add workers
 
-### Worker
+### Workers
 
 ```bash
 curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
@@ -74,12 +69,13 @@ curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium -f kubernetes/core/cilium/bootstrap/values.yaml --namespace kube-system
 ```
+---
 
-# OPNsense
+# Networking
+
+## OPNsense
 
 Note: Add an entry to the BGP Neighbors table with the IP address of the Node you're adding.
-
-## Networking
 
 I use Tailscale on the router and another one inside the cluster.
 Both of them broadcasts my network and act as exit nodes for Tailscale clients.
@@ -93,13 +89,43 @@ The difference is if i'm playing around with stuff inside the cluster and the cl
 Having the ability to not put unnecessary strain on the router is the reason why i'm running 2 exit nodes + 2 subnet broadcasts.
 If I have internet access and the cluster explodes for whatever reason, at least, i'll still be able to access my network remotely.
 
-## Cilium CNI - Note
+### Notes
+
+#### Cilium CNI
 
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
 
 The APIServer address must also be correct otherwise, the cni will not be installed on the nodes.
 I have the three master node IP addresses registered to the HAProxy on my router on port 6443.
+
+#### Unifi
+
+As I have unifi hardware, you cannot wait for the Unifi Software controller.
+You have 2 options.
+
+1. Get a cloud key / security gateway
+2. Self-host on something reliable like a NAS.
+
+I opted for option 2 because it's cheaper and does almost the same, except you manage your own backups and etc.
+When I just had APs this didn't bother me, however, now with Switches your NAS must be up and running before setting up the switch.
+
+Maybe this could've been run on a router but I did not want to introduce more stress
+
+#### Gateway API
+
+Ingress and Gateway API can co-exist.
+Keep in mind, the DNS must simply be unique.
+
+#### Ingress
+
+For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
+
+```yaml
+data:
+  use-forwarded-headers: "true"
+  forwarded-for-header: "CF-Connecting-IP"
+```
 
 ## nvidia-daemonset-plugin
 
@@ -164,36 +190,6 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 3. Ensure you use this `sops-age` secret for decrypting.
 
-# Notes
-
-## Unifi
-
-As I have unifi hardware, you cannot wait for the Unifi Software controller.
-You have 2 options.
-
-1. Get a cloud key / security gateway
-2. Self-host on something reliable like a NAS.
-
-I opted for option 2 because it's cheaper and does almost the same, except you manage your own backups and etc.
-When I just had APs this didn't bother me, however, now with Switches your NAS must be up and running before setting up the switch.
-
-Maybe this could've been run on a router but I did not want to introduce more stress
-
-## Gateway API
-
-Ingress and Gateway API can co-exist.
-Keep in mind, the DNS must simply be unique.
-
-## Ingress
-
-For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
-
-```yaml
-data:
-  use-forwarded-headers: "true"
-  forwarded-for-header: "CF-Connecting-IP"
-```
-
 # Nodes/Hardware
 
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
@@ -210,6 +206,8 @@ data:
 | --------------------------|-------|-------------|-------------------|-------------------- |
 | k3s-worker-#              | 3     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 | k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
+
+---
 
 # Base Node Install
 
