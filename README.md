@@ -80,8 +80,8 @@ Note: Add an entry to the BGP Neighbors table with the IP address of the Node yo
 I use Tailscale on the router and another one inside the cluster.
 Both of them broadcasts my network and act as exit nodes for Tailscale clients.
 
-Router exit node
-Cluster exit node
+- Router exit node
+- Cluster exit node
 
 Having both isn't necessary because if you lose internet you won't be able to access either remotely.
 The difference is if i'm playing around with stuff inside the cluster and the cluster breaks, I may no longer be able to use the exit node in the cluster; The exit node inside the cluster is the main exit node.
