@@ -23,8 +23,8 @@ module "dns_records" {
       records = [
         { priority = 20, address = "mail.protonmail.ch" },
         { priority = 30, address = "mailsec.protonmail.ch" },
-        { priority = 10, address = "mx01.mail.apple.com." },
-        { priority = 10, address = "mx02.mail.apple.com." },
+        { priority = 10, address = "mx01.mail.icloud.com." },
+        { priority = 10, address = "mx02.mail.icloud.com." },
       ]
     }
   }
@@ -33,7 +33,8 @@ module "dns_records" {
     nonsensitive(lookup(local.cloudflare_secrets, "domain").text) = { records = [
       "protonmail-verification=527b517787bb4a14f0c9160b3355cfb95c1e790e",
       "apple-domain=dPAmcbw67V29ieeV",
-      "v=spf1 mx include:_spf.protonmail.ch include:icloud.com ~all",
+      # "\"v=spf1 include:icloud.com ~all\"",
+      "\"v=spf1 mx include:_spf.protonmail.ch include:icloud.com ~all\"",
     ], ttl = "3600" },
     "_dmarc" = { records = ["v=DMARC1; p=quarantine"], ttl = "1" },
   }
