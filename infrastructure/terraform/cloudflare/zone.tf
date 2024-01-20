@@ -28,7 +28,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
     rocket_loader = "off"
 
     # network
-    http3               = "off"
+    http3               = "on"
     ipv6                = "on"
     websockets          = "on"
     pseudo_ipv4         = "off"
