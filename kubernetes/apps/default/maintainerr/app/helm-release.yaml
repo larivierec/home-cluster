@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app maintainerr
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 30m
+  values:
+    controllers:
+      main:
+        type: deployment
+        updateStrategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 100
+        containers:
+          main:
+            image:
+              repository: ghcr.io/jorenn92/maintainerr
+              tag: 1.7.1@sha256:69756fae3b2a58905a1ca3ad86d34b59effd8c92140dcb70fd315ffccdea4e0d
+            resources:
+              requests:
+                cpu: 5m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    service:
+      main:
+        ports:
+          http:
+            port: &port 80
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "maintainerr.${SECRET_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+    persistence:
+      config:
+        enabled: true
+        accessMode: ReadWriteOnce
+        storageClass: longhorn
+        size: 300Mi
+        globalMounts:
+          - path: /opt/data
