@@ -30,6 +30,7 @@ resources:
   - ./ori-edge.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
+  - ./spegel.yaml
   - ./stakater.yaml
   - ./tyzbit.yaml
   - ./weaveworks.yaml
