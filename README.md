@@ -251,6 +251,43 @@ sudo apt install \
   dnsutils
 ```
 
+### Network Bonding (debian Ubuntu)
+
+For MS-01 Node SFP+ LACP (802.3ad)
+
+1. Install following dependencies
+
+```bash
+sudo apt install ifenslave
+sudo su -
+modprobe bonding
+echo 'bonding' >> /etc/modules
+```
+
+2. open `/etc/network/interfaces` as root or privileged and add the following
+
+```text
+auto enp2s0f0
+iface enp2s0f0 inet manual
+  bond-master bond0
+  bond-mode 802.3ad
+
+auto enp2s0f1
+iface enp2s0f1 inet manual
+  bond-master bond0
+  bond-mode 802.3ad
+
+auto bond0
+iface bond0 inet dhcp
+  bond-mode 802.3ad
+  bond-slaves enp2s0f0 enp2s0f1
+  bond-miimon 100
+  bond-downdelay 200
+  bond-updelay 400
+```
+
+(Reference)[https://www.server-world.info/en/note?os=Debian_12&p=bonding]
+
 ### GPU Install
 
 ```bash
