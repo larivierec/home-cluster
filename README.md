@@ -199,14 +199,9 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
 | MS-01                     | 1     | 1 Ti U.2 NVMe           | -                           | 64Gi | Ubuntu 22.04     | Kubernetes Worker    |
-| NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
-| NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
+| NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Ubuntu 22.04     | Kubernetes Worker    |
+| NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Ubuntu 22.04     | Kubernetes Worker    |
 | Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
-
-| VMs                       | Count | Ram         | Operating System  | Purpose             |
-| --------------------------|-------|-------------|-------------------|-------------------- |
-| k3s-worker-#              | 3     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
-| k3s-worker-gpu-#          | 2     | 16Gi        | Ubuntu 22.04      | Kubernetes Workers  |
 
 ---
 
@@ -339,7 +334,8 @@ sudo apt install \
     nftables \
     nfs-common \
     net-tools \
-    nvidia-driver-525 \
+    nvidia-driver-545 \
+    open-iscsi \
     ca-certificates \
     curl \
     gnupg \
@@ -347,9 +343,12 @@ sudo apt install \
     containerd \
     vim
 
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+sudo apt update && sudo apt install nvidia-container-toolkit
 ```
 
 ### Kernel 6.5.X HWE woes

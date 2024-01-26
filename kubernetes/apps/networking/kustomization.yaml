@@ -11,5 +11,4 @@ resources:
   - ./external-dns/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./opnsense/ks.yaml
-  - ./proxmox/ks.yaml
   - ./tailscale-gateway/ks.yaml
