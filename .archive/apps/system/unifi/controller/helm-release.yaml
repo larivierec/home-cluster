@@ -82,7 +82,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: &host unifi.${SECRET_DOMAIN}
+          - host: &host unifi.garb.dev
             paths:
               - path: /
                 pathType: Prefix

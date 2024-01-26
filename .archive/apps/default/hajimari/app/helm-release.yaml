@@ -57,13 +57,13 @@ spec:
           - external
       customApps:
         - name: OPNSense
-          url: "https://opnsense.${SECRET_DOMAIN}"
+          url: "https://opnsense.garb.dev"
           icon: simple-icons:opnsense
         - name: Minio
-          url: "https://minio.${SECRET_DOMAIN}"
+          url: "https://minio.garb.dev"
           icon: box
         - name: hubble
-          url: "https://hubble.${SECRET_DOMAIN}"
+          url: "https://hubble.garb.dev"
           icon: simple-icons:cilium
       globalBookmarks:
         - group: Dev
@@ -130,7 +130,7 @@ spec:
         annotations:
           hajimari.io/enable: "false"
         hosts:
-          - host: &host "hajimari.${SECRET_DOMAIN}"
+          - host: &host "hajimari.garb.dev"
             paths:
               - path: /
                 pathType: Prefix

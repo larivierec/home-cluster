@@ -31,7 +31,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
-      endpointURL: &endpoint https://s3.${SECRET_DOMAIN}
+      endpointURL: &endpoint https://s3.garb.dev
       serverName: postgres-v16-v2
       s3Credentials:
         accessKeyId:

@@ -33,7 +33,7 @@ spec:
       enabled: true
       className: nginx-internal
       hosts:
-        - host: &host "gitops.${SECRET_DOMAIN}"
+        - host: &host "gitops.garb.dev"
           paths:
             - path: /
               pathType: Prefix

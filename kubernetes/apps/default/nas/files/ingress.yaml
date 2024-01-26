@@ -6,8 +6,8 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
     nginx.ingress.kubernetes.io/proxy-body-size: "850m"
-    external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
-    external-dns.alpha.kubernetes.io/hostname: &host "files.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+    external-dns.alpha.kubernetes.io/hostname: &host "files.garb.dev"
     external-dns.alpha.kubernetes.io/ttl: "120"
   name: external-ingress-files
   namespace: default

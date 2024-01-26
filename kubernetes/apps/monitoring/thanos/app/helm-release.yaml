@@ -44,7 +44,7 @@ spec:
       ingress:
         enabled: true
         ingressClassName: nginx-internal
-        hostname: &host thanos-query-frontend.${SECRET_DOMAIN}
+        hostname: &host thanos-query-frontend.garb.dev
         tls: true
         extraTls:
           - hosts:

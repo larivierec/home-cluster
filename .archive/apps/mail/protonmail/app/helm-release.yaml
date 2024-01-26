@@ -49,7 +49,7 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          coredns.io/hostname: "imap.${SECRET_DOMAIN}"
+          coredns.io/hostname: "imap.garb.dev"
         externalTrafficPolicy: Cluster
         ports:
           imap-tcp:
@@ -60,7 +60,7 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          coredns.io/hostname: "smtp.${SECRET_DOMAIN}"
+          coredns.io/hostname: "smtp.garb.dev"
         externalTrafficPolicy: Cluster
         ports:
           smtp-tcp:

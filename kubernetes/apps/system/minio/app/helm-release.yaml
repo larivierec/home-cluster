@@ -63,7 +63,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "minio.${SECRET_DOMAIN}"
+          - "minio.garb.dev"
         rules:
           - backendRefs:
               - port: *http-port
@@ -74,7 +74,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "s3.${SECRET_DOMAIN}"
+          - "s3.garb.dev"
         rules:
           - backendRefs:
               - port: *api-port

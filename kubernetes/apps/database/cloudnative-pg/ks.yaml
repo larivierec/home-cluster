@@ -12,12 +12,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
-  dependsOn:
-    - name: cluster-apps-external-secrets-stores
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -32,12 +26,7 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
   dependsOn:
-    - name: cluster-apps-external-secrets-stores
     - name: cluster-apps-cloudnative-pg
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -53,10 +42,5 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
   dependsOn:
-    - name: cluster-apps-external-secrets-stores
     - name: cloudnative-pg-cluster

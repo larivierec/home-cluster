@@ -15,7 +15,7 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: ${SECRET_DOMAIN}
+  commonName: garb.dev
   dnsNames:
-    - "*.${SECRET_DOMAIN}"
-    - "${SECRET_DOMAIN}"
+    - "*.garb.dev"
+    - "garb.dev"

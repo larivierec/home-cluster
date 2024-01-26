@@ -53,10 +53,10 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          external-dns.alpha.kubernetes.io/target: "ingress.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "ingress.garb.dev"
           external-dns.alpha.kubernetes.io/ttl: "120"
         hosts:
-          - host: &host "jellyfin.${SECRET_DOMAIN}"
+          - host: &host "jellyfin.garb.dev"
             paths:
               - path: /
                 pathType: Prefix

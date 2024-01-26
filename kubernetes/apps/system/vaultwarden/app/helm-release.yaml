@@ -46,14 +46,14 @@ spec:
               DATA_FOLDER: "data"
               ICON_CACHE_FOLDER: "data/icon_cache"
               ATTACHMENTS_FOLDER: "data/attachments"
-              DOMAIN: "https://vault.${SECRET_DOMAIN}"
+              DOMAIN: "https://vault.garb.dev"
               TZ: "UTC"
               SIGNUPS_ALLOWED: "false"
               WEBSOCKET_ENABLED: "true"
               WEBSOCKET_ADDRESS: 0.0.0.0
               WEBSOCKET_PORT: 3012
               SMTP_HOST: smtp.mail.me.com
-              SMTP_FROM: postmaster@${SECRET_DOMAIN}
+              SMTP_FROM: postmaster@garb.dev
               SMTP_FROM_NAME: vaultwarden
               SMTP_PORT: 587
               SMTP_SECURITY: "starttls"
@@ -83,7 +83,7 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: &host "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/hostname: &host "{{ .Release.Name }}.garb.dev"
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
@@ -119,7 +119,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "{{ .Release.Name }}-admin.${SECRET_DOMAIN}"
+          - "{{ .Release.Name }}-admin.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -68,7 +68,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "prowlarr.${SECRET_DOMAIN}"
+          - "prowlarr.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -11,7 +11,7 @@ upstreams:
 conditional:
   mapping:
     cluster.local: 10.43.0.10
-    ${SECRET_DOMAIN}: 10.43.6.210
+    garb.dev: 10.43.6.210
 bootstrapDns:
   upstream: tcp-tls:one.one.one.one
   ips:

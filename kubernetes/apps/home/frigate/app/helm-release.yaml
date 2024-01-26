@@ -73,7 +73,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "frigate.${SECRET_DOMAIN}"
+          - "frigate.garb.dev"
         rules:
           - backendRefs:
               - port: *port

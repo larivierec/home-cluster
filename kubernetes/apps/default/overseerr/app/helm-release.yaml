@@ -50,14 +50,14 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: overseerr.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "overseerr.${SECRET_DOMAIN}"
+          - "overseerr.garb.dev"
         rules:
           - backendRefs:
               - port: *port

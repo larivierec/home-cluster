@@ -38,7 +38,7 @@ spec:
               - secretRef:
                   name: *creds
             args:
-              - --domain-filter=${SECRET_DOMAIN}
+              - --domain-filter=garb.dev
               - --cloudflare-proxied
               - --annotation-filter=external-dns.alpha.kubernetes.io/target
               - --source=ingress

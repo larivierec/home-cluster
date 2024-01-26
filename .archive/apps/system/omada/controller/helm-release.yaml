@@ -43,11 +43,11 @@ spec:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
           nginx.ingress.kubernetes.io/use-regex: "true"
-          nginx.ingress.kubernetes.io/upstream-vhost: "omada.${SECRET_DOMAIN}:8043"
+          nginx.ingress.kubernetes.io/upstream-vhost: "omada.garb.dev:8043"
           nginx.ingress.kubernetes.io/proxy-redirect-from: "~https://(.+):8043/(.+)/login$"
           nginx.ingress.kubernetes.io/proxy-redirect-to: "https://$1/$2/login"
         hosts:
-          - host: &host omada.${SECRET_DOMAIN}
+          - host: &host omada.garb.dev
             paths:
               - path: /
                 pathType: Prefix
@@ -66,7 +66,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: "omada-controller.${SECRET_DOMAIN}"
+          coredns.io/hostname: "omada-controller.garb.dev"
         ports:
           mgmt-8088-tcp:
             enabled: true

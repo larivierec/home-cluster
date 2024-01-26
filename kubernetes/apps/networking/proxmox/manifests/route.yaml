@@ -4,12 +4,12 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: proxmox.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/hostname: proxmox.garb.dev
   name: proxmox
   namespace: networking
 spec:
   hostnames:
-    - proxmox.${SECRET_DOMAIN}
+    - proxmox.garb.dev
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway

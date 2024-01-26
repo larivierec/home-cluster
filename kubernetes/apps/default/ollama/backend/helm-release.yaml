@@ -77,7 +77,7 @@ spec:
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "ollama.${SECRET_DOMAIN}"
+          - "ollama.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -34,9 +34,9 @@ spec:
               tag: main@sha256:21229b8c2ecb5a48016298330d22283a48e8cc77619f358fddd472ad8a398855
             args:
               - --zone-name
-              - ${SECRET_DOMAIN}
+              - garb.dev
               - --record-name
-              - ${SECRET_DOMAIN}
+              - garb.dev
               - --provider
               - random
             env:
@@ -78,14 +78,14 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: ddns.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: ddns.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "ddns.${SECRET_DOMAIN}"
+          - "ddns.garb.dev"
         rules:
           - backendRefs:
               - port: *port

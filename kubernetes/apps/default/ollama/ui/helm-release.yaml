@@ -57,7 +57,7 @@ spec:
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "chat.${SECRET_DOMAIN}"
+          - "chat.garb.dev"
         rules:
           - backendRefs:
               - port: *port

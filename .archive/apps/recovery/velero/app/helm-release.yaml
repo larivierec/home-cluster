@@ -43,7 +43,7 @@ spec:
             region: us-east-1
             s3ForcePathStyle: true
             s3Url: "http://minio.system.svc:9000"
-            publicUrl: https://s3.${SECRET_DOMAIN}
+            publicUrl: https://s3.garb.dev
       fsBackupTimeout: 4h
     deployRestic: true
     restic:

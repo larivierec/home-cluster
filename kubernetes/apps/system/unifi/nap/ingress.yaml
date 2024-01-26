@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-    - host: &host unifi.${SECRET_DOMAIN}
+    - host: &host unifi.garb.dev
       http:
         paths:
           - path: /

@@ -5,7 +5,7 @@ metadata:
   name: unifi-network-application
   namespace: system
   annotations:
-    coredns.io/hostname: "unifi-controller.${SECRET_DOMAIN}"
+    coredns.io/hostname: "unifi-controller.garb.dev"
     io.cilium/lb-ipam-ips: "192.168.40.9"
 spec:
   type: LoadBalancer

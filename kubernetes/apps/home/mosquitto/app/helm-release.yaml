@@ -55,7 +55,7 @@ spec:
             type: LoadBalancer
             externalTrafficPolicy: Cluster
             annotations:
-              coredns.io/hostname: "mosquitto.${SECRET_DOMAIN}"
+              coredns.io/hostname: "mosquitto.garb.dev"
             port: 1883
     persistence:
       data:

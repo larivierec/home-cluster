@@ -69,7 +69,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "lidarr.${SECRET_DOMAIN}"
+          - "lidarr.garb.dev"
         rules:
           - backendRefs:
               - port: *port

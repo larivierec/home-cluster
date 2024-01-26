@@ -58,7 +58,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "bazarr.${SECRET_DOMAIN}"
+          - "bazarr.garb.dev"
         rules:
           - backendRefs:
               - port: *port

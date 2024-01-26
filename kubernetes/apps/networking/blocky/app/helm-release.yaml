@@ -95,7 +95,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "blocky.${SECRET_DOMAIN}"
+          - "blocky.garb.dev"
         rules:
           - backendRefs:
               - port: *port

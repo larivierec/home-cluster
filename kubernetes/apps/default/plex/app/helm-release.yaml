@@ -45,7 +45,7 @@ spec:
               tag: 1.32.8.7639-fb6452ebf@sha256:637fe10cef736f249d96cb004c12f81646c81ca17ddce22374ea8782aa6646c2
             env:
               TZ: "UTC"
-              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.${SECRET_DOMAIN}:443"
+              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
               NVIDIA_DRIVER_CAPABILITIES: all
               NVIDIA_VISIBLE_DEVICES: all
             resources:
@@ -61,7 +61,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: "plex.${SECRET_DOMAIN}"
+          coredns.io/hostname: "plex.garb.dev"
           io.cilium/lb-ipam-ips: "192.168.40.4"
         ports:
           http:
@@ -71,14 +71,14 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "plex.${SECRET_DOMAIN}"
+          - "plex.garb.dev"
         rules:
           - backendRefs:
               - port: *port

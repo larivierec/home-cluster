@@ -64,13 +64,13 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - alertmanager.${SECRET_DOMAIN}
+          - alertmanager.garb.dev
         paths:
           - /
         tls:
           - secretName: wildcard-cert-tls
             hosts:
-              - "alertmanager.${SECRET_DOMAIN}"
+              - "alertmanager.garb.dev"
         ingressClassName: nginx-internal
     grafana:
       enabled: true
@@ -147,7 +147,7 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - &hostGrafana "grafana.${SECRET_DOMAIN}"
+          - &hostGrafana "grafana.garb.dev"
         path: /
         tls:
           - secretName: wildcard-cert-tls
@@ -206,7 +206,7 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - &hostPrometheus "prometheus.${SECRET_DOMAIN}"
+          - &hostPrometheus "prometheus.garb.dev"
         paths:
           - /
         tls:

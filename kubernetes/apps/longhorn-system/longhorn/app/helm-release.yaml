@@ -42,7 +42,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx-internal
-      host: longhorn.${SECRET_DOMAIN}
+      host: longhorn.garb.dev
       tls: true
       tlsSecret: wildcard-cert-tls
       secureBackends: true

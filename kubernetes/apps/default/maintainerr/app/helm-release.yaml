@@ -51,7 +51,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "maintainerr.${SECRET_DOMAIN}"
+          - "maintainerr.garb.dev"
         rules:
           - backendRefs:
               - port: *port

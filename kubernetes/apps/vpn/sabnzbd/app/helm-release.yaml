@@ -35,7 +35,7 @@ spec:
             env:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd, sabnzbd.vpn, sabnzbd.vpn.svc, sabnzbd.vpn.svc.cluster, sabnzbd.vpn.svc.cluster.local, sabnzbd.${SECRET_DOMAIN}
+                sabnzbd, sabnzbd.vpn, sabnzbd.vpn.svc, sabnzbd.vpn.svc.cluster, sabnzbd.vpn.svc.cluster.local, sabnzbd.garb.dev
             resources:
               requests:
                 cpu: 247m
@@ -58,7 +58,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "sabnzbd.${SECRET_DOMAIN}"
+          - "sabnzbd.garb.dev"
         rules:
           - backendRefs:
               - port: *port

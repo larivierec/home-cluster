@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-    - host: &host proxmox.${SECRET_DOMAIN}
+    - host: &host proxmox.garb.dev
       http:
         paths:
           - path: /

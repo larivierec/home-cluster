@@ -21,16 +21,16 @@ data:
     no-autoupdate: true
 
     ingress:
-    - hostname: "files.${SECRET_DOMAIN}"
+    - hostname: "files.garb.dev"
       service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "photos.${SECRET_DOMAIN}"
+        originServerName: ingress.garb.dev
+    - hostname: "photos.garb.dev"
       service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
-    - hostname: "*.${SECRET_DOMAIN}"
+        originServerName: ingress.garb.dev
+    - hostname: "*.garb.dev"
       service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:
-        originServerName: ingress.${SECRET_DOMAIN}
+        originServerName: ingress.garb.dev
     - service: http_status:404

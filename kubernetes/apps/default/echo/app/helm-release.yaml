@@ -77,14 +77,14 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: echo.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "echo.${SECRET_DOMAIN}"
+          - "echo.garb.dev"
         rules:
           - backendRefs:
               - port: *port

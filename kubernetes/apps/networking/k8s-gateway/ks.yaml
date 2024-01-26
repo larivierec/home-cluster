@@ -12,9 +12,3 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
-  dependsOn:
-    - name: cluster-apps-external-secrets-stores
