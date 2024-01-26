@@ -198,7 +198,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
-| MS-01                     | 1     | 1 Ti U.2 NVMe           | -                           | 64Gi | Debian 12        | Kubernetes Worker    |
+| MS-01                     | 1     | 1 Ti U.2 NVMe           | -                           | 64Gi | Ubuntu 22.04     | Kubernetes Worker    |
 | NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
@@ -253,18 +253,60 @@ sudo apt install \
   dnsutils
 ```
 
-### Network Bonding (debian Ubuntu)
+### Network Bonding
 
-For MS-01 Node SFP+ LACP (802.3ad)
 
-1. Install following dependencies
+#### Ubuntu
 
-```bash
-sudo apt install ifenslave
-sudo su -
-modprobe bonding
-echo 'bonding' >> /etc/modules
+```text
+root@dlp:~# ls /etc/netplan
+
+00-installer-config.yaml.org 01-netcfg.yaml
+# edit network settings
+
+root@dlp:~# vi /etc/netplan/01-netcfg.yaml
+
+# change all like follows
+# replace the interface name, IP address, DNS, Gateway to your environment value
+# for [mode] section, set a mode you'd like to use
+network:
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      dhcp6: false
+    enp7s0:
+      dhcp4: false
+      dhcp6: false
+  bonds:
+    bond0:
+      addresses: [10.0.0.30/24]
+      routes:
+        - to: default
+          via: 10.0.0.1
+          metric: 100
+      interfaces:
+        - enp1s0
+        - enp7s0
+      parameters:
+        mode: 802.3ad
+        mii-monitor-interval: 100
+  version: 2
+
+# apply changes
+
+root@dlp:~# netplan apply
+# after setting bonding, [bonding] is loaded automatically
+
+root@dlp:~# lsmod | grep bond
+
+bonding               196608  0
+tls                   114688  1 bonding
+
 ```
+
+[Reference](https://www.server-world.info/en/note?os=Ubuntu_22.04&p=bonding)
+
+#### Debian
 
 2. open `/etc/network/interfaces` as root or privileged and add the following
 
@@ -288,7 +330,7 @@ iface bond0 inet dhcp
   bond-updelay 400
 ```
 
-(Reference)[https://www.server-world.info/en/note?os=Debian_12&p=bonding]
+[Reference](https://www.server-world.info/en/note?os=Debian_12&p=bonding)
 
 ### GPU Install
 
@@ -320,7 +362,7 @@ For Kernel 6.5.X HWE more instability was detected.
 sudo apt remove gasket-dkms
 sudo apt install git
 sudo apt install devscripts
-sudo apt install dkms
+sudo apt install dkms # dh-dkms on debian
 sudo apt install debhelper
 
 git clone https://github.com/google/gasket-driver.git
@@ -332,6 +374,7 @@ sudo dpkg -i gasket-dkms_1.0-18_all.deb
 sudo apt update && sudo apt upgrade
 ```
 
+Then reboot.
 This allows us to build the module for the new kernel
 
 [Reference](https://forum.proxmox.com/threads/update-error-with-coral-tpu-drivers.136888/#post-608975)
