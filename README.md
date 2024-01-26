@@ -198,6 +198,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
+| MS-01                     | 1     | 1 Ti U.2 NVMe           | -                           | 64Gi | Debian 12        | Kubernetes Worker    |
 | NVIDIA - GPU PC  (1)      | 1     | 2Ti   NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | NVIDIA - GPU PC  (2)      | 1     | 500Gi NVMe              | -                           | 32Gi | Proxmox 8.x      | Virtual Machine      |
 | Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
@@ -245,6 +246,7 @@ sudo apt install \
   nfs-common \
   curl \
   containerd \
+  open-iscsi \
   vim \
   gnupg \
   net-tools \
