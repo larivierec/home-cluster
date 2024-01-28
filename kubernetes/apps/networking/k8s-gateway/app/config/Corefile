@@ -11,21 +11,13 @@
         192.168.1.4 whirlwind.garb.dev
         192.168.1.7 frenzy.garb.dev
         192.168.1.9 fluffy.garb.dev
-        192.168.1.6 k3s-worker-3.garb.dev
-        192.168.1.11 k3s-worker-gpu-1.garb.dev
-        192.168.1.14 k3s-worker-gpu-4.garb.dev
-        192.168.1.12 k3s-worker-2.garb.dev
-        192.168.1.15 k3s-worker-5.garb.dev
-        fallthrough garb.dev
+        192.168.1.5 k3s-w-1.garb.dev
+        192.168.1.11 k3s-wg-2.garb.dev
+        192.168.1.12 k3s-wg-3.garb.dev
     }
     k8s_gateway garb.dev {
         apex k8s-gateway.networking
         resources HTTPRoute TLSRoute Ingress Service
-        fallthrough garb.dev
-    }
-    forward garb.dev tls://1.1.1.1 tls://1.0.0.1 {
-        tls_servername cloudflare-dns.com
-        health_check 5s
     }
     cache 300
     loop
