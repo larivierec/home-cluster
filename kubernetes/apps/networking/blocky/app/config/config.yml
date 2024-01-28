@@ -20,8 +20,9 @@ filtering:
   queryTypes:
     - AAAA
     - HTTPS
+# https://github.com/0xERR0R/blocky/issues/1273
 ede:
-  enable: true
+  enable: false
 redis:
   address: redis.database.svc:6379
   database: 2
