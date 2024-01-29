@@ -54,6 +54,14 @@ go2rtc:
     front_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=1
     back_high: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=0
     back_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=1
+  # testing, not working yet
+  # homekit:
+  #   front_high:
+  #     pin: 12345678
+  #     name: front_high
+  #   back_high:
+  #     pin: 19550224
+  #     name: back_high
 cameras:
   front:
     ffmpeg:

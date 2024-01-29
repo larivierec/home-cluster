@@ -33,6 +33,8 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: &config frigate-config
         pod:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
