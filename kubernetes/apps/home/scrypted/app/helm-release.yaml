@@ -1,0 +1,99 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app scrypted
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
+          nodeSelector:
+            google.feature.node.kubernetes.io/coral: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/koush/scrypted
+              tag: 18-jammy-full-v0.91.6
+            resources:
+              requests:
+                gpu.intel.com/i915: 1
+                cpu: 136m
+                memory: 1Gi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 6Gi
+            securityContext:
+              privileged: true
+    service:
+      main:
+        ports:
+          http:
+            port: &port 11080
+          rebroadcast:
+            port: 34135
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "nvr.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+    persistence:
+      config:
+        enabled: true
+        existingClaim: scrypted
+        advancedMounts:
+          main:
+            main:
+              - path: /server/volume
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /.cache
+      cache-npm:
+        type: emptyDir
+        globalMounts:
+          - path: /.npm
+      dev-apex:
+        type: hostPath
+        hostPath: /dev
+        hostPathType: Directory
+      recs:
+        enabled: true
+        type: nfs
+        server: 192.168.1.3
+        path: "/volume2/nvr"
+        globalMounts:
+          - path: /recs
