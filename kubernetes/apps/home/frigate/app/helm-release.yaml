@@ -66,6 +66,21 @@ spec:
         ports:
           http:
             port: &port 5000
+      rtsp:
+        enabled: true
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          io.cilium/lb-ipam-ips: "192.168.40.5"
+        monitor:
+          enabled: false
+        ports:
+          rtsp-tcp:
+            enabled: true
+            port: 8554
+            protocol: TCP
+            targetPort: 8554
     route:
       main:
         enabled: true
@@ -78,6 +93,8 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+            timeouts:
+              backendRequest: 10m
     configMaps:
       config:
         enabled: false
