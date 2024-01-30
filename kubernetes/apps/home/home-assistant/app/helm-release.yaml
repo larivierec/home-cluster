@@ -63,19 +63,38 @@ spec:
         ports:
           http:
             port: &port 8123
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: hass.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        hosts:
+          - host: &host "hass.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: hass.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: hass-route.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "hass.garb.dev"
+          - "hass-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

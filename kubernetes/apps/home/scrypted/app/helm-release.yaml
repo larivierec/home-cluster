@@ -100,12 +100,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /.npm
-      # only used for Homekit Secure Video passthru
-      # frigate does detection
-      # dev-apex:
-      #   type: hostPath
-      #   hostPath: /dev
-      #   hostPathType: Directory
       recs:
         enabled: true
         type: nfs
