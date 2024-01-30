@@ -57,11 +57,9 @@ go2rtc:
   # testing, not working yet
   homekit:
     front_high:
-      pin: 12345678
-      name: front_high
+      name: front
     back_high:
-      pin: 19550224
-      name: back_high
+      name: back
 cameras:
   front:
     ffmpeg:
