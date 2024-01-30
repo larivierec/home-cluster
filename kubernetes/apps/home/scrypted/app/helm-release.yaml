@@ -28,14 +28,13 @@ spec:
   values:
     controllers:
       main:
+        type: deployment
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
-          nodeSelector:
-            google.feature.node.kubernetes.io/coral: "true"
-            intel.feature.node.kubernetes.io/gpu: "true"
         containers:
           main:
             image:
@@ -49,8 +48,6 @@ spec:
               limits:
                 gpu.intel.com/i915: 1
                 memory: 6Gi
-            securityContext:
-              privileged: true
     service:
       main:
         ports:
@@ -86,10 +83,12 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /.npm
-      dev-apex:
-        type: hostPath
-        hostPath: /dev
-        hostPathType: Directory
+      # only used for Homekit Secure Video passthru
+      # frigate does detection
+      # dev-apex:
+      #   type: hostPath
+      #   hostPath: /dev
+      #   hostPathType: Directory
       recs:
         enabled: true
         type: nfs
