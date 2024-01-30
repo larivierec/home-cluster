@@ -48,6 +48,8 @@ spec:
               limits:
                 gpu.intel.com/i915: 1
                 memory: 6Gi
+            securityContext:
+              privileged: true
     service:
       main:
         ports:
@@ -55,6 +57,21 @@ spec:
             port: &port 11080
           rebroadcast:
             port: 34135
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "scrypted.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -62,7 +79,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "nvr.garb.dev"
+          - "scrypted-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -84,6 +84,21 @@ spec:
             port: 8554
             protocol: TCP
             targetPort: 8554
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "frigate.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -91,7 +106,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "frigate.garb.dev"
+          - "frigate-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port
@@ -104,7 +119,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "go2rtc.garb.dev"
+          - "go2rtc-route.garb.dev"
         rules:
           - backendRefs:
               - port: *api-port

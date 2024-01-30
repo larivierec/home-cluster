@@ -29,6 +29,14 @@ data:
       service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
+    - hostname: "plex.garb.dev"
+      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.garb.dev
+    - hostname: "overseerr.garb.dev"
+      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.garb.dev
     - hostname: "*.garb.dev"
       service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:
