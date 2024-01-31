@@ -73,19 +73,37 @@ spec:
             port: &port 9000
           health:
             port: *healthPort
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: ddns.garb.dev
+        hosts:
+          - host: &host "ddns.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: ddns.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: ddns-route.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "ddns.garb.dev"
+          - "ddns-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

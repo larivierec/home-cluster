@@ -56,6 +56,30 @@ spec:
           api:
             enabled: true
             port: &api-port 9000
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &minio minio.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: *http-port
+          - host: &s3 s3.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: *api-port
+        tls:
+          - hosts:
+              - *minio
+            secretName: wildcard-cert-tls
+          - hosts:
+              - *s3
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -63,7 +87,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "minio.garb.dev"
+          - "minio-route.garb.dev"
         rules:
           - backendRefs:
               - port: *http-port
@@ -74,7 +98,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "s3.garb.dev"
+          - "s3-route.garb.dev"
         rules:
           - backendRefs:
               - port: *api-port
