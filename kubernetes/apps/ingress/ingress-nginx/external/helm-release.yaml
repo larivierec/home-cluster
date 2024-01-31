@@ -30,6 +30,7 @@ spec:
       config:
         use-forwarded-headers: "true"
         forwarded-for-header: "CF-Connecting-IP"
+        use-gzip: "true"
         client-header-timeout: 120
         client-body-buffer-size: "100M"
         client-body-timeout: 120

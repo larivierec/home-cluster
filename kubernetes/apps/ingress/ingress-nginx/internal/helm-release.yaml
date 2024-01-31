@@ -28,6 +28,7 @@ spec:
     controller:
       replicaCount: 2
       config:
+        use-gzip: "true"
         client-header-timeout: 120
         client-body-buffer-size: "100M"
         client-body-timeout: 120

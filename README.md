@@ -117,6 +117,10 @@ Maybe this could've been run on a router but I did not want to introduce more st
 Ingress and Gateway API can co-exist.
 Keep in mind, the DNS must simply be unique.
 
+You'll notice in my repo most of my external/internal services have both route and ingress.
+I've noticed after using Gateway-API extensively with Cilium, that it is not stable enough.
+For this reason, I have kept both and when Cilium's implementation decides to stop functioning, I have ingress available.
+
 #### Ingress
 
 For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
