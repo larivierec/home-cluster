@@ -12,5 +12,3 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true # no flux ks dependents
-  dependsOn:
-    - name: cluster-apps-external-secrets-stores

@@ -2,97 +2,50 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app redis
+  name: redis
   namespace: database
 spec:
-  interval: 15m
+  interval: 30m
+  timeout: 15m
   chart:
     spec:
-      chart: app-template
-      version: 2.5.0
+      chart: redis
+      version: 18.12.0
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: bitnami
         namespace: flux-system
-      interval: 15m
-  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    controllers:
-      main:
-        nameOverride: *app
-        type: deployment
-        containers:
-          main:
-            image:
-              repository: redis
-              tag: 7-alpine
-            env:
-              REDIS_PORT: "6379"
-            command:
-              - sh
-            args:
-              - -c
-              - >-
-                redis-server
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command:
-                      - sh
-                      - -c
-                      - /health/ping_liveness.sh 5
-                  initialDelaySeconds: 5
-                  timeoutSeconds: 6
-                  periodSeconds: 5
-                  successThreshold: 1
-                  failureThreshold: 5
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  exec:
-                    command:
-                      - sh
-                      - -c
-                      - /health/ping_readiness.sh 1
-                  initialDelaySeconds: 5
-                  timeoutSeconds: 2
-                  periodSeconds: 5
-                  successThreshold: 1
-                  failureThreshold: 5
-            resources:
-              requests:
-                memory: 204Mi
-              limits:
-                memory: 241Mi
-    service:
-      main:
-        ports:
-          http:
-            port: 6379
-    persistence:
-      config:
+    auth:
+      enabled: false
+      sentinel: false
+    master:
+      persistence:
+        enabled: false
+    replica:
+      persistence:
+        enabled: false
+    sentinel:
+      enabled: true
+      masterSet: redis-master
+      getMasterTimeout: 10
+      startupProbe:
+        failureThreshold: 2
+      persistence:
+        enabled: false
+    metrics:
+      enabled: true
+      serviceMonitor:
         enabled: true
-        existingClaim: redis-data
-        globalMounts:
-          - path: /data
-      healthcheck:
-        enabled: true
-        type: custom
-        volumeSpec:
-          configMap:
-            name: redis-healthcheck
-            defaultMode: 0755
-        globalMounts:
-          - path: /health
+        interval: 1m
+    networkPolicy:
+      enabled: false

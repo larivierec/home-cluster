@@ -24,11 +24,12 @@ filtering:
 ede:
   enable: false
 redis:
-  address: redis.database.svc:6379
-  database: 2
   required: false
-  connectionAttempts: 10
-  connectionCooldown: 3s
+  address: redis-master
+  sentinelAddresses:
+    - redis-node-0.redis-headless.database.svc.cluster.local:26379
+    - redis-node-1.redis-headless.database.svc.cluster.local:26379
+    - redis-node-2.redis-headless.database.svc.cluster.local:26379
 blocking:
   blackLists:
     ads:

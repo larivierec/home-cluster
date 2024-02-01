@@ -37,7 +37,7 @@ spec:
             fsGroup: 568
             supplementalGroups:
               - 65539
-          # runtimeClassName: nvidia
+          runtimeClassName: nvidia
         containers:
           main:
             image:
@@ -46,18 +46,16 @@ spec:
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
-              # NVIDIA_DRIVER_CAPABILITIES: all
-              # NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
+              NVIDIA_VISIBLE_DEVICES: all
             resources:
               requests:
                 cpu: 1000m
                 memory: 2Gi
-                gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
               limits:
                 memory: 10Gi
-                gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
+                nvidia.com/gpu: 1
+                # gpu.intel.com/i915: 1
     service:
       main:
         type: LoadBalancer
