@@ -61,6 +61,21 @@ spec:
         ports:
           http:
             port: &port 9696
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "prowlarr.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -68,7 +83,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "prowlarr.garb.dev"
+          - "prowlarr-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

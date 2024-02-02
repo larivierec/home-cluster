@@ -44,6 +44,21 @@ spec:
         ports:
           http:
             port: &port 6246
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "maintainerr.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -51,7 +66,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "maintainerr.garb.dev"
+          - "maintainerr-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

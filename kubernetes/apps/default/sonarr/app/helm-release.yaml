@@ -29,8 +29,6 @@ spec:
       main:
         type: deployment
         strategy: Recreate
-        annotations:
-          backup.velero.io/backup-volumes: config
         initContainers:
           init:
             image:
@@ -62,6 +60,21 @@ spec:
         ports:
           http:
             port: &port 8989
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "sonarr.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -69,7 +82,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "sonarr.garb.dev"
+          - "sonarr-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

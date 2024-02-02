@@ -35,8 +35,6 @@ spec:
               repository: ghcr.io/onedr0p/tautulli
               tag: 2.13.4@sha256:7682cdcf98dbdd236a21d1a7b7b380928dbd67283dce9a76398a7c1461b0f802
         pod:
-          annotations:
-            backup.velero.io/backup-volumes: config
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -47,6 +45,21 @@ spec:
         ports:
           http:
             port: &port 8181
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "tautulli.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -54,7 +67,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "tautulli.garb.dev"
+          - "tautulli-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

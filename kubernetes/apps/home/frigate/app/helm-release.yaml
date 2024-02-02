@@ -46,8 +46,6 @@ spec:
               strategy: Recreate
             securityContext:
               privileged: true
-              supplementalGroups:
-                - 109
             resources:
               requests:
                 cpu: 100m

@@ -49,6 +49,21 @@ spec:
         ports:
           http:
             port: &port 8080
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "chat.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -57,7 +72,7 @@ spec:
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "chat.garb.dev"
+          - "chat-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port

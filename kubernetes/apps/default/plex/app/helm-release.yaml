@@ -28,32 +28,37 @@ spec:
     controllers:
       main:
         strategy: Recreate
-        annotations:
-          backup.velero.io/backup-volumes: config
         pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             supplementalGroups:
-              - 65539
+              - 44
+              - 109
           # runtimeClassName: nvidia
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/plex
-              tag: 1.32.8.7639-fb6452ebf@sha256:637fe10cef736f249d96cb004c12f81646c81ca17ddce22374ea8782aa6646c2
+              repository: ghcr.io/onedr0p/plex-beta
+              tag: 1.40.0.7775-456fbaf97@sha256:cd6bafd8cf9f75c2d5b6517de312a82a986049f89f089da74b6bdb23928b8b37
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
               # NVIDIA_DRIVER_CAPABILITIES: all
               # NVIDIA_VISIBLE_DEVICES: all
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 1000m
                 memory: 2Gi
               limits:
-                memory: 10Gi
+                memory: 16Gi
                 gpu.intel.com/i915: 1
                 # nvidia.com/gpu: 1
     service:

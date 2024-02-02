@@ -88,6 +88,21 @@ spec:
             port: 443
             protocol: TCP
             targetPort: 443
+    ingress:
+      main:
+        enabled: true
+        className: nginx-internal
+        hosts:
+          - host: &host "blocky.garb.dev"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: wildcard-cert-tls
     route:
       main:
         enabled: true
@@ -95,7 +110,7 @@ spec:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "blocky.garb.dev"
+          - "blocky-route.garb.dev"
         rules:
           - backendRefs:
               - port: *port
