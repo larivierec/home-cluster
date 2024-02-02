@@ -33,17 +33,11 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
-            pod:
-              securityContext:
-                runAsUser: 1000
-                runAsGroup: 1000
-                fsGroup: 1000
-                fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         ports:
           http:
-            port: &port 80
+            port: &port 6246
     route:
       main:
         enabled: true
