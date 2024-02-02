@@ -26,13 +26,19 @@ spec:
           main:
             image:
               repository: ghcr.io/jorenn92/maintainerr
-              tag: 1.7.1@sha256:315efe2b4a10d5fca209f48abb728841fb09a6315f83e4764f2caffe8001d782
+              tag: 2.0.0@sha256:25413140c8464cd519a559a7595c60ebb54b9066f82e4fed44ff75d1d0f649bb
             resources:
               requests:
                 cpu: 5m
                 memory: 128Mi
               limits:
                 memory: 512Mi
+            pod:
+              securityContext:
+                runAsUser: 568
+                runAsGroup: 568
+                fsGroup: 568
+                fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         ports:
