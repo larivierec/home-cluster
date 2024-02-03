@@ -96,6 +96,30 @@ resource "cloudflare_ruleset" "this" {
   }
 }
 
+# resource "cloudflare_ruleset" "redirect" {
+#   zone_id     = data.cloudflare_zone.default.zone_id
+#   name        = "gh redirect"
+#   description = "Redirects ruleset"
+#   kind        = "zone"
+#   phase       = "http_request_redirect"
+
+#   rules {
+#     action = "redirect"
+#     action_parameters {
+#       from_value {
+#         status_code = 301
+#         target_url {
+#           value = "https://github.com/larivierec/home-cluster"
+#         }
+#         preserve_query_string = false
+#       }
+#     }
+#     expression  = "(http.host eq \"garb.dev\") or (http.host eq \"www.garb.dev\")"
+#     description = "Redirect root and www to gh"
+#     enabled     = true
+#   }
+# }
+
 resource "cloudflare_zone_dnssec" "ds" {
   zone_id = data.cloudflare_zone.default.zone_id
 }
