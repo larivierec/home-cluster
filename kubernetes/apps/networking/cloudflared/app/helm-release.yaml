@@ -50,6 +50,26 @@ spec:
             env:
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
+              TUNNEL_METRICS: 0.0.0.0:9090
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: &port 9090
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
             resources:
               requests:
                 memory: 64Mi
@@ -66,10 +86,12 @@ spec:
                   app.kubernetes.io/name: *app
     service:
       main:
-        nameOverride: metrics
         ports:
           http:
-            port: 9090
+            port: *port
+    serviceMonitor:
+      main:
+        enabled: true
     persistence:
       config:
         enabled: true

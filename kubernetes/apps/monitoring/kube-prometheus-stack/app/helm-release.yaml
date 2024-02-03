@@ -95,7 +95,7 @@ spec:
         - name: redis-db
           uid: redis-db
           type: redis-datasource
-          url: redis://redis.database.svc:6379/
+          url: &redis redis://redis-headless.database.svc:6379
           access: proxy
           orgId: 1
           editable: false
@@ -108,13 +108,37 @@ spec:
             gnetId: 13768
             revision: 2
             datasource: Prometheus
+          cert-manager:
+            url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+            datasource: Prometheus
+          cloudflared:
+            # renovate: depName="Cloudflare Tunnels (cloudflared)"
+            gnetId: 17457
+            revision: 6
+            datasource:
+              - name: DS_PROMETHEUS
+                value: Prometheus
           ingress:
             gnetId: 9614
             revision: 1
             datasource: Prometheus
-          node_exporter:
+          cloudnative-pg:
+            url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+            datasource:
+              - name: DS_PROMETHEUS
+                value: Prometheus
+          external-dns:
+            # renovate: depName="External-dns"
+            gnetId: 15038
+            revision: 3
+            datasource: Prometheus
+          external-secrets:
+            url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
+            datasource: Prometheus
+          node-exporter-full:
+            # renovate: depName="Node Exporter Full"
             gnetId: 1860
-            revision: 27
+            revision: 33
             datasource: Prometheus
           radarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/radarr.json
@@ -122,21 +146,18 @@ spec:
           sonarr:
             url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
             datasource: Prometheus
-          uptimerobot:
-            url: https://raw.githubusercontent.com/lekpamartin/uptimerobot_exporter/master/dashboards/grafana.json
-            datasource: Prometheus
           redis:
-            gnetId: 12776
-            revision: 2
-            datasource: redis-db
-          cilium-agent:
-            gnetId: 16611
-            revision: 1
+            # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
+            gnetId: 763
+            revision: 5
             datasource: Prometheus
-          cilium-operator:
-            gnetId: 16612
+          spegel:
+            # renovate: depName="Spegel"
+            gnetId: 18089
             revision: 1
-            datasource: Prometheus
+            datasource:
+              - name: DS_PROMETHEUS
+                value: Prometheus
           nvidia:
             gnetId: 12239
             revision: 2
@@ -217,7 +238,7 @@ spec:
       additionalDatasources:
         - name: blocky-redis
           type: standalone
-          url: redis://blocky-redis-headless.networking.svc:6379
+          url: *redis
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
