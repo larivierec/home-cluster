@@ -7,7 +7,7 @@ module "dns_records" {
   zone = { id = data.cloudflare_zone.default.id, name = data.cloudflare_zone.default.name }
 
   a_records = {
-    nonsensitive(lookup(local.cloudflare_secrets, "domain").text) = { ip = "${data.http.ip_address.response_body}", ttl = "1", proxied = true }
+    "ipv4.garb.dev" = { ip = "${data.http.ip_address.response_body}", ttl = "1", proxied = true }
   }
 
   cname_records = {
@@ -15,7 +15,7 @@ module "dns_records" {
   }
 
   mx_records = {
-    nonsensitive(lookup(local.cloudflare_secrets, "domain").text) = {
+    "garb.dev" = {
       ttl = "3600"
       records = [
         { priority = 10, address = "mx01.mail.icloud.com." },
@@ -25,7 +25,7 @@ module "dns_records" {
   }
 
   txt_records = {
-    nonsensitive(lookup(local.cloudflare_secrets, "domain").text) = { records = [
+    "garb.dev" = { records = [
       "apple-domain=dPAmcbw67V29ieeV",
       "v=spf1 include:icloud.com ~all",
     ], ttl = "3600" },
@@ -34,7 +34,7 @@ module "dns_records" {
 }
 
 data "http" "ip_address" {
-  url = "https://ddns.${lookup(local.cloudflare_secrets, "domain").text}/v1/get"
+  url = "https://ddns.garb.dev/v1/get"
 }
 
 data "sops_file" "this" {

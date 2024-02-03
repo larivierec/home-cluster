@@ -1,7 +1,7 @@
 
 data "cloudflare_zone" "default" {
   account_id = cloudflare_account.this.id
-  name       = lookup(local.cloudflare_secrets, "domain").text
+  name       = "garb.dev"
 }
 
 resource "cloudflare_zone_settings_override" "cloudflare_settings" {

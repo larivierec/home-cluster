@@ -35,7 +35,7 @@ provider "bitwarden" {
 }
 
 provider "minio" {
-  minio_server   = "s3.${lookup(local.cloudflare_secrets, "domain").text}"
+  minio_server   = "s3.${"garb.dev"}"
   minio_user     = data.bitwarden_item_login.minio_secret.username
   minio_password = data.bitwarden_item_login.minio_secret.password
   minio_ssl      = true

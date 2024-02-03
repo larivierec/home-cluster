@@ -36,7 +36,7 @@ spec:
               - --zone-name
               - garb.dev
               - --record-name
-              - garb.dev
+              - ipv4.garb.dev
               - --provider
               - random
             env:
