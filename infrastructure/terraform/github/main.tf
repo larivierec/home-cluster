@@ -6,6 +6,7 @@ module "home-cluster" {
   description = "k3s cluster using gitops (flux) and renovate automation"
   topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "k3s", "bitwarden", "nvidia-docker"]
   visibility  = "public"
+  homepage_url = "https://garb.dev"
 
   auto_init              = true
   allow_merge_commit     = false
@@ -42,9 +43,10 @@ module "cloudflare-ddns" {
   version = "0.18.0"
 
   name        = "cloudflare-ddns"
-  description = "Basic Cloudflare ddns written in Golang"
-  topics      = ["go", "ddns", "cloudflare"]
+  description = "Cloudflare ddns written in Golang"
+  topics      = ["go", "ddns", "cloudflare", "containers"]
   visibility  = "public"
+  homepage_url = "https://garb.dev"
 
   auto_init              = false
   allow_merge_commit     = false
@@ -82,6 +84,7 @@ module "containers" {
   description = "Containers used in my kubernetes cluster and other various containers"
   topics      = ["docker", "containers"]
   visibility  = "public"
+  homepage_url = "https://garb.dev"
 
   auto_init              = false
   allow_merge_commit     = false
