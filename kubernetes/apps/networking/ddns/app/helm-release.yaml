@@ -76,10 +76,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: ddns.garb.dev
+        className: nginx-internal
         hosts:
           - host: &host "ddns.garb.dev"
             paths:
@@ -94,12 +91,8 @@ spec:
     route:
       main:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: ddns-route.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
-          - name: cilium-external
+          - name: cilium-internal
             namespace: infrastructure
             sectionName: https
         hostnames:
