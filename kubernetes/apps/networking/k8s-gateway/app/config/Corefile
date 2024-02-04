@@ -8,7 +8,6 @@
     log
     prometheus :9153
     hosts {
-        192.168.1.3 nas.garb.dev
         192.168.1.4 whirlwind.garb.dev
         192.168.1.7 frenzy.garb.dev
         192.168.1.9 fluffy.garb.dev
