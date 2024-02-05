@@ -13,5 +13,6 @@ resources:
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./radarr/ks.yaml
+  - ./readarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
