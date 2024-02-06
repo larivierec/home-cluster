@@ -46,7 +46,7 @@ spec:
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: latest@sha256:0846d21a877cb627c2ac0cb0924b5f9a5100fc285c228a30fef6168f8796d99b
+              tag: latest@sha256:967f73b2acf89adcf8610f04c65d925ab2fb8573da052e9f918f88b5b8aeeb41
             env:
               - name: VPN_SERVICE_PROVIDER
                 value: surfshark
