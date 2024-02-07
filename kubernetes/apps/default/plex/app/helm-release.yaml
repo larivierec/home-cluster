@@ -29,8 +29,8 @@ spec:
       main:
         strategy: Recreate
         pod:
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+          # nodeSelector:
+          #   intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -38,7 +38,7 @@ spec:
             supplementalGroups:
               - 44
               - 109
-          # runtimeClassName: nvidia
+          runtimeClassName: nvidia
         containers:
           main:
             image:
@@ -47,8 +47,8 @@ spec:
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
-              # NVIDIA_DRIVER_CAPABILITIES: all
-              # NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: all
+              NVIDIA_VISIBLE_DEVICES: all
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -59,8 +59,8 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 16Gi
-                gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
+                # gpu.intel.com/i915: 1
+                nvidia.com/gpu: 1
     service:
       main:
         type: LoadBalancer
