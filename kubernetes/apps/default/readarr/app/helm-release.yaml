@@ -34,11 +34,11 @@ spec:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
+              tag: 16.1
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
-                  name: readarr-secret
+                  name: postgres-readarr
         containers:
           main:
             image:
