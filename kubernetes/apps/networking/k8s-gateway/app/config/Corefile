@@ -11,7 +11,7 @@
         192.168.1.4 whirlwind.garb.dev
         192.168.1.7 frenzy.garb.dev
         192.168.1.9 fluffy.garb.dev
-        192.168.1.5 k3s-w-1.garb.dev
+        192.168.1.5 k3s-wg-1.garb.dev
         192.168.1.11 k3s-wg-2.garb.dev
         192.168.1.12 k3s-wg-3.garb.dev
         fallthrough garb.dev

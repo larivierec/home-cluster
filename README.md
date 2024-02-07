@@ -363,10 +363,10 @@ For Kernel 6.5.X HWE more instability was detected.
 
 ```bash
 sudo apt remove gasket-dkms
-sudo apt install git
-sudo apt install devscripts
-sudo apt install dkms # dh-dkms on debian
-sudo apt install debhelper
+sudo apt install git -y
+sudo apt install devscripts -y
+sudo apt install dkms -y # dh-dkms on debian
+sudo apt install debhelper -y
 
 git clone https://github.com/google/gasket-driver.git
 cd gasket-driver/
@@ -374,7 +374,7 @@ debuild -us -uc -tc -b
 cd ..
 sudo dpkg -i gasket-dkms_1.0-18_all.deb
 
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 ```
 
 Then reboot.
