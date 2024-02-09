@@ -33,6 +33,9 @@ spec:
         updateStrategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            nvidia.feature.node.kubernetes.io/rtx.gpu: "true"
         containers:
           main:
             image:
@@ -48,22 +51,11 @@ spec:
               requests:
                 cpu: 200m
                 memory: 8Gi
-                nvidia.com/gpu: 1
               limits:
                 memory: 16Gi
                 nvidia.com/gpu: 1
               startup:
                 enabled: false
-        pod:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values: ["plex"]
-                  topologyKey: kubernetes.io/hostname
     service:
       main:
         ports:
