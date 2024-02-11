@@ -8,7 +8,7 @@
     log
     prometheus :9153
     hosts {
-        192.168.9.1 wireguard.garb.dev
+        192.168.1.1 wg.garb.dev
         192.168.1.4 whirlwind.garb.dev
         192.168.1.7 frenzy.garb.dev
         192.168.1.9 fluffy.garb.dev

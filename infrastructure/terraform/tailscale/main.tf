@@ -2,22 +2,12 @@ data "sops_file" "this" {
   source_file = "secrets.sops.yaml"
 }
 
-data "tailscale_device" "router" {
-  provider = tailscale
-  name     = "opnsense.${lookup(local.secrets, "tailscale-tailnet").text}"
-}
-
 data "tailscale_device" "k8s-gateway" {
   name = "tailscale-k8s-gateway.${lookup(local.secrets, "tailscale-tailnet").text}"
 }
 
 data "tailscale_device" "apple-tv" {
   name = "apple-tv.${lookup(local.secrets, "tailscale-tailnet").text}"
-}
-
-resource "tailscale_device_key" "router" {
-  device_id           = data.tailscale_device.router.id
-  key_expiry_disabled = true
 }
 
 resource "tailscale_device_key" "k8s-gateway" {
@@ -47,11 +37,6 @@ resource "tailscale_dns_search_paths" "search" {
   ]
 }
 
-resource "tailscale_device_tags" "router" {
-  device_id = data.tailscale_device.router.id
-  tags      = ["tag:node"]
-}
-
 resource "tailscale_device_tags" "apple-tv" {
   device_id = data.tailscale_device.apple-tv.id
   tags      = ["tag:node"]
@@ -65,7 +50,6 @@ resource "tailscale_device_tags" "k8s-gateway" {
 resource "tailscale_device_subnet_routes" "routes" {
   for_each = toset(
     [
-      data.tailscale_device.router.id,
       data.tailscale_device.k8s-gateway.id,
       data.tailscale_device.apple-tv.id
     ]
