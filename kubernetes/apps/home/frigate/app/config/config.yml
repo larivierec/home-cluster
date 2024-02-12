@@ -22,12 +22,14 @@ snapshots:
   bounding_box: true
   retain:
     default: 14
-# Global record configuration
+motion:
+  threshold: 45
+  contour_area: 20
 record:
   enabled: true
   retain:
     days: 3
-    mode: all
+    mode: active_objects
   events:
     retain:
       default: 14
@@ -54,12 +56,6 @@ go2rtc:
     front_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.3:554/cam/realmonitor?channel=1&subtype=1
     back_high: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=0
     back_low: rtsp://{FRIGATE_RTSP_USERNAME}:{FRIGATE_RTSP_PASSWORD}@192.168.8.4:554/cam/realmonitor?channel=1&subtype=1
-  # testing, not working yet
-  # homekit:
-  #   front_high:
-  #     name: front
-  #   back_high:
-  #     name: back
 cameras:
   front:
     ffmpeg:
