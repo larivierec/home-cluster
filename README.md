@@ -80,7 +80,7 @@ Note: Add an entry to the BGP Neighbors table with the IP address of the Node yo
 I use Tailscale on the router and another one inside the cluster.
 Both of them broadcasts my network and act as exit nodes for Tailscale clients.
 
-- Router exit node
+- Apple TV exit node
 - Cluster exit node
 
 Having both isn't necessary because if you lose internet you won't be able to access either remotely.
@@ -130,17 +130,6 @@ data:
   use-forwarded-headers: "true"
   forwarded-for-header: "CF-Connecting-IP"
 ```
-
-## nvidia-daemonset-plugin
-
-1. Simply follow instructions on installing the nvidia driver to the node. *Must be done before flux is installed*
-
-As of k3s+1.23, k3s searches for the nvidia drivers every time the services on the cluster are started.
-
-- /usr/local/nvidia -> this location is used by the gpu-operator (which I don't use)
-- /usr/bin/nvidia-container-runtime -> this is the location used usually when using package manager installation
-
-When the service is started, k3s will automatically add the proper binary to the `config.toml` file
 
 ## Flux
 
@@ -391,6 +380,13 @@ will no longer have network access.
 
 If ubuntu is already installed and you do not want to reinstall the OS download r8168 [R8168 - Build From Source + Autorun](https://github.com/mtorromeo/r8168/archive/refs/tags/8.052.01.tar.gz)
 
+
+#### Extra Documentation
+
+1. [frigate](kubernetes/apps/home/frigate/README.md)
+2. [scrypted](kubernetes/apps/home/scrypted/README.md)
+3. [nvidia-device-plugin](kubernetes/apps/kube-system/nvidia/device-plugin/README.md)
+4. [tailscale-operator](.archive/apps/networking/tailscale-gateway/operator/README.md)
 
 ## ⭐ Stargazers
 

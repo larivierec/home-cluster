@@ -53,3 +53,10 @@ Tue Mar 14 18:40:37 2023
 |    0   N/A  N/A   2661556      C   ffmpeg                            171MiB |
 +-----------------------------------------------------------------------------+
 ```
+
+# MQTT Testing
+
+## Topic
+
+Usually, `frigate/<camera>/motion` section and you can trigger recording by simply sending
+`ON` then `OFF` in home-assistant's "Publish a packet"
