@@ -36,6 +36,7 @@ spec:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
+            node-role.kubernetes.io/worker: "true"
         containers:
           main:
             image:
