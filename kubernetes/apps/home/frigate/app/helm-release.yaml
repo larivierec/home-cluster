@@ -68,7 +68,10 @@ spec:
           go2rtc:
             enabled: true
             port: &api-port 1984
-      rtsp:
+          rtsp:
+            enabled: true
+            port: &restream-port 8554
+      external-rtsp:
         enabled: true
         controller: main
         type: LoadBalancer
@@ -80,9 +83,9 @@ spec:
         ports:
           rtsp-tcp:
             enabled: true
-            port: 8554
+            port: *restream-port
             protocol: TCP
-            targetPort: 8554
+            targetPort: *restream-port
     ingress:
       main:
         enabled: true
