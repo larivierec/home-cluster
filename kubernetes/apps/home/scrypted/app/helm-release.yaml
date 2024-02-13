@@ -47,14 +47,9 @@ spec:
                 memory: 1Gi
               limits:
                 gpu.intel.com/i915: 1
-                memory: 6Gi
+                memory: 3Gi
     service:
       main:
-        enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          io.cilium/lb-ipam-ips: "192.168.40.6"
         ports:
           http:
             port: &port 11080
@@ -103,10 +98,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /.npm
-      recs:
-        enabled: true
-        type: nfs
-        server: 192.168.1.3
-        path: "/volume2/nvr"
-        globalMounts:
-          - path: /recs

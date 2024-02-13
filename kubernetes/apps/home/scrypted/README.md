@@ -1,5 +1,8 @@
 # scrypted without Scrypted NVR (your frigate is recording)
 
+Big Note: I'm not using Scrypted NVR. I'm using Frigate and MQTT to control my cameras.
+Scrypted is my HKSV rebroadcaster.
+
 When using MQTT and Frigate it's possible to setup HKSV (HomeKit Security Video).
 
 With an already working setup of Frigate, all you need to do is rebroadcast the video stream to Scrypted and use a few things.
