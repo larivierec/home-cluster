@@ -7,7 +7,6 @@ metadata:
 spec:
   interval: 30m
   timeout: 15m
-  suspend: true
   chart:
     spec:
       chart: thanos
@@ -41,6 +40,8 @@ spec:
     queryFrontend:
       enabled: true
       replicaCount: 2
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
       ingress:
         enabled: true
         ingressClassName: nginx-internal
@@ -56,9 +57,13 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
     bucketweb:
       enabled: true
       replicaCount: 2
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
     compactor:
       enabled: true
       extraFlags:
@@ -67,6 +72,8 @@ spec:
       retentionResolutionRaw: 30d
       retentionResolution5m: 60d
       retentionResolution1h: 90d
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
       persistence:
         enabled: true
         storageClass: longhorn
@@ -74,6 +81,8 @@ spec:
     storegateway:
       enabled: true
       replicaCount: 2
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
       persistence:
         enabled: true
         storageClass: longhorn
@@ -102,6 +111,8 @@ spec:
                   severity: critical
       dnsDiscovery:
         enabled: true
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
     metrics:
       enabled: true
       serviceMonitor:

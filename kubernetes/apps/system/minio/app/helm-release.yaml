@@ -45,6 +45,8 @@ spec:
             auth:
               existingSecret: minio-secrets
         pod:
+          nodeSelector:
+            node-role.kubernetes.io/worker: "true"
           annotations:
             secret.reloader.stakater.com/reload: minio-secrets
     service:

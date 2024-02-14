@@ -239,6 +239,10 @@ spec:
         - name: blocky-redis
           type: standalone
           url: *redis
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
@@ -255,3 +259,17 @@ spec:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
+        thanos:
+          image: quay.io/thanos/thanos:v0.31.0
+          objectStorageConfig:
+            name: thanos-objstore-secret
+            key: objstore.yml
+          retention: 2d
+          retentionSize: 15GB
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: longhorn
+                resources:
+                  requests:
+                    storage: 20Gi
