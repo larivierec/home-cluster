@@ -37,33 +37,54 @@ spec:
         endpoint: "minio.system.svc:9000"
         region: us-east-1
         insecure: true
+    receive:
+      enabled: false
+      networkPolicy:
+        enabled: false
     queryFrontend:
       enabled: true
       replicaCount: 2
       nodeSelector:
         node-role.kubernetes.io/worker: "true"
+      config: &config |-
+        type: REDIS
+        config:
+          addr: >-
+            redis-node-0.redis-headless.database.svc.cluster.local:26379,
+            redis-node-1.redis-headless.database.svc.cluster.local:26379,
+            redis-node-2.redis-headless.database.svc.cluster.local:26379
+          db: 12
+          master_name: redis-master
       ingress:
         enabled: true
         ingressClassName: nginx-internal
         hostname: &host thanos-query-frontend.garb.dev
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
         tls: true
         extraTls:
           - hosts:
               - *host
+        networkPolicy:
+          enabled: false
     query:
       enabled: true
       replicaCount: 2
       replicaLabel: ["__replica__"]
       dnsDiscovery:
-        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsService: prometheus-kube-prometheus-thanos-discovery
         sidecarsNamespace: monitoring
       nodeSelector:
         node-role.kubernetes.io/worker: "true"
+      networkPolicy:
+        enabled: false
     bucketweb:
       enabled: true
       replicaCount: 2
       nodeSelector:
         node-role.kubernetes.io/worker: "true"
+      networkPolicy:
+        enabled: false
     compactor:
       enabled: true
       extraFlags:
@@ -78,15 +99,20 @@ spec:
         enabled: true
         storageClass: longhorn
         size: 10Gi
+      networkPolicy:
+        enabled: false
     storegateway:
       enabled: true
       replicaCount: 2
+      config: *config
       nodeSelector:
         node-role.kubernetes.io/worker: "true"
       persistence:
         enabled: true
         storageClass: longhorn
         size: 10Gi
+      networkPolicy:
+        enabled: false
     ruler:
       enabled: true
       replicaCount: 2
@@ -111,6 +137,8 @@ spec:
                   severity: critical
       dnsDiscovery:
         enabled: true
+      networkPolicy:
+        enabled: false
       nodeSelector:
         node-role.kubernetes.io/worker: "true"
     metrics:
