@@ -75,7 +75,7 @@ spec:
       config:
         enabled: true
         accessMode: ReadWriteOnce
-        storageClass: longhorn
+        storageClass: longhorn-config
         size: 300Mi
         globalMounts:
           - path: /opt/data

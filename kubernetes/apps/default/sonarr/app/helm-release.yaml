@@ -90,7 +90,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr-config-v4
+        existingClaim: config-sonarr-0
         globalMounts:
           - path: /config
       media:

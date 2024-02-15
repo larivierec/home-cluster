@@ -90,7 +90,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-config-v4
+        existingClaim: config-radarr-0
         globalMounts:
           - path: /config
       media:

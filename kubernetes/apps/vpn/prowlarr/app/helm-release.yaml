@@ -91,6 +91,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: prowlarr-config
+        existingClaim: config-prowlarr-0
         globalMounts:
           - path: /config

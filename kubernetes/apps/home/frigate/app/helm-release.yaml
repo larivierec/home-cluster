@@ -134,7 +134,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: frigate-config
+        existingClaim: config-frigate-0
         globalMounts:
           - path: /data
       config:
