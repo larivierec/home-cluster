@@ -55,6 +55,8 @@ spec:
             redis-node-2.redis-headless.database.svc.cluster.local:26379
           db: 12
           master_name: redis-master
+      networkPolicy:
+        enabled: false
       ingress:
         enabled: true
         ingressClassName: nginx-internal
