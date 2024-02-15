@@ -12,3 +12,5 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
+  dependsOn:
+    - name: cluster-apps-frigate
