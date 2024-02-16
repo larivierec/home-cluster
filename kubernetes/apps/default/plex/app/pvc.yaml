@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex-longhorn-0
+  name: plex-longhorn
   namespace: default
 spec:
   accessModes:
