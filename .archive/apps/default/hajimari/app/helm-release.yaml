@@ -126,7 +126,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx-internal
+        ingressClassName: internal
         annotations:
           hajimari.io/enable: "false"
         hosts:

@@ -41,7 +41,7 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
     ingress:
       enabled: true
-      ingressClassName: nginx-internal
+      ingressClassName: internal
       host: longhorn.garb.dev
       tls: true
       tlsSecret: wildcard-cert-tls

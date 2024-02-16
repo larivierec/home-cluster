@@ -12,7 +12,7 @@ metadata:
   name: external-ingress-files
   namespace: default
 spec:
-  ingressClassName: nginx
+  ingressClassName: external
   rules:
     - host: *host
       http:

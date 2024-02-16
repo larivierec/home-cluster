@@ -86,7 +86,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: internal
         hosts:
           - host: &host "qbittorrent.garb.dev"
             paths:

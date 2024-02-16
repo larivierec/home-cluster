@@ -89,7 +89,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: internal
         hosts:
           - host: &host "frigate.garb.dev"
             paths:

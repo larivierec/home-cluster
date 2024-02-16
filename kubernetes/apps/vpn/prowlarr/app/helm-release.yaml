@@ -64,7 +64,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: internal
         hosts:
           - host: &host "prowlarr.garb.dev"
             paths:

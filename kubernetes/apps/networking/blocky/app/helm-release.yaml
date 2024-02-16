@@ -91,7 +91,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: nginx-internal
+        className: internal
         hosts:
           - host: &host "blocky.garb.dev"
             paths:

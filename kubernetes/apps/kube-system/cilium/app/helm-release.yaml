@@ -65,7 +65,7 @@ spec:
         enabled: true
         ingress:
           enabled: true
-          className: nginx-internal
+          className: internal
           hosts:
             - &host hubble.garb.dev
           tls:

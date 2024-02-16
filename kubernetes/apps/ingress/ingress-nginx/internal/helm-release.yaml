@@ -35,12 +35,12 @@ spec:
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
-      ingressClass: nginx-internal
+      ingressClass: internal
       ingressClassByName: true
       ingressClassResource:
-        name: nginx-internal
+        name: internal
         enabled: true
-        default: false
+        default: true
         controllerValue: "k8s.io/ingress-nginx-internal"
       admissionWebhooks:
         objectSelector:
@@ -48,7 +48,7 @@ spec:
             - key: ingress-class
               operator: In
               values:
-                - nginx-internal
+                - internal
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster

@@ -12,7 +12,7 @@ metadata:
   name: external-ingress-photos
   namespace: default
 spec:
-  ingressClassName: nginx
+  ingressClassName: external
   rules:
     - host: *host
       http:

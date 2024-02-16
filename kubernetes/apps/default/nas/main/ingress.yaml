@@ -9,7 +9,7 @@ metadata:
   name: nas
   namespace: default
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: internal
   rules:
     - host: &host nas.garb.dev
       http:
