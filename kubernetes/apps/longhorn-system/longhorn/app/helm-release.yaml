@@ -25,6 +25,11 @@ spec:
     remediation:
       retries: 3
   values:
+    image:
+      longhorn:
+        instanceManager:
+          repository: webericjames/longhorn-instance-manager
+          tag: c49b76187e1c80dff7dfd22e0fc980a7200fb585
     monitoring:
       enabled: true
       createPrometheusRules: true
