@@ -27,6 +27,7 @@ spec:
   values:
     controller:
       replicaCount: 2
+      allowSnippetAnnotations: true
       config:
         use-forwarded-headers: "true"
         forwarded-for-header: "CF-Connecting-IP"
