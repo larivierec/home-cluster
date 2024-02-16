@@ -22,23 +22,23 @@ data:
 
     ingress:
     - hostname: "files.garb.dev"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "photos.garb.dev"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "plex.garb.dev"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "overseerr.garb.dev"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "hass.garb.dev"
-      service: https://ingress-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "*.garb.dev"
