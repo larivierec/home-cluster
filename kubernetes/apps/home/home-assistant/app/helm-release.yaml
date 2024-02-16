@@ -66,11 +66,7 @@ spec:
     ingress:
       main:
         enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: hass.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+        className: internal
         hosts:
           - host: &host "hass.garb.dev"
             paths:
@@ -85,12 +81,8 @@ spec:
     route:
       main:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: hass-route.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
-          - name: cilium-external
+          - name: cilium-internal
             namespace: infrastructure
             sectionName: https
         hostnames:
