@@ -28,7 +28,6 @@ spec:
     controllers:
       main:
         type: deployment
-        strategy: Recreate
         containers:
           main:
             image:
@@ -75,6 +74,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tautulli-config-v3
+        existingClaim: config-tautulli-0
         globalMounts:
           - path: /config
