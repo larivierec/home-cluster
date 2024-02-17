@@ -35,7 +35,7 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
-    capacity: 5Gi
+    capacity: 7Gi
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
