@@ -2,12 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-lidarr-1
+  name: config-lidarr-0
   namespace: default
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: ["ReadWriteMany"]
   resources:
     requests:
       storage: 5Gi
-  storageClassName: longhorn-config
+  storageClassName: ceph-filesystem

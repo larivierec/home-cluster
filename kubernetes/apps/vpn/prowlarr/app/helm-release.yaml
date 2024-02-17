@@ -28,7 +28,6 @@ spec:
     controllers:
       main:
         type: deployment
-        strategy: Recreate
         initContainers:
           init:
             image:
@@ -91,6 +90,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-prowlarr-0
+        existingClaim: config-prowlarr-1
         globalMounts:
           - path: /config

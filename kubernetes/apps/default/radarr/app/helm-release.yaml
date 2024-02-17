@@ -28,7 +28,6 @@ spec:
     controllers:
       main:
         type: deployment
-        updateStrategy: Recreate
         initContainers:
           init:
             image:
@@ -90,7 +89,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-radarr-0
+        existingClaim: config-radarr-1
         globalMounts:
           - path: /config
       media:

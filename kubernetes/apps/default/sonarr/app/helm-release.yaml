@@ -28,7 +28,6 @@ spec:
     controllers:
       main:
         type: deployment
-        strategy: Recreate
         initContainers:
           init:
             image:
@@ -90,7 +89,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-sonarr-0
+        existingClaim: config-sonarr-1
         globalMounts:
           - path: /config
       media:

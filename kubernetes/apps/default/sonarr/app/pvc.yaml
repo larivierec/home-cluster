@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sonarr-0
+  name: config-sonarr-1
   namespace: default
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 7Gi
-  storageClassName: longhorn-config
+  storageClassName: ceph-filesystem
