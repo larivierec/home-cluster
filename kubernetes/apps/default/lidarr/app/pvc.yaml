@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-lidarr-0
+  name: config-lidarr-1
   namespace: default
 spec:
-  accessModes: ["ReadWriteMany"]
+  accessModes: ["ReadWriteOnce"]
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-block
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -42,7 +42,7 @@ metadata:
   name: lidarr
   namespace: default
 spec:
-  sourcePVC: config-lidarr-0
+  sourcePVC: config-lidarr-1
   trigger:
     schedule: "0 * * * *"
   restic:

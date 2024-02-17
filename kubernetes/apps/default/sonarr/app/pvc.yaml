@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sonarr-1
+  name: config-sonarr-2
   namespace: default
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 7Gi
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-block
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -43,7 +43,7 @@ metadata:
   name: sonarr
   namespace: default
 spec:
-  sourcePVC: config-sonarr-1
+  sourcePVC: config-sonarr-2
   trigger:
     schedule: "0 * * * *"
   restic:

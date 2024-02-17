@@ -74,6 +74,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-tautulli-0
+        existingClaim: config-tautulli-1
         globalMounts:
           - path: /config
