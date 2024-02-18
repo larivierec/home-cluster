@@ -34,7 +34,8 @@ locals {
     "pgsql",
     "thanos",
     "longhorn",
-    "volsync"
+    "volsync",
+    "loki"
   ]
 }
 
