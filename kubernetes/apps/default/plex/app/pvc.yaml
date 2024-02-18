@@ -34,7 +34,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: plex-volsync
+    repository: volsync-plex
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -62,7 +62,7 @@ spec:
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: plex-volsync
+    repository: volsync-plex
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block

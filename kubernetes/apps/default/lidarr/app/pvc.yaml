@@ -20,7 +20,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: lidarr-volsync
+    repository: volsync-lidarr
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -48,7 +48,7 @@ spec:
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: lidarr-volsync
+    repository: volsync-lidarr
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block
