@@ -398,5 +398,7 @@ Thanks to all the people who donate their time to the [Home Operations](https://
 
 - onedr0p
 - bjw-s
+- buroa
+- LilDrunkenSmurf
 
 For all their hard work and dedication

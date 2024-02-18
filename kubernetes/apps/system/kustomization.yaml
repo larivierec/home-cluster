@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./csi-driver-nfs/ks.yaml
+  - ./local-path-provisioner/ks.yaml
   - ./spegel/ks.yaml
   - ./stakater/ks.yaml
   - ./reflector/ks.yaml

@@ -25,6 +25,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: local-path-provisioner
+      namespace: system
   values:
     image:
       registry: quay.io
@@ -99,7 +102,7 @@ spec:
         node-role.kubernetes.io/worker: "true"
       persistence:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-hostpath
         size: 10Gi
       networkPolicy:
         enabled: false
@@ -111,7 +114,7 @@ spec:
         node-role.kubernetes.io/worker: "true"
       persistence:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-hostpath
         size: 10Gi
       networkPolicy:
         enabled: false
@@ -123,7 +126,7 @@ spec:
         - "http://alertmanager-operated.monitoring.svc.cluster.local:9093"
       persistence:
         enabled: true
-        storageClass: longhorn
+        storageClass: local-hostpath
         size: 10Gi
       extraFlags: ["--web.prefix-header=X-Forwarded-Prefix"]
       config: |-
