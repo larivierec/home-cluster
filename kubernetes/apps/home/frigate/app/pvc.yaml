@@ -2,12 +2,71 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-frigate-0
+  name: config-frigate-1
   namespace: home
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: frigate-bootstrap
   resources:
     requests:
       storage: 4Gi
-  storageClassName: longhorn-database
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: frigate-bootstrap
+  namespace: home
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-frigate
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 4Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: frigate
+  namespace: home
+spec:
+  sourcePVC: config-frigate-1
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-frigate
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      hourly: 24
+      daily: 10
+      weekly: 5

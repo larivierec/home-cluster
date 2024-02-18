@@ -96,7 +96,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-readarr-1
+        existingClaim: config-readarr-0
       media:
         enabled: true
         type: custom

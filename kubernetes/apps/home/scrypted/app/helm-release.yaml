@@ -85,7 +85,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: scrypted-0
+        existingClaim: config-scrypted-0
         advancedMounts:
           main:
             main:

@@ -28,7 +28,7 @@ spec:
     controllers:
       main:
         annotations:
-          configmap.reloader.stakater.com/reload: &config mosquitto-config-v1
+          configmap.reloader.stakater.com/reload: &config config-mosquitto-0
           secret.reloader.stakater.com/reload: &secret mosquitto
         containers:
           main:

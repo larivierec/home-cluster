@@ -28,10 +28,6 @@ spec:
     controllers:
       main:
         strategy: RollingUpdate
-        surge: 1
-        unavailable: 1
-        annotations:
-          backup.velero.io/backup-volumes: app/config
         containers:
           main:
             image:
@@ -83,6 +79,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: overseerr-config-v2
+        existingClaim: config-overseerr-0
         globalMounts:
           - path: /app/config

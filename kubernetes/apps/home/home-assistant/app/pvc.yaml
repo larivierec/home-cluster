@@ -2,12 +2,71 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: home-assistant-v2
+  name: config-home-assistant-0
   namespace: home
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: home-assistant-bootstrap
   resources:
     requests:
-      storage: 100Mi
-  storageClassName: nfs-provision
+      storage: 1Gi
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: home-assistant-bootstrap
+  namespace: home
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-home-assistant
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 1Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  sourcePVC: config-home-assistant-0
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-home-assistant
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      hourly: 24
+      daily: 10
+      weekly: 5

@@ -63,7 +63,6 @@ spec:
         pod:
           annotations:
             secret.reloader.stakater.com/reload: *secret
-            backup.velero.io/backup-volumes: data
     service:
       main:
         ports:
@@ -75,7 +74,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: vaultwarden-data
+        existingClaim: vaultwarden-0
         globalMounts:
           - path: /data
     route:

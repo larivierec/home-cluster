@@ -2,11 +2,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex
+  name: plex-0
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: plex-bootstrap
   resources:
     requests:
       storage: 100Gi
@@ -34,7 +38,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: plex-volsync
+    repository: volsync-plex
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -56,13 +60,13 @@ metadata:
   name: plex
   namespace: default
 spec:
-  sourcePVC: plex
+  sourcePVC: plex-0
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: plex-volsync
+    repository: volsync-plex
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block

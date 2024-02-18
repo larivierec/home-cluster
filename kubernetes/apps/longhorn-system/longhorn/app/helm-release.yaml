@@ -25,17 +25,12 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      longhorn:
-        instanceManager:
-          repository: webericjames/longhorn-instance-manager
-          tag: c49b76187e1c80dff7dfd22e0fc980a7200fb585
     monitoring:
       enabled: true
-      createPrometheusRules: true
+      createPrometheusRules: false
     persistence:
-      defaultClass: true
-      defaultClassReplicaCount: 3
+      defaultClass: false
+      defaultClassReplicaCount: 2
     defaultSettings:
       backupTarget: s3://longhorn@us-east-1/
       backupTargetCredentialSecret: minio-longhorn

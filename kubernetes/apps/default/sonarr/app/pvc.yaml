@@ -2,11 +2,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sonarr-2
+  name: config-sonarr-3
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: sonarr-bootstrap
   resources:
     requests:
       storage: 7Gi
@@ -21,7 +25,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: sonarr-volsync
+    repository: volsync-sonarr
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -43,13 +47,13 @@ metadata:
   name: sonarr
   namespace: default
 spec:
-  sourcePVC: config-sonarr-2
+  sourcePVC: config-sonarr-3
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: sonarr-volsync
+    repository: volsync-sonarr
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block

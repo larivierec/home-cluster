@@ -113,7 +113,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: plex
+        existingClaim: plex-0
       plex-cache:
         existingClaim: plex-cache
         globalMounts:

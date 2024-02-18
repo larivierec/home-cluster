@@ -2,12 +2,71 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vaultwarden-data
+  name: vaultwarden-0
   namespace: system
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: vaultwarden-bootstrap
   resources:
     requests:
-      storage: 200Mi
-  storageClassName: longhorn
+      storage: 1Gi
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: vaultwarden-bootstrap
+  namespace: system
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-vaultwarden
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 1Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: vaultwarden
+  namespace: system
+spec:
+  sourcePVC: vaultwarden-0
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-vaultwarden
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      hourly: 24
+      daily: 10
+      weekly: 5

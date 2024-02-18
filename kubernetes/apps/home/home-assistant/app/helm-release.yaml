@@ -94,7 +94,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: home-assistant-v2
+        existingClaim: config-home-assistant-0
         globalMounts:
           - path: /config
     metrics:

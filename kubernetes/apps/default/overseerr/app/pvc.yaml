@@ -2,12 +2,71 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: overseerr-config-v2
+  name: config-overseerr-0
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: overseerr-bootstrap
   resources:
     requests:
-      storage: 50Mi
-  storageClassName: nfs-provision
+      storage: 1Gi
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: overseerr-bootstrap
+  namespace: default
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-overseerr
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 1Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: overseerr
+  namespace: default
+spec:
+  sourcePVC: config-overseerr-0
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-overseerr
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      hourly: 24
+      daily: 10
+      weekly: 5

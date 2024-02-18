@@ -2,10 +2,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-lidarr-1
+  name: config-lidarr-2
   namespace: default
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: lidarr-bootstrap
   resources:
     requests:
       storage: 5Gi
@@ -20,7 +25,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: lidarr-volsync
+    repository: volsync-lidarr
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -42,13 +47,13 @@ metadata:
   name: lidarr
   namespace: default
 spec:
-  sourcePVC: config-lidarr-1
+  sourcePVC: config-lidarr-2
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: lidarr-volsync
+    repository: volsync-lidarr
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block

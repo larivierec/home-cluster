@@ -89,7 +89,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-lidarr-1
+        existingClaim: config-lidarr-2
         globalMounts:
           - path: /config
       media:
