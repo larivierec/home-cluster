@@ -2,12 +2,67 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-prowlarr-1
+  name: config-prowlarr-2
   namespace: vpn
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ceph-filesystem
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: prowlarr-bootstrap
+  namespace: vpn
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: prowlarr-volsync
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 2Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: prowlarr
+  namespace: vpn
+spec:
+  sourcePVC: config-prowlarr-2
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: prowlarr-volsync
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 8Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      hourly: 24
+      daily: 10
+      weekly: 5
