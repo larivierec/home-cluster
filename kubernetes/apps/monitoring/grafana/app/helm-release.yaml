@@ -29,20 +29,22 @@ spec:
     podAnnotations:
       reloader.stakater.com/auto: "true"
     env:
+      GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_SECURITY_COOKIE_SAMESITE: *app
-      GF_SERVER_ROOT_URL: https://grafana.garb.dev
     grafana.ini:
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
+      auth.basic:
+        enabled: false
+        disable_login_form: true
       auth.anonymous:
         enabled: true
-        org_name: Main Org.
-        org_role: Viewer
-        hide_version: true
+        org: Stuff
+        org_role: Editor
     deploymentStrategy:
       type: RollingUpdate
     resources:
@@ -51,9 +53,6 @@ spec:
         memory: 127M
       limits:
         memory: 219M
-    admin:
-      adminPass: ${SECRET_GRAFANA_PASSWORD}
-      adminUser: admin
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -169,13 +168,6 @@ spec:
             url: http://alertmanager.monitoring.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
-          - name: redis-db
-            uid: redis-db
-            type: redis-datasource
-            url: &redis redis://redis-headless.database.svc:6379
-            access: proxy
-            jsonData:
-              timeInterval: 30s
     dashboards:
       ceph:
         ceph-cluster:
@@ -350,7 +342,7 @@ spec:
       enabled: true
       ingressClassName: internal
       hosts:
-        - &host "{{ .Release.Name }}.garb.dev"
+        - &host "grafana.garb.dev"
       tls:
         - hosts:
             - *host
@@ -364,10 +356,3 @@ spec:
         labelSelector:
           matchLabels:
             app.kubernetes.io/name: *app
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node-role.kubernetes.io/control-plane
-                  operator: Exists
