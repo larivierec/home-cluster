@@ -38,7 +38,6 @@ spec:
             fsGroup: 568
             supplementalGroups:
               - 44
-              - 109
           runtimeClassName: nvidia
         containers:
           main:
