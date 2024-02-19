@@ -79,18 +79,17 @@ spec:
           replication_factor: 2
           storage:
             s3:
-              bucketnames: "loki"
-              endpoint: "minio.system.svc:9000"
-              s3: null
-              insecure: true
+              bucketnames: loki
+              endpoint: "minio.system.svc.cluster.local:9000"
               s3forcepathstyle: true
+              insecure: true
           ring:
             kvstore:
               store: memberlist
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
-          alertmanager_url: http://alertmanager.monitoring.svc.cluster.local:9093
+          alertmanager_url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
           storage:
             type: local
             local:
@@ -122,45 +121,74 @@ spec:
       replicas: 2
       persistence:
         storageClass: local-hostpath
-      affinity: &affinity |
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: Exists
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.writeSelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
     read:
       replicas: 2
       persistence:
         storageClass: local-hostpath
+        size: 5Gi
       extraVolumeMounts:
-        - name: rules
+        - name: loki-rules
           mountPath: /rules
+        - name: loki-rules-tmp
+          mountPath: /tmp/scratch
+        - name: loki-tmp
+          mountPath: /tmp/loki-tmp
       extraVolumes:
-        - name: rules
+        - name: loki-rules
           emptyDir: {}
-      affinity: *affinity
+          readonly: false
+        - name: loki-rules-tmp
+          emptyDir: {}
+          readonly: false
+        - name: loki-tmp
+          emptyDir: {}
+          readonly: false
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.readSelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
     backend:
       replicas: 2
       persistence:
         storageClass: local-hostpath
       extraVolumeMounts:
-        - name: rules
-          mountPath: /rules/fake
+        # - name: rules
+        #   mountPath: /rules/fake
         - name: scratch
           mountPath: /tmp/scratch
       extraVolumes:
+        - name: scratch
+          emptyDir: {}
         # - name: rules
         #   configMap:
         #     name: loki-alerting-rules
-        - name: scratch
-          emptyDir: {}
-      affinity: *affinity
     gateway:
       replicas: 2
       image:
         registry: ghcr.io
-      affinity: *affinity
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.gatewaySelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
       ingress:
         enabled: true
         ingressClassName: internal

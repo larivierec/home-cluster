@@ -37,7 +37,7 @@ spec:
       type: s3
       config:
         bucket: thanos
-        endpoint: "minio.system.svc:9000"
+        endpoint: "minio.system.svc.cluster.local:9000"
         region: us-east-1
         insecure: true
     receive:
