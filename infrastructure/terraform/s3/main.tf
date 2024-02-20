@@ -33,7 +33,6 @@ locals {
   buckets = [
     "pgsql",
     "thanos",
-    "longhorn",
     "volsync",
     "loki"
   ]
