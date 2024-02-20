@@ -31,14 +31,15 @@ spec:
         pod:
           nodeSelector:
             node-role.kubernetes.io/worker: "true"
-            # intel.feature.node.kubernetes.io/gpu: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             supplementalGroups:
               - 44
-          runtimeClassName: nvidia
+              - 109
+          # runtimeClassName: nvidia
         containers:
           main:
             image:
@@ -59,8 +60,8 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 10Gi
-                # gpu.intel.com/i915: 1
-                nvidia.com/gpu: 1
+                gpu.intel.com/i915: 1
+                # nvidia.com/gpu: 1
     service:
       main:
         type: LoadBalancer
