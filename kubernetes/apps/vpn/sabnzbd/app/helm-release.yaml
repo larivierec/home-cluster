@@ -81,7 +81,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: config-sabnzbd-0
+        existingClaim: config-sabnzbd-1
         globalMounts:
           - path: /config
       media:
