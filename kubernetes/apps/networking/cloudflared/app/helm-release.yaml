@@ -51,6 +51,7 @@ spec:
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
               TUNNEL_METRICS: 0.0.0.0:9090
+              TUNNEL_MANAGEMENT_DIAGNOSTICS: false
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
