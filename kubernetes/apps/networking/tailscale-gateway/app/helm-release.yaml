@@ -32,7 +32,7 @@ spec:
             fullnameOverride: tailscale
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.58.2
+              tag: v1.61.11
             env:
               TZ: "UTC"
               NO_AUTOUPDATE: "true"
