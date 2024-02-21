@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sabnzbd-1
+  name: config-sabnzbd-0
   namespace: vpn
 spec:
   accessModes:
@@ -13,7 +13,7 @@ spec:
     name: sabnzbd-bootstrap
   resources:
     requests:
-      storage: 3Gi
+      storage: 80Gi
   storageClassName: ceph-block
 ---
 apiVersion: volsync.backube/v1alpha1
@@ -47,7 +47,7 @@ metadata:
   name: sabnzbd
   namespace: vpn
 spec:
-  sourcePVC: config-sabnzbd-1
+  sourcePVC: config-sabnzbd-0
   trigger:
     schedule: "0 * * * *"
   restic:
