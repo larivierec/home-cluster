@@ -194,7 +194,7 @@ spec:
             failureDomain: host
             erasureCoded:
               dataChunks: 2
-              codingChunks: 1
+              codingChunks: 2
           preservePoolsOnDelete: true
           gateway:
             port: 80
