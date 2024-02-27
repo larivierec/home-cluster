@@ -116,11 +116,3 @@ spec:
               annotations:
                 description: ssl certificate(s) will expire in less then a week
                 summary: renew expiring certificates to avoid downtime
-            - alert: NGINXTooMany500s
-              expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 35
-              for: 1m
-              labels:
-                severity: warning
-              annotations:
-                description: Too many 5XXs
-                summary: More than 35% of all requests returned 5XX, this requires your attention

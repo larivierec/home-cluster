@@ -9,15 +9,15 @@ spec:
     - name: nginx.rules
       rules:
         - alert: NginxHighHttp4xxErrorRate
-          expr: sum(rate(nginx_http_requests_total{status=~"^4.."}[1m])) / sum(rate(nginx_http_requests_total[1m])) * 100 > 5
+          expr: sum(rate(nginx_ingress_controller_requests{status=~"^4.."}[1m])) / sum(rate(nginx_ingress_controller_requests[1m])) * 100 > 5
           for: 1m
           labels:
             severity: critical
           annotations:
             summary: Nginx high HTTP 4xx error rate (instance {{ $labels.instance }})
-            description: "Too many HTTP requests with status 4xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            description: "Too many HTTP requests with status 5xx (> 5%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
         - alert: NginxHighHttp5xxErrorRate
-          expr: sum(rate(nginx_http_requests_total{status=~"^5.."}[1m])) / sum(rate(nginx_http_requests_total[1m])) * 100 > 5
+          expr: sum(rate(nginx_ingress_controller_requests{status=~"^5.."}[1m])) / sum(rate(nginx_ingress_controller_requests[1m])) * 100 > 5
           for: 1m
           labels:
             severity: critical
