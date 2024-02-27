@@ -31,9 +31,17 @@ spec:
     master:
       persistence:
         enabled: false
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
     replica:
       persistence:
         enabled: false
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
     sentinel:
       enabled: true
       masterSet: redis-master
