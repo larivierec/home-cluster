@@ -14,14 +14,10 @@
     "config:recommended",
     "security:openssf-scorecard"
   ],
-  "username": "theriver-bot[bot]",
-  "platform": "github",
   "timezone": "America/New_York",
   "suppressNotifications": ["prIgnoreNotification"],
   "dependencyDashboardTitle": "Renovate Dashboard",
   "rebaseWhen": "conflicted",
-  "requireConfig": "optional",
-  "onboarding": false,
   "helm-values": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
