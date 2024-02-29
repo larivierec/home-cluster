@@ -31,12 +31,12 @@ spec:
     maxRunners: 3
     containerMode:
       type: dind
-    template:
-      spec:
-        containers:
-          - name: runner
-            image: ghcr.io/actions/actions-runner:2.314.1
-            command: ["/home/runner/run.sh"]
+    #template:
+    #  spec:
+    #    containers:
+    #      - name: runner
+    #        image: ghcr.io/actions/actions-runner:2.314.1
+    #        command: ["/home/runner/run.sh"]
   valuesFrom:
     - kind: Secret
       name: actions-runner-controller-auth
