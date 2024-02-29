@@ -34,6 +34,7 @@ k3s cluster will also be configured as an HA using etcd with the `--cluster-init
 curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none \
         --disable traefik \
         --disable servicelb \
+        --disable coredns \
         --disable-network-policy \
         --disable-kube-proxy \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
@@ -48,6 +49,7 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
 curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://<hostname or ip>:6443 --flannel-backend none \
         --disable traefik \
         --disable servicelb \
+        --disable coredns \
         --disable-network-policy \
         --disable-kube-proxy \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
@@ -63,11 +65,22 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
 curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
 ```
 
-4. I recommend to use bootstrap values from kubernetes/core/cilium/bootstrap/values.yaml
+### Initialize
+
+#### Coredns
+
+4. use bootstrap values from kubernetes/apps/kube-system
+
+```bash
+helm repo add coredns https://coredns.github.io/helm
+helm install coredns coredns/coredns -f coredns/bootstrap/values.yaml --namespace kube-system
+```
+
+#### Cilium
 
 ```bash
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium -f kubernetes/core/cilium/bootstrap/values.yaml --namespace kube-system
+helm install cilium cilium/cilium -f cilium/bootstrap/values.yaml --namespace kube-system
 ```
 ---
 
@@ -309,6 +322,6 @@ Thanks to all the people who donate their time to the [Home Operations](https://
 - onedr0p
 - bjw-s
 - buroa
-- LilDrunkenSmurf
+- joryirving
 
 For all their hard work and dedication
