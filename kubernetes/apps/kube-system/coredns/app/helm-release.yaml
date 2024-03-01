@@ -56,7 +56,7 @@ spec:
               fallthrough in-addr.arpa ip6.arpa
               ttl 30
           - name: forward
-            parameters: . 10.43.80.187 127.0.0.1:1053
+            parameters: . 10.43.216.203 127.0.0.1:1053
             configBlock: |-
               policy sequential
               health_check 5s
