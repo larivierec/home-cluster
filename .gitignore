@@ -5,5 +5,22 @@
 **/*.tfstate
 **/*.bitwarden
 testing/
+venv/
+.git/
+.vscode/
+.idea/
+.vscode-test/
+.cache/
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+*.egg-info/
+.eggs/
+dist/
+build/
+**/.ipynb_checkpoints/**
+**/*.log
+**/*.csv
+
 ## macos
 .DS_Store
