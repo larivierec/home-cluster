@@ -38,7 +38,7 @@ spec:
           main:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: 18-jammy-full-v0.94.2
+              tag: 18-jammy-full-v0.94.3
             resources:
               requests:
                 gpu.intel.com/i915: 1
