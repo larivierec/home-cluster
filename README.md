@@ -215,6 +215,8 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 ### Base install
 
+#### Ubuntu
+
 ```bash
 sudo apt install \
   nftables \
@@ -228,9 +230,7 @@ sudo apt install \
   dnsutils
 ```
 
-### Network Bonding
-
-#### Ubuntu
+### Bonding
 
 ```text
 root@dlp:~# ls /etc/netplan
@@ -275,10 +275,71 @@ root@dlp:~# lsmod | grep bond
 
 bonding               196608  0
 tls                   114688  1 bonding
+```
+[Reference](https://www.server-world.info/en/note?os=Ubuntu_22.04&p=bonding)
 
+#### Debian
+
+Note: Disable Secure Boot, otherwise PCIe Coral driver won't install.
+
+```bash
+sudo apt install \
+  nftables \
+  nfs-common \
+  curl \
+  containerd \
+  open-iscsi \
+  vim \
+  gnupg \
+  net-tools \
+  dnsutils \
+  ifenslave \ # bonds
+  ethtool \
+  systemd-timesyncd
 ```
 
-[Reference](https://www.server-world.info/en/note?os=Ubuntu_22.04&p=bonding)
+### Bonding
+
+```text
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto enp89s0
+# for auto up
+allow-hotplug enp89s0
+iface enp89s0 inet dhcp
+
+auto enp87s0
+allow-hotplug enp87s0
+iface enp87s0 inet dhcp
+
+auto enp2s0f0
+iface enp2s0f0 inet manual
+  bond-master bond0
+  bond-mode 802.3ad
+auto enp2s0f1
+iface enp2s0f1 inet manual
+  bond-master bond0
+  bond-mode 802.3ad
+
+auto bond0
+allow-hotplug bond0
+iface bond0 inet dhcp
+  bond-mode 802.3ad
+  bond-slaves enp2s0f0 enp2s0f1
+  bond-miimon 100
+  bond-downdelay 200
+  bond-updelay 400
+```
+
+[Reference](https://www.server-world.info/en/note?os=Debian_12&p=bonding)
 
 ### GPU Install
 
