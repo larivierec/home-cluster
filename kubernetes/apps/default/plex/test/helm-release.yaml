@@ -2,10 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app plex
+  name: &app plex-test
   namespace: default
 spec:
   interval: 5m
+  suspend: true
   chart:
     spec:
       chart: app-template
@@ -40,7 +41,6 @@ spec:
               - 44
               - 105
               - 109
-          # runtimeClassName: nvidia
         containers:
           main:
             image:
@@ -48,9 +48,6 @@ spec:
               tag: 1.40.1.8173-3e92df2db@sha256:2d03a4cc820faff2f7299ea880441571e47b9205913eb1058a986e7ec3bac3d3
             env:
               TZ: "UTC"
-              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
-              # NVIDIA_DRIVER_CAPABILITIES: all
-              # NVIDIA_VISIBLE_DEVICES: all
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -58,31 +55,27 @@ spec:
             resources:
               requests:
                 cpu: 1000m
-                memory: 2Gi
+                memory: 8Gi
               limits:
                 memory: 16Gi
                 gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
     service:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: "plex.garb.dev"
-          io.cilium/lb-ipam-ips: "192.168.40.4"
+          coredns.io/hostname: "plex-test.garb.dev"
         ports:
           http:
-            port: &port 32400
+            port: 32400
     ingress:
       main:
         enabled: true
-        className: external
+        className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: &host "plex.garb.dev"
+          - host: &host "plex-test.garb.dev"
             paths:
               - path: /
                 service:
@@ -92,33 +85,10 @@ spec:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
-    route:
-      main:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-route.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        parentRefs:
-          - name: cilium-external
-            namespace: infrastructure
-            sectionName: https
-        hostnames:
-          - "plex-route.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-            timeouts:
-              backendRequest: 3m
     persistence:
       config:
         enabled: true
-        existingClaim: plex-0
-      plex-cache:
-        existingClaim: plex-cache
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
+        existingClaim: plex-test-0
       media:
         enabled: true
         type: custom
@@ -129,11 +99,6 @@ spec:
         globalMounts:
           - path: /media
         readOnly: true
-      backup:
-        enabled: true
-        existingClaim: plex-backup
-        globalMounts:
-          - path: /config/backup
       tmp:
         enabled: true
         type: emptyDir
