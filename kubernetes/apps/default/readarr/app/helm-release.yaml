@@ -43,7 +43,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/readarr-develop
-              tag: 0.3.19.2437@sha256:82111704ebe169c07ecbe243686e78905a701db9975492fc2d18de5f57876105
+              tag: 0.3.19.2437@sha256:76ee05e19550e4c113ea4f0e22b8650da20c596763d1da07ed0174fc5ba461c6
             env:
               TZ: "UTC"
               READARR__INSTANCE_NAME: Readarr
