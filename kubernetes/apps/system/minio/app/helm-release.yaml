@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -12,7 +13,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -28,9 +29,9 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      minio:
         containers:
-          main:
+          app:
             image:
               repository: quay.io/minio/minio
               tag: RELEASE.2024-03-10T02-53-48Z
@@ -42,15 +43,14 @@ spec:
               TZ: UTC
               MINIO_UPDATE: "off"
               MINIO_PROMETHEUS_AUTH_TYPE: "public"
-            auth:
-              existingSecret: minio-secrets
         pod:
           nodeSelector:
             node-role.kubernetes.io/worker: "true"
           annotations:
             secret.reloader.stakater.com/reload: minio-secrets
     service:
-      main:
+      app:
+        controller: *app
         enabled: true
         ports:
           http:
@@ -59,7 +59,7 @@ spec:
             enabled: true
             port: &api-port 9000
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -83,7 +83,7 @@ spec:
               - *s3
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal

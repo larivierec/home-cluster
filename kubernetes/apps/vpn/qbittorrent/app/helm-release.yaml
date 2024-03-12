@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,19 +27,28 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      qbittorrent:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: 4.6.3@sha256:79ac03232dcb3e172fe028f66784f88ed8c49bd5c05ef4a443d675681b37d6ec
-            hostname: qbittorrent
             env:
               TZ: "UTC"
               QBITTORRENT__PORT: &port 8080
             securityContext:
               runAsUser: 568
               runAsGroup: 568
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-18
@@ -79,12 +89,13 @@ spec:
             supplementalGroups:
               - 65539
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -92,14 +103,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal
@@ -115,8 +126,8 @@ spec:
         enabled: true
         existingClaim: config-qbittorrent-0
         advancedMounts:
-          main:
-            main:
+          qbittorrent:
+            app:
               - path: /config
       media:
         enabled: true
@@ -126,15 +137,15 @@ spec:
             server: "192.168.1.3"
             path: /volume2/media-sp2
         advancedMounts:
-          main:
-            main:
+          qbittorrent:
+            app:
               - path: /media
       dnsdist-config:
         enabled: true
         type: configMap
         name: qbittorrent-dnsdist
         advancedMounts:
-          main:
+          qbittorrent:
             dnsdist:
               - path: /etc/dnsdist/dnsdist.conf
                 subPath: dnsdist.conf

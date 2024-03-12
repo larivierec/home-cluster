@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      readarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -40,7 +40,7 @@ spec:
               - secretRef:
                   name: postgres-readarr
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/readarr-develop
               tag: 0.3.19.2437@sha256:76ee05e19550e4c113ea4f0e22b8650da20c596763d1da07ed0174fc5ba461c6
@@ -56,6 +56,16 @@ spec:
                 memory: 160M
               limits:
                 memory: 330M
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
         pod:
           securityContext:
             runAsUser: 568
@@ -63,12 +73,13 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -76,13 +87,13 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal

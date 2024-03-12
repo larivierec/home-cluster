@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,13 +26,13 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      vector-agent:
         type: daemonset
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/timberio/vector
               tag: 0.36.1-debian@sha256:67c4cfc8fd70c7a0182fdc3ba815f34cebb0c9702e9a0a2b1fbe4f11dac719fa
@@ -59,6 +59,16 @@ spec:
                     fieldPath: metadata.namespace
             securityContext:
               privileged: true
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     persistence:
       config:
         enabled: true
@@ -99,7 +109,8 @@ spec:
         globalMounts:
           - readOnly: true
     service:
-      main:
+      app:
+        controller: *app
         enabled: false
     serviceAccount:
       create: true
