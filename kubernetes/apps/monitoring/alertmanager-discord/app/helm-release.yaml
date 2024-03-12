@@ -1,15 +1,16 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: alertmanager-discord
+  name: &app alertmanager-discord
   namespace: monitoring
 spec:
   interval: 5m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,17 +27,28 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      alertmanager-discord:
         containers:
-          main:
+          app:
             image:
               repository: benjojo/alertmanager-discord
               tag: latest
             envFrom:
               - secretRef:
                   name: alertmanager-discord
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 9094

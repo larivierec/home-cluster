@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,7 +27,7 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      radarr:
         type: deployment
         initContainers:
           init:
@@ -46,7 +47,7 @@ spec:
             supplementalGroups:
               - 65539
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.4.1.8654@sha256:f59912e61010a72d38f9973b1695329889666355df09d18d15ec4f95ff45ed13
@@ -54,13 +55,24 @@ spec:
             env:
               TZ: "UTC"
             envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 7878
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -68,14 +80,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal
@@ -103,7 +115,6 @@ spec:
           - path: /movies
       downloads:
         enabled: true
-        retain: true
         type: custom
         volumeSpec:
           nfs:

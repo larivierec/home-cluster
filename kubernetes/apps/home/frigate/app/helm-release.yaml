@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -12,7 +13,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,7 +30,8 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      frigate:
+        strategy: Recreate
         annotations:
           configmap.reloader.stakater.com/reload: &config frigate-config
         pod:
@@ -38,13 +40,11 @@ spec:
             intel.feature.node.kubernetes.io/gpu: "true"
             node-role.kubernetes.io/worker: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.13.2
               pullPolicy: IfNotPresent
-            controller:
-              strategy: Recreate
             securityContext:
               privileged: true
             resources:
@@ -61,7 +61,8 @@ spec:
               startup:
                 enabled: false
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 5000
@@ -73,13 +74,11 @@ spec:
             port: &restream-port 8554
       external-rtsp:
         enabled: true
-        controller: main
+        controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.40.5"
-        monitor:
-          enabled: false
         ports:
           rtsp-tcp:
             enabled: true
@@ -87,7 +86,7 @@ spec:
             protocol: TCP
             targetPort: *restream-port
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -95,14 +94,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal
@@ -128,9 +127,6 @@ spec:
                 name: *app
             timeouts:
               backendRequest: 10m
-    configMaps:
-      config:
-        enabled: false
     persistence:
       data:
         enabled: true
