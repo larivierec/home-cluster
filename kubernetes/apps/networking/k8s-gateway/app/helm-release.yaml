@@ -76,7 +76,7 @@ spec:
             port: 9153
       dns:
         enabled: true
-        controller: main
+        controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         clusterIP: "10.43.195.229"
