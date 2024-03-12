@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      external-dns:
         strategy: RollingUpdate
         annotations:
           secret.reloader.stakater.com/reload: &creds cloudflare-creds
@@ -89,6 +89,7 @@ spec:
             port: *port
     serviceMonitor:
       app:
+        enabled: true
         serviceName: *app
         endpoints:
           - port: http

@@ -96,7 +96,7 @@ spec:
     serviceMonitor:
       app:
         enabled: true
-        serviceName: *app
+        serviceName: k8s-gateway-app
         endpoints:
           - port: metrics
             scheme: http
