@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,7 +27,7 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      blocky:
         type: deployment
         strategy: RollingUpdate
         replicas: 2
@@ -34,7 +35,7 @@ spec:
           configmap.reloader.stakater.com/reload: &config blocky-config
           secret.reloader.stakater.com/reload: wildcard-cert-tls
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/0xerr0r/blocky
               tag: v0.23
@@ -44,6 +45,16 @@ spec:
                 memory: 200Mi
             env:
               TZ: UTC
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
         pod:
           topologySpreadConstraints:
             - maxSkew: 1
@@ -53,20 +64,19 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: *app
     service:
-      main:
+      app:
+        controller: *app
         enabled: true
         ports:
           http:
             port: &port 4000
       dns:
         enabled: true
-        controller: main
+        controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "192.168.40.7"
-        monitor:
-          enabled: false
         ports:
           dns-udp:
             enabled: true
@@ -89,7 +99,7 @@ spec:
             protocol: TCP
             targetPort: 443
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -97,14 +107,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal
@@ -116,8 +126,9 @@ spec:
               - port: *port
                 name: *app
     serviceMonitor:
-      main:
+      app:
         enabled: true
+        serviceName: *app
         endpoints:
           - port: http
             scheme: http
@@ -137,4 +148,3 @@ spec:
         enabled: true
         type: secret
         name: wildcard-cert-tls
-        readOnly: true

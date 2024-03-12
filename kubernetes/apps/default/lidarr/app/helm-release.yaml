@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,7 +27,7 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      lidarr:
         type: deployment
         initContainers:
           init:
@@ -46,7 +47,7 @@ spec:
             supplementalGroups:
               - 100
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/lidarr
               tag: 2.1.7.4030@sha256:8205a42292c0945e89b10d82bb98ccb2b5b02c6e64da264af73f468b77b5217e
@@ -54,13 +55,24 @@ spec:
             env:
               TZ: "UTC"
             envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 8686
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -68,14 +80,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal
@@ -103,7 +115,6 @@ spec:
           - path: /music
       downloads:
         enabled: true
-        retain: true
         type: custom
         volumeSpec:
           nfs:

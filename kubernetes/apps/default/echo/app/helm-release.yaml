@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,10 +27,10 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      echo-server:
         strategy: RollingUpdate
         containers:
-          main:
+          app:
             image:
               repository: docker.io/jmalloc/echo-server
               tag: 0.3.6
@@ -68,12 +69,13 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: *app
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      app:
         enabled: true
         className: external
         annotations:
@@ -84,14 +86,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy

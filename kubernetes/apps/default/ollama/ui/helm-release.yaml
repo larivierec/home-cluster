@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,12 +27,12 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      ollama-ui:
         type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/ollama-webui/ollama-webui
               tag: main
@@ -42,15 +43,21 @@ spec:
                 cpu: 200m
               limits:
                 memory: 2Gi
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
               startup:
                 enabled: false
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 8080
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -58,14 +65,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal

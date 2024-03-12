@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -26,7 +27,7 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      prowlarr:
         type: deployment
         initContainers:
           init:
@@ -46,22 +47,32 @@ spec:
             supplementalGroups:
               - 65539
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
               tag: 1.14.1.4316@sha256:115d03ce7b60f1e531577f13e858f4e8a9f62afa10a74f26b77b832efce981c9
               pullPolicy: IfNotPresent
-            hostname: prowlarr
             env:
               TZ: "UTC"
             envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: &port 9696
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -69,14 +80,14 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
             secretName: wildcard-cert-tls
     route:
-      main:
+      app:
         enabled: true
         parentRefs:
           - name: cilium-internal

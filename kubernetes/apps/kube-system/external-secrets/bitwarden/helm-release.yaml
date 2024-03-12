@@ -1,8 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.2/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: bitwarden
+  name: &app bitwarden
   namespace: kube-system
 spec:
   interval: 5m
@@ -26,9 +27,9 @@ spec:
       retries: 3
   values:
     controllers:
-      main:
+      bitwarden:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/larivierec/bitwarden-cli
               tag: 2024.2.1@sha256:5b6bc0217c552827715ae3df9d081cc7e8232edddb814687a083b26746807d79
@@ -51,6 +52,8 @@ spec:
                   timeoutSeconds: 5
               readiness:
                 enabled: false
+              startup:
+                enabled: false
             resources:
               requests:
                 memory: 256Mi
@@ -58,7 +61,8 @@ spec:
               limits:
                 memory: 512Mi
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: 8087
