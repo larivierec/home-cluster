@@ -9,7 +9,7 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "< 6.1"
+      version = "< 6.2"
     }
     sops = {
       source  = "carlpett/sops"
