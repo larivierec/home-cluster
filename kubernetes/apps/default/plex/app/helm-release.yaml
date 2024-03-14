@@ -109,20 +109,36 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-route.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: plex-cilium.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "plex-route.garb.dev"
+          - "plex-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
                 name: *app
             timeouts:
               backendRequest: 3m
+      envoy:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: plex-envoy.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "plex-envoy.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
     persistence:
       config:
         enabled: true

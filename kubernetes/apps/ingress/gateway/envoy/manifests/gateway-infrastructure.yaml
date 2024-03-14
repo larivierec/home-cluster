@@ -1,0 +1,102 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  parametersRef:
+    group: gateway.envoyproxy.io
+    kind: EnvoyProxy
+    name: config
+    namespace: infrastructure
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: config
+  namespace: infrastructure
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyDeployment:
+        replicas: 2
+        container:
+          resources:
+            requests:
+              cpu: 150m
+              memory: 640Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-external
+  namespace: infrastructure
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+spec:
+  gatewayClassName: envoy
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.40.22
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.garb.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.garb.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-cert-tls
+  # Not yet supported - https://github.com/cilium/cilium/issues/21926
+  # addresses:
+  #   - type: IPAddress
+  #     value: "192.168.40.21"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-internal
+  namespace: infrastructure
+spec:
+  gatewayClassName: envoy
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.40.23
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.garb.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.garb.dev"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: wildcard-cert-tls
+  # Not yet supported - https://github.com/cilium/cilium/issues/21926
+  # addresses:
+  #   - type: IPAddress
+  #     value: "192.168.40.20"

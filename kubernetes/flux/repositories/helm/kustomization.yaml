@@ -15,6 +15,7 @@ resources:
   - ./democratic-csi.yaml
   - ./descheduler.yaml
   - ./emberstack.yaml
+  - ./envoy-proxy.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
   - ./grafana.yaml

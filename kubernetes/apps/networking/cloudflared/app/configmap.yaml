@@ -41,6 +41,14 @@ data:
       service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
+    - hostname: "echo-envoy.garb.dev"
+      service: https://envoy-infrastructure-envoy-external-119c46e1.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.garb.dev
+    - hostname: "plex-envoy.garb.dev"
+      service: https://envoy-infrastructure-envoy-external-119c46e1.infrastructure.svc.cluster.local:443
+      originRequest:
+        originServerName: ingress.garb.dev
     - hostname: "*.garb.dev"
       service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
       originRequest:

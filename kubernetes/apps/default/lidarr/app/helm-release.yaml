@@ -90,8 +90,9 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
+            sectionName: https
         hostnames:
           - "lidarr-route.garb.dev"
         rules:

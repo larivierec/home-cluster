@@ -17,7 +17,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: "192.168.40.21"
+      io.cilium/lb-ipam-ips: 192.168.40.21
   listeners:
     - name: http
       protocol: HTTP
@@ -51,7 +51,7 @@ spec:
   gatewayClassName: cilium
   infrastructure:
     annotations:
-      io.cilium/lb-ipam-ips: "192.168.40.20"
+      io.cilium/lb-ipam-ips: 192.168.40.20
   listeners:
     - name: http
       protocol: HTTP

@@ -97,14 +97,30 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo-route.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: echo-cilium.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "echo-route.garb.dev"
+          - "echo-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      envoy:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: echo-envoy.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "echo-envoy.garb.dev"
         rules:
           - backendRefs:
               - port: *port
