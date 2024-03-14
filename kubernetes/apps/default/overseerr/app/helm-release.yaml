@@ -53,37 +53,53 @@ spec:
         ports:
           http:
             port: &port 5055
-    ingress:
-      app:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
-        hosts:
-          - host: &host "overseerr.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: external
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+    #       external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
+    #     hosts:
+    #       - host: &host "overseerr.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: overseerr-route.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "overseerr.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "overseerr-route.garb.dev"
+          - "overseerr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

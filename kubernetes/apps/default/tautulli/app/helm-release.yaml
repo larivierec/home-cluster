@@ -56,29 +56,40 @@ spec:
         ports:
           http:
             port: &port 8181
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "tautulli.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "tautulli.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "tautulli.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "tautulli-route.garb.dev"
+          - "tautulli-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

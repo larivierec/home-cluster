@@ -55,7 +55,7 @@ spec:
       main:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
           - "bazarr.garb.dev"

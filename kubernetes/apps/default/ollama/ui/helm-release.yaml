@@ -56,30 +56,44 @@ spec:
         ports:
           http:
             port: &port 8080
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "chat.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "chat.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "chat.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+            timeouts:
+              backendRequest: 10m
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "chat-route.garb.dev"
+          - "chat-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -97,33 +97,44 @@ spec:
             port: 443
             protocol: TCP
             targetPort: 443
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "blocky.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "blocky.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "blocky.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: blocky-app
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "blocky-route.garb.dev"
+          - "blocky-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
-                name: *app
+                name: blocky-app
     serviceMonitor:
       app:
         enabled: true

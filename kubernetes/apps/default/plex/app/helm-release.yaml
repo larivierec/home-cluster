@@ -85,25 +85,25 @@ spec:
         ports:
           http:
             port: &port 32400
-    ingress:
-      app:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        hosts:
-          - host: &host "plex.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: external
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/target: ingress.garb.dev
+    #       external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
+    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    #     hosts:
+    #       - host: &host "plex.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
@@ -127,14 +127,14 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-envoy.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "plex-envoy.garb.dev"
+          - "plex.garb.dev"
         rules:
           - backendRefs:
               - port: *port

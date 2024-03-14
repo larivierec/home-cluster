@@ -82,7 +82,7 @@ spec:
           external-dns.alpha.kubernetes.io/hostname: &host "{{ .Release.Name }}.garb.dev"
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
-          - name: cilium-external
+          - name: envoy-external
             namespace: infrastructure
             sectionName: https
         hostnames:
@@ -112,7 +112,7 @@ spec:
       admin:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
           - "{{ .Release.Name }}-admin.garb.dev"

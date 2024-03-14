@@ -63,29 +63,40 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "sabnzbd.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "sabnzbd.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "sabnzbd.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "sabnzbd-route.garb.dev"
+          - "sabnzbd-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

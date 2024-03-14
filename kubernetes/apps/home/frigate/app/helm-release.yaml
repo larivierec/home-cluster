@@ -84,46 +84,72 @@ spec:
             port: *restream-port
             protocol: TCP
             targetPort: *restream-port
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "frigate.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "frigate.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
-          - "frigate-route.garb.dev"
+          - "frigate.garb.dev"
         rules:
           - backendRefs:
               - port: *port
-                name: *app
+                name: frigate-app
             timeouts:
               backendRequest: 10m
       go2rtc:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
-          - "go2rtc-route.garb.dev"
+          - "go2rtc.garb.dev"
         rules:
           - backendRefs:
               - port: *api-port
-                name: *app
+                name: frigate-app
+            timeouts:
+              backendRequest: 10m
+      app-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "frigate-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: frigate-app
+            timeouts:
+              backendRequest: 10m
+      go2rtc-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+        hostnames:
+          - "go2rtc-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *api-port
+                name: frigate-app
             timeouts:
               backendRequest: 10m
     persistence:

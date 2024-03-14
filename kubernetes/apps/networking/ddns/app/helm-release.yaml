@@ -84,30 +84,42 @@ spec:
             path: /metrics
             interval: 30s
             scrapeTimeout: 30s
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "ddns.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "ddns.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "ddns.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
             sectionName: https
         hostnames:
-          - "ddns-route.garb.dev"
+          - "ddns-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

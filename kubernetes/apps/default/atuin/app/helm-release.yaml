@@ -91,20 +91,45 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    ingress:
+    # ingress:
+    #   app:
+    #     className: internal
+    #     hosts:
+    #       - host: &host atuin.garb.dev
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
+    route:
       app:
-        className: internal
-        hosts:
-          - host: &host atuin.garb.dev
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "atuin.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: infrastructure
+            sectionName: https
+        hostnames:
+          - "atuin-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
     persistence:
       config:
         type: emptyDir

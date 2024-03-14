@@ -58,38 +58,38 @@ spec:
           api:
             enabled: true
             port: &api-port 9000
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &minio minio.garb.dev
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: *http-port
-          - host: &s3 s3.garb.dev
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: *api-port
-        tls:
-          - hosts:
-              - *minio
-            secretName: wildcard-cert-tls
-          - hosts:
-              - *s3
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &minio minio.garb.dev
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: *http-port
+    #       - host: &s3 s3.garb.dev
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: *api-port
+    #     tls:
+    #       - hosts:
+    #           - *minio
+    #         secretName: wildcard-cert-tls
+    #       - hosts:
+    #           - *s3
+    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
-          - "minio-route.garb.dev"
+          - "minio.garb.dev"
         rules:
           - backendRefs:
               - port: *http-port
@@ -97,10 +97,32 @@ spec:
       s3:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: infrastructure
         hostnames:
-          - "s3-route.garb.dev"
+          - "s3.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *api-port
+                name: *app
+      app-cilium:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "minio-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *http-port
+                name: *app
+      s3-cilium:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "s3-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *api-port

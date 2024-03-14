@@ -71,29 +71,40 @@ spec:
         ports:
           http:
             port: &port 7878
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "radarr.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+    # ingress:
+    #   app:
+    #     enabled: true
+    #     className: internal
+    #     hosts:
+    #       - host: &host "radarr.garb.dev"
+    #         paths:
+    #           - path: /
+    #             service:
+    #               identifier: app
+    #               port: http
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #         secretName: wildcard-cert-tls
     route:
       app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: infrastructure
+        hostnames:
+          - "radarr.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: infrastructure
         hostnames:
-          - "radarr-route.garb.dev"
+          - "radarr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
