@@ -76,7 +76,7 @@ spec:
     ingressController:
       enabled: false
     gatewayAPI:
-      enabled: true
+      enabled: false # using envoy
     l7Proxy: true
     loadBalancer:
       algorithm: maglev

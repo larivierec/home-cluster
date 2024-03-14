@@ -42,6 +42,10 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
+      # when using gateway-apis in cilium it also creates a service
+      # with a different name and tries to take this IP.
+      # the problem is the service created by cilium is not the one used by envoy.
+      # therefore, the service is disabled
       io.cilium/lb-ipam-ips: 192.168.40.22
   listeners:
     - name: http
@@ -62,10 +66,6 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-cert-tls
-  # Not yet supported - https://github.com/cilium/cilium/issues/21926
-  # addresses:
-  #   - type: IPAddress
-  #     value: "192.168.40.21"
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
@@ -96,7 +96,3 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-cert-tls
-  # Not yet supported - https://github.com/cilium/cilium/issues/21926
-  # addresses:
-  #   - type: IPAddress
-  #     value: "192.168.40.20"
