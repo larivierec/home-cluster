@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/cloudflare-ddns
-              tag: main@sha256:98d528dc449a10e047ebdb104aa113f80975fc062379e610eb5b1adf0ba353f7
+              tag: main@sha256:433db943e43878ab532be6bc8e182f69b1b91a6df95d9baa6cd78c72f908a7ea
             args:
               - --zone-name
               - garb.dev
@@ -75,6 +75,15 @@ spec:
             port: &port 9000
           health:
             port: *healthPort
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: health
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 30s
     ingress:
       app:
         enabled: true

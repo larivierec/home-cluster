@@ -63,13 +63,13 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &minio minio.${SECRET_DOMAIN}
+          - host: &minio minio.garb.dev
             paths:
               - path: /
                 service:
                   identifier: app
                   port: *http-port
-          - host: &s3 s3.${SECRET_DOMAIN}
+          - host: &s3 s3.garb.dev
             paths:
               - path: /
                 service:
