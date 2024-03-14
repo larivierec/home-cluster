@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: gpu.rules
+  namespace: kube-system
+spec:
+  groups:
+    - name: dcgm-exporter
+      rules:
+        - alert: HighGpuUsage
+          expr: |
+            sum by (Hostname, modelName) (rate(DCGM_FI_DEV_GPU_UTIL[15m])) 
+              > 0.85
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High GPU usage on node {{ $labels.Hostname }} for 15 minutes"
+            description: "GPU usage on node {{ $labels.Hostname }} for gpu: {{ $labels.modelName }} has passed 85% for over 15 minutes"
