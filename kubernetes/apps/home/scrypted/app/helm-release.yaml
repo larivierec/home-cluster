@@ -86,7 +86,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "scrypted.garb.dev"
         rules:
@@ -97,7 +97,7 @@ spec:
         enabled: true
         parentRefs:
           - name: cilium-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "scrypted.garb.dev"
         rules:

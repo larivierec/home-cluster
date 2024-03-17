@@ -3,14 +3,14 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: envoy-gateway-metrics
-  namespace: infrastructure
+  namespace: networking
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: gateway-helm
   namespaceSelector:
     matchNames:
-      - infrastructure
+      - networking
   endpoints:
     - port: http
       path: /metrics

@@ -87,7 +87,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "minio.garb.dev"
         rules:
@@ -98,7 +98,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "s3.garb.dev"
         rules:
@@ -109,7 +109,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "minio-cilium.garb.dev"
         rules:
@@ -120,7 +120,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
         hostnames:
           - "s3-cilium.garb.dev"
         rules:

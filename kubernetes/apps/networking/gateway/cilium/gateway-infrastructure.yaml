@@ -10,7 +10,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: cilium-external
-  namespace: infrastructure
+  namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: ingress.garb.dev
 spec:
@@ -46,7 +46,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: cilium-internal
-  namespace: infrastructure
+  namespace: networking
 spec:
   gatewayClassName: cilium
   infrastructure:

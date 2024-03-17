@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-nginx-external
+  name: nginx-external
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/ingress/ingress-nginx/external"
+  path: "./kubernetes/apps/networking/ingress-nginx/external"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -16,11 +16,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-internal
+  name: nginx-internal
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/ingress/ingress-nginx/internal"
+  path: "./kubernetes/apps/networking/ingress-nginx/internal"
   prune: true
   sourceRef:
     kind: GitRepository

@@ -104,7 +104,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "ddns.garb.dev"
@@ -116,7 +116,7 @@ spec:
         enabled: true
         parentRefs:
           - name: cilium-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "ddns-cilium.garb.dev"

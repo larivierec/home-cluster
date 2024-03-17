@@ -9,13 +9,13 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: config
-    namespace: infrastructure
+    namespace: networking
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
   name: config
-  namespace: infrastructure
+  namespace: networking
 spec:
   provider:
     type: Kubernetes
@@ -35,7 +35,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-external
-  namespace: infrastructure
+  namespace: networking
   annotations:
     external-dns.alpha.kubernetes.io/target: ingress.garb.dev
 spec:
@@ -71,7 +71,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-internal
-  namespace: infrastructure
+  namespace: networking
 spec:
   gatewayClassName: envoy
   infrastructure:

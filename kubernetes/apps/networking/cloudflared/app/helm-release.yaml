@@ -8,7 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: ingress-external
-      namespace: ingress
+      namespace: networking
   interval: 5m
   chart:
     spec:

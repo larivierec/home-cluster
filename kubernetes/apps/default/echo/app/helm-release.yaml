@@ -101,7 +101,7 @@ spec:
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "echo-cilium.garb.dev"
@@ -117,7 +117,7 @@ spec:
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "echo-envoy.garb.dev"

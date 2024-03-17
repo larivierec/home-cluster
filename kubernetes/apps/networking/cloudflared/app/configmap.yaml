@@ -22,27 +22,27 @@ data:
 
     ingress:
     - hostname: "files.garb.dev"
-      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "photos.garb.dev"
-      service: https://ingress-external-ingress-nginx-controller.ingress.svc.cluster.local:443
+      service: https://ingress-external-ingress-nginx-controller.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "echo-envoy.garb.dev"
-      service: https://envoy-infrastructure-envoy-external-119c46e1.infrastructure.svc.cluster.local:443
+      service: https://envoy-networking-envoy-external-45a7c13f.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "plex-envoy.garb.dev"
-      service: https://envoy-infrastructure-envoy-external-119c46e1.infrastructure.svc.cluster.local:443
+      service: https://envoy-networking-envoy-external-45a7c13f.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "*-cilium.garb.dev"
-      service: https://cilium-gateway-cilium-external.infrastructure.svc.cluster.local:443
+      service: https://cilium-gateway-cilium-external.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - hostname: "*.garb.dev"
-      service: https://envoy-infrastructure-envoy-external-119c46e1.infrastructure.svc.cluster.local:443
+      service: https://envoy-networking-envoy-external-45a7c13f.networking.svc.cluster.local:443
       originRequest:
         originServerName: ingress.garb.dev
     - service: http_status:404

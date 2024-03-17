@@ -85,7 +85,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "hass.garb.dev"
@@ -97,7 +97,7 @@ spec:
         enabled: true
         parentRefs:
           - name: cilium-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "hass-cilium.garb.dev"

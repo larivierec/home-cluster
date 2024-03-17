@@ -76,7 +76,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "chat.garb.dev"
@@ -90,7 +90,7 @@ spec:
         enabled: true
         parentRefs:
           - name: cilium-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "chat-cilium.garb.dev"

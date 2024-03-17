@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-ingress-gateway-manifest
+  name: cilium-gateway-manifest
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/ingress/gateway/cilium"
+  path: "./kubernetes/apps/networking/gateway/cilium"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/ingress/gateway/envoy/app"
+  path: "./kubernetes/apps/networking/gateway/envoy/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -29,11 +29,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: envoy-manifests
+  name: envoy-gateway-manifests
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/ingress/gateway/envoy/manifests"
+  path: "./kubernetes/apps/networking/gateway/envoy/manifests"
   prune: true
   sourceRef:
     kind: GitRepository

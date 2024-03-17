@@ -9,6 +9,8 @@ resources:
   - ./cloudflared/ks.yaml
   - ./ddns/ks.yaml
   - ./external-dns/ks.yaml
+  - ./gateway/ks.yaml
+  - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
   - ./opnsense/ks.yaml
   - ./tailscale-gateway/ks.yaml

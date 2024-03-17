@@ -110,7 +110,7 @@ spec:
         enabled: true
         parentRefs:
           - name: envoy-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "atuin.garb.dev"
@@ -122,7 +122,7 @@ spec:
         enabled: true
         parentRefs:
           - name: cilium-internal
-            namespace: infrastructure
+            namespace: networking
             sectionName: https
         hostnames:
           - "atuin-cilium.garb.dev"

@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: ingress-internal
-  namespace: ingress
+  name: ingress-external
+  namespace: networking
 spec:
   interval: 5m
   chart:
@@ -29,37 +29,45 @@ spec:
       replicaCount: 2
       allowSnippetAnnotations: true
       config:
-        use-gzip: true
-        enable-brotli: true
-        enable-ocsp: true
-        enable-real-ip: true
-        hsts-max-age: 31449600
-        proxy-buffer-size: 16k
+        use-forwarded-headers: "true"
+        forwarded-for-header: "CF-Connecting-IP"
+        use-gzip: "true"
         client-header-timeout: 120
         client-body-buffer-size: "100M"
         client-body-timeout: 120
         keep-alive: 120
         keep-alive-requests: 10000
         proxy-body-size: "100M"
-      ingressClass: internal
+        plugins: "strip-port-from-host"
+      extraVolumes:
+        - name: strip-port-from-host-plugin
+          configMap:
+            name: strip-port-from-host
+      extraVolumeMounts:
+        - name: strip-port-from-host-plugin
+          mountPath: /etc/nginx/lua/plugins/strip-port-from-host
+      ingressClass: external
       ingressClassByName: true
       ingressClassResource:
-        name: internal
+        name: external
         enabled: true
         default: true
-        controllerValue: "k8s.io/ingress-nginx-internal"
+        controllerValue: "k8s.io/ingress-nginx-external"
       admissionWebhooks:
         objectSelector:
           matchExpressions:
             - key: ingress-class
               operator: In
               values:
-                - internal
+                - external
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          io.cilium/lb-ipam-ips: "192.168.40.2"
+          external-dns.alpha.kubernetes.io/hostname: ingress.garb.dev
+          io.cilium/lb-ipam-ips: "192.168.40.3"
+      extraArgs:
+        default-ssl-certificate: networking/wildcard-cert-tls
       publishService:
         enabled: true
       updateStrategy:
@@ -87,3 +95,24 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
+        prometheusRule:
+          enabled: true
+          additionalLabels: {}
+          namespace: ""
+          rules:
+            - alert: NGINXConfigFailed
+              expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
+              for: 1s
+              labels:
+                severity: critical
+              annotations:
+                description: bad ingress config - nginx config test failed
+                summary: uninstall the latest ingress changes to allow config reloads to resume
+            - alert: NGINXCertificateExpiry
+              expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds) by (host) - time()) < 604800
+              for: 1s
+              labels:
+                severity: critical
+              annotations:
+                description: ssl certificate(s) will expire in less then a week
+                summary: renew expiring certificates to avoid downtime
