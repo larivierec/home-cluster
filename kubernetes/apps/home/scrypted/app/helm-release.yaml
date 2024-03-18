@@ -99,7 +99,7 @@ spec:
           - name: cilium-internal
             namespace: networking
         hostnames:
-          - "scrypted.garb.dev"
+          - "scrypted-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
