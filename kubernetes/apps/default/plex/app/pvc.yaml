@@ -80,6 +80,5 @@ spec:
       runAsGroup: 568
       fsGroup: 568
     retain:
-      hourly: 24
       daily: 10
-      weekly: 5
+      within: 3d
