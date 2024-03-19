@@ -31,17 +31,11 @@ spec:
     master:
       persistence:
         enabled: false
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
+      resourcesPreset: small
     replica:
       persistence:
         enabled: false
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
+      resourcesPreset: small
     sentinel:
       enabled: true
       masterSet: redis-master
@@ -50,10 +44,12 @@ spec:
         failureThreshold: 2
       persistence:
         enabled: false
+      resourcesPreset: small
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
         interval: 1m
+      resourcesPreset: small
     networkPolicy:
       enabled: false
