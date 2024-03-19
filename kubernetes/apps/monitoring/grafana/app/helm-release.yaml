@@ -29,6 +29,7 @@ spec:
     podAnnotations:
       reloader.stakater.com/auto: "true"
     env:
+      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
