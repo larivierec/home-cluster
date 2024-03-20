@@ -17,6 +17,14 @@ metadata:
   name: config
   namespace: networking
 spec:
+  telemetry:
+    metrics:
+      prometheus: {}
+  shutdown:
+    drainTimeout: 300s
+  logging:
+    level:
+      default: warn
   provider:
     type: Kubernetes
     kubernetes:
