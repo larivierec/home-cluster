@@ -104,3 +104,47 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-cert-tls
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: client-traffic-internal
+  namespace: networking
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: envoy-internal
+    namespace: networking
+  clientIPDetection:
+    xForwardedFor:
+      numTrustedHops: 1
+  tls:
+    minVersion: "1.2"
+    alpnProtocols:
+      - h2
+      - http/1.1
+  # http3:
+  #   enabled: true
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: client-traffic-external
+  namespace: networking
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: envoy-external
+    namespace: networking
+  clientIPDetection:
+    xForwardedFor:
+      numTrustedHops: 2
+  tls:
+    minVersion: "1.2"
+    alpnProtocols:
+      - h2
+      - http/1.1
+  # http3:
+  #   enabled: true
