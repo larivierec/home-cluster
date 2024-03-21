@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buroa/system-upgrade-controller
-              tag: v0.14.0@sha256:242e548988cb7e0a046fd8a2789823719b966924d368219882f72df37754dac7
+              tag: v0.14.1@sha256:c6b7f758714a058486d06b29da67357ce4d783b8dd6108ff2495625443e5cb34
             env:
               SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
               SYSTEM_UPGRADE_CONTROLLER_THREADS: 2
