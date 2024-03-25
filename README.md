@@ -201,12 +201,12 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
 | J4125 RS34g               | 1     | 250Gi mSATA             | -                           | 16Gi | OPNsense 24      | Router               |
+| Synology RS1221+          | 1     | 36Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Ubuntu 22.04     | Kubernetes Masters   |
-| MS-01                     | 2     | 250Gi NVMe              | 1Ti U.2 NVMe                | 64Gi | Ubuntu 22.04     | Kubernetes Worker    |
+| MS-01                     | 2     | 250Gi NVMe              | 1Ti U.2 NVMe                | 64Gi | Debian 12        | Kubernetes Workers   |
 | NVIDIA - GPU PC           | 1     | 250Gi NVMe              | 2Ti NVMe                    | 32Gi | Ubuntu 22.04     | Kubernetes Worker    |
-| Synology 920+             | 1     | 26Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
 ---
 
 # Base Node Install
