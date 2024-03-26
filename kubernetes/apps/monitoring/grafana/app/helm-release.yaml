@@ -250,10 +250,15 @@ spec:
           revision: 14
           datasource: Prometheus
       network:
+        # renovate: depName="blocky"
         blocky:
           gnetId: 13768
-          revision: 2
-          datasource: Prometheus
+          revision: 3
+          datasource:
+            - name: VAR_BLOCKY_URL
+              value: https:\\/\\/blocky.garb.dev
+            - name: DS_PROMETHEUS
+              value: Prometheus
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: Prometheus
@@ -262,7 +267,8 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         external-dns:
           # renovate: depName="External-dns"
           gnetId: 15038
@@ -281,7 +287,8 @@ spec:
           gnetId: 13502
           revision: 25
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
