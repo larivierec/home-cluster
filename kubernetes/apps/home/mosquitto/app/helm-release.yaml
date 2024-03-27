@@ -61,7 +61,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: "mosquitto.garb.dev"
+          coredns.io/hostname: mosquitto.garb.dev
         ports:
           mqtt:
             enabled: true

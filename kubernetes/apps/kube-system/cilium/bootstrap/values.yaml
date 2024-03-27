@@ -38,7 +38,7 @@ ingressController:
   loadBalancerMode: shared
   service:
     annotations:
-      io.cilium/lb-ipam-ips: "192.168.40.8"
+      io.cilium/lb-ipam-ips: 192.168.40.8
   defaultSecretName: wildcard-cert-tls
   defaultSecretNamespace: kube-system
 gatewayAPI:

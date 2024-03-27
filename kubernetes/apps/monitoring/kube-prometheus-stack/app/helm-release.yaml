@@ -202,6 +202,13 @@ spec:
         enabled: true
       thanosServiceMonitor:
         enabled: true
+      thanosServiceExternal:
+        enabled: true
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: thanos-svc.garb.dev
+          io.cilium/lb-ipam-ips: 192.168.40.12
+        externalTrafficPolicy: Cluster
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard

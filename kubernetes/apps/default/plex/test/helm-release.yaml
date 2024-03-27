@@ -76,7 +76,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: "plex-test.garb.dev"
+          coredns.io/hostname: plex-test.garb.dev
         ports:
           http:
             port: 32400
