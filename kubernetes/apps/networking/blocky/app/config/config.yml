@@ -25,11 +25,8 @@ ede:
   enable: false
 redis:
   required: false
-  address: redis-master
-  sentinelAddresses:
-    - redis-node-0.redis-headless.database.svc.cluster.local:26379
-    - redis-node-1.redis-headless.database.svc.cluster.local:26379
-    - redis-node-2.redis-headless.database.svc.cluster.local:26379
+  address: dragonfly.database.svc.cluster.local:6379
+  database: 2
 blocking:
   blackLists:
     ads:

@@ -19,4 +19,4 @@ spec:
         optional: false
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-    - name: cluster-apps-redis
+    - name: dragonfly
