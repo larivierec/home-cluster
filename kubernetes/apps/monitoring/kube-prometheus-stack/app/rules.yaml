@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: nginx.rules
-  namespace: default
+  namespace: networking
 spec:
   groups:
     - name: nginx.rules

@@ -9,6 +9,8 @@ resources:
   - ./grafana/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
+  - ./network-ups-tools/ks.yaml
+  - ./network-ups-tools-office/ks.yaml
   - ./opnsense/ks.yaml
   - ./thanos/ks.yaml
   - ./vector/ks.yaml
