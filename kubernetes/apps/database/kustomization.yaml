@@ -5,5 +5,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./redis/ks.yaml
   - ./cloudnative-pg/ks.yaml
+  - ./dragonfly/ks.yaml
+  - ./redis/ks.yaml
