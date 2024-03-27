@@ -198,10 +198,6 @@ spec:
             hosts:
               - *hostPrometheus
         ingressClassName: internal
-      # additionalDatasources:
-      #   - name: blocky-redis
-      #     type: standalone
-      #     url: *redis
       thanosService:
         enabled: true
       thanosServiceMonitor:

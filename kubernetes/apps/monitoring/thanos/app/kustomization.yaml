@@ -6,3 +6,9 @@ namespace: monitoring
 resources:
   - ./external-secret.yaml
   - ./helm-release.yaml
+configMapGenerator:
+  - name: thanos-cache-configmap
+    files:
+      - cache.yaml=./resources/cache.yaml
+generatorOptions:
+  disableNameSuffixHash: true
