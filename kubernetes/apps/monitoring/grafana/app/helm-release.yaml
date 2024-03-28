@@ -132,15 +132,6 @@ spec:
             allowUiUpdates: true
             options:
               path: /var/lib/grafana/dashboards/thanos
-          - name: "home"
-            orgId: 1
-            folder: "home"
-            type: file
-            updateIntervalSeconds: 10
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/home
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -201,12 +192,6 @@ spec:
         nvidia:
           gnetId: 12239
           revision: 2
-          datasource: Prometheus
-      home:
-        # Ref: https://grafana.com/grafana/dashboards/15406
-        nut:
-          gnetId: 15406
-          revision: 1
           datasource: Prometheus
       flux:
         flux-cluster:
