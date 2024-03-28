@@ -54,6 +54,11 @@ spec:
     service:
       app:
         controller: network-ups-tools
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.40.1
+          coredns.io/hostname: nut.garb.dev
+        externalTrafficPolicy: Cluster
         ports:
           http:
             port: 3493
@@ -109,9 +114,9 @@ spec:
               password  = "bacon"
               actions = SET
               instcmds = ALL
-              upsmon primary
+              upsmon master
           ups.conf: |-
-            [apc]
+            [ups]
               driver = "usbhid-ups"
               port = "auto"
               vendorid = "051D"
@@ -120,7 +125,7 @@ spec:
               vendor = "American Power Conversion"
               bus = "001"
           upsmon.conf: |-
-            MONITOR apc@localhost:3493 1 upsmon "bacon" primary
+            MONITOR ups@localhost:3493 1 upsmon "bacon" master
             SHUTDOWNCMD "/sbin/shutdown -h +0"
             POWERDOWNFLAG /etc/killpower
             POLLFREQ 15
