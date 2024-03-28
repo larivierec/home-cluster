@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app network-ups-client
+  namespace: monitoring
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.0.4
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      network-ups-client:
+        strategy: RollingUpdate
+        type: daemonset
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jr0dd/network-ups-tools
+              tag: v2.8.1@sha256:7999ff0ed6f4e31d64f8a6afc66dce26e147608c9d595f4f4fb7b4a6e442ae00
+            env:
+              TZ: "${TIMEZONE:=Etc/UTC}"
+            securityContext:
+              # required for powering down
+              privileged: true
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+        pod:
+          annotations:
+            configmap.reloader.stakater.com/reload: network-ups-client-config
+          tolerations:
+            - key: ups.feature.node.kubernetes.io/apc
+              operator: Exists
+              effect: NoSchedule
+    service:
+      app:
+        enabled: false
+        controller: *app
+    persistence:
+      config:
+        type: configMap
+        name: network-ups-client-config
+        defaultMode: 0400
+        globalMounts:
+          - path: /etc/nut
+    configMaps:
+      config:
+        enabled: true
+        data:
+          nut.conf: |-
+            MODE=netserver
+          upsd.conf: |-
+            MAXAGE 20
+            LISTEN 0.0.0.0
+          upsd.users: |-
+            [upsmon]
+              password  = "bacon"
+              upsmon slave
+          ups.conf: |-
+            [ups]
+              driver = "usbhid-ups"
+              port = "auto"
+              vendorid = "051D"
+              productid = "0002"
+              product = "Back-UPS NS 1500M2 FW:957.e4 .D USB FW:e4"
+              vendor = "American Power Conversion"
+              bus = "001"
+          upsmon.conf: |-
+            MONITOR ups@network-ups-tools-app.monitoring.svc.cluster.local:3493 1 upsmon "bacon" slave
+            SHUTDOWNCMD "/sbin/shutdown -h +0"
+            POWERDOWNFLAG /etc/killpower
+            POLLFREQ 15
+            POLLFREQALERT 5
+            HOSTSYNC 15
