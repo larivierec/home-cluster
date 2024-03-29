@@ -188,6 +188,13 @@ spec:
         dragonfly:
           url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dashboard.json
           datasource: Prometheus
+        synology-nas-details:
+          # renovate: depName="Synology NAS Details"
+          gnetId: 14284
+          revision: 9
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
       default:
         nvidia:
           gnetId: 12239
