@@ -6,7 +6,7 @@ metadata:
   name: dragonfly
   namespace: database
 spec:
-  image: ghcr.io/dragonflydb/dragonfly:v1.15.1
+  image: ghcr.io/dragonflydb/dragonfly:v1.16.0
   replicas: 3
   nodeSelector:
     node-role.kubernetes.io/worker: "true"
