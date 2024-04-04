@@ -31,8 +31,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/jr0dd/network-ups-tools
-              tag: v2.8.1@sha256:7999ff0ed6f4e31d64f8a6afc66dce26e147608c9d595f4f4fb7b4a6e442ae00
+              repository: ghcr.io/larivierec/nut-client
+              tag: latest@sha256:7798b2fdf1e8d7d55aeb19f487fdfb379bf8c7ff325039bb1d716ec2f4c1173c
             env:
               TZ: "${TIMEZONE:=Etc/UTC}"
             securityContext:
@@ -64,23 +64,7 @@ spec:
         enabled: true
         data:
           nut.conf: |-
-            MODE=netserver
-          upsd.conf: |-
-            MAXAGE 20
-            LISTEN 0.0.0.0
-          upsd.users: |-
-            [upsmon]
-              password  = "bacon"
-              upsmon slave
-          ups.conf: |-
-            [ups]
-              driver = "usbhid-ups"
-              port = "auto"
-              vendorid = "051D"
-              productid = "0002"
-              product = "Back-UPS NS 1500M2 FW:957.e4 .D USB FW:e4"
-              vendor = "American Power Conversion"
-              bus = "001"
+            MODE=netclient
           upsmon.conf: |-
             MONITOR ups@network-ups-tools-app.monitoring.svc.cluster.local:3493 1 upsmon "bacon" slave
             SHUTDOWNCMD "/sbin/shutdown -h +0"
