@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/nut-client
-              tag: latest@sha256:7798b2fdf1e8d7d55aeb19f487fdfb379bf8c7ff325039bb1d716ec2f4c1173c
+              tag: latest@sha256:8a0f14372049464f4dc862ebf5c30c8b60b8d84ddb64cf1c9637b78987eaba16
             env:
               TZ: "${TIMEZONE:=Etc/UTC}"
             securityContext:
