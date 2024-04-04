@@ -46,10 +46,8 @@ spec:
         pod:
           annotations:
             configmap.reloader.stakater.com/reload: network-ups-client-config
-          tolerations:
-            - key: ups.feature.node.kubernetes.io/apc
-              operator: Exists
-              effect: NoSchedule
+          nodeSelector:
+            ups.feature.node.kubernetes.io/apc: "false"
     service:
       app:
         enabled: false
