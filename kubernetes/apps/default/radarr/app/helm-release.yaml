@@ -43,6 +43,7 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
+            runAsNonRoot: true
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 65539
@@ -65,6 +66,10 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
     service:
       app:
         controller: *app

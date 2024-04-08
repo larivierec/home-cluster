@@ -36,9 +36,6 @@ spec:
             env:
               TZ: "UTC"
               QBITTORRENT__PORT: &port 8080
-            securityContext:
-              runAsUser: 568
-              runAsGroup: 568
             probes:
               liveness:
                 enabled: true
@@ -49,6 +46,15 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+            securityContext:
+              runAsUser: 568
+              runAsGroup: 568
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-18
@@ -80,14 +86,13 @@ spec:
               capabilities:
                 add:
                   - NET_ADMIN
+              allowPrivilegeEscalation: false
         annotations:
           configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
         pod:
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups:
-              - 65539
     service:
       app:
         controller: *app

@@ -37,6 +37,7 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
+            runAsNonRoot: true
             supplementalGroups:
               - 44 # video group
               - 105 # debian render group
