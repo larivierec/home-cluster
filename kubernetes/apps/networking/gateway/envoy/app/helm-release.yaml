@@ -23,3 +23,9 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  values:
+    deployment:
+      envoyGateway:
+        image:
+          repository: docker.io/envoyproxy/gateway
+          tag: v1.0.0
