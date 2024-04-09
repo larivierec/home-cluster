@@ -10,8 +10,7 @@ spec:
       rules:
         - alert: HighGpuUsage
           expr: |
-            sum by (Hostname, modelName) (rate(DCGM_FI_DEV_GPU_UTIL[15m])) 
-              > 0.85
+            rate(DCGM_FI_DEV_GPU_UTIL[15m]) > 0.85
           for: 15m
           labels:
             severity: warning
