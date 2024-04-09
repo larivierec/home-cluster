@@ -285,6 +285,7 @@ Note: Disable Secure Boot, otherwise PCIe Coral driver won't install.
 ```bash
 sudo apt install \
   nftables \
+  iptables \
   nfs-common \
   curl \
   containerd \
