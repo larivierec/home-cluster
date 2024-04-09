@@ -51,19 +51,12 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
         pod:
           securityContext:
             fsGroup: 568
             runAsGroup: 568
             runAsUser: 568
             fsGroupChangePolicy: "OnRootMismatch"
-            runAsNonRoot: true
-            supplementalGroups:
-              - 65539
     service:
       app:
         controller: *app
