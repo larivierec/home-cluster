@@ -37,4 +37,4 @@ resources:
   - ./spegel.yaml
   - ./stakater.yaml
   - ./stevehipwell.yaml
-  - ./weaveworks.yaml
+  - ./tofu-controller.yaml

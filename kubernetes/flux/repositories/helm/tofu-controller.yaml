@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: weaveworks
+  name: tofu-controller
   namespace: flux-system
 spec:
   type: oci
   interval: 5m
-  url: oci://ghcr.io/weaveworks/charts
+  url: oci://ghcr.io/flux-iac/charts

@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: tf-controller
-      version: 0.16.0-rc.3
+      version: 0.16.0-rc.4
       sourceRef:
         kind: HelmRepository
-        name: weaveworks
+        name: tofu-controller
         namespace: flux-system
       interval: 30m
   maxHistory: 2
@@ -25,15 +25,12 @@ spec:
     remediation:
       retries: 3
   values:
-    installCRDs: true
     metrics:
       enabled: true
       serviceMonitor:
         enabled: true
         interval: 1m
-    awsPackage:
-      install: false
     runner:
       image:
         repository: ghcr.io/larivierec/tf-runner-bw
-        tag: 0.16.0-rc.3@sha256:16db38f36eb58990d8b0c598ba8c4cd0f12662a83bb8632cb9c75c2bf4a47426
+        tag: 0.16.0-rc.4@sha256:a0728ab17e86f6b62c83adbdb032a690a42e0700a89e6c2b7a91ccd486c4cf85
