@@ -71,6 +71,13 @@ spec:
           rtsp:
             enabled: true
             port: &restream-port 8554
+      ws:
+        enabled: true
+        controller: *app
+        ports:
+          http:
+            port: &ws-port 5000
+            appProtocol: wss
       external-rtsp:
         enabled: true
         controller: *app
@@ -111,8 +118,21 @@ spec:
           - backendRefs:
               - port: *port
                 name: frigate-app
-            timeouts:
-              backendRequest: 10m
+      ws:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        hostnames:
+          - "frigate.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *ws-port
+                name: frigate-ws
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /ws
       go2rtc:
         enabled: true
         parentRefs:
