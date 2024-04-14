@@ -116,18 +116,6 @@ spec:
       replicas: 2
       image:
         registry: ghcr.io
-      ingress:
-        enabled: true
-        ingressClassName: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.garb.dev"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
     lokiCanary:
       enabled: false
     monitoring:
