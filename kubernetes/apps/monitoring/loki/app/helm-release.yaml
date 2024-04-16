@@ -40,7 +40,17 @@ spec:
       kind: Secret
       name: loki
       valuesKey: AWS_SECRET_ACCESS_KEY
+    - targetPath: loki.storage.s3.endpoint
+      kind: Secret
+      name: loki
+      valuesKey: BUCKET_HOST
+    - kind: Secret
+      name: loki
+      valuesKey: BUCKET_REGION
+      targetPath: loki.storage.s3.region
   values:
+    minio:
+      enabled: false
     deploymentMode: SimpleScalable
     loki:
       ingester:
@@ -50,7 +60,6 @@ spec:
         s3:
           s3forcepathstyle: true
           insecure: true
-          endpoint: "minio.system.svc.cluster.local:9000"
         bucketNames:
           chunks: loki
       schemaConfig:
