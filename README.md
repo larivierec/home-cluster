@@ -282,6 +282,46 @@ tls                   114688  1 bonding
 
 Note: Disable Secure Boot, otherwise PCIe Coral driver won't install.
 
+1. [Install]
+
+Choose "Guided - use entire disk"
+Choose "All files in one partition"
+Delete Swap partition
+Uncheck all Debian desktop environment options
+
+2. [Post Install] Remove CD-Rom
+
+```bash
+su -
+sed -i '/deb cdrom/d' /etc/apt/sources.list
+apt update
+exit
+```
+
+3. [Post Install] Enable sudo non-root
+
+```bash
+su -
+apt update
+apt install -y sudo
+usermod -aG sudo ${username}
+echo "${username} ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/${username}
+exit
+newgrp sudo
+sudo apt update
+```
+
+4. [Post Install] Add github ssh keys
+
+```bash
+mkdir -m 700 ~/.ssh
+sudo apt install -y curl
+curl https://github.com/${github_username}.keys > ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+```
+
+5. [Post Install] Add extra required packages
+
 ```bash
 sudo apt install \
   nftables \

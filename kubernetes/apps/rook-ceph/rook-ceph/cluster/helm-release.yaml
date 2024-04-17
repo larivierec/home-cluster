@@ -96,6 +96,9 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
+          - name: k3s-wg-0
+            devices:
+              - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
           - name: k3s-wg-1
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D6C0

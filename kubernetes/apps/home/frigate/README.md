@@ -6,7 +6,7 @@ For Kernel 6.5.X HWE more instability was detected.
 sudo apt remove gasket-dkms
 sudo apt install git -y
 sudo apt install devscripts -y
-sudo apt install dkms -y # dh-dkms on debian
+sudo apt install dh-dkms -y # dh-dkms on debian
 sudo apt install debhelper -y
 
 git clone https://github.com/google/gasket-driver.git
