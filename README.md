@@ -284,10 +284,12 @@ Note: Disable Secure Boot, otherwise PCIe Coral driver won't install.
 
 1. [Install]
 
+```text
 Choose "Guided - use entire disk"
 Choose "All files in one partition"
 Delete Swap partition
 Uncheck all Debian desktop environment options
+```
 
 2. [Post Install] Remove CD-Rom
 
