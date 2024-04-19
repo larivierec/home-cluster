@@ -128,6 +128,9 @@ spec:
     lokiCanary:
       enabled: false
     monitoring:
+      dashboards:
+        annotations:
+          grafana_folder: Loki
       serviceMonitor:
         enabled: true
         metricsInstance:
