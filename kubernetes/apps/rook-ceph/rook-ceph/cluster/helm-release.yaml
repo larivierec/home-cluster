@@ -106,9 +106,6 @@ spec:
             devices:
               - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX1KB04362R
               - name: /dev/disk/by-id/ata-Corsair_Neutron_GTX_SSD_1318790400009714005B
-          - name: k3s-wg-2
-            devices:
-              - name: /dev/disk/by-id/nvme-Samsung_SSD_960_EVO_250GB_S3ESNX0J241849W
       placement:
         mgr: &placement
           nodeAffinity:
