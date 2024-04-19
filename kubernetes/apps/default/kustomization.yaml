@@ -9,7 +9,6 @@ resources:
   - ./echo/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml
-  - ./ollama/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./radarr/ks.yaml
