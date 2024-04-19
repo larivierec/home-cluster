@@ -58,7 +58,7 @@ spec:
       storage:
         type: s3
         s3:
-          s3forcepathstyle: true
+          s3ForcePathStyle: true
           insecure: true
         bucketNames:
           chunks: loki
