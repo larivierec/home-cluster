@@ -31,6 +31,15 @@ spec:
     nodeSelector:
       nvidia.feature.node.kubernetes.io/gpu: "true"
     runtimeClassName: nvidia
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: feature.node.kubernetes.io/pci-0300_10de.present
+                  operator: In
+                  values:
+                    - "true"
     config:
       map:
         default: |-
