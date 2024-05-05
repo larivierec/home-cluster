@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./atuin/ks.yaml
+  - ./bedroompi/ks.yaml
   - ./echo/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml

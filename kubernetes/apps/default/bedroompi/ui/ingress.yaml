@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bedroompi
+  namespace: default
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host bedroompi.garb.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bedroompi
+                port:
+                  number: 9000
+  tls:
+    - hosts:
+        - *host
+      secretName: wildcard-cert-tls
