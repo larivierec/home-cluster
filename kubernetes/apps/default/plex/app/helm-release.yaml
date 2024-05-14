@@ -47,7 +47,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/plex-beta
-              tag: 1.40.2.8395-c67dce28e@sha256:42ec63b7ea477b3dfe376862d82f1c398edb3bf34b40f616b629c149ad1ed194
+              tag: 1.40.2.8395-c67dce28e@sha256:6ad7bd6368a01438f182bb015253648e6d1ee074ff7bd0858cd1ab3345a05690
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
