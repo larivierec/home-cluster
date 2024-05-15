@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.64.2
+              tag: v1.66.3
             env:
               TZ: "UTC"
               NO_AUTOUPDATE: "true"
