@@ -41,16 +41,16 @@ spec:
             env:
               TZ: "UTC"
               NO_AUTOUPDATE: true
-              TS_KUBE_SECRET: tailscale-state
+              TS_KUBE_SECRET: ""
               SA_NAME: tailscale
               TS_HOSTNAME: "tailscale-k8s-gateway"
               TS_USERSPACE: true
               TS_ROUTES: "192.168.0.0/16"
               TS_STATE_DIR: &path /tmp
-              TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:k8s --accept-routes --snat-subnet-routes=false"
+              TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:cluster-node --accept-routes --snat-subnet-routes=false"
             envFrom:
               - secretRef:
-                  name: tailscale-auth
+                  name: tailscale-secret
             resources:
               requests:
                 cpu: 10m
@@ -72,7 +72,7 @@ spec:
                   - ALL
         pod:
           annotations:
-            configmap.reloader.stakater.com/reload: tailscale-auth
+            configmap.reloader.stakater.com/reload: tailscale-secret
     persistence:
       cache:
         type: emptyDir
