@@ -26,21 +26,27 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
     controllers:
       tailscale-gateway:
         containers:
           app:
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.66.3
+              tag: v1.66.3@sha256:cf8e97667e8be250caaed88694cec0befe11040bbd5a3de3b33086cc52ef4eb1
             env:
               TZ: "UTC"
-              NO_AUTOUPDATE: "true"
+              NO_AUTOUPDATE: true
               TS_KUBE_SECRET: tailscale-state
               SA_NAME: tailscale
               TS_HOSTNAME: "tailscale-k8s-gateway"
-              TS_USERSPACE: "true"
+              TS_USERSPACE: true
               TS_ROUTES: "192.168.0.0/16"
+              TS_STATE_DIR: &path /tmp
               TS_EXTRA_ARGS: "--advertise-exit-node --advertise-tags=tag:k8s --accept-routes --snat-subnet-routes=false"
             envFrom:
               - secretRef:
@@ -58,12 +64,24 @@ spec:
                 enabled: false
               startup:
                 enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
           annotations:
             configmap.reloader.stakater.com/reload: tailscale-auth
+    persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /.cache
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: *path
     service:
       app:
         controller: *app
