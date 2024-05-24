@@ -27,8 +27,6 @@ spec:
     keepHistory: false
   values:
     csi:
-      provisioner:
-        image: registry.k8s.io/sig-storage/csi-provisioner:v4.0.1
       cephFSKernelMountOptions: ms_mode=prefer-crc
       enableLiveness: true
       serviceMonitor:
@@ -37,6 +35,6 @@ spec:
       enabled: true
     resources:
       requests:
-        memory: 128Mi # unchangable
-        cpu: 100m # unchangable
+        memory: 128Mi # unchangeable
+        cpu: 100m # unchangeable
       limits: {}
