@@ -19,6 +19,7 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "dependencyDashboardTitle": "Renovate Dashboard",
   "rebaseWhen": "conflicted",
+  ignorePaths: [".archive/**"],
   "helm-values": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
