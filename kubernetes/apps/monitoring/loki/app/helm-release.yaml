@@ -27,6 +27,8 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
+    - name: prometheus
+      namespace: monitoring
     - name: minio
       namespace: system
     - name: local-path-provisioner

@@ -13,6 +13,7 @@ resources:
   - ./network-ups-tools/ks.yaml
   - ./network-ups-tools-office/ks.yaml
   - ./opnsense/ks.yaml
+  - ./prometheus-operator-crds/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./thanos/ks.yaml
   - ./vector/ks.yaml

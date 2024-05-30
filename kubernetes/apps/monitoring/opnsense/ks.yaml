@@ -17,4 +17,5 @@ spec:
       - kind: Secret
         name: cluster-secrets
   dependsOn:
-    - name: cluster-apps-kube-prometheus-stack
+    - name: kube-prometheus-stack
+      namespace: flux-system

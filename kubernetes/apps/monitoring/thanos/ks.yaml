@@ -18,5 +18,4 @@ spec:
         name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-    - name: cluster-apps-kube-prometheus-stack
     - name: cluster-apps-minio
