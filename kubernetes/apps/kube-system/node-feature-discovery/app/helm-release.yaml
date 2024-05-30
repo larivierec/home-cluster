@@ -40,7 +40,7 @@ spec:
           cpu: 15m
           memory: 64M
         limits:
-          cpu: 150m
+          cpu: 300m
           memory: 64M
     gc:
       resources:
