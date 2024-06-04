@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/plex-beta
-              tag: 1.40.3.8502-f4f0b17e1@sha256:298e34539353a1d0896564e9ca77b457619997ee5cd89bfa66d811abaaaf4122
+              tag: 1.40.3.8530-ac2fe9b3c@sha256:bbef831c42c47a56741e584f7f771a6e1345e4871a2f5eae1993a0d730921166
             env:
               TZ: "UTC"
             securityContext:
