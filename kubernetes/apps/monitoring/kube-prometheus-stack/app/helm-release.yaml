@@ -183,12 +183,6 @@ spec:
               sourceLabels:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
-    prometheusOperator:
-      tls:
-        enabled: false
-      admissionWebhooks:
-        enabled: false
-        affinity: *affinity
     prometheus:
       enabled: true
       ingress:
