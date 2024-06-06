@@ -97,6 +97,15 @@ spec:
             port: 443
             protocol: TCP
             targetPort: 443
+    serviceMonitor:
+      app:
+        serviceName: blocky-app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 30s
     # ingress:
     #   app:
     #     enabled: true
@@ -135,16 +144,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: blocky-app
-    serviceMonitor:
-      app:
-        enabled: true
-        serviceName: blocky-app
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 30s
-            scrapeTimeout: 30s
     persistence:
       config:
         enabled: true

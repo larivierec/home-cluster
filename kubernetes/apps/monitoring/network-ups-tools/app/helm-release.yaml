@@ -73,7 +73,6 @@ spec:
             protocol: TCP
     serviceMonitor:
       app:
-        enabled: true
         serviceName: network-ups-tools-metrics
         endpoints:
           - port: metrics
