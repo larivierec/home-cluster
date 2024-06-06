@@ -5,6 +5,7 @@ resources:
   - ./actions-runner-controller.yaml
   - ./angelnu.yaml
   - ./backube.yaml
+  - ./bitwarden.yaml
   - ./bjw-s.yaml
   - ./coredns.yaml
   - ./cilium.yaml

@@ -1,0 +1,20 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: bitwarden-sm-operator
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/apps/kube-system/bitwarden-sm-operator/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: false
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: vault-secrets
+  dependsOn:
+    - name: cluster-apps-external-secrets
