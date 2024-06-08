@@ -148,6 +148,10 @@ spec:
         existingClaim: plex-cache
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Logs
       media:
         enabled: true
         type: custom
@@ -163,6 +167,6 @@ spec:
         globalMounts:
           - path: /config/backup
       tmp:
-        enabled: true
         type: emptyDir
-        medium: Memory
+      transcode:
+        type: emptyDir
