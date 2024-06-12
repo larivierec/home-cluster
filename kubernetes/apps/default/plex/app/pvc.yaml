@@ -68,7 +68,7 @@ spec:
     pruneIntervalDays: 10
     repository: volsync-plex
     volumeSnapshotClassName: csi-ceph-blockpool
-    cacheCapacity: 8Gi
+    cacheCapacity: 50Gi
     cacheStorageClassName: ceph-block
     cacheAccessModes:
       - ReadWriteOnce
