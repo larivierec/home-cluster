@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: quay.io/minio/minio
-              tag: RELEASE.2024-06-26T01-06-18Z
+              tag: RELEASE.2024-06-28T09-06-49Z
             args: ["server", "/data", "--console-address", ":9001"]
             envFrom:
               - secretRef:
