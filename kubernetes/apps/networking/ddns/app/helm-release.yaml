@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/cloudflare-ddns
-              tag: main@sha256:1468223e794b3db62aa4eb5423a2a01ba76ba1b15533ea5c060407def8b34150
+              tag: main@sha256:b00db3ccf5dedf4d43af5f6ce831c5985cec3bbd1c75814e4f1faa1e1ed0a940
             args:
               - --zone-name
               - garb.dev
