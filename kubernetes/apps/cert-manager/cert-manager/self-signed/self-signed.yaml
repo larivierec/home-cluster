@@ -12,4 +12,4 @@ metadata:
   name: eso-ca
 spec:
   ca:
-    secretName: eso-ca
+    secretName: bitwarden-tls-certs
