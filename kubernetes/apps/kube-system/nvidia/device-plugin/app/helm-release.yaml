@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: nvcr.io/nvidia/k8s-device-plugin
-      tag: v0.15.1
+      tag: v0.16.0
     nodeSelector:
       nvidia.feature.node.kubernetes.io/gpu: "true"
     runtimeClassName: nvidia
