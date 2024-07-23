@@ -28,4 +28,4 @@ spec:
       envoyGateway:
         image:
           repository: docker.io/envoyproxy/gateway
-          tag: v1.0.2
+          tag: v1.1.0
