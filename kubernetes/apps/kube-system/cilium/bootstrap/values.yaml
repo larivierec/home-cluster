@@ -33,31 +33,39 @@ hubble:
     enabled: true
     annotations:
       grafana_folder: Cilium
+  ui:
+    enabled: true
+    ingress:
+      enabled: true
+      className: internal
+      hosts:
+        - &host hubble.garb.dev
+      tls:
+        - hosts:
+            - *host
+          secretName: wildcard-cert-tls
+    rollOutPods: true
 ingressController:
-  enabled: true
-  loadBalancerMode: shared
-  service:
-    annotations:
-      io.cilium/lb-ipam-ips: 192.168.40.8
-  defaultSecretName: wildcard-cert-tls
-  defaultSecretNamespace: kube-system
+  enabled: false
 gatewayAPI:
-  enabled: true
+  enabled: false # using envoy
 l7Proxy: true
+loadBalancer:
+  algorithm: maglev
+  mode: dsr
+  l7:
+    backend: envoy
 envoy:
   enabled: true
-  rollOutPods: true
-autoDirectNodeRoutes: true
 ipam:
   mode: kubernetes
+autoDirectNodeRoutes: true
+routingMode: native
 ipv4NativeRoutingCIDR: 10.42.0.0/16
 k8sServiceHost: 192.168.30.1
 k8sServicePort: 6443
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
 localRedirectPolicy: true
 operator:
   rollOutPods: true
@@ -91,4 +99,3 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-tunnel: disabled

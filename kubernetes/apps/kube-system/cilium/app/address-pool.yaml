@@ -4,6 +4,6 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: bgp-address-pool
 spec:
-  cidrs:
+  blocks:
     - cidr: 192.168.40.0/24
   disabled: false
