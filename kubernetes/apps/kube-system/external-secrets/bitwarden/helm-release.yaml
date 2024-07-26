@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/bitwarden-cli
-              tag: 2024.6.0@sha256:aca7b5e3c555e3330be2b69ea1e33827ecf1a4c777a3c8c184f1fd50ade2b8f9
+              tag: 2024.7.1@sha256:cd3d9990ba5e5b3f8f30a33bdecb59588408a2ac1d7de964f65cf98a9efd2a09
             env:
               BW_CLIENTID: ${BW_CLIENTID}
               BW_CLIENTSECRET: ${BW_CLIENTSECRET}
