@@ -6,7 +6,7 @@ metadata:
   namespace: system
   annotations:
     coredns.io/hostname: unifi-controller.garb.dev
-    io.cilium/lb-ipam-ips: 192.168.40.9
+    lbipam.cilium.io/ips: 192.168.40.9
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster

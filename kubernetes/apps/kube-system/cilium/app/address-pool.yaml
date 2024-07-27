@@ -1,9 +1,0 @@
----
-apiVersion: cilium.io/v2alpha1
-kind: CiliumLoadBalancerIPPool
-metadata:
-  name: bgp-address-pool
-spec:
-  blocks:
-    - cidr: 192.168.40.0/24
-  disabled: false

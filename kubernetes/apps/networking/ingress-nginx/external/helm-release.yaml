@@ -65,7 +65,7 @@ spec:
         externalTrafficPolicy: Cluster
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ingress.garb.dev
-          io.cilium/lb-ipam-ips: 192.168.40.3
+          lbipam.cilium.io/ips: 192.168.40.3
       extraArgs:
         default-ssl-certificate: networking/wildcard-cert-tls
       publishService:
