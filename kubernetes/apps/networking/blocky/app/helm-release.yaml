@@ -75,7 +75,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.40.7
+          lbipam.cilium.io/ips: 192.168.40.7
         ports:
           dns-udp:
             enabled: true

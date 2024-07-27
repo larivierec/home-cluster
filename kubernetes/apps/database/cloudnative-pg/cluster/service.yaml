@@ -6,7 +6,7 @@ metadata:
   namespace: database
   annotations:
     coredns.io/hostname: postgres.garb.dev
-    io.cilium/lb-ipam-ips: 192.168.40.11
+    lbipam.cilium.io/ips: 192.168.40.11
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster

@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-      version: 1.15.7
+      version: 1.16.0
   interval: 30m
   maxHistory: 2
   install:
@@ -76,7 +76,11 @@ spec:
     ingressController:
       enabled: false
     gatewayAPI:
-      enabled: false # using envoy
+      enabled: true
+      enableAlpn: true
+      enableAppProtocol: true
+      gatewayClass:
+        create: "false" # using envoy
     l7Proxy: true
     loadBalancer:
       algorithm: maglev
@@ -90,6 +94,8 @@ spec:
     autoDirectNodeRoutes: true
     routingMode: native
     ipv4NativeRoutingCIDR: 10.42.0.0/16
+    k8s:
+      requireIPv4PodCIDR: true
     k8sServiceHost: 192.168.30.1
     k8sServicePort: 6443
     kubeProxyReplacement: true

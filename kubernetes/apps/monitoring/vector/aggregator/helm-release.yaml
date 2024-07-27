@@ -75,7 +75,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.40.6
+          lbipam.cilium.io/ips: 192.168.40.6
           coredns.io/hostname: vector.garb.dev
         ports:
           http:

@@ -59,7 +59,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.40.2
+          lbipam.cilium.io/ips: 192.168.40.2
       publishService:
         enabled: true
       updateStrategy:
