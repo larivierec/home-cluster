@@ -62,6 +62,7 @@ spec:
         externalTrafficPolicy: Cluster
         annotations:
           coredns.io/hostname: mosquitto.garb.dev
+          io.cilium/lb-ipam-ips: 192.168.40.8
         ports:
           mqtt:
             enabled: true
