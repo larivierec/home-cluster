@@ -4,5 +4,6 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./helm-release.yaml
-  - ./address-pool.yaml
-  - ./peering-policy.yaml
+  - ./bgpv2.yaml
+  # - ./address-pool.yaml
+  # - ./peering-policy.yaml
