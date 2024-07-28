@@ -92,7 +92,7 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: overseerr-cilium.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
