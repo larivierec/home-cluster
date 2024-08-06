@@ -76,11 +76,11 @@ spec:
     ingressController:
       enabled: false
     gatewayAPI:
-      enabled: true
+      enabled: false # using envoy
       enableAlpn: true
       enableAppProtocol: true
       gatewayClass:
-        create: "false" # using envoy
+        create: "false"
     l7Proxy: true
     loadBalancer:
       algorithm: maglev
