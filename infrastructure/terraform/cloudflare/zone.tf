@@ -20,12 +20,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
     # site settings
     security_level = "medium"
     brotli         = "on"
-    minify {
-      css  = "on"
-      js   = "on"
-      html = "on"
-    }
-    rocket_loader = "off"
+    rocket_loader  = "off"
 
     # network
     http3               = "on"

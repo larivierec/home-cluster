@@ -9,6 +9,6 @@ resource "cloudflare_record" "tunnel-ingress" {
   type    = "CNAME"
   zone_id = data.cloudflare_zone.default.zone_id
   proxied = true
-  value   = cloudflare_tunnel.this.cname
+  content = cloudflare_tunnel.this.cname
   comment = "Created via Terraform"
 }

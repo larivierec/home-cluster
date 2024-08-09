@@ -48,7 +48,7 @@ resource "cloudflare_record" "a" {
   type     = "A"
   ttl      = each.value.ttl
   proxied  = each.value.proxied
-  value    = each.value.ip
+  content  = each.value.ip
   comment  = local.comment
 }
 
@@ -59,7 +59,7 @@ resource "cloudflare_record" "cname" {
   type     = "CNAME"
   ttl      = each.value.ttl
   proxied  = each.value.proxied
-  value    = each.value.cname
+  content  = each.value.cname
   comment  = local.comment
 }
 
@@ -70,7 +70,7 @@ resource "cloudflare_record" "mx" {
   type     = "MX"
   ttl      = each.value.ttl
   priority = each.value.priority
-  value    = each.value.address
+  content  = each.value.address
   comment  = local.comment
 }
 
@@ -80,6 +80,6 @@ resource "cloudflare_record" "txt" {
   name     = each.value.record
   type     = "TXT"
   ttl      = each.value.ttl
-  value    = each.value.data
+  content  = each.value.data
   comment  = local.comment
 }
