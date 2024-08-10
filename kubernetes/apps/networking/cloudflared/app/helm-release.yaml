@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: cloudflare/cloudflared
-              tag: 2024.8.2
+              tag: 2024.6.1
             args:
               - tunnel
               - --config
@@ -53,6 +53,7 @@ spec:
               TUNNEL_POST_QUANTUM: true
               TUNNEL_METRICS: 0.0.0.0:9090
               TUNNEL_MANAGEMENT_DIAGNOSTICS: false
+              TUNNEL_ORIGIN_ENABLE_HTTP2: true
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
