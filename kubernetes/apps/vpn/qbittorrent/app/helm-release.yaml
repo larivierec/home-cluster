@@ -104,7 +104,7 @@ spec:
     #     enabled: true
     #     className: internal
     #     hosts:
-    #       - host: &host "qbittorrent.garb.dev"
+    #       - host: &host "qbitt.garb.dev"
     #         paths:
     #           - path: /
     #             service:
@@ -121,7 +121,7 @@ spec:
           - name: envoy-internal
             namespace: networking
         hostnames:
-          - "qbittorrent.garb.dev"
+          - "qbitt.garb.dev"
         rules:
           - backendRefs:
               - port: *port
@@ -132,7 +132,7 @@ spec:
           - name: cilium-internal
             namespace: networking
         hostnames:
-          - "qbittorrent-cilium.garb.dev"
+          - "qbitt-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
