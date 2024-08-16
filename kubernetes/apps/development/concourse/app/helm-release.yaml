@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: concourse
+  namespace: development
+spec:
+  suspend: true
+  interval: 5m
+  chart:
+    spec:
+      chart: concourse
+      version: 17.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: concourse
+        namespace: flux-system
+      interval: 5m
+  # valuesFrom:
+  #   - kind: Secret
+  #     name: concourse-values
+  values:
+    concourse:
+      web:
+        externalUrl: https://concourse.garb.dev
+        encryption:
+          enabled: true
+        kubernetes:
+          teams:
+            - development
+          createTeamNamespaces: false
+        prometheus:
+          enabled: true
+          ServiceMonitor:
+            enabled: true
+        auth:
+          mainTeam:
+            localUser: concourse
+    persistence:
+      worker:
+        storageClass: ceph-block
+    web:
+      ingress:
+        enabled: true
+        hosts:
+          - &host concourse.garb.dev
+        tls:
+          - secretName: wildcard-cert-tls
+            hosts:
+              - *host
