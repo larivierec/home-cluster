@@ -24,6 +24,18 @@ spec:
       source: &previousCluster postgres-v16-v1
   monitoring:
     enablePodMonitor: true
+  # managed:
+  #   services:
+  #     additional:
+  #       - selectorType: rw
+  #         serviceTemplate:
+  #           metadata:
+  #             name: postgres-lb
+  #             annotations:
+  #               coredns.io/hostname: postgres.garb.dev
+  #               lbipam.cilium.io/ips: 192.168.40.11
+  #           spec:
+  #             type: LoadBalancer
   backup:
     retentionPolicy: 30d
     barmanObjectStore:
