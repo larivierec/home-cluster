@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2024.8.2
+              tag: 2024.8.3
             env:
               TZ: "UTC"
               POSTGRES_HOST: postgres-v16-rw.database.svc.cluster.local
