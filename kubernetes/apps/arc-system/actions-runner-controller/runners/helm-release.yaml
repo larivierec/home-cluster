@@ -5,6 +5,7 @@ metadata:
   name: runner-home-cluster
   namespace: arc-system
 spec:
+  suspend: true
   interval: 30m
   chart:
     spec:
