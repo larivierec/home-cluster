@@ -13,129 +13,27 @@
     "github>larivierec/home-cluster//.github/renovate/autoMerge.json5",
     "github>larivierec/home-cluster//.github/renovate/disabledDatasources.json5",
     "github>larivierec/home-cluster//.github/renovate/groups.json5",
-    "github>larivierec/home-cluster//.github/renovate/grafanaDashboards.json5"
+    "github>larivierec/home-cluster//.github/renovate/grafanaDashboards.json5",
+    "github>larivierec/home-cluster//.github/renovate/versioning.json5"
   ],
-  "timezone": "America/New_York",
-  "suppressNotifications": ["prIgnoreNotification"],
-  "dependencyDashboardTitle": "Renovate Dashboard",
-  "rebaseWhen": "conflicted",
+  timezone: "America/New_York",
+  suppressNotifications: ["prIgnoreNotification"],
+  dependencyDashboardTitle: "Renovate Dashboard",
+  rebaseWhen: "conflicted",
   ignorePaths: [".archive/**"],
   "helm-values": {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
-  "kubernetes": {
+  kubernetes: {
     "fileMatch": ["kubernetes/.+\\.ya?ml$"],
   },
-  "terraform": {
+  terraform: {
     "fileMatch": ["infrastructure/.+\\.tf$"],
   },
-  "flux": {
+  flux: {
     "fileMatch": [
       "kubernetes/.+\\.ya?ml$"
     ]
-  },
-  "regexManagers": [
-    {
-      "customType": "regex",
-      "description": "Process CloudnativePG Postgresql version",
-      "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
-      ],
-      "matchStrings": [
-        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
-      ],
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "redhat"
-    }
-  ],
-  "packageRules": [
-    // Setup datasources
-    {
-      "matchDatasources": ["helm"],
-      "semanticCommitScope": "charts",
-      "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "to {{{newValue}}}",
-      "separateMinorPatch": true,
-      "ignoreDeprecated": true,
-    },
-    {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat(charts)!: ",
-    },
-    {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": "feat",
-    },
-    {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": "fix",
-    },
-    {
-      "matchDatasources": ["docker"],
-      "enabled": true,
-      "matchUpdateTypes": ["major", "minor", "patch"]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat(images)!: ",
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": "feat",
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": "fix",
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest"],
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "container",
-      "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )"
-    },
-    {
-      "matchDatasources": ["terraform-provider"],
-    },
-    {
-      "matchDatasources": ["docker"],
-      "versioning": "loose",
-      "matchPackageNames": [
-        "ghcr.io/onedr0p/plex",
-        "ghcr.io/onedr0p/plex-beta",
-      ]
-    },
-    {
-      "description": "Custom versioning for frigate",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$",
-      "matchPackageNames": ["ghcr.io/blakeblackshear/frigate"]
-    },
-    {
-      description: "Custom versioning for Scrypted",
-      matchDatasources: ["docker"],
-      "versioning": "regex:^(v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+))-(?<ubuntuVersion>.*?)-(?<scryptedFlavor>.*?)$",
-      "matchPackageNames": ["ghcr.io/koush/scrypted"],
-    },
-    {
-      "description": "Custom versioning for k3s",
-      "matchDatasources": ["github-releases"],
-      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
-      "matchPackagePatterns": ["k3s"]
-    },
-    {
-      "description": "minio",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
-      "matchPackageNames": ["quay.io/minio/minio"],
-    },
-  ],
+  }
 }
 
