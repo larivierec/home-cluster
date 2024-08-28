@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/longhorn-system/longhorn/app"
+  path: "./kubernetes/main/apps/longhorn-system/longhorn/app"
   prune: true
   sourceRef:
     kind: GitRepository

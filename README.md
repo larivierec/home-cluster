@@ -158,7 +158,7 @@ flux bootstrap github \
   --owner=$GITHUB_USER \
   --repository=home-cluster \
   --branch=main \
-  --path=./kubernetes/bootstrap \
+  --path=./kubernetes/main/bootstrap \
   --personal
 ```
 

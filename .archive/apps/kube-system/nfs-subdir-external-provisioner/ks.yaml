@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/kube-system/nfs-subdir-external-provisioner/app"
+  path: "./kubernetes/main/apps/kube-system/nfs-subdir-external-provisioner/app"
   prune: true
   sourceRef:
     kind: GitRepository

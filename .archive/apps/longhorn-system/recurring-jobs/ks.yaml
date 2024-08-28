@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 10m
-  path: "./kubernetes/apps/longhorn-system/recurring-jobs/app"
+  path: "./kubernetes/main/apps/longhorn-system/recurring-jobs/app"
   prune: true
   sourceRef:
     kind: GitRepository

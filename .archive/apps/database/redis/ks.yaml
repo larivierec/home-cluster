@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/database/redis/app"
+  path: "./kubernetes/main/apps/database/redis/app"
   prune: true
   sourceRef:
     kind: GitRepository

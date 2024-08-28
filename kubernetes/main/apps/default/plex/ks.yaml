@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-plex
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/default/plex/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: plex-test
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/default/plex/test"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true

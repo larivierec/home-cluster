@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/metallb-system/metallb/app"
+  path: "./kubernetes/main/apps/metallb-system/metallb/app"
   prune: true
   sourceRef:
     kind: GitRepository

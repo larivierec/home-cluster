@@ -1,0 +1,30 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-crds
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/gateway-system/gateway-api/crd"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-webhook
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/gateway-system/gateway-api/webhook"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
+  dependsOn:
+    - name: gateway-api-crds

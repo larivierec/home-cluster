@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/default/ollama/backend"
+  path: "./kubernetes/main/apps/default/ollama/backend"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -22,7 +22,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/apps/default/ollama/ui"
+  path: "./kubernetes/main/apps/default/ollama/ui"
   prune: true
   sourceRef:
     kind: GitRepository
