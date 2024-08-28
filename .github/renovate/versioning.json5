@@ -1,0 +1,52 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    {
+      matchDatasources: ["docker"],
+      versioning: "loose",
+      matchPackageNames: [
+        "ghcr.io/onedr0p/plex",
+        "ghcr.io/onedr0p/plex-beta",
+      ]
+    },
+    {
+      description: "Custom versioning for frigate",
+      matchDatasources: ["docker"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$",
+      matchPackageNames: ["ghcr.io/blakeblackshear/frigate"]
+    },
+    // {
+    //   description: "Custom versioning for Scrypted",
+    //   matchDatasources: ["docker"],
+    //   versioning: "regex:^(v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+))-(?<ubuntuVersion>.*?)-(?<scryptedFlavor>.*?)$",
+    //   matchPackageNames: ["ghcr.io/koush/scrypted"],
+    // },
+    {
+      description: "Custom versioning for k3s",
+      matchDatasources: ["github-releases"],
+      versioning: "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
+      matchPackagePatterns: ["k3s"]
+    },
+    {
+      description: "minio",
+      matchDatasources: ["docker"],
+      versioning: "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z(-(?<compatibility>.*))?$",
+      matchPackageNames: ["quay.io/minio/minio"],
+    },
+    {
+      customType: "regex",
+      description: "Process CloudnativePG Postgresql version",
+      fileMatch: [
+        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+      ],
+      matchStrings: [
+        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
+      ],
+      datasourceTemplate: "docker",
+      versioningTemplate: "redhat"
+    },
+    {
+      matchDatasources: ["terraform-provider"],
+    }
+  ]
+}
