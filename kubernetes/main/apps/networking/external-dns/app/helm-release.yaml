@@ -50,6 +50,10 @@ spec:
               - --registry=txt
               - --policy=sync
               - --provider=cloudflare
+              # testing k8s-gateway crd source feature
+              - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+              - --crd-source-kind=DNSEndpoint
+              #
               - --interval=1m
               - --log-format=text
               - --log-level=info
