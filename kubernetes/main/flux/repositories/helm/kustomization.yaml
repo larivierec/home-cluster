@@ -5,8 +5,8 @@ resources:
   - ./actions-runner-controller.yaml
   - ./angelnu.yaml
   - ./backube.yaml
+  - ./bernd-schorgers.yaml
   - ./bitwarden.yaml
-  - ./bjw-s.yaml
   - ./concourse.yaml
   - ./coredns.yaml
   - ./cilium.yaml
