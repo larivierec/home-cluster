@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # renovate: datasource=github-releases depName=fission/fission
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_canaryconfigs.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_environments.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_functions.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_httptriggers.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_kuberneteswatchtriggers.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_messagequeuetriggers.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_packages.yaml
+  - https://raw.githubusercontent.com/fission/fission/v1.20.4/crds/v1/fission.io_timetriggers.yaml

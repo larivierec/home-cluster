@@ -13,7 +13,7 @@ spec:
       version: 2.0.1
       sourceRef:
         kind: HelmRepository
-        name: bernd-schorgers
+        name: bjw-s
         namespace: flux-system
   maxHistory: 2
   install:

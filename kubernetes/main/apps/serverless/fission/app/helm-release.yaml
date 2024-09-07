@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fission
+  namespace: serverless
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: fission-all
+      version: 1.20.4
+      sourceRef:
+        kind: HelmRepository
+        name: fission
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    routerServiceType: ClusterIP
+    defaultNamespace: serverless
+    createNamespace: false
+    router:
+      replicas: 2
+    analytics: false
+    gaTrackingID: NOPE

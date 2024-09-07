@@ -2,9 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: bernd-schorgers
+  name: fission
   namespace: flux-system
 spec:
-  type: oci
-  interval: 5m
-  url: oci://ghcr.io/bernd-schorgers/helm
+  interval: 2h
+  url: https://fission.github.io/fission-charts

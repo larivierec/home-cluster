@@ -5,8 +5,8 @@ resources:
   - ./actions-runner-controller.yaml
   - ./angelnu.yaml
   - ./backube.yaml
-  - ./bernd-schorgers.yaml
   - ./bitwarden.yaml
+  - ./bjw-s.yaml
   - ./concourse.yaml
   - ./coredns.yaml
   - ./cilium.yaml
@@ -19,6 +19,7 @@ resources:
   - ./envoy-proxy.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
+  - ./fission.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
