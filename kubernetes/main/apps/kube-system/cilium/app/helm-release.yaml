@@ -31,11 +31,10 @@ spec:
       enabled: true
     cluster:
       name: k3s
-    containerRuntime:
-      integration: containerd
     endpointRoutes:
       enabled: true
-    enableCiliumEndpointSlice: true
+    ciliumEndpointSlice:
+      enabled: true
     bandwidthManager:
       enabled: true
       bbr: true
