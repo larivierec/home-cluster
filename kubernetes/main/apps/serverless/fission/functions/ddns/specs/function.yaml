@@ -8,30 +8,39 @@ spec:
   InvokeStrategy:
     ExecutionStrategy:
       ExecutorType: container
-      MaxScale: 1
+      MaxScale: 5
       MinScale: 1
       SpecializationTimeout: 120
-      TargetCPUPercent: 80
     StrategyType: execution
+  onceOnly: true
   functionTimeout: 20
   idletimeout: 60
   environment:
     name: go
     namespace: serverless
   package: {}
+  secrets:
+    - name: ddns
+      namespace: serverless
   podspec:
     containers:
-      - image: ghcr.io/larivierec/cloudflare-ddns:main
+      - image: ghcr.io/larivierec/cloudflare-ddns:main@sha256:3a3b05940c748b8a4986c0810d9ef81acd7ac325422e8682a6e90256c81a6ca6
         name: cloudflare-ddns
+        ports:
+          - containerPort: 9000
+            name: http-env
         env:
           - name: ACCOUNT_TOKEN
             valueFrom:
               secretKeyRef:
                 name: ddns
                 key: ACCOUNT_TOKEN
+          - name: MODE
+            value: serverless
           - name: ZONE_NAME
             value: garb.dev
           - name: RECORD_NAME
             value: ipv4.garb.dev
+    terminationGracePeriodSeconds: 0
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
