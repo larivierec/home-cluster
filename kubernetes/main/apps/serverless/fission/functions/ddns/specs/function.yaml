@@ -1,0 +1,40 @@
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: cloudflare-ddns
+  namespace: serverless
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: container
+      MaxScale: 1
+      MinScale: 1
+      SpecializationTimeout: 120
+      TargetCPUPercent: 80
+    StrategyType: execution
+  functionTimeout: 20
+  idletimeout: 60
+  environment:
+    name: go
+    namespace: serverless
+  package: {}
+  podspec:
+    containers:
+      - image: ghcr.io/larivierec/cloudflare-ddns:main
+        name: cloudflare-ddns
+        env:
+          - name: ACCOUNT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: ddns
+                key: ACCOUNT_TOKEN
+        args:
+          - --serverless-mode
+          - "true"
+          - --zone-name
+          - garb.dev
+          - --record-name
+          - ipv4.garb.dev
+          - --provider
+          - random

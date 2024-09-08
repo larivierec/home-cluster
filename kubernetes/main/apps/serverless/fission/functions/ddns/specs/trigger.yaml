@@ -1,0 +1,10 @@
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  name: cloudflare-ddns
+  namespace: serverless
+spec:
+  cron: "*/3 * * * *"
+  functionref:
+    name: cloudflare-ddns
+    type: name

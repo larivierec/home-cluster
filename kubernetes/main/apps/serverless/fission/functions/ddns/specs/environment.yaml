@@ -1,0 +1,17 @@
+---
+apiVersion: fission.io/v1
+kind: Environment
+metadata:
+  name: go
+  namespace: serverless
+spec:
+  resources:
+    limits:
+      cpu: 10m
+      memory: 32Mi
+    requests:
+      cpu: 5m
+      memory: 16Mi
+  runtime:
+    image: fission/go-env
+  version: 3
