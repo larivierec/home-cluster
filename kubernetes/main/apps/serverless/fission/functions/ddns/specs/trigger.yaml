@@ -1,3 +1,4 @@
+---
 apiVersion: fission.io/v1
 kind: TimeTrigger
 metadata:

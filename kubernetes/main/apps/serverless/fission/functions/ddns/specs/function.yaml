@@ -29,12 +29,9 @@ spec:
               secretKeyRef:
                 name: ddns
                 key: ACCOUNT_TOKEN
-        args:
-          - --serverless-mode
-          - "true"
-          - --zone-name
-          - garb.dev
-          - --record-name
-          - ipv4.garb.dev
-          - --provider
-          - random
+          - name: ZONE_NAME
+            value: garb.dev
+          - name: RECORD_NAME
+            value: ipv4.garb.dev
+    nodeSelector:
+      node-role.kubernetes.io/worker: "true"
