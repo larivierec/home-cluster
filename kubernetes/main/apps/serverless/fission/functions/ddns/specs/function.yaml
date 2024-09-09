@@ -12,7 +12,7 @@ spec:
       MinScale: 1
       SpecializationTimeout: 120
     StrategyType: execution
-  onceOnly: true
+
   functionTimeout: 20
   idletimeout: 60
   environment:
@@ -44,3 +44,7 @@ spec:
     terminationGracePeriodSeconds: 0
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
+  resources:
+    requests:
+      cpu: 10m
+      memory: 50Mi
