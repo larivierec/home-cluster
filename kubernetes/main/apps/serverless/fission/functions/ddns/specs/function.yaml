@@ -8,11 +8,17 @@ spec:
   InvokeStrategy:
     ExecutionStrategy:
       ExecutorType: container
-      MaxScale: 5
+      MaxScale: 3
       MinScale: 1
       SpecializationTimeout: 120
+      hpaMetrics:
+        - type: Resource
+          resource:
+            name: memory
+            target:
+              type: Utilization
+              averageUtilization: 75
     StrategyType: execution
-
   functionTimeout: 20
   idletimeout: 60
   environment:
