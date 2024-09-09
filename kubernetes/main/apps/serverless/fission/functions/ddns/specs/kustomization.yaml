@@ -6,3 +6,4 @@ resources:
   - ./environment.yaml
   - ./function.yaml
   - ./trigger.yaml
+  - ./route.yaml
