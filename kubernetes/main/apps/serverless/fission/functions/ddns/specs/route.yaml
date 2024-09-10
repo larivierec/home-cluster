@@ -14,8 +14,9 @@ spec:
   rules:
     - backendRefs:
         - name: router
+          namespace: serverless
           port: 80
       matches:
         - path:
             type: PathPrefix
-            value: /ddns/v1/*
+            value: /ddns/

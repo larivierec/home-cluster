@@ -47,10 +47,10 @@ spec:
             value: garb.dev
           - name: RECORD_NAME
             value: ipv4.garb.dev
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
     terminationGracePeriodSeconds: 0
     nodeSelector:
       node-role.kubernetes.io/worker: "true"
-  resources:
-    requests:
-      cpu: 10m
-      memory: 50Mi
