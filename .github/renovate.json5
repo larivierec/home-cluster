@@ -5,7 +5,6 @@
     ":disableRateLimiting",
     ":automergeDigest",
     ":semanticCommits",
-    "helpers:pinGitHubActionDigests",
     "docker:enableMajor",
     "config:recommended",
     "security:openssf-scorecard",
