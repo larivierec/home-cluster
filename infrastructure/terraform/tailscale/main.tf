@@ -3,16 +3,12 @@ data "sops_file" "this" {
 }
 
 data "tailscale_device" "k8s-gateway" {
-  name = "tailscale-k8s-gateway.${lookup(local.secrets, "tailscale-tailnet").text}"
+  hostname = "tailscale-k8s-gateway"
+  wait_for = "60s"
 }
 
 data "tailscale_device" "apple-tv" {
   name = "apple-tv.${lookup(local.secrets, "tailscale-tailnet").text}"
-}
-
-resource "tailscale_device_key" "k8s-gateway" {
-  device_id           = data.tailscale_device.k8s-gateway.id
-  key_expiry_disabled = true
 }
 
 resource "tailscale_device_key" "apple-tv" {
@@ -45,6 +41,9 @@ resource "tailscale_device_tags" "apple-tv" {
 resource "tailscale_device_tags" "k8s-gateway" {
   device_id = data.tailscale_device.k8s-gateway.id
   tags      = ["tag:cluster-node"]
+  lifecycle {
+    ignore_changes = [device_id]
+  }
 }
 
 resource "tailscale_device_subnet_routes" "routes" {
@@ -61,6 +60,9 @@ resource "tailscale_device_subnet_routes" "routes" {
     "0.0.0.0/0",
     "::/0"
   ])
+  lifecycle {
+    ignore_changes = [device_id]
+  }
 }
 
 resource "tailscale_acl" "account_acl" {
