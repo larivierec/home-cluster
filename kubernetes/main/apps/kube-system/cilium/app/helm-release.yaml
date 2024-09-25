@@ -86,8 +86,6 @@ spec:
       mode: dsr
       l7:
         backend: envoy
-    envoy:
-      enabled: true
     ipam:
       mode: kubernetes
     autoDirectNodeRoutes: true
