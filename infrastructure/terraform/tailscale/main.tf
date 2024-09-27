@@ -38,14 +38,6 @@ resource "tailscale_device_tags" "apple-tv" {
   tags      = ["tag:node"]
 }
 
-resource "tailscale_device_tags" "k8s-gateway" {
-  device_id = data.tailscale_device.k8s-gateway.id
-  tags      = ["tag:cluster-node"]
-  lifecycle {
-    ignore_changes = [device_id]
-  }
-}
-
 resource "tailscale_device_subnet_routes" "routes" {
   for_each = toset(
     [
