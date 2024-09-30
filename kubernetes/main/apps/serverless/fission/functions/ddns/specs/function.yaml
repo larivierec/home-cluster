@@ -30,7 +30,7 @@ spec:
       namespace: serverless
   podspec:
     containers:
-      - image: ghcr.io/larivierec/cloudflare-ddns:main@sha256:41e4e8952662096f8c457bb98978a3baf951944c41982e010c5ca43d19a8bf9a
+      - image: ghcr.io/larivierec/cloudflare-ddns:main@sha256:ad32c0c109a39488eb34540c136dd47cbbd2987f6427ad45da6675a7a2c26f34
         name: cloudflare-ddns
         ports:
           - containerPort: 9000
