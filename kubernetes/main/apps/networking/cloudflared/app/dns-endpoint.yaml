@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: cloudflared
+  namespace: networking
+  # todo use 2 external-dns one that watches annotations and one that doesn't
+  # for this case and external-dns
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "dummy"
+spec:
+  endpoints:
+    - dnsName: ingress.garb.dev
+      recordType: CNAME
+      targets: ["${SECRET_CLOUDFLARE_TUNNEL}.cfargotunnel.com"]
