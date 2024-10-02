@@ -32,6 +32,9 @@ provider "bitwarden" {
   client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
   email           = data.sops_file.this.data["SECRET_EMAIL"]
   server          = "https://vault.bitwarden.com"
+  experimental {
+    embedded_client = true
+  }
 }
 
 provider "minio" {
