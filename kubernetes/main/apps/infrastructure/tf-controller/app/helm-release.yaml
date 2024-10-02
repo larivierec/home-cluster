@@ -32,5 +32,5 @@ spec:
         interval: 1m
     runner:
       image:
-        repository: ghcr.io/larivierec/tf-runner-bw
-        tag: 0.16.0-rc.4@sha256:792141ecb59728cd7a8938b6f1f3b5c68e70e9755f71f152c74e09d88e199215
+        repository: ghcr.io/larivierec/tf-runner
+        tag: 0.16.0-rc.4@sha256:8838635d3bb7b9e1758f304383d3aad861ba6bf026eb1ae44022e43b4a0ced61
