@@ -13,7 +13,7 @@ terraform {
     }
     bitwarden = {
       source  = "maxlaverse/bitwarden"
-      version = "0.9.3"
+      version = "0.9.4"
     }
     tailscale = {
       source  = "tailscale/tailscale"
