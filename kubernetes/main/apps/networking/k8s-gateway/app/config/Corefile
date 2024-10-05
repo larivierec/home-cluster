@@ -19,7 +19,7 @@
     }
     k8s_gateway garb.dev {
         apex k8s-gateway.networking
-        resources HTTPRoute TLSRoute Ingress Service
+        resources HTTPRoute TLSRoute Ingress Service DNSEndpoint
     }
     cache 300
     loop
