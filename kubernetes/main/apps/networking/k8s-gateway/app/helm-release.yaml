@@ -38,7 +38,7 @@ spec:
               repository: quay.io/oriedge/k8s_gateway
               tag: v0.4.0
               # repository: ghcr.io/larivierec/k8s_gateway
-              # tag: v0.4.0-3.gw-api-1.0.0
+              # tag: v0.4.2
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
