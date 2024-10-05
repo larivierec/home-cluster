@@ -41,7 +41,6 @@ resource "tailscale_device_tags" "apple-tv" {
 resource "tailscale_device_subnet_routes" "routes" {
   for_each = toset(
     [
-      data.tailscale_device.k8s-gateway.id,
       data.tailscale_device.apple-tv.id
     ]
   )
