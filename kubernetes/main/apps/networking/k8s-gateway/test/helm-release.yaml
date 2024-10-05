@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app k8s-gateway
+  name: &app k8s-gateway-test
   namespace: networking
 spec:
   interval: 30m
@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      k8s-gateway:
+      k8s-gateway-test:
         replicas: 1
         strategy: RollingUpdate
         annotations:
@@ -35,8 +35,8 @@ spec:
         containers:
           app:
             image:
-              repository: quay.io/oriedge/k8s_gateway
-              tag: v0.4.0
+              repository: ghcr.io/larivierec/k8s_gateway
+              tag: v0.4.2-dirty
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
@@ -76,10 +76,8 @@ spec:
         enabled: true
         controller: *app
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        clusterIP: "10.43.195.229"
         annotations:
-          lbipam.cilium.io/ips: 192.168.40.10
+          lbipam.cilium.io/ips: 192.168.40.13
         ports:
           dns-tcp:
             enabled: true
