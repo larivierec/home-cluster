@@ -8,7 +8,8 @@ data "tailscale_device" "k8s-gateway" {
 }
 
 data "tailscale_device" "apple-tv" {
-  name = "apple-tv.${lookup(local.secrets, "tailscale-tailnet").text}"
+  hostname = "apple-tv"
+  wait_for = "30s"
 }
 
 resource "tailscale_device_key" "apple-tv" {
@@ -58,36 +59,18 @@ resource "tailscale_device_subnet_routes" "routes" {
 
 resource "tailscale_acl" "account_acl" {
   acl = jsonencode({
-    // Declare static groups of users. Use autogroups for all users or users with a specific role.
-    // "groups": {
-    //  	"group:example": ["alice@example.com", "bob@example.com"],
-    // },
-
-    // Define the tags which can be applied to devices and by which users.
-    // "tagOwners": {
-    //  	"tag:example": ["autogroup:admin"],
-    // },
     "randomizeClientPort" : true,
-    // Define access control lists for users, groups, autogroups, tags,
-    // Tailscale IP addresses, and subnet ranges.
     "acls" : [
-      // Allow all connections.
-      // Comment this section out if you want to define specific restrictions.
       { "action" : "accept", "src" : ["*"], "dst" : ["*:*"] },
     ],
     "autoApprovers" : {
-      // Alice can create subnet routers advertising routes in 10.0.0.0/24 that are auto-approved
       "routes" : {
         "192.168.0.0/16" : [lookup(local.secrets, "tailscale-email").text, "tag:cluster-node", "tag:node"],
       },
-      // A device tagged security can advertise exit nodes that are auto-approved
       "exitNode" : ["tag:node", "tag:cluster-node"],
     },
 
-    // Define users and devices that can use Tailscale SSH.
     "ssh" : [
-      // Allow all users to SSH into their own devices in check mode.
-      // Comment this section out if you want to define specific restrictions.
       {
         "action" : "check",
         "src" : ["autogroup:member"],
@@ -96,14 +79,6 @@ resource "tailscale_acl" "account_acl" {
       },
     ],
 
-    // Test access rules every time they're saved.
-    // "tests": [
-    //  	{
-    //  		"src": "alice@example.com",
-    //  		"accept": ["tag:example"],
-    //  		"deny": ["100.101.102.103:443"],
-    //  	},
-    // ],
     "tagOwners" : {
       "tag:node" : [lookup(local.secrets, "tailscale-email").text],
       "tag:cluster-node" : [lookup(local.secrets, "tailscale-email").text],
