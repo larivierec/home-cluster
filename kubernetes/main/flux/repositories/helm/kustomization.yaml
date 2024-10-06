@@ -26,6 +26,7 @@ resources:
   - ./jetstack.yaml
   - ./kube-state-metrics.yaml
   - ./kubereboot.yaml
+  - ./kubernetes-sigs-metrics-server.yaml
   - ./kubernetes-sigs-nfd.yaml
   - ./longhorn.yaml
   - ./minio.yaml
