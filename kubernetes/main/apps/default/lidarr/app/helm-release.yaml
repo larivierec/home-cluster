@@ -50,8 +50,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/lidarr
-              tag: 2.4.3.4248@sha256:401aec97ad0f0fc26f87f73ae793b981b849c71cd1e4278b60b2a5a8c4507914
+              repository: ghcr.io/larivierec/lidarr
+              tag: 2.6.3.4389@sha256:e7ad5ef9a11397f50c1dad57d903465d43b146946cfe97917876a6e86fd13d17
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
