@@ -9,20 +9,5 @@ spec:
   functionref:
     name: cloudflare-ddns
     type: name
----
-apiVersion: fission.io/v1
-kind: HTTPTrigger
-metadata:
-  name: cloudflare-ddns
-  namespace: serverless
-spec:
-  functionref:
-    name: cloudflare-ddns
-    type: name
-  host: ""
-  ingressconfig:
-    host: "*"
-    path: /ddns/v1
-  methods:
-    - GET
-  relativeurl: /ddns/v1
+  method: GET
+  subpath: /ddns/v1
