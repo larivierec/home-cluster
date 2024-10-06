@@ -37,6 +37,7 @@ curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="serve
         --disable coredns \
         --disable-network-policy \
         --disable-kube-proxy \
+        --disable=metrics-server \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
         --kube-scheduler-arg bind-address=0.0.0.0 \
         --etcd-expose-metrics \
@@ -52,6 +53,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
         --disable coredns \
         --disable-network-policy \
         --disable-kube-proxy \
+        --disable=metrics-server \
         --kube-controller-manager-arg bind-address=0.0.0.0 \
         --kube-scheduler-arg bind-address=0.0.0.0 \
         --etcd-expose-metrics
