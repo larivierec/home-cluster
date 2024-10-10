@@ -30,3 +30,24 @@ spec:
     name: eso-ca
     kind: ClusterIssuer
     group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bitwarden-css-certs
+  namespace: kube-system
+spec:
+  secretName: bitwarden-css-certs
+  dnsNames:
+    - bitwarden-secrets-manager.kube-system.svc.cluster.local
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+    rotationPolicy: Always
+  usages:
+    - client auth
+  issuerRef:
+    name: eso-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
