@@ -36,8 +36,7 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 1m
-    # will be available in next version
-    # cert-manager creates the selfsigned ca
-    # https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers
     bitwarden-sdk-server:
       enabled: true
+      podAnnotations:
+        secret.reloader.stakater.com/reload: "bitwarden-css-certs,bitwarden-secrets-manager,bitwarden-tls-certs"

@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./secret.yaml
   - ./helm-release.yaml
+  - ./network-policy.yaml
