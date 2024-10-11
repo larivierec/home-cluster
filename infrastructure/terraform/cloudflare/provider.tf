@@ -42,11 +42,6 @@ data "bitwarden_secret" "cloudflare" {
   id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
 }
 
-# data "bitwarden_item_login" "cloudflare_secrets" {
-#   provider = bitwarden.legacy
-#   id       = "4c5c42aa-0951-4950-974b-b05d01565917"
-# }
-
 locals {
   secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
 }

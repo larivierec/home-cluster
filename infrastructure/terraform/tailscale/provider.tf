@@ -23,18 +23,6 @@ terraform {
 }
 
 provider "bitwarden" {
-  master_password = data.sops_file.this.data["SECRET_PASSWORD"]
-  client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
-  client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
-  email           = data.sops_file.this.data["SECRET_EMAIL"]
-  server          = "https://vault.bitwarden.com"
-  experimental {
-    embedded_client = true
-  }
-}
-
-provider "bitwarden" {
-  alias        = "bws"
   access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
   experimental {
     embedded_client = true
@@ -47,13 +35,8 @@ provider "tailscale" {
 }
 
 data "bitwarden_secret" "tailscale" {
-  provider = bitwarden.bws
-  id       = "a8d9079c-7477-4591-b38c-b20400d8326e"
+  id = "a8d9079c-7477-4591-b38c-b20400d8326e"
 }
-
-# data "bitwarden_item_login" "secrets" {
-#   id = "336e4bd7-6293-48cc-8d5e-b05d01565916"
-# }
 
 locals {
   tailscale_secret = jsondecode(data.bitwarden_secret.tailscale.value)

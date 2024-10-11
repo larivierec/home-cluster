@@ -65,20 +65,7 @@ data "bitwarden_secret" "cloudflare" {
   id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
 }
 
-# data "bitwarden_item_login" "minio_secret" {
-#   id = "b7e7c4fc-4d81-4f12-8652-b05d01565916"
-# }
-
-# data "bitwarden_item_login" "cloudflare_secrets" {
-#   id = "4c5c42aa-0951-4950-974b-b05d01565917"
-# }
-
 locals {
-  # cloudflare_secrets = zipmap(
-  #   data.bitwarden_item_login.cloudflare_secrets.field.*.name,
-  #   data.bitwarden_item_login.cloudflare_secrets.field.*
-  # )
-
   cloudflare_secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
   minio_secrets      = jsondecode(data.bitwarden_secret.minio.value)
 }
