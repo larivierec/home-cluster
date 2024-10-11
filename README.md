@@ -190,11 +190,11 @@ flux create secret oci dockerio-auth \
 ```
 
 SOPS is only used to create the helm-release required for bitwarden and external-secrets.
-Previously, it was used throughout the repository however, with external-secrets bitwarden and webhooks, we're able to remove this dependency slightly.
+Previously, it was used throughout the repository however, with external-secrets, bitwarden-sdk, we're able to remove this dependency slightly.
 
-External-Secrets uses bitwarden-cli container to retrieve my vault items and creates kubernetes secrets with them. Since `external-secrets` doesn't use the bitwarden API directly, we have to use a container with the cli and webhooks.
+External-Secrets uses bitwarden container to retrieve my bitwarden secrets and creates kubernetes secrets with them.
 
-Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `kubernetes/core/bitwarden/network-policy.yaml`
+Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `kubernetes/main/apps/kube-system/external-secrets/app/network-policy.yaml`
 
 3. Ensure you use this `sops-age` secret for decrypting.
 
