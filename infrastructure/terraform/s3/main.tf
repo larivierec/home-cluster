@@ -13,6 +13,7 @@ module "minio" {
 }
 
 resource "bitwarden_item_login" "this" {
+  provider  = bitwarden.legacy
   for_each  = module.minio
   name      = "minio-tf-${each.value.service}"
   username  = each.value.access_key
@@ -30,7 +31,6 @@ resource "bitwarden_item_login" "this" {
 }
 
 resource "bitwarden_secret" "this" {
-  provider   = bitwarden.bws
   for_each   = module.minio
   key        = "minio_tf_${each.value.service}"
   project_id = data.sops_file.this.data["BW_PROJECT_ID"]
