@@ -29,6 +29,15 @@ resource "bitwarden_item_login" "this" {
   }
 }
 
+resource "bitwarden_secret" "this" {
+  provider   = bitwarden.bws
+  for_each   = module.minio
+  key        = "minio_tf_${each.value.service}"
+  project_id = data.sops_file.this.data["BW_PROJECT_ID"]
+  value      = jsonencode({ "access_key" : each.value.access_key, "secret_key" : each.value.secret_key })
+  note       = "infrasturcture/terraform/s3"
+}
+
 locals {
   buckets = [
     "pgsql",

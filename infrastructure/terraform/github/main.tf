@@ -2,10 +2,10 @@ module "home-cluster" {
   source  = "mineiros-io/repository/github"
   version = "0.18.0"
 
-  name        = "home-cluster"
-  description = "k3s cluster using gitops (flux) and renovate automation"
-  topics      = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "k3s", "bitwarden", "nvidia-docker"]
-  visibility  = "public"
+  name         = "home-cluster"
+  description  = "k3s cluster using gitops (flux) and renovate automation"
+  topics       = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "k3s", "bitwarden", "nvidia-docker"]
+  visibility   = "public"
   homepage_url = "https://garb.dev"
 
   auto_init              = true
@@ -20,8 +20,8 @@ module "home-cluster" {
   is_template  = false
 
   plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
-    "RIVERBOT_APP_PRIVATE_KEY" = data.bitwarden_item_secure_note.riverbot_private_key.notes
+    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
+    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
   }
 
   issue_labels_merge_with_github_labels = false
@@ -42,10 +42,10 @@ module "cloudflare-ddns" {
   source  = "mineiros-io/repository/github"
   version = "0.18.0"
 
-  name        = "cloudflare-ddns"
-  description = "Cloudflare ddns written in Golang"
-  topics      = ["go", "ddns", "cloudflare", "containers"]
-  visibility  = "public"
+  name         = "cloudflare-ddns"
+  description  = "Cloudflare ddns written in Golang"
+  topics       = ["go", "ddns", "cloudflare", "containers"]
+  visibility   = "public"
   homepage_url = "https://garb.dev"
 
   auto_init              = false
@@ -60,8 +60,8 @@ module "cloudflare-ddns" {
   is_template  = false
 
   plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
-    "RIVERBOT_APP_PRIVATE_KEY" = data.bitwarden_item_secure_note.riverbot_private_key.notes
+    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
+    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
   }
 
   issue_labels_merge_with_github_labels = false
@@ -80,10 +80,10 @@ module "containers" {
   source  = "mineiros-io/repository/github"
   version = "0.18.0"
 
-  name        = "containers"
-  description = "Containers used in my kubernetes cluster and other various containers"
-  topics      = ["docker", "containers"]
-  visibility  = "public"
+  name         = "containers"
+  description  = "Containers used in my kubernetes cluster and other various containers"
+  topics       = ["docker", "containers"]
+  visibility   = "public"
   homepage_url = "https://garb.dev"
 
   auto_init              = false
@@ -98,8 +98,8 @@ module "containers" {
   is_template  = false
 
   plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = lookup(local.github_secrets, "bot_id").text
-    "RIVERBOT_APP_PRIVATE_KEY" = data.bitwarden_item_secure_note.riverbot_private_key.notes
+    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
+    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
   }
 
   issue_labels_merge_with_github_labels = false

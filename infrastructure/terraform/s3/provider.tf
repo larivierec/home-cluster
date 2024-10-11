@@ -37,6 +37,14 @@ provider "bitwarden" {
   }
 }
 
+provider "bitwarden" {
+  alias        = "bws"
+  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
+  experimental {
+    embedded_client = true
+  }
+}
+
 provider "minio" {
   minio_server   = "s3.${"garb.dev"}"
   minio_user     = data.bitwarden_item_login.minio_secret.username
