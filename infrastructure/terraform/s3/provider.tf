@@ -27,6 +27,7 @@ terraform {
 }
 
 provider "bitwarden" {
+  alias           = "legacy"
   master_password = data.sops_file.this.data["SECRET_PASSWORD"]
   client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
   client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
@@ -37,29 +38,47 @@ provider "bitwarden" {
   }
 }
 
+provider "bitwarden" {
+  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
+  experimental {
+    embedded_client = true
+  }
+}
+
 provider "minio" {
-  minio_server   = "s3.${"garb.dev"}"
-  minio_user     = data.bitwarden_item_login.minio_secret.username
-  minio_password = data.bitwarden_item_login.minio_secret.password
+  minio_server   = "s3.garb.dev"
+  minio_user     = local.minio_secrets["user"]
+  minio_password = local.minio_secrets["password"]
   minio_ssl      = true
 }
 
 provider "cloudflare" {
-  email   = lookup(local.cloudflare_secrets, "email").text
-  api_key = lookup(local.cloudflare_secrets, "cloudflare_api_key").text
+  email   = local.cloudflare_secrets["email"]
+  api_key = local.cloudflare_secrets["api_key"]
 }
 
-data "bitwarden_item_login" "minio_secret" {
-  id = "b7e7c4fc-4d81-4f12-8652-b05d01565916"
+data "bitwarden_secret" "minio" {
+  id = "19d75ac1-1526-44c1-b8d3-b20400d83107"
 }
 
-data "bitwarden_item_login" "cloudflare_secrets" {
-  id = "4c5c42aa-0951-4950-974b-b05d01565917"
+data "bitwarden_secret" "cloudflare" {
+  id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
 }
+
+# data "bitwarden_item_login" "minio_secret" {
+#   id = "b7e7c4fc-4d81-4f12-8652-b05d01565916"
+# }
+
+# data "bitwarden_item_login" "cloudflare_secrets" {
+#   id = "4c5c42aa-0951-4950-974b-b05d01565917"
+# }
 
 locals {
-  cloudflare_secrets = zipmap(
-    data.bitwarden_item_login.cloudflare_secrets.field.*.name,
-    data.bitwarden_item_login.cloudflare_secrets.field.*
-  )
+  # cloudflare_secrets = zipmap(
+  #   data.bitwarden_item_login.cloudflare_secrets.field.*.name,
+  #   data.bitwarden_item_login.cloudflare_secrets.field.*
+  # )
+
+  cloudflare_secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
+  minio_secrets      = jsondecode(data.bitwarden_secret.minio.value)
 }

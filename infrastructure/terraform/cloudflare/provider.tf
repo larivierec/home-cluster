@@ -27,28 +27,26 @@ terraform {
 }
 
 provider "cloudflare" {
-  email   = lookup(local.cloudflare_secrets, "email").text
-  api_key = lookup(local.cloudflare_secrets, "cloudflare_api_key").text
+  email   = local.secrets["email"]
+  api_key = local.secrets["api_key"]
 }
 
 provider "bitwarden" {
-  master_password = data.sops_file.this.data["SECRET_PASSWORD"]
-  client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
-  client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
-  email           = data.sops_file.this.data["SECRET_EMAIL"]
-  server          = "https://vault.bitwarden.com"
+  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
   experimental {
     embedded_client = true
   }
 }
 
-data "bitwarden_item_login" "cloudflare_secrets" {
-  id = "4c5c42aa-0951-4950-974b-b05d01565917"
+data "bitwarden_secret" "cloudflare" {
+  id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
 }
 
+# data "bitwarden_item_login" "cloudflare_secrets" {
+#   provider = bitwarden.legacy
+#   id       = "4c5c42aa-0951-4950-974b-b05d01565917"
+# }
+
 locals {
-  cloudflare_secrets = zipmap(
-    data.bitwarden_item_login.cloudflare_secrets.field.*.name,
-    data.bitwarden_item_login.cloudflare_secrets.field.*
-  )
+  secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
 }

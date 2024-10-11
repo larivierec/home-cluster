@@ -14,7 +14,7 @@ module "dns_records" {
   }
 
   cname_records = {
-    "sig1._domainkey" = { cname = nonsensitive(lookup(local.cloudflare_secrets, "DOMAIN_KEY_APPLE").text), ttl = "3600", proxied = false },
+    "sig1._domainkey" = { cname = nonsensitive(local.secrets["DOMAIN_KEY_APPLE"]), ttl = "3600", proxied = false },
     "www"             = { cname = "garb.dev", ttl = "1", proxied = true }
     "wg"              = { cname = "ipv4.garb.dev", ttl = "1", proxied = false }
   }

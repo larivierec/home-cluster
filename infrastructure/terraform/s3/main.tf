@@ -13,6 +13,7 @@ module "minio" {
 }
 
 resource "bitwarden_item_login" "this" {
+  provider  = bitwarden.legacy
   for_each  = module.minio
   name      = "minio-tf-${each.value.service}"
   username  = each.value.access_key
@@ -27,6 +28,14 @@ resource "bitwarden_item_login" "this" {
     name = "repository"
     text = "larivierec/home-cluster/provision/terraform/s3"
   }
+}
+
+resource "bitwarden_secret" "this" {
+  for_each   = module.minio
+  key        = "minio_tf_${each.value.service}"
+  project_id = data.sops_file.this.data["BW_PROJECT_ID"]
+  value      = jsonencode({ "access_key" : each.value.access_key, "secret_key" : each.value.secret_key })
+  note       = "infrasturcture/terraform/s3"
 }
 
 locals {
