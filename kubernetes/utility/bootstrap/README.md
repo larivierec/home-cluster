@@ -5,7 +5,7 @@
 ### Install Flux
 
 ```sh
-kubectl apply --server-side --kustomize ./kubernetes/main/bootstrap/flux
+kubectl apply --server-side --kustomize ./kubernetes/utility/bootstrap/flux
 ```
 
 ### Apply Cluster Configuration
@@ -21,5 +21,5 @@ sops --decrypt kubernetes/flux/vars/vault-secrets.sops.yaml | kubectl apply -f -
 ### Kick off Flux applying this repository
 
 ```sh
-kubectl apply --server-side --kustomize ./kubernetes/main/flux/config
+kubectl apply --server-side --kustomize ./kubernetes/utility/flux/config
 ```

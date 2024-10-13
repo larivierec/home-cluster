@@ -58,8 +58,6 @@ spec:
       relay:
         enabled: true
         rollOutPods: true
-      serviceMonitor:
-        enabled: true
       dashboards:
         enabled: true
         annotations:
@@ -104,14 +102,8 @@ spec:
     localRedirectPolicy: true
     operator:
       rollOutPods: true
-      prometheus:
-        enabled: true
-        serviceMonitor:
-          enabled: true
     prometheus:
       enabled: true
-      serviceMonitor:
-        enabled: true
     rollOutCiliumPods: true
     securityContext:
       privileged: true

@@ -1,0 +1,35 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eso-selfsigned-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: eso-selfsigned-ca
+  subject:
+    organizations:
+      - garb.dev
+  secretName: eso-ca-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: eso-ca
+spec:
+  ca:
+    secretName: eso-ca-secret

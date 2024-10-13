@@ -31,5 +31,3 @@ spec:
     replicas: 1
     metrics:
       enable: true
-      serviceMonitor:
-        enabled: true

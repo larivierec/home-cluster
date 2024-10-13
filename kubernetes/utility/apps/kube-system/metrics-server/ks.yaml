@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/kube-system/metrics-server/app"
+  path: "./kubernetes/utility/apps/kube-system/metrics-server/app"
   prune: true
   sourceRef:
     kind: GitRepository

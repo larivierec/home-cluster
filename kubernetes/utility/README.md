@@ -26,16 +26,15 @@ talosctl kubeconfig -n 192.168.50.2 -e 192.168.50.250 --talosconfig ./clustercon
 ```
 
 4. kubeconfig will allow you to start executing kubectl commands.
-5. approve the CSRs
+5. this will allow the full control plane to start up.
+6. apply your helm file or your base helm installs (cilium, coredns, prometheus crds...)
+
+```bash
+helmfile apply
+```
+7. If your cilium pod is having trouble starting, i.e. crashloop backoffs, approve the CSRs manually so you can check the logs of your pods.
 
 ```bash
 kubectl get csr
 kubectl certificate approve csr-<id>
-```
-
-6. this will allow the full control plane to start up.
-7. apply your helm file or your base helm installs (cilium, coredns, prometheus crds...)
-
-```bash
-helmfile apply
 ```
