@@ -1,12 +1,19 @@
 ---
+keys:
+  - &user age19mhznjzteas7egvnszjxr0msdd667sezwaz978562q4r30xsjvuqjfve3x
+
 creation_rules:
+  - path_regex: talos/.*\.sops\.ya?ml
+    key_groups:
+      - age:
+          - *user
   - path_regex: kubernetes/.*\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     key_groups:
       - age:
-        - age19mhznjzteas7egvnszjxr0msdd667sezwaz978562q4r30xsjvuqjfve3x
+          - *user
   - path_regex: infrastructure/.*\.ya?ml
     unencrypted_regex: "^(kind)$"
     key_groups:
       - age:
-        - age19mhznjzteas7egvnszjxr0msdd667sezwaz978562q4r30xsjvuqjfve3x
+          - *user

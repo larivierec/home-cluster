@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: dcgm-exporter
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: https://nvidia.github.io/dcgm-exporter/helm-charts
+  timeout: 3m

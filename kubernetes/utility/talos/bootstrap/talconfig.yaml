@@ -1,0 +1,214 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.8.1
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.31.1
+
+clusterName: ${clusterName}
+endpoint: https://${clusterEndpointIP}:6443
+clusterPodNets:
+  - "10.42.0.0/16"
+clusterSvcNets:
+  - "10.43.0.0/16"
+additionalApiServerCertSans: &sans
+  - ${clusterEndpointIP}
+  - ${clusterName}.${clusterDNSSuffix}
+  - 127.0.0.1 # KubePrism
+additionalMachineCertSans: *sans
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: "talos-m1"
+    ipAddress: "192.168.50.2"
+    installDiskSelector:
+      size: ">= 400GB"
+      model: "Patriot Burst El"
+    # installDisk: /dev/dce9bc8b47302d1bc385b2448cd47c09fd104c8969a5c646ed830c1a2fdf07d2
+    # talosImageURL: factory.talos.dev/installer/
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: d4:81:d7:77:db:71
+        dhcp: true
+        mtu: 1500
+        vip:
+          ip: ${clusterEndpointIP}
+
+patches:
+  # Configure containerd
+  - |
+    machine:
+      files:
+        - op: create
+          path: /etc/cri/conf.d/20-customization.part
+          content: |
+            [plugins."io.containerd.grpc.v1.cri"]
+              enable_unprivileged_ports = true
+              enable_unprivileged_icmp = true
+            [plugins."io.containerd.grpc.v1.cri".containerd]
+              discard_unpacked_layers = false
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+              discard_unpacked_layers = false
+
+  # Configure NFS Mounts
+  - |
+    machine:
+      files:
+        - op: overwrite
+          path: /etc/nfsmount.conf
+          permissions: 420
+          content: |
+            [ NFSMount_Global_Options ]
+              nfsvers = 4.2
+              hard = True
+              noatime = True
+              nodiratime = True
+              rsize = 131072
+              wsize = 131072
+              nconnect = 8
+
+  # Disable search domain everywhere
+  - |-
+    machine:
+      network:
+        disableSearchDomain: true
+
+  # Enable KubePrism
+  - |-
+    machine:
+      features:
+        kubePrism:
+          enabled: true
+          port: 7445
+
+  # Enable cluster discovery
+  - |-
+    cluster:
+      discovery:
+        registries:
+          kubernetes:
+            disabled: false
+          service:
+            disabled: true
+
+  # Configure kubelet
+  - |-
+    machine:
+      kubelet:
+        extraArgs:
+          image-gc-low-threshold: 50
+          image-gc-high-threshold: 55
+          rotate-server-certificates: true
+        nodeIP:
+          validSubnets:
+            - 192.168.50.0/24
+
+  # Custom sysctl settings
+  - |-
+    machine:
+      sysctls:
+        fs.inotify.max_queued_events: "65536"
+        fs.inotify.max_user_watches: "524288"
+        fs.inotify.max_user_instances: "8192"
+        net.core.rmem_max: "7500000"
+        net.core.wmem_max: "7500000"
+
+  # Mount openebs-hostpath in kubelet
+  - |-
+    machine:
+      kubelet:
+        extraMounts:
+          - destination: /var/openebs/local
+            type: bind
+            source: /var/openebs/local
+            options: ["bind", "rshared", "rw"]
+
+  # Mount Longhorn storage in kubelet
+  - |-
+    machine:
+      kubelet:
+        extraMounts:
+          - destination: /var/mnt/longhorn
+            type: bind
+            source: /var/mnt/longhorn
+            options: ["bind", "rshared", "rw"]
+
+  # # Mount 2nd disk for Longhorn Storage
+  # - |-
+  #   machine:
+  #     disks:
+  #     - device: /dev/nvme0n1
+  #       partitions:
+  #         - mountpoint: /var/mnt/longhorn
+
+  # # Disable predictable NIC naming
+  # - |-
+  #   machine:
+  #     install:
+  #       extraKernelArgs:
+  #         - net.ifnames=0
+
+controlPlane:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+      # systemExtensions:
+      #   officialExtensions:
+      #     - siderolabs/gasket-driver
+      #     - siderolabs/i915-ucode
+      #     - siderolabs/intel-ucode
+      #     - siderolabs/iscsi-tools
+      #     - siderolabs/nvidia-container-toolkit-production
+      #     - siderolabs/nvidia-open-gpu-kernel-modules-lts
+  patches:
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        coreDNS:
+          disabled: true
+        proxy:
+          disabled: true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+
+    # ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+          advertisedSubnets:
+            - 192.168.50.0/24
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
+
+    # Enable hostDNS:
+    - |-
+      machine:
+        features:
+          hostDNS:
+            enabled: true
+            forwardKubeDNSToHost: false
+            resolveMemberNames: true
