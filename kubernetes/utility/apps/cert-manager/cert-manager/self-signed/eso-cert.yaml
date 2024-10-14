@@ -15,8 +15,8 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "kube-system"
   secretName: *name
   dnsNames:
-    - bitwarden-sdk-server.kube-system.svc.garb.internal
-    - external-secrets-bitwarden-sdk-server.kube-system.svc.garb.internal
+    - bitwarden-sdk-server.kube-system.svc.cluster.local
+    - external-secrets-bitwarden-sdk-server.kube-system.svc.cluster.local
     - localhost
   ipAddresses:
     - 127.0.0.1
@@ -39,7 +39,7 @@ metadata:
 spec:
   secretName: bitwarden-css-certs
   dnsNames:
-    - bitwarden-secrets-manager.kube-system.svc.garb.internal
+    - bitwarden-secrets-manager.kube-system.svc.cluster.local
   privateKey:
     algorithm: RSA
     encoding: PKCS8

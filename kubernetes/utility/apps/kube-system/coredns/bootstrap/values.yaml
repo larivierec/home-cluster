@@ -25,7 +25,7 @@ servers:
       - name: prometheus
         parameters: 0.0.0.0:9153
       - name: kubernetes
-        parameters: garb.internal in-addr.arpa ip6.arpa
+        parameters: cluster.local in-addr.arpa ip6.arpa
         configBlock: |-
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
@@ -35,6 +35,8 @@ servers:
       #   configBlock: |-
       #     policy sequential
       #     health_check 5s
+      - name: forward
+        parameters: . /etc/resolv.conf
       - name: cache
         parameters: 30
       - name: loop
@@ -62,9 +64,6 @@ tolerations:
   - key: CriticalAddonsOnly
     operator: Exists
   - key: node-role.kubernetes.io/control-plane
-    operator: Exists
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
     operator: Exists
     effect: NoSchedule
 topologySpreadConstraints:

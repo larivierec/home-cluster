@@ -44,7 +44,7 @@ spec:
       externalSnapshotter:
         enabled: false
     csiDriver:
-      name: local-hostpath.garb.internal
+      name: local-hostpath.cluster.local
       storageCapacity: true
       attachRequired: false
       fsGroupPolicy: File
