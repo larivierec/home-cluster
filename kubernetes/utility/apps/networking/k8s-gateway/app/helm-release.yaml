@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/k8s_gateway
-              tag: v0.4.2-dirty@sha256:a256ce94d80bc3dd5c67d8cfdd7c9d4c1d3c0a6f09dd5750d977d002806b20ed
+              tag: v0.4.3-dirty@sha256:29c2d947d050cba2c243e8d26a10885595aca244461110c1644abfeb63f0484e
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
