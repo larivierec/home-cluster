@@ -5,14 +5,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./atuin/ks.yaml
-  - ./bedroompi/ks.yaml
   - ./echo/ks.yaml
-  - ./lidarr/ks.yaml
-  - ./nas/ks.yaml
-  - ./overseerr/ks.yaml
-  - ./plex/ks.yaml
-  - ./radarr/ks.yaml
-  - ./readarr/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./tautulli/ks.yaml
+  # - ./plex/ks.yaml

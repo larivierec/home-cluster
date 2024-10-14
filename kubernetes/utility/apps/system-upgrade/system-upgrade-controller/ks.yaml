@@ -1,34 +1,51 @@
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: system-upgrade-controller
+  name: &app system-upgrade-controller
   namespace: flux-system
 spec:
-  path: ./kubernetes/main/apps/system-upgrade/system-upgrade-controller/app
+  targetNamespace: system-upgrade
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: node-feature-discovery
+  path: ./kubernetes/utility/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
   wait: true
   interval: 30m
-  retryInterval: 1m
   timeout: 5m
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: system-upgrade-controller-plans
+  name: &app system-upgrade-controller-plans
   namespace: flux-system
 spec:
+  targetNamespace: system-upgrade
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
   dependsOn:
     - name: system-upgrade-controller
-  path: ./kubernetes/main/apps/system-upgrade/system-upgrade-controller/plans
+  path: ./kubernetes/utility/apps/system-upgrade/system-upgrade-controller/plans
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  wait: true
+  wait: false # no flux ks dependents
   interval: 30m
-  retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute:
+      # TALOS_SCHEMATIC_ID: 97bf8e92fc6bba0f03928b859c08295d7615737b29db06a97be51dc63004e403
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+      TALOS_VERSION: v1.8.1
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+      KUBERNETES_VERSION: v1.31.1

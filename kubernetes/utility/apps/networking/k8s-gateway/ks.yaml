@@ -2,6 +2,38 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: gateway-api
+  namespace: flux-system
+spec:
+  targetNamespace: networking
+  interval: 10m
+  path: "./kubernetes/utility/apps/networking/gateway/envoy/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api
+  namespace: flux-system
+spec:
+  targetNamespace: networking
+  interval: 10m
+  path: "./kubernetes/utility/apps/networking/gateway/envoy/manifests"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
+  dependsOn:
+    - name: gateway-api
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: k8s-gateway
   namespace: flux-system
 spec:

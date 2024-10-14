@@ -35,8 +35,6 @@ metadata:
   name: plex-bootstrap
   namespace: default
 spec:
-  trigger:
-    manual: restore-once
   restic:
     repository: volsync-plex
     copyMethod: Snapshot

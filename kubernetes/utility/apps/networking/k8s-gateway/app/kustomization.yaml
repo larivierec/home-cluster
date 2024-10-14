@@ -5,7 +5,6 @@ namespace: networking
 resources:
   - ./rbac.yaml
   - ./helm-release.yaml
-  - ./hpa.yaml
 configMapGenerator:
   - name: k8s-gateway
     files:
