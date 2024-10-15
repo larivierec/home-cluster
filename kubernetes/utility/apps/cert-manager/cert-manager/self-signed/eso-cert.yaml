@@ -37,6 +37,13 @@ metadata:
   name: bitwarden-css-certs
   namespace: kube-system
 spec:
+  secretTemplate:
+    annotations:
+      cert-manager.io/allow-direct-injection: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "kube-system"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "kube-system"
   secretName: bitwarden-css-certs
   dnsNames:
     - bitwarden-secrets-manager.kube-system.svc.cluster.local
