@@ -77,10 +77,6 @@ spec:
     route:
       app:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo-utility.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-internal
             namespace: networking
