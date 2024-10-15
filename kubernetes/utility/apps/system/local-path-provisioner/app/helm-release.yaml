@@ -50,10 +50,15 @@ spec:
       fsGroupPolicy: File
     storageClasses:
       - name: local-hostpath
-        defaultClass: false
+        defaultClass: true
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: true
+    volumeSnapshotClasses:
+      - name: csi-democratic-csi-local-hostpath
+        deletionPolicy: Delete
+        parameters:
+          cluster: utility
     driver:
       config:
         driver: local-hostpath

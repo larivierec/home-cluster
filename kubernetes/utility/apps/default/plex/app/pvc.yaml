@@ -14,7 +14,7 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  storageClassName: ceph-block
+  storageClassName: local-hostpath
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -27,7 +27,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: ceph-block
+  storageClassName: local-hostpath
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -38,12 +38,12 @@ spec:
   restic:
     repository: volsync-plex
     copyMethod: Snapshot
-    volumeSnapshotClassName: csi-ceph-blockpool
-    cacheStorageClassName: ceph-block
+    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
+    cacheStorageClassName: local-hostpath
     cacheAccessModes:
       - ReadWriteOnce
     cacheCapacity: 8Gi
-    storageClassName: ceph-block
+    storageClassName: local-hostpath
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:
@@ -65,12 +65,12 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: volsync-plex
-    volumeSnapshotClassName: csi-ceph-blockpool
+    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
     cacheCapacity: 50Gi
-    cacheStorageClassName: ceph-block
+    cacheStorageClassName: local-hostpath
     cacheAccessModes:
       - ReadWriteOnce
-    storageClassName: ceph-block
+    storageClassName: local-hostpath
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:

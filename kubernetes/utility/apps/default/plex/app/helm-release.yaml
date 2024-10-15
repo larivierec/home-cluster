@@ -1,5 +1,5 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/utility/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -30,9 +30,9 @@ spec:
       plex:
         strategy: Recreate
         pod:
-          nodeSelector:
-            node-role.kubernetes.io/worker: "true"
-            intel.feature.node.kubernetes.io/gpu: "true"
+          # nodeSelector:
+          #   node-role.kubernetes.io/worker: "true"
+          #   intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -50,7 +50,7 @@ spec:
               tag: 1.41.1.9057-af5eaea7a@sha256:0d40b2568aaa5811ed803cb475994e09b9ae2ee043b3349bc637f26960cf8a18
             env:
               TZ: "UTC"
-              ADVERTISE_IP: "https://192.168.70.4:32400,https://plex.garb.dev:443"
+              ADVERTISE_IP: "https://192.168.70.4:32400,https://plex-utility.garb.dev:443"
               # NVIDIA_DRIVER_CAPABILITIES: all
               # NVIDIA_VISIBLE_DEVICES: all
             securityContext:
@@ -81,61 +81,24 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: plex.garb.dev
+          coredns.io/hostname: plex-utility.garb.dev
           lbipam.cilium.io/ips: 192.168.70.4
         ports:
           http:
             port: &port 32400
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: external
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-    #       external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
-    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    #     hosts:
-    #       - host: &host "plex.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-cilium.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        parentRefs:
-          - name: cilium-external
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "plex-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-            timeouts:
-              backendRequest: 3m
-      envoy:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
           external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: networking
             sectionName: https
         hostnames:
-          - "plex.garb.dev"
+          - "plex-utility.garb.dev"
         rules:
           - backendRefs:
               - port: *port
@@ -161,11 +124,6 @@ spec:
             path: /volume2/media-sp2
         globalMounts:
           - path: /media
-      backup:
-        enabled: true
-        existingClaim: plex-backup
-        globalMounts:
-          - path: /config/backup
       tmp:
         type: emptyDir
       transcode:
