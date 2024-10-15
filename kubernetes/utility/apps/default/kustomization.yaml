@@ -7,4 +7,4 @@ resources:
   # Flux-Kustomizations
   - ./echo/ks.yaml
   # - ./plex/ks.yaml
-  - ./overseerr/ks.yaml
+  # - ./overseerr/ks.yaml

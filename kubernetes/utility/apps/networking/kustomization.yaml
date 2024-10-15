@@ -7,4 +7,5 @@ resources:
   # Flux-Kustomizations
   - ./blocky/ks.yaml
   - ./gateway/ks.yaml
+  - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml

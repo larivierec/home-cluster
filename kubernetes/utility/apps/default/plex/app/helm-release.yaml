@@ -30,9 +30,9 @@ spec:
       plex:
         strategy: Recreate
         pod:
-          # nodeSelector:
-          #   node-role.kubernetes.io/worker: "true"
-          #   intel.feature.node.kubernetes.io/gpu: "true"
+          nodeSelector:
+            # node-role.kubernetes.io/worker: "true"
+            intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -63,7 +63,7 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 16Gi
-                gpu.intel.com/i915: 1
+                # gpu.intel.com/i915: 1
                 # nvidia.com/gpu: 1
             probes:
               liveness:

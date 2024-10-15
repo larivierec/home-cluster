@@ -26,8 +26,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    args:
-      leaderElection: true
-      leaderElectionNamespace: "kube-system"
-      httpEndpoint: ":8080"
-      enableDistributedSnapshotting: true
+    controller:
+      volumeSnapshotClasses:
+        - name: longhorn-snapclass
+          driver: driver.longhorn.io
+          deletionPolicy: Delete
+          parameters:
+            # needed for successful VolumeSnapshots
+            # see: https://github.com/longhorn/longhorn/issues/2534#issuecomment-1010508714
+            type: snap

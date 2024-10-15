@@ -14,7 +14,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: local-hostpath
+  storageClassName: longhorn-snapshot
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -27,12 +27,12 @@ spec:
   restic:
     repository: volsync-overseerr
     copyMethod: Snapshot
-    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
-    cacheStorageClassName: local-hostpath
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheStorageClassName: longhorn-cache
     cacheAccessModes:
       - ReadWriteOnce
     cacheCapacity: 8Gi
-    storageClassName: local-hostpath
+    storageClassName: longhorn-snapshot
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:
@@ -54,12 +54,12 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: volsync-overseerr
-    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
+    volumeSnapshotClassName: longhorn-snapclass
     cacheCapacity: 8Gi
-    cacheStorageClassName: local-hostpath
+    cacheStorageClassName: longhorn-cache
     cacheAccessModes:
       - ReadWriteOnce
-    storageClassName: local-hostpath
+    storageClassName: longhorn-snapshot
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:

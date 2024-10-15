@@ -14,7 +14,7 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  storageClassName: local-hostpath
+  storageClassName: longhorn-snapshot
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -27,7 +27,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: local-hostpath
+  storageClassName: longhorn-cache
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
@@ -35,15 +35,17 @@ metadata:
   name: plex-bootstrap
   namespace: default
 spec:
+  trigger:
+    manual: restore-once
   restic:
     repository: volsync-plex
     copyMethod: Snapshot
-    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
-    cacheStorageClassName: local-hostpath
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheStorageClassName: longhorn-cache
     cacheAccessModes:
       - ReadWriteOnce
     cacheCapacity: 8Gi
-    storageClassName: local-hostpath
+    storageClassName: longhorn-snapshot
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:
@@ -65,12 +67,12 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 10
     repository: volsync-plex
-    volumeSnapshotClassName: csi-democratic-csi-local-hostpath
+    volumeSnapshotClassName: longhorn-snapclass
     cacheCapacity: 50Gi
-    cacheStorageClassName: local-hostpath
+    cacheStorageClassName: longhorn-cache
     cacheAccessModes:
       - ReadWriteOnce
-    storageClassName: local-hostpath
+    storageClassName: longhorn-snapshot
     accessModes:
       - ReadWriteOnce
     moverSecurityContext:

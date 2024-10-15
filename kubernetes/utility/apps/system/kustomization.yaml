@@ -6,5 +6,6 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml
+  - ./longhorn/ks.yaml
   - ./stakater/ks.yaml
   - ./reflector/ks.yaml
