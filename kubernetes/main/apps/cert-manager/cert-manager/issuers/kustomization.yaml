@@ -7,3 +7,4 @@ resources:
   - ./issuer.yaml
   - ./cert-prod.yaml
   - ./monitoring
+  - ./push-cert.yaml

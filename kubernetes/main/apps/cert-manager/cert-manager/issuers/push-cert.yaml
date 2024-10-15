@@ -1,0 +1,29 @@
+---
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: prod-cert
+  namespace: cert-manager
+spec:
+  deletionPolicy: Delete
+  refreshInterval: 15m
+  secretStoreRefs:
+    - name: bitwarden-secrets-manager-sdk
+      kind: ClusterSecretStore
+  selector:
+    secret:
+      name: wildcard-cert-tls
+  template:
+    engineVersion: v2
+    data:
+      cert: |
+        { 
+          "crt": "{{ index . "tls.crt" | b64enc }}", 
+          "key": "{{ index . "tls.key" | b64enc }}" 
+        }
+  data:
+    - match:
+        secretKey: cert
+        remoteRef:
+          remoteKey: garb_prod_cert
+          property: cert
