@@ -42,7 +42,12 @@ spec:
       externalAttacher:
         enabled: false
       externalSnapshotter:
-        enabled: false
+        enabled: true
+        extraArgs:
+          - --leader-election=false
+          - --node-deployment=true
+      nodeSelector: &nodeSelector
+        node-role.kubernetes.io/control-plane: ""
     csiDriver:
       name: local-hostpath.cluster.local
       storageCapacity: true
@@ -56,9 +61,12 @@ spec:
         allowVolumeExpansion: true
     volumeSnapshotClasses:
       - name: csi-democratic-csi-local-hostpath
+        annotations:
+          snapshot.storage.kubernetes.io/is-default-class: "true"
         deletionPolicy: Delete
         parameters:
           cluster: utility
+          type: snap
     driver:
       config:
         driver: local-hostpath
@@ -80,3 +88,4 @@ spec:
           hostPath:
             path: *storagePath
             type: DirectoryOrCreate
+      nodeSelector: *nodeSelector
