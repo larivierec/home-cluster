@@ -1,61 +1,131 @@
 ---
-name: Lint files on Pull Requests
-
-on:
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.ref }}-${{ github.workflow }}
-  cancel-in-progress: true
-
-jobs:
-  linter:
-    runs-on: ["ubuntu-latest"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
-      - name: Generate Token
-        id: generate-token
-        uses: actions/create-github-app-token@5d869da34e18e7287c1daad50e0b8ea0f506ce69 # v1.11.0
-        with:
-          app-id: ${{ secrets.RIVERBOT_APP_ID }}
-          private-key: ${{ secrets.RIVERBOT_APP_PRIVATE_KEY }}
-      - name: MegaLinter
-        uses: oxsecurity/megalinter@b38cdf1f0cbe056fad4112cb7cd99c2b574c9617 # v8.1.0
-        env:
-          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
-          PRINT_ALPACA: false
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
-          ENABLE_LINTERS: |-
+  # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+  name: Lint
+  
+  on:
+    workflow_dispatch:
+    pull_request:
+      branches:
+        - main
+  
+  concurrency:
+    group: ${{ github.ref }}-${{ github.workflow }}
+    cancel-in-progress: true
+  
+  jobs:
+    actionlint:
+      name: actionlint
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+  
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v45
+          with:
+            files: |
+              .github/workflows/**/*.yml
+              .github/workflows/**/*.yaml
+  
+        - name: Run actionlint
+          if: steps.changed-files.outputs.any_changed == 'true'
+          uses: bjw-s/action-actionlint@v0.1
+          with:
+            actionlint_config: .ci/actionlint/actionlint.yml
+            file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+  
+    yamllint:
+      name: yamllint
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+  
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v45
+          with:
+            files: |
+              **.yml
+              **.yaml
+  
+        - name: Install yamllint
+          if: steps.changed-files.outputs.any_changed == 'true'
+          shell: bash
+          run: |
+            pip install --user yamllint
+  
+        - name: Run yamllint
+          if: steps.changed-files.outputs.any_changed == 'true'
+          shell: bash
+          run: |
+            yamllint --config-file .ci/yamllint/.yamllint.yaml --format github ${{ steps.changed-files.outputs.all_changed_files }}
+  
+    markdownlint:
+      name: markdownlint
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+  
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v45
+          with:
+            files: |
+              **.md
+  
+        - name: Run markdownlint-cli2
+          if: steps.changed-files.outputs.any_changed == 'true'
+          uses: bjw-s/action-markdownlint-cli2@v0.1
+          with:
+            markdownlint_config: .ci/markdownlint/.markdownlint.yaml
+            file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+  
+    prettier:
+      name: prettier
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+  
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v45
+  
+        - name: Run prettier
+          if: steps.changed-files.outputs.any_changed == 'true'
+          uses: bjw-s/action-prettier-lint@v0.1
+          with:
+            prettier_ignore: .ci/prettier/.prettierignore
+            prettier_config: .ci/prettier/.prettierrc.yaml
+            file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+  
+    lint_success:
+      needs:
+        - actionlint
+        - prettier
+        - yamllint
+        - markdownlint
+      if: |
+        always()
+      name: Lint successful
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check job status
+          if: >-
             ${{
-              join(
-                fromJSON('
-                  [
-                    "ACTION_ACTIONLINT",
-                    "COPYPASTE_JSCPD",
-                    "KUBERNETES_KUBEVAL",
-                    "KUBERNETES_HELM",
-                    "MARKDOWN_MARKDOWNLINT",
-                    "REPOSITORY_GIT_DIFF",
-                    "REPOSITORY_SECRETLINT",
-                    "TERRAFORM_TERRAFORM_FMT",
-                    "YAML_PRETTIER",
-                    "YAML_YAMLLINT"
-                  ]
-                '),
-                ','
-              )
+                (
+                  contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+                )
             }}
-          ACTION_ACTIONLINT_CONFIG_FILE: .ci/action/actionlint.yaml
-          COPYPASTE_JSCPD_CONFIG_FILE: .ci/jscpd/jscpd.json
-          KUBERNETES_DIRECTORY: k8s
-          KUBERNETES_KUBEVAL_ARGUMENTS: --ignore-missing-schemas
-          KUBERNETES_KUBEVAL_FILTER_REGEX_INCLUDE: "(kubernetes)"
-          MARKDOWN_MARKDOWNLINT_CONFIG_FILE: .ci/markdown/.markdownlint.yaml
-          MARKDOWN_MARKDOWNLINT_RULES_PATH: .github/
-          YAML_YAMLLINT_CONFIG_FILE: .ci/yamllint/.yamllint.yaml
-          YAML_PRETTIER_CONFIG_FILE: .ci/prettier/.prettierrc.yaml
-          YAML_PRETTIER_ARGUMENTS: --ignore-path .ci/prettier/.prettierignore
+          run: exit 1
