@@ -60,6 +60,8 @@ spec:
             configBlock: |-
               policy sequential
               health_check 5s
+          - name: forward
+            parameters: . /etc/resolv.conf
           - name: cache
             parameters: 30
           - name: loop

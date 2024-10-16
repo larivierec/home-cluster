@@ -86,45 +86,8 @@ spec:
         ports:
           http:
             port: &port 32400
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: external
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-    #       external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
-    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    #     hosts:
-    #       - host: &host "plex.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-cilium.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        parentRefs:
-          - name: cilium-external
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "plex-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-            timeouts:
-              backendRequest: 3m
-      envoy:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
