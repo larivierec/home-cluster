@@ -1,0 +1,16 @@
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: minio-s3
+  namespace: networking
+spec:
+  endpoints:
+    - dnsName: s3.garb.dev
+      recordType: A
+      targets:
+        - 192.168.1.3
+    - dnsName: minio.garb.dev
+      recordType: A
+      targets:
+        - 192.168.1.3
