@@ -21,7 +21,7 @@ spec:
       peers:
         - name: opnsense
           peerASN: 65401
-          peerAddress: 192.168.50.1
+          peerAddress: 192.168.60.1
           peerConfigRef:
             name: cilium-peer
 ---
