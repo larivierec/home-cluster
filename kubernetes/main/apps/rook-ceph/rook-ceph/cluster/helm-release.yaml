@@ -60,11 +60,9 @@ spec:
           requireMsgr2: true
       resources:
         mgr:
-          requests:
-            cpu: 100m
-            memory: 512Mi
-          limits:
-            memory: 2Gi
+          modules:
+            - name: pg_autoscaler
+              enabled: true
         mon:
           requests:
             cpu: 50m
@@ -102,9 +100,12 @@ spec:
           - name: talos-w2
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D6C0
-          - name: talos-w3
+          # - name: talos-w3
+          #   devices:
+          #     - name: /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_1TB
+          - name: talos-w4
             devices:
-              - name: /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_1TB
+              - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX1KB04362R
       placement:
         mgr: &placement
           nodeAffinity:
