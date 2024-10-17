@@ -17,7 +17,7 @@ spec:
       kubernetes.io/os: "linux"
   bgpInstances:
     - name: cluster
-      localASN: 65442
+      localASN: 65444
       peers:
         - name: opnsense
           peerASN: 65401

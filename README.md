@@ -11,80 +11,14 @@
 <div align="center">
 
 [![Discord](https://img.shields.io/discord/673534664354430999?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/home-operations)
-[![k3s](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Flarivierec%2Fhome-cluster%2Fmain%2Fkubernetes%2Fmain%2Fapps%2Fsystem-upgrade%2Fsystem-upgrade-controller%2Fplans%2Fserver.yaml&query=spec.version&logo=k3s&label=k3s&style=for-the-badge)](https://k3s.io)
+[![talos](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Flarivierec%2Fhome-cluster%2Fmain%2Fkubernetes%2Fmain%2Fapps%2Fsystem-upgrade%2Fsystem-upgrade-controller%2Fplans%2Fserver.yaml&query=spec.version&logo=talos&label=talos&style=for-the-badge)](https://talos.dev)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
 
 </div>
 
 ---
 
-# Kubernetes with k3s
-
-## Setup
-
-k3s cluster will also be configured as an HA using etcd with the `--cluster-init` flag
-
-## Config File
-
-### Server
-
-1. Install k3s manually
-
-```bash
-curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s - --flannel-backend none \
-        --disable traefik \
-        --disable servicelb \
-        --disable coredns \
-        --disable-network-policy \
-        --disable-kube-proxy \
-        --disable=metrics-server \
-        --kube-controller-manager-arg bind-address=0.0.0.0 \
-        --kube-scheduler-arg bind-address=0.0.0.0 \
-        --etcd-expose-metrics \
-        --cluster-init
-```
-
-2. Add extra masters if need be.
-
-```bash
-curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://<hostname or ip>:6443 --flannel-backend none \
-        --disable traefik \
-        --disable servicelb \
-        --disable coredns \
-        --disable-network-policy \
-        --disable-kube-proxy \
-        --disable=metrics-server \
-        --kube-controller-manager-arg bind-address=0.0.0.0 \
-        --kube-scheduler-arg bind-address=0.0.0.0 \
-        --etcd-expose-metrics
-```
-
-3. Add workers
-
-### Workers
-
-```bash
-curl -sfL https://get.k3s.io | K3S_TOKEN="" K3S_URL=https://<ip:port> sh -
-```
-
-### Initialize
-
-#### Coredns
-
-4. use bootstrap values from kubernetes/apps/kube-system
-
-```bash
-helm repo add coredns https://coredns.github.io/helm
-helm install coredns coredns/coredns -f coredns/bootstrap/values.yaml --namespace kube-system
-```
-
-#### Cilium
-
-```bash
-helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium -f cilium/bootstrap/values.yaml --namespace kube-system
-```
----
+# Kubernetes with Talos
 
 # Networking
 
@@ -108,7 +42,7 @@ If I have internet access and the cluster explodes for whatever reason, at least
 
 #### Cilium CNI
 
-Be sure to set the Pod CIDR to the one you have chosen if you aren't using the k3s default. `10.42.0.0/16`
+Be sure to set the Pod CIDR to the one you have chosen if you aren't using the Talos default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
 
 The APIServer address must also be correct otherwise, the cni will not be installed on the nodes.

@@ -1,7 +1,7 @@
 bgpControlPlane:
   enabled: true
 cluster:
-  name: main
+  name: garb
 endpointRoutes:
   enabled: true
 ciliumEndpointSlice:
