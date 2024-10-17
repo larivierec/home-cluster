@@ -96,15 +96,15 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          - name: k3s-wg-0
+          - name: talos-w1
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
-          - name: k3s-wg-1
+          - name: talos-w2
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D6C0
-          - name: k3s-wg-3
+          - name: talos-w3
             devices:
-              - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX1KB04362R
+              - name: /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_1TB
       placement:
         mgr: &placement
           nodeAffinity:

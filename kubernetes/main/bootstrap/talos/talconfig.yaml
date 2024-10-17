@@ -1,0 +1,329 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.8.1
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.31.1
+
+clusterName: ${clusterName}
+endpoint: https://${clusterEndpointIP}:6443
+clusterPodNets:
+  - "10.42.0.0/16"
+clusterSvcNets:
+  - "10.43.0.0/16"
+additionalApiServerCertSans: &sans
+  - ${clusterEndpointIP}
+  - ${clusterName}.${clusterDNSSuffix}
+  - 127.0.0.1 # KubePrism
+additionalMachineCertSans: *sans
+cniConfig:
+  name: none
+
+nodes:
+  # control plane
+  - hostname: "talos-m1" #
+    ipAddress: "192.168.60.2" # whirlwind
+    installDiskSelector:
+      size: ">= 400GB"
+      model: "Samsung SSD 850"
+    controlPlane: true
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 7c:83:34:b3:46:1e
+              driver: r8169
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: "talos-m2" # frenzy
+    ipAddress: "192.168.60.3"
+    installDiskSelector:
+      size: ">= 400GB"
+      model: "512GB SSD"
+    controlPlane: true
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 7c:83:34:bb:ad:71
+              driver: r8169
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: "talos-m3" # fluffy
+    ipAddress: "192.168.60.4"
+    installDiskSelector:
+      size: ">= 400GB"
+    controlPlane: true
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 7c:83:34:b3:60:1d
+              driver: r8169
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
+        vip:
+          ip: ${clusterEndpointIP}
+  # workers
+  - hostname: "talos-w1" # k3s-wg-0
+    ipAddress: "192.168.60.5"
+    installDiskSelector:
+      size: ">= 500GB"
+      model: "Samsung SSD 990 PRO 1TB"
+    controlPlane: false
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 58:47:ca:76:9c:77
+              driver: i40e
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
+  - hostname: "talos-w2" # k3s-wg-1
+    ipAddress: "192.168.60.6"
+    installDiskSelector:
+      size: ">= 500GB"
+      model: "Sabrent Rocket Q4"
+    controlPlane: false
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 58:47:ca:74:f1:51
+              driver: i40e
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
+  # - hostname: "talos-w3"
+  #   ipAddress: "192.168.60.7"
+  #   installDiskSelector:
+  #     size: ">= 400GB"
+  #     model: "Samsung SSD 990 PRO 1TB"
+  #   # installDisk: /dev/dce9bc8b47302d1bc385b2448cd47c09fd104c8969a5c646ed830c1a2fdf07d2
+  #   # talosImageURL: factory.talos.dev/installer/
+  #   controlPlane: false
+  #   networkInterfaces:
+  # - interface: bond0
+  #   bond:
+  #     mode: 802.3ad
+  #     lacpRate: fast
+  #     xmitHashPolicy: layer3+4
+  #     miimon: 100
+  #     updelay: 200
+  #     downdelay: 200
+  #     interfaces:
+  #       - eth0
+  #       - eth1
+  #   dhcp: true
+  #   mtu: 9000
+
+patches:
+  # Configure containerd
+  - |
+    machine:
+      files:
+        - op: create
+          path: /etc/cri/conf.d/20-customization.part
+          content: |
+            [plugins."io.containerd.grpc.v1.cri"]
+              enable_unprivileged_ports = true
+              enable_unprivileged_icmp = true
+            [plugins."io.containerd.grpc.v1.cri".containerd]
+              discard_unpacked_layers = false
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+              discard_unpacked_layers = false
+
+  # Configure NFS Mounts
+  - &nfs |
+    machine:
+      files:
+        - op: overwrite
+          path: /etc/nfsmount.conf
+          permissions: 420
+          content: |
+            [ NFSMount_Global_Options ]
+              nfsvers = 4.2
+              hard = True
+              noatime = True
+              nodiratime = True
+              rsize = 131072
+              wsize = 131072
+              nconnect = 8
+
+  # Disable search domain everywhere
+  - &domainSearch |-
+    machine:
+      network:
+        disableSearchDomain: true
+
+  # Enable KubePrism
+  - &kubePrism |-
+    machine:
+      features:
+        kubePrism:
+          enabled: true
+          port: 7445
+
+  # Enable cluster discovery
+  - &clusterDiscovery |-
+    cluster:
+      discovery:
+        registries:
+          kubernetes:
+            disabled: false
+          service:
+            disabled: true
+
+  # Configure kubelet
+  - &kubelet |-
+    machine:
+      kubelet:
+        extraArgs:
+          image-gc-low-threshold: 50
+          image-gc-high-threshold: 55
+          rotate-server-certificates: true
+        nodeIP:
+          validSubnets:
+            - 192.168.60.0/24
+
+  # Custom sysctl settings
+  - &sysctls |-
+    machine:
+      sysctls:
+        fs.inotify.max_queued_events: "65536"
+        fs.inotify.max_user_watches: "524288"
+        fs.inotify.max_user_instances: "8192"
+        net.core.rmem_max: "7500000"
+        net.core.wmem_max: "7500000"
+
+  # # Mount 2nd disk for Longhorn Storage
+  # - |-
+  #   machine:
+  #     disks:
+  #     - device: /dev/nvme0n1
+  #       partitions:
+  #         - mountpoint: /var/mnt/longhorn
+
+  # Disable predictable NIC naming
+  - &nics |-
+    machine:
+      install:
+        extraKernelArgs:
+          - net.ifnames=0
+
+controlPlane:
+  nodeLabels:
+    topology.kubernetes.io/region: ${clusterName}
+    topology.kubernetes.io/zone: m
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/i915-ucode
+          - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
+          - siderolabs/realtek-firmware
+  patches:
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        coreDNS:
+          disabled: true
+        proxy:
+          disabled: true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+
+    # ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+          advertisedSubnets:
+            - 192.168.60.0/24
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
+
+    # Enable hostDNS:
+    - |-
+      machine:
+        features:
+          hostDNS:
+            enabled: true
+            forwardKubeDNSToHost: false
+            resolveMemberNames: true
+
+worker:
+  nodeLabels:
+    topology.kubernetes.io/region: ${clusterName}
+    topology.kubernetes.io/zone: w
+    node-role.kubernetes.io/worker: "true"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
+          - siderolabs/gasket-driver
+          - siderolabs/iscsi-tools
+  patches:
+    - *domainSearch
+    - *clusterDiscovery
+    - *domainSearch
+    - *kubelet
+    - *kubePrism
+    - *nfs
+    - *sysctls

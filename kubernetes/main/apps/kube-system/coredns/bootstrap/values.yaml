@@ -30,11 +30,13 @@ servers:
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
           ttl 30
+      # - name: forward
+      #   parameters: . 10.43.216.203 127.0.0.1:1053
+      #   configBlock: |-
+      #     policy sequential
+      #     health_check 5s
       - name: forward
-        parameters: . 10.43.216.203 127.0.0.1:1053
-        configBlock: |-
-          policy sequential
-          health_check 5s
+        parameters: . /etc/resolv.conf
       - name: cache
         parameters: 30
       - name: loop
@@ -62,9 +64,6 @@ tolerations:
   - key: CriticalAddonsOnly
     operator: Exists
   - key: node-role.kubernetes.io/control-plane
-    operator: Exists
-    effect: NoSchedule
-  - key: node-role.kubernetes.io/master
     operator: Exists
     effect: NoSchedule
 topologySpreadConstraints:

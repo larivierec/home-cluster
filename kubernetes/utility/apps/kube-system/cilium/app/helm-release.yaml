@@ -30,7 +30,7 @@ spec:
     bgpControlPlane:
       enabled: true
     cluster:
-      name: k3s
+      name: main
     endpointRoutes:
       enabled: true
     ciliumEndpointSlice:
