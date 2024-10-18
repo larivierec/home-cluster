@@ -186,7 +186,7 @@ patches:
           permissions: 420
           content: |
             [ NFSMount_Global_Options ]
-              nfsvers = 4.2
+              nfsvers = 4.1
               hard = True
               noatime = True
               nodiratime = True

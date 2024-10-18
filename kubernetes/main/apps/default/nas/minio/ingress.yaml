@@ -1,0 +1,54 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "850m"
+  name: internal-minio-api
+  namespace: default
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host s3.garb.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-api
+                port:
+                  number: 9000
+  tls:
+    - hosts:
+        - *host
+      secretName: wildcard-cert-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "850m"
+  name: internal-minio-web
+  namespace: default
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host minio.garb.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-web
+                port:
+                  number: 9001
+  tls:
+    - hosts:
+        - *host
+      secretName: wildcard-cert-tls

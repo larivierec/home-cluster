@@ -40,3 +40,17 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: minio
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/default/nas/minio"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+  wait: true
