@@ -3,8 +3,8 @@ module "home-cluster" {
   version = "0.18.0"
 
   name         = "home-cluster"
-  description  = "k3s cluster using gitops (flux) and renovate automation"
-  topics       = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "k3s", "bitwarden", "nvidia-docker"]
+  description  = "talos cluster using gitops and renovate automation"
+  topics       = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "talos", "bitwarden", "nvidia-docker"]
   visibility   = "public"
   homepage_url = "https://garb.dev"
 
