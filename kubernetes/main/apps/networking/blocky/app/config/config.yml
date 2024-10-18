@@ -72,7 +72,7 @@ blocking:
     marie-mba-work*:
       - noblock
 clientLookup:
-  upstream: 192.168.1.1
+  upstream: 192.168.60.1
 caching:
   prefetching: true
   prefetchExpires: 2h

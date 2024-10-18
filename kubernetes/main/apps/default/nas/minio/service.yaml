@@ -1,15 +1,5 @@
 ---
 apiVersion: v1
-kind: Service
-metadata:
-  name: minio-api
-  namespace: default
-spec:
-  ports:
-    - protocol: TCP
-      port: 9000
----
-apiVersion: v1
 kind: Endpoints
 metadata:
   name: minio-api
@@ -21,16 +11,6 @@ subsets:
       - port: 9000
 ---
 apiVersion: v1
-kind: Service
-metadata:
-  name: minio-web
-  namespace: default
-spec:
-  ports:
-    - protocol: TCP
-      port: 9001
----
-apiVersion: v1
 kind: Endpoints
 metadata:
   name: minio-web
@@ -40,3 +20,25 @@ subsets:
       - ip: 192.168.1.3
     ports:
       - port: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-api
+  namespace: default
+spec:
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-web
+  namespace: default
+spec:
+  ports:
+    - port: 9001
+      targetPort: 9001
+      protocol: TCP
