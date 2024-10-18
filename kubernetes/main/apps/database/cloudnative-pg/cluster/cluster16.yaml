@@ -21,21 +21,9 @@ spec:
       ssl_min_protocol_version: TLSv1.2
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v16-v1
+      source: &previousCluster postgres-v16-v2
   monitoring:
     enablePodMonitor: true
-  # managed:
-  #   services:
-  #     additional:
-  #       - selectorType: rw
-  #         serviceTemplate:
-  #           metadata:
-  #             name: postgres-lb
-  #             annotations:
-  #               coredns.io/hostname: postgres.garb.dev
-  #               lbipam.cilium.io/ips: 192.168.40.11
-  #           spec:
-  #             type: LoadBalancer
   backup:
     retentionPolicy: 30d
     barmanObjectStore:
@@ -43,8 +31,8 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
-      endpointURL: &endpoint https://s3.garb.dev
-      serverName: postgres-v16-v2
+      endpointURL: &endpoint http://192.168.1.3:9000
+      serverName: postgres-v16-v3
       s3Credentials:
         accessKeyId:
           name: minio-pgsql
