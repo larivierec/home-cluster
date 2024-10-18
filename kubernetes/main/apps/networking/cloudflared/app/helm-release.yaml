@@ -6,9 +6,6 @@ metadata:
   name: &app cloudflared
   namespace: networking
 spec:
-  dependsOn:
-    - name: ingress-external
-      namespace: networking
   interval: 5m
   chart:
     spec:
