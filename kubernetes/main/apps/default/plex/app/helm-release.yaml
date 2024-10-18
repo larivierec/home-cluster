@@ -124,11 +124,6 @@ spec:
             path: /volume2/media-sp2
         globalMounts:
           - path: /media
-      backup:
-        enabled: true
-        existingClaim: plex-backup
-        globalMounts:
-          - path: /config/backup
       tmp:
         type: emptyDir
       transcode:
