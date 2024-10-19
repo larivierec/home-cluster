@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "850m"
+  name: internal-netboot-menus
+  namespace: default
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host netboot.garb.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: netboot
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - *host
+      secretName: wildcard-cert-tls
