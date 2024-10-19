@@ -103,9 +103,6 @@ spec:
           - name: talos-w3
             devices:
               - name: /dev/disk/by-id/nvme-WD_BLACK_SN850X_1000GB_24233Y803079
-          - name: talos-w4
-            devices:
-              - name: /dev/disk/by-id/nvme-Samsung_SSD_970_EVO_500GB_S466NX1KB04362R
       placement:
         mgr: &placement
           nodeAffinity:
