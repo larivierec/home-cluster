@@ -127,6 +127,26 @@ nodes:
           downdelay: 200
         dhcp: true
         mtu: 9000
+  - hostname: "talos-w3"
+    ipAddress: "192.168.60.7"
+    installDiskSelector:
+      size: ">= 500GB"
+      model: "Samsung SSD 990 PRO 1TB"
+    controlPlane: false
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: 58:47:ca:77:eb:a6
+              driver: i40e
+          mode: 802.3ad
+          lacpRate: fast
+          xmitHashPolicy: layer3+4
+          miimon: 100
+          updelay: 200
+          downdelay: 200
+        dhcp: true
+        mtu: 9000
   - hostname: "talos-w4"
     ipAddress: "192.168.60.8"
     installDiskSelector:
@@ -138,28 +158,6 @@ nodes:
           hardwareAddr: 90:e2:ba:f4:2d:62
         dhcp: true
         mtu: 9000
-  # - hostname: "talos-w3"
-  #   ipAddress: "192.168.60.7"
-  #   installDiskSelector:
-  #     size: ">= 400GB"
-  #     model: "Samsung SSD 990 PRO 1TB"
-  #   # installDisk: /dev/dce9bc8b47302d1bc385b2448cd47c09fd104c8969a5c646ed830c1a2fdf07d2
-  #   # talosImageURL: factory.talos.dev/installer/
-  #   controlPlane: false
-  #   networkInterfaces:
-  # - interface: bond0
-  #   bond:
-  #     mode: 802.3ad
-  #     lacpRate: fast
-  #     xmitHashPolicy: layer3+4
-  #     miimon: 100
-  #     updelay: 200
-  #     downdelay: 200
-  #     interfaces:
-  #       - eth0
-  #       - eth1
-  #   dhcp: true
-  #   mtu: 9000
 
 patches:
   # Configure containerd

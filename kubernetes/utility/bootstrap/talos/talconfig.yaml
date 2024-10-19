@@ -20,7 +20,7 @@ cniConfig:
   name: none
 
 nodes:
-  - hostname: "talos-m1"
+  - hostname: "talos-utility-m1"
     ipAddress: "192.168.50.2"
     installDiskSelector:
       size: ">= 400GB"
