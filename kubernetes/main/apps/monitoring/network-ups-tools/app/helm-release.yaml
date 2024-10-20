@@ -93,12 +93,6 @@ spec:
         defaultMode: 0400
         globalMounts:
           - path: /etc/nut
-      ups:
-        type: hostPath
-        hostPath: /dev/bus/usb/001/004
-        globalMounts:
-          - path: /dev/bus/usb/001/001
-            readOnly: false
     configMaps:
       config:
         enabled: true
