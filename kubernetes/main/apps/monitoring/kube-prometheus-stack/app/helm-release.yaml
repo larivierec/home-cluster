@@ -75,13 +75,13 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - alertmanager.garb.dev
+          - &hostAlert alertmanager.garb.dev
         paths:
           - /
         tls:
-          - secretName: wildcard-cert-tls
+          - secretName: &cert wildcard-cert-tls
             hosts:
-              - "alertmanager.garb.dev"
+              - *hostAlert
         ingressClassName: internal
     grafana:
       enabled: false
@@ -192,7 +192,7 @@ spec:
         paths:
           - /
         tls:
-          - secretName: wildcard-cert-tls
+          - secretName: *cert
             hosts:
               - *hostPrometheus
         ingressClassName: internal

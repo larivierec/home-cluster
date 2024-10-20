@@ -82,20 +82,6 @@ spec:
         ports:
           http:
             port: *port
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "read.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
     route:
       app:
         enabled: true
@@ -104,17 +90,6 @@ spec:
             namespace: networking
         hostnames:
           - "read.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "read-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

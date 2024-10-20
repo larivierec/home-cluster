@@ -29,8 +29,6 @@ spec:
   dependsOn:
     - name: prometheus
       namespace: monitoring
-    - name: minio
-      namespace: system
     - name: local-path-provisioner
       namespace: system
   valuesFrom:

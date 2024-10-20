@@ -93,22 +93,6 @@ spec:
               - *host
             secretName: wildcard-cert-tls
     route:
-      app:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo-cilium.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        parentRefs:
-          - name: cilium-external
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "echo-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
       envoy:
         enabled: true
         annotations:

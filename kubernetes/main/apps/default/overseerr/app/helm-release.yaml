@@ -53,53 +53,19 @@ spec:
         ports:
           http:
             port: &port 5055
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: external
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: ingress.garb.dev
-    #       external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
-    #     hosts:
-    #       - host: &host "overseerr.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: overseerr.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: &host overseerr.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "overseerr.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: overseerr-cilium.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
-        parentRefs:
-          - name: cilium-external
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "overseerr-cilium.garb.dev"
+          - *host
         rules:
           - backendRefs:
               - port: *port

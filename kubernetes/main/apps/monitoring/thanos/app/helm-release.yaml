@@ -25,7 +25,7 @@ spec:
   dependsOn:
     - name: prometheus
       namespace: monitoring
-    - name: democratic-csi
+    - name: local-path-provisioner
       namespace: system
   values:
     objstoreConfig:
