@@ -1,0 +1,18 @@
+---
+devices:
+  - name: tun
+    groups:
+      - count: 1000
+        paths:
+          - path: /dev/net/tun
+
+  - name: coraltpu
+    groups:
+      - count: 1
+        usb:
+          - vendor: 1a6e
+            product: 089a
+      - count: 1
+        usb:
+          - vendor: 18d1
+            product: 9302

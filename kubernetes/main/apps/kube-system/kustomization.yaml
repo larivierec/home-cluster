@@ -9,6 +9,7 @@ resources:
   - ./coredns/ks.yaml
   - ./descheduler/ks.yaml
   - ./external-secrets/ks.yaml
+  - ./generic-device-plugin/ks.yaml
   - ./intel/ks.yaml
   - ./kubelet-csr-approver/ks.yaml
   - ./kured/ks.yaml

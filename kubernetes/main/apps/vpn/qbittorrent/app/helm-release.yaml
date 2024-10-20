@@ -87,6 +87,9 @@ spec:
                 add:
                   - NET_ADMIN
               allowPrivilegeEscalation: false
+            resources:
+              limits:
+                squat.ai/tun: "1"
         annotations:
           configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
         pod:

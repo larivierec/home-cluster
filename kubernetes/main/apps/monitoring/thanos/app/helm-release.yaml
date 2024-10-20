@@ -25,14 +25,14 @@ spec:
   dependsOn:
     - name: prometheus
       namespace: monitoring
-    - name: local-path-provisioner
+    - name: democratic-csi
       namespace: system
   values:
     objstoreConfig:
       type: s3
       config:
         bucket: thanos
-        endpoint: "minio.system.svc.cluster.local:9000"
+        endpoint: "s3.garb.dev"
         region: us-east-1
         insecure: true
     additionalEndpoints:
