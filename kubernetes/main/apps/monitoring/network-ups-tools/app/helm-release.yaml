@@ -41,6 +41,9 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
+            resources:
+              limits:
+                squat.ai/apc: "1"
           exporter:
             image:
               repository: ghcr.io/druggeri/nut_exporter
@@ -93,6 +96,12 @@ spec:
         defaultMode: 0400
         globalMounts:
           - path: /etc/nut
+      ups:
+        type: hostPath
+        hostPath: /dev/bus/usb/001/004
+        globalMounts:
+          - path: /dev/bus/usb/001/001
+            readOnly: false
     configMaps:
       config:
         enabled: true

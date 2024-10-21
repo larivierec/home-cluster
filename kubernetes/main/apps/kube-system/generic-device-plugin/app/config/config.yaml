@@ -16,3 +16,9 @@ devices:
         usb:
           - vendor: 18d1
             product: 9302
+  - name: apc
+    groups:
+      - count: 2
+        usb:
+          - vendor: 051D
+            product: 0002
