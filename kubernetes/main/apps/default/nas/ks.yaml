@@ -2,20 +2,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: synology-cert
-  namespace: flux-system
-spec:
-  interval: 10m
-  path: "./kubernetes/main/apps/default/nas/synology-cert"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-cluster
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: nas
   namespace: flux-system
 spec:
@@ -26,8 +12,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  dependsOn:
-    - name: synology-cert
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -42,8 +26,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  dependsOn:
-    - name: synology-cert
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -58,8 +40,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  dependsOn:
-    - name: synology-cert
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -74,8 +54,6 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  dependsOn:
-    - name: synology-cert
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -90,5 +68,3 @@ spec:
     kind: GitRepository
     name: home-cluster
   wait: true
-  dependsOn:
-    - name: synology-cert
