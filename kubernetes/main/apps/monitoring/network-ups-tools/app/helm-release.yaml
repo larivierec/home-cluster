@@ -99,6 +99,7 @@ spec:
       ups:
         type: hostPath
         hostPath: /dev/bus/usb/001/002
+        hostPathType: CharDevice
         globalMounts:
           - path: /dev/bus/usb/001/001
             readOnly: false

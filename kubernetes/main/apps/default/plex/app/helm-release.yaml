@@ -79,9 +79,7 @@ spec:
       app:
         controller: *app
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
         annotations:
-          coredns.io/hostname: plex.garb.dev
           lbipam.cilium.io/ips: 192.168.40.4
         ports:
           http:
