@@ -8,22 +8,55 @@ spec:
     - cidr: 192.168.70.0/24
 ---
 apiVersion: cilium.io/v2alpha1
-kind: CiliumBGPPeeringPolicy
+kind: CiliumBGPClusterConfig
 metadata:
-  name: peering-policy
+  name: cilium-bgp
 spec:
-  virtualRouters:
-    - localASN: 65443
-      serviceSelector:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: "linux"
+  bgpInstances:
+    - name: cluster
+      localASN: 65443
+      peers:
+        - name: opnsense
+          peerASN: 65401
+          peerAddress: 192.168.50.1
+          peerConfigRef:
+            name: cilium-peer
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer
+spec:
+  timers:
+    holdTimeSeconds: 90
+    keepAliveTimeSeconds: 30
+    connectRetryTimeSeconds: 120
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
+  ebgpMultihop: 10
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 15
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-advertisements
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: "Service"
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
         matchExpressions:
           - { key: somekey, operator: NotIn, values: ["never-used-value"] }
-      neighbors:
-        - peerAddress: "192.168.50.1/32"
-          peerASN: 65401
-          eBGPMultihopTTL: 10
-          connectRetryTimeSeconds: 120
-          holdTimeSeconds: 90
-          keepAliveTimeSeconds: 30
-          gracefulRestart:
-            enabled: true
-            restartTimeSeconds: 120

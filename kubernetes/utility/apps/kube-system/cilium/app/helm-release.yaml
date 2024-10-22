@@ -30,7 +30,7 @@ spec:
     bgpControlPlane:
       enabled: true
     cluster:
-      name: main
+      name: utility
     endpointRoutes:
       enabled: true
     ciliumEndpointSlice:
@@ -101,6 +101,7 @@ spec:
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     localRedirectPolicy: true
     operator:
+      replicas: 1
       rollOutPods: true
     prometheus:
       enabled: true

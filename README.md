@@ -31,17 +31,15 @@
 Be sure to set the Pod CIDR to the one you have chosen if you aren't using the Talos default. `10.42.0.0/16`
 Otherwise, you will more than likely have issues.
 
-The APIServer address must also be correct otherwise, the cni will not be installed on the nodes.
-I have the three master node IP addresses registered to the HAProxy on my router on port 6443.
-
 #### Gateway API
 
 Ingress and Gateway API can co-exist.
 Keep in mind, the DNS must simply be unique.
 
 You'll notice in my repo most of my external/internal services have both route and ingress.
-I've noticed after using Gateway-API extensively with Cilium, that it is not stable enough.
-For this reason, I have kept both and when Cilium's implementation decides to stop functioning, I have ingress available.
+I've noticed after using Gateway-API extensively with Cilium that it is not stable enough, and therefore, opted to use envoy's implementation.
+
+So far, it's probably one of the best Gateway API implementation that i've used.
 
 #### Ingress
 
