@@ -98,7 +98,7 @@ spec:
           - path: /etc/nut
       ups:
         type: hostPath
-        hostPath: /dev/bus/usb/001/004
+        hostPath: /dev/bus/usb/001/002
         globalMounts:
           - path: /dev/bus/usb/001/001
             readOnly: false

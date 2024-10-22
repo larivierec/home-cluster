@@ -11,7 +11,7 @@ resources:
   - ./loki/ks.yaml
   - ./network-ups-client/ks.yaml
   - ./network-ups-tools/ks.yaml
-  - ./network-ups-tools-office/ks.yaml
+  # - ./network-ups-tools-office/ks.yaml
   - ./opnsense/ks.yaml
   - ./prometheus-operator-crds/ks.yaml
   - ./snmp-exporter/ks.yaml
