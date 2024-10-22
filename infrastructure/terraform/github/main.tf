@@ -4,7 +4,7 @@ module "home-cluster" {
 
   name         = "home-cluster"
   description  = "talos cluster using gitops and renovate automation"
-  topics       = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "talos", "bitwarden", "nvidia-docker"]
+  topics       = ["flux", "gitops", "iac", "k8s-at-home", "kubernetes", "renovate", "tailscale", "talos", "bitwarden"]
   visibility   = "public"
   homepage_url = "https://garb.dev"
 
