@@ -6,6 +6,7 @@ metadata:
   name: &app network-ups-tools-office
   namespace: monitoring
 spec:
+  suspend: true
   interval: 30m
   chart:
     spec:

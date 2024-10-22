@@ -36,6 +36,7 @@ resources:
   - ./nvidia-operator.yaml
   - ./ori-edge.yaml
   - ./piraeus.yaml
+  - ./postfinance.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./stakater.yaml
