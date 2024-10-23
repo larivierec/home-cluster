@@ -58,8 +58,7 @@ spec:
       config:
         driver: local-hostpath
         local-hostpath:
-          # forgot to change, but doesn't really matter
-          shareBasePath: &storagePath /var/lib/rancher/k3s/local-hostpath
+          shareBasePath: &storagePath /var/lib/democratic-csi-local-hostpath
           controllerBasePath: *storagePath
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
