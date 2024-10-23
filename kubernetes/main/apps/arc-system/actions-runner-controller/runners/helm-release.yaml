@@ -39,7 +39,7 @@ spec:
       valuesKey: github_app_private_key
       targetPath: githubConfigSecret.github_app_private_key
   values:
-    runnerScaleSetName: arc-runner-set-home-cluster
+    runnerScaleSetName: main-arc-runner-set
     githubConfigUrl: https://github.com/larivierec/home-cluster
     minRunners: 1
     maxRunners: 6

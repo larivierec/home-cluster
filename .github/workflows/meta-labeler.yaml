@@ -9,7 +9,7 @@ on:
 jobs:
   labeler:
     name: Labeler
-    runs-on: ["arc-runner-set-home-cluster"]
+    runs-on: ["main-arc-runner-set"]
     steps:
       - name: Generate Token
         id: generate-token
