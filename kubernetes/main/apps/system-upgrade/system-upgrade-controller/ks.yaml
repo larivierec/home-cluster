@@ -2,9 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-system-upgrade-controller
+  name: system-upgrade-controller
   namespace: flux-system
 spec:
+  targetNamespace: system-upgrade
   path: ./kubernetes/main/apps/system-upgrade/system-upgrade-controller/app
   prune: true
   sourceRef:
@@ -18,11 +19,12 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-system-upgrade-controller-plans
+  name: system-upgrade-controller-plans
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-system-upgrade-controller
+    - name: system-upgrade-controller
+  targetNamespace: system-upgrade
   path: ./kubernetes/main/apps/system-upgrade/system-upgrade-controller/plans
   prune: true
   sourceRef:
@@ -32,3 +34,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute:
+      CONTROL_PLANE_SCHEMATIC_ID: 395a2c25f28a445eed24a30a3e5f078bfd733fd6677a06df942c16f45a445dd1
+      WORKER_SCHEMATIC_ID: 78793eadb0c168ade775111fef0dce3e4cc8b7b554a7cb40aada18b63411d128
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+      TALOS_VERSION: v1.8.1
+      # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+      KUBERNETES_VERSION: v1.31.2
