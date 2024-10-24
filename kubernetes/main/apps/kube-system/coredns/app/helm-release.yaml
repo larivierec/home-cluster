@@ -56,7 +56,7 @@ spec:
               fallthrough in-addr.arpa ip6.arpa
               ttl 30
           - name: forward
-            parameters: . 10.43.31.224 127.0.0.1:1053 # blocky is first ip, need to find a better way to do this
+            parameters: garb.dev 10.43.172.213
             configBlock: |-
               policy sequential
               health_check 5s
@@ -67,27 +67,6 @@ spec:
           - name: loop
           - name: reload
           - name: loadbalance
-      - zones:
-          - zone: .
-            scheme: dns://
-            use_tcp: true
-        port: 1053
-        plugins:
-          - name: forward
-            parameters: . tls://9.9.9.9
-            configBlock: |-
-              tls_servername dns.quad9.net
-              health_check 5s
-          - name: forward
-            parameters: . tls://1.1.1.1 tls://1.0.0.1
-            configBlock: |-
-              tls_servername cloudflare-dns.com
-              health_check 5s
-          - name: forward
-            parameters: . tls://8.8.8.8
-            configBlock: |-
-              tls_servername dns.google
-              health_check 5s
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
