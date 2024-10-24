@@ -3,19 +3,19 @@ connectIPVersion: v4
 upstreams:
   groups:
     default:
-      - tcp-tls:one.one.one.one
-      - tcp-tls:dns.quad9.net
-      - https://cloudflare-dns.com/dns-query
       - https://dns.quad9.net/dns-query
+      - tcp-tls:dns.quad9.net
+      - tcp-tls:one.one.one.one
+      - https://cloudflare-dns.com/dns-query
   timeout: 2s
 conditional:
   mapping:
     cluster.local: 10.43.0.10
     garb.dev: 10.43.172.213
 bootstrapDns:
-  upstream: tcp-tls:one.one.one.one
+  upstream: tcp-tls:dns.quad9.net
   ips:
-    - 1.1.1.1
+    - 9.9.9.9
 filtering:
   queryTypes:
     - AAAA

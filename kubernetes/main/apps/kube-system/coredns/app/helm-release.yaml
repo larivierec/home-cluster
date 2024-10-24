@@ -74,9 +74,19 @@ spec:
         port: 1053
         plugins:
           - name: forward
+            parameters: . tls://9.9.9.9
+            configBlock: |-
+              tls_servername dns.quad9.net
+              health_check 5s
+          - name: forward
             parameters: . tls://1.1.1.1 tls://1.0.0.1
             configBlock: |-
               tls_servername cloudflare-dns.com
+              health_check 5s
+          - name: forward
+            parameters: . tls://8.8.8.8
+            configBlock: |-
+              tls_servername dns.google
               health_check 5s
     affinity:
       nodeAffinity:
