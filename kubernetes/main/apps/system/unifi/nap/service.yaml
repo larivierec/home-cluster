@@ -2,17 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-network-application
+  name: unifi-console
   namespace: system
-  annotations:
-    coredns.io/hostname: unifi-controller.garb.dev
-    lbipam.cilium.io/ips: 192.168.40.9
 spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Cluster
+  type: ClusterIP
   ports:
     - protocol: TCP
-      port: 8443
+      port: 443
       name: admin
     - protocol: TCP
       port: 8080
@@ -39,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: unifi-network-application
+  name: unifi-console
   namespace: system
 subsets:
   - addresses:
-      - ip: 192.168.1.3
+      - ip: 192.168.1.1
     ports:
-      - port: 8443
+      - port: 443
         protocol: TCP
         name: admin

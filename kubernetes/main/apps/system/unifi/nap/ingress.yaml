@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-  name: unifi-network-application
+  name: unifi-console
   namespace: system
 spec:
   ingressClassName: internal
@@ -16,9 +16,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: unifi-network-application
+                name: unifi-console
                 port:
-                  number: 8443
+                  number: 443
   tls:
     - hosts:
         - *host
