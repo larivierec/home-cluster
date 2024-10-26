@@ -39,7 +39,7 @@ spec:
     - name: cluster
       localASN: 65444
       peers:
-        - name: opnsense
+        - name: gateway
           peerASN: 65401
           peerAddress: 192.168.60.1
           peerConfigRef:

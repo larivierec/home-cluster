@@ -11,5 +11,4 @@ resources:
   - ./gateway/ks.yaml
   - ./ingress-nginx/ks.yaml
   - ./k8s-gateway/ks.yaml
-  - ./opnsense/ks.yaml
   - ./tailscale-gateway/ks.yaml
