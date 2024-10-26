@@ -30,11 +30,12 @@ servers:
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
           ttl 30
-      - name: forward
-        parameters: garb.dev 192.168.40.10 127.0.0.1:1053
-        configBlock: |-
-          policy sequential
-          health_check 5s
+        # if not using external-dns-unifi-webhook, this should point to k8s-gateway
+        # - name: forward
+        #   parameters: garb.dev 10.43.172.213
+        #   configBlock: |-
+        #     policy sequential
+        #     health_check 5s
       - name: forward
         parameters: . /etc/resolv.conf
       - name: cache

@@ -55,6 +55,7 @@ spec:
               pods insecure
               fallthrough in-addr.arpa ip6.arpa
               ttl 30
+          # if not using external-dns-unifi-webhook, this should point to k8s-gateway
           - name: forward
             parameters: garb.dev 10.43.172.213
             configBlock: |-
