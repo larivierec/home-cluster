@@ -53,7 +53,7 @@ spec:
           annotations:
             configmap.reloader.stakater.com/reload: network-ups-tools-office-config
           nodeSelector:
-            node-role.kubernetes.io/worker: "true"
+            node-role.kubernetes.io/worker: ""
             ups.feature.node.kubernetes.io/apc: "true"
     service:
       app:

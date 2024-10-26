@@ -53,14 +53,14 @@ spec:
         storageClass: local-hostpath
         size: 10Gi
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: ""
     query:
       enabled: true
       replicas: 2
       extraArgs: ["--alert.query-url=https://thanos.garb.dev"]
       additionalStores: ["thanos-svc.garb.dev:10901"]
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: ""
     queryFrontend:
       enabled: true
       replicas: 2
@@ -72,7 +72,7 @@ spec:
               key: cache.yaml
       extraArgs: ["--query-range.response-cache-config=$(THANOS_CACHE_CONFIG)"]
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: ""
       ingress:
         enabled: true
         ingressClassName: internal
@@ -114,7 +114,7 @@ spec:
       persistence: *persistence
       podAnnotations: *podAnnotations
       nodeSelector:
-        node-role.kubernetes.io/worker: "true"
+        node-role.kubernetes.io/worker: ""
   valuesFrom:
     - targetPath: objstoreConfig.config.access_key
       kind: Secret

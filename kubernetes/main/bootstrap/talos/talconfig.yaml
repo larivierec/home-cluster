@@ -320,7 +320,7 @@ worker:
   nodeLabels:
     topology.kubernetes.io/region: ${clusterName}
     topology.kubernetes.io/zone: w
-    # node-role.kubernetes.io/worker: "true" - not allowed to be set
+    # node-role.kubernetes.io/worker: "" - not allowed to be set
   schematic:
     customization:
       systemExtensions:

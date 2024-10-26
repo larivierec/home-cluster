@@ -53,4 +53,4 @@ spec:
             memory: 50Mi
     terminationGracePeriodSeconds: 0
     nodeSelector:
-      node-role.kubernetes.io/worker: "true"
+      node-role.kubernetes.io/worker: ""
