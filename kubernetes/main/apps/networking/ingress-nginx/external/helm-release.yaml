@@ -55,6 +55,8 @@ spec:
               operator: In
               values:
                 - external
+      extraArgs:
+        default-ssl-certificate: "networking/wildcard-cert-tls"
       service:
         type: LoadBalancer
         externalTrafficPolicy: Cluster

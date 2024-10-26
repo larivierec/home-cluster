@@ -31,10 +31,10 @@ module "dns_records" {
 
   txt_records = {
     "garb.dev" = { records = [
-      "apple-domain=dPAmcbw67V29ieeV",
-      "v=spf1 include:icloud.com ~all",
+      "\"apple-domain=dPAmcbw67V29ieeV\"",
+      "\"v=spf1 include:icloud.com ~all\"",
     ], ttl = "3600" },
-    "_dmarc" = { records = ["v=DMARC1; p=quarantine rua=mailto:baee06f019b04b0cacb868a9de6a7ade@dmarc-reports.cloudflare.net"], ttl = "1" },
+    "_dmarc" = { records = ["\"v=DMARC1; p=quarantine rua=mailto:baee06f019b04b0cacb868a9de6a7ade@dmarc-reports.cloudflare.net\""], ttl = "1" },
   }
 }
 
