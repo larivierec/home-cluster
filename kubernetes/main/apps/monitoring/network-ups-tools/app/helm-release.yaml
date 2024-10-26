@@ -52,7 +52,7 @@ spec:
           annotations:
             configmap.reloader.stakater.com/reload: network-ups-tools-config
           nodeSelector:
-            node-role.kubernetes.io/control-plane: "true"
+            node-role.kubernetes.io/control-plane: ""
             ups.feature.node.kubernetes.io/apc: "true"
     service:
       app:
@@ -99,7 +99,6 @@ spec:
       ups:
         type: hostPath
         hostPath: /dev/bus/usb/001/002
-        hostPathType: CharDevice
         globalMounts:
           - path: /dev/bus/usb/001/001
             readOnly: false

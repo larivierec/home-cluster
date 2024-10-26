@@ -46,7 +46,7 @@ spec:
       ingressClassResource:
         name: external
         enabled: true
-        default: true
+        default: false
         controllerValue: "k8s.io/ingress-nginx-external"
       admissionWebhooks:
         objectSelector:
