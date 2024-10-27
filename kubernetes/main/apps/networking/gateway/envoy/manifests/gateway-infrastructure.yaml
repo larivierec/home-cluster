@@ -54,7 +54,7 @@ spec:
       # with a different name and tries to take this IP.
       # the problem is the service created by cilium is not the one used by envoy.
       # therefore, the service is disabled
-      lbipam.cilium.io/ips: 192.168.40.22
+      lbipam.cilium.io/ips: &internal 192.168.40.22
   listeners:
     - name: http
       protocol: HTTP
@@ -84,7 +84,7 @@ spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: 192.168.40.23
+      lbipam.cilium.io/ips: &external 192.168.40.23
   listeners:
     - name: http
       protocol: HTTP
@@ -146,3 +146,15 @@ spec:
       - http/1.1
   # http3:
   #   enabled: true
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: envoy-external
+  namespace: networking
+spec:
+  endpoints:
+    - dnsName: ingress.garb.dev
+      recordType: A
+      targets: ["192.168.40.23"]

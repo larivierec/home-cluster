@@ -46,6 +46,10 @@ spec:
                   secretKeyRef:
                     name: ddns
                     key: ACCOUNT_TOKEN
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
             probes:
               liveness:
                 enabled: true
@@ -84,21 +88,6 @@ spec:
             path: /metrics
             interval: 30s
             scrapeTimeout: 30s
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "ddns.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
@@ -108,18 +97,6 @@ spec:
             sectionName: https
         hostnames:
           - "ddns.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "ddns-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
