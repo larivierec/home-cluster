@@ -17,7 +17,7 @@ data:
 
     originRequest:
       http2Origin: true
-      originServerName: ingress.garb.dev
+      originServerName: external.garb.dev
 
     no-autoupdate: true
 

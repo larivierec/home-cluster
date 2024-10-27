@@ -11,6 +11,6 @@ metadata:
     external-dns.alpha.kubernetes.io/target: "dummy"
 spec:
   endpoints:
-    - dnsName: ingress.garb.dev
+    - dnsName: external.garb.dev
       recordType: CNAME
       targets: ["${SECRET_CLOUDFLARE_TUNNEL}.cfargotunnel.com"]
