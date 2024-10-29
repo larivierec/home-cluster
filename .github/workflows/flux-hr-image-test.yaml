@@ -1,5 +1,5 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Flux Image Test"
 on:
   pull_request:
@@ -13,7 +13,7 @@ concurrency:
 jobs:
   get-secret:
     name: Retrieve Secrets
-    runs-on: ["main-arc-runner-set"]
+    runs-on: ["garb-arc-runner-set"]
     outputs:
       bot_app_id: ${{ steps.parse-secrets.outputs.bot_app_id }}
       bot_app_private_key: ${{ steps.parse-secrets.outputs.bot_app_private_key }}
