@@ -1,5 +1,5 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Flux Image Test"
 on:
   pull_request:
@@ -13,7 +13,7 @@ concurrency:
 jobs:
   get-secret:
     name: Retrieve Secrets
-    runs-on: ["main-arc-runner-set"]
+    runs-on: ["garb-arc-runner-set"]
     outputs:
       bot_app_id: ${{ steps.parse-secrets.outputs.bot_app_id }}
       bot_app_private_key: ${{ steps.parse-secrets.outputs.bot_app_private_key }}
@@ -32,8 +32,14 @@ jobs:
         id: parse-secrets
         run: |
           BOT_APP_ID="$(jq -r .bot_id <<< "${GH_SECRETS}")"
+          BOT_APP_PRIVATE_KEY_B64="$(jq -r .bot_pk_b64 <<< "${GH_SECRETS}")"
           echo "::add-mask::${BOT_APP_ID}"
+          echo "::add-mask::${BOT_APP_PRIVATE_KEY_B64}"
+          echo -n "$BOT_APP_PRIVATE_KEY_B64" | base64 -d -o tmp.pk
+          BOT_APP_PRIVATE_KEY=$(<tmp.pk)
+          echo "::add-mask::${BOT_APP_PRIVATE_KEY}"
           echo "bot_app_id=${BOT_APP_ID}" >> "$GITHUB_OUTPUT"
+          echo "bot_app_private_key=${BOT_APP_PRIVATE_KEY}" >> "$GITHUB_OUTPUT"
   changed-clusters:
     name: Changed Clusters
     runs-on: ubuntu-latest
