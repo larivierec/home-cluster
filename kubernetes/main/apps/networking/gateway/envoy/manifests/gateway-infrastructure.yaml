@@ -75,6 +75,22 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-cert-tls
+    - name: tcp
+      protocol: TCP
+      port: 10000
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute
+    - name: udp
+      protocol: UDP
+      port: 10001
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: UDPRoute
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
