@@ -40,6 +40,8 @@ spec:
               - --source=service
               - --source=ingress
               - --source=gateway-httproute
+              - --source=gateway-tcproute
+              - --source=gateway-udproute
               - --source=crd
               - --gateway-namespace=networking
               - --txt-owner-id=unifi
@@ -51,6 +53,9 @@ spec:
               - --interval=1m
               - --log-format=text
               - --log-level=info
+              - --managed-record-types=A
+              - --managed-record-types=CNAME
+              - --managed-record-types=SRV
               - --metrics-address=:7979
               - --ignore-ingress-tls-spec
             securityContext:

@@ -58,6 +58,9 @@ spec:
               - --interval=1m
               - --log-format=text
               - --log-level=info
+              - --managed-record-types=A
+              - --managed-record-types=CNAME
+              - --managed-record-types=SRV
               - --metrics-address=:7979
             probes:
               liveness: &probes
