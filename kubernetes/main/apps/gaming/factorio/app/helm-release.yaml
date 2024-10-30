@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app factorio
+  namespace: gaming
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      factorio:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            env:
+              TZ: "America/New_York"
+              SAVE_NAME: factorio-0
+              BIND: "0.0.0.0"
+            image:
+              repository: factoriotools/factorio
+              tag: 2.0.12
+    service:
+      app:
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.40.7
+        externalTrafficPolicy: Local
+        controller: factorio
+        ports:
+          gametcp:
+            port: &port 27015
+          gameudp:
+            port: &gamePort 34197
+            protocol: "UDP"
+
+    route:
+      app:
+        enabled: true
+        kind: UDPRoute
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: factorio.garb.dev
+          # doesn't work with cloudflared, need to remove the proxy
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external-l4
+            namespace: networking
+            sectionName: udp
+        rules:
+          - backendRefs:
+              - port: *gamePort
+                name: *app
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
+      exporter:
+        env:
+          port: 9794
+          additionalMetrics: true
+          unknownQueueItems: false
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: factorio-0
+        globalMounts:
+          - path: /factorio

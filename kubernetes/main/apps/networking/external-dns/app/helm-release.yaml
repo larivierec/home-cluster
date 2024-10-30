@@ -44,6 +44,8 @@ spec:
               - --annotation-filter=external-dns.alpha.kubernetes.io/target
               - --source=ingress
               - --source=gateway-httproute
+              - --source=gateway-tcproute
+              - --source=gateway-udproute
               - --source=crd
               - --gateway-namespace=networking
               - --txt-owner-id=public

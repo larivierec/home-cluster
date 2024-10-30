@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: factorio-0
+  namespace: gaming
+spec:
+  accessModes:
+    - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: factorio-bootstrap
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: factorio-bootstrap
+  namespace: gaming
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-factorio
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 8Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    capacity: 10Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: factorio
+  namespace: gaming
+spec:
+  sourcePVC: factorio-0
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-factorio
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 50Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+    retain:
+      daily: 4
+      within: 3d

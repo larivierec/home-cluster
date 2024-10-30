@@ -148,3 +148,53 @@ spec:
       - http/1.1
   # http3:
   #   enabled: true
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: external-l4
+  namespace: networking
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: envoy-external-l4
+  enableProxyProtocol: true
+  clientIPDetection:
+    xForwardedFor:
+      numTrustedHops: 2
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-external-l4
+  namespace: networking
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ipv4.garb.dev
+    external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
+spec:
+  gatewayClassName: envoy
+  infrastructure:
+    annotations:
+      # when using gateway-apis in cilium it also creates a service
+      # with a different name and tries to take this IP.
+      # the problem is the service created by cilium is not the one used by envoy.
+      # therefore, the service is disabled
+      lbipam.cilium.io/ips: 192.168.40.21
+  listeners:
+    - name: tcp
+      protocol: TCP
+      port: 10000
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute
+    - name: udp
+      protocol: UDP
+      port: 10001
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: UDPRoute

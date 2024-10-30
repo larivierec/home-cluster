@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: factorio
+  namespace: gaming
+spec:
+  endpoints:
+    - dnsName: factorio.garb.dev
+      recordType: A
+      targets: ["192.168.40.21"]
