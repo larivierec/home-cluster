@@ -6,3 +6,4 @@ resources:
   - ./pvc.yaml
   - ./helm-release.yaml
   - ./endpoint.yaml
+  - ./traffic-policy.yaml

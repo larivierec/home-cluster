@@ -11,34 +11,6 @@ spec:
     name: config
     namespace: networking
 ---
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyProxy
-metadata:
-  name: config
-  namespace: networking
-spec:
-  telemetry:
-    metrics:
-      prometheus: {}
-  shutdown:
-    drainTimeout: 300s
-  logging:
-    level:
-      default: info
-  provider:
-    type: Kubernetes
-    kubernetes:
-      envoyDeployment:
-        replicas: 2
-        container:
-          resources:
-            requests:
-              cpu: 150m
-              memory: 640Mi
-            limits:
-              cpu: 500m
-              memory: 1Gi
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -106,63 +78,6 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-cert-tls
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ClientTrafficPolicy
-metadata:
-  name: client-traffic-internal
-  namespace: networking
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: envoy-internal
-  clientIPDetection:
-    xForwardedFor:
-      numTrustedHops: 1
-  tls:
-    minVersion: "1.2"
-    alpnProtocols:
-      - h2
-      - http/1.1
-  # http3:
-  #   enabled: true
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ClientTrafficPolicy
-metadata:
-  name: client-traffic-external
-  namespace: networking
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: envoy-external
-  clientIPDetection:
-    xForwardedFor:
-      numTrustedHops: 2
-  tls:
-    minVersion: "1.2"
-    alpnProtocols:
-      - h2
-      - http/1.1
-  # http3:
-  #   enabled: true
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ClientTrafficPolicy
-metadata:
-  name: external-l4
-  namespace: networking
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: envoy-external-l4
-  enableProxyProtocol: true
-  clientIPDetection:
-    xForwardedFor:
-      numTrustedHops: 2
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway

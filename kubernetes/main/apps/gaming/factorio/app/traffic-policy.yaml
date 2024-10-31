@@ -1,0 +1,13 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: &gameServer factorio
+  namespace: gaming
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: UDPRoute
+    name: *gameServer
+  proxyProtocol:
+    version: "V2"
