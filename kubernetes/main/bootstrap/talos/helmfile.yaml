@@ -24,7 +24,7 @@ releases:
   - name: cilium
     namespace: kube-system
     chart: cilium/cilium
-    version: 1.17.0-pre.1
+    version: 1.17.0-pre.2
     values:
       - ../../apps/kube-system/cilium/bootstrap/values.yaml
     needs:
