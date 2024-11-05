@@ -58,11 +58,11 @@ provider "cloudflare" {
 }
 
 data "bitwarden_secret" "minio" {
-  id = "19d75ac1-1526-44c1-b8d3-b20400d83107"
+  key = "minio"
 }
 
 data "bitwarden_secret" "cloudflare" {
-  id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
+  key = "cloudflare"
 }
 
 locals {

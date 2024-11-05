@@ -10,11 +10,11 @@ provider "bitwarden" {
 }
 
 data "bitwarden_secret" "this" {
-  id = "b283f0a4-85da-4ce3-a5fa-b20400d83993"
+  key = "actions-runner"
 }
 
 data "bitwarden_secret" "github" {
-  id = "4c93fe22-dd57-4d4d-96b2-b20600132b47"
+  key = "github"
 }
 
 locals {
