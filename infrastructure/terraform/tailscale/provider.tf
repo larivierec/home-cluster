@@ -13,7 +13,7 @@ terraform {
     }
     bitwarden = {
       source  = "maxlaverse/bitwarden"
-      version = "0.10.0"
+      version = "0.11.0"
     }
     tailscale = {
       source  = "tailscale/tailscale"
@@ -35,7 +35,7 @@ provider "tailscale" {
 }
 
 data "bitwarden_secret" "tailscale" {
-  id = "a8d9079c-7477-4591-b38c-b20400d8326e"
+  key = "tailscale"
 }
 
 locals {

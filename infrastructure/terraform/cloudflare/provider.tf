@@ -21,7 +21,7 @@ terraform {
     }
     bitwarden = {
       source  = "maxlaverse/bitwarden"
-      version = "0.10.0"
+      version = "0.11.0"
     }
   }
 }
@@ -39,7 +39,7 @@ provider "bitwarden" {
 }
 
 data "bitwarden_secret" "cloudflare" {
-  id = "cabc2165-4ca7-4bb9-871e-b20400d82e54"
+  key = "cloudflare"
 }
 
 locals {
