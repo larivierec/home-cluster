@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -6,7 +7,8 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./local-path-provisioner/ks.yaml
-  - ./stakater/ks.yaml
   - ./reflector/ks.yaml
+  - ./spegel/ks.yaml
+  - ./stakater/ks.yaml
   - ./unifi/ks.yaml
   - ./vaultwarden/ks.yaml
