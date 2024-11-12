@@ -33,7 +33,7 @@ nodes:
           deviceSelectors:
             - hardwareAddr: 7c:83:34:b3:46:1e
               driver: r8169
-            - hardwareAddr: 7c:83:34:b3:46:1f
+            - hardwareAddr: 7c:83:34:b3:46:1b
               driver: r8169
           mode: 802.3ad
           lacpRate: fast
