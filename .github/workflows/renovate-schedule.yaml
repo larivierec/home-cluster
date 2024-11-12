@@ -1,5 +1,6 @@
 ---
 name: Schedule - Renovate
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
