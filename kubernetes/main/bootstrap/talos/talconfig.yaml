@@ -239,14 +239,6 @@ patches:
         net.core.rmem_max: "7500000"
         net.core.wmem_max: "7500000"
 
-  # # Mount 2nd disk for Longhorn Storage
-  # - |-
-  #   machine:
-  #     disks:
-  #     - device: /dev/nvme0n1
-  #       partitions:
-  #         - mountpoint: /var/mnt/longhorn
-
   # Disable predictable NIC naming
   - &nics |-
     machine:
@@ -320,14 +312,19 @@ worker:
   nodeLabels:
     topology.kubernetes.io/region: ${clusterName}
     topology.kubernetes.io/zone: w
-    # node-role.kubernetes.io/worker: "" - not allowed to be set
   schematic:
     customization:
+      extraKernelArgs:
+        - intel_iommu=on
+        - iommu=pt
+        - mitigations=off
       systemExtensions:
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
           - siderolabs/gasket-driver
+          - siderolabs/mei
+          - siderolabs/thunderbolt
           - siderolabs/iscsi-tools
   patches:
     - *domainSearch
