@@ -24,7 +24,7 @@ spec:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-    - key: node-role.kubernetes.io/control-plane
+    - key: node-role.kubernetes.io/worker
       operator: Exists
       effect: NoSchedule
   prepare: &prepare
@@ -44,5 +44,4 @@ spec:
       - --nodes=$(NODE_IP)
       - upgrade
       - --image=factory.talos.dev/installer/${WORKER_SCHEMATIC_ID}:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION) # to change schematic id
-      - --preserve=true
       - --wait=false
