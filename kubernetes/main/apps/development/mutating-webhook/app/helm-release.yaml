@@ -28,14 +28,17 @@ spec:
   values:
     rules:
       - name: "docker.io rewrite rule"
-        # image refs must match at least one of the rules, and not match any excludes
         matches:
           - "^docker.io"
         replace: "harbor.garb.dev/docker.io"
-        checkUpstream: false
+        checkUpstream: true
       - name: "ghcr.io rewrite"
-        # image refs must match at least one of the rules, and not match any excludes
         matches:
           - "^ghcr.io"
         replace: "harbor.garb.dev/ghcr.io"
-        checkUpstream: true # tests if the manifest for the rewritten image exists
+        checkUpstream: true
+      - name: "quay.io rewrite"
+        matches:
+          - "^quay.io"
+        replace: "harbor.garb.dev/quay.io"
+        checkUpstream: true
