@@ -36,6 +36,11 @@ spec:
       valuesKey: INIT_POSTGRES_USER
       targetPath: database.external.username
       optional: false
+    - kind: Secret
+      name: harbor
+      valuesKey: token
+      targetPath: trivy.githubToken
+      optional: false
   values:
     expose:
       type: ingress
@@ -63,6 +68,8 @@ spec:
       type: external
       external:
         host: postgres-v16-rw.database.svc.cluster.local
+    trivy:
+      enabled: true
     persistence:
       enabled: true
       persistentVolumeClaim:
@@ -81,6 +88,8 @@ spec:
         trivy:
           storageClass: ceph-block
           size: 5Gi
+    cache:
+      enabled: true
     existingSecretAdminPassword: harbor
     existingSecretAdminPasswordKey: password
     secretKey:
