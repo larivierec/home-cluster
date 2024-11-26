@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://github.com/fluxcd-community/flux2-schemas/raw/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor-webhook
+  namespace: development
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: harbor-container-webhook
+      version: 0.7.0
+      sourceRef:
+        kind: HelmRepository
+        name: indeed-eng
+        namespace: flux-system
+  driftDetection:
+    mode: enabled
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    rules:
+      - name: "docker.io rewrite rule"
+        # image refs must match at least one of the rules, and not match any excludes
+        matches:
+          - "^docker.io"
+        replace: "harbor.garb.dev/docker.io"
+        checkUpstream: false
+      - name: "ghcr.io rewrite"
+        # image refs must match at least one of the rules, and not match any excludes
+        matches:
+          - "^ghcr.io"
+        replace: "harbor.garb.dev/ghcr.io"
+        checkUpstream: true # tests if the manifest for the rewritten image exists

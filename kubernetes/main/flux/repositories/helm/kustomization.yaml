@@ -23,6 +23,7 @@ resources:
   - ./fission.yaml
   - ./grafana.yaml
   - ./harbor.yaml
+  - ./indeed-eng.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./jetstack.yaml
@@ -33,9 +34,6 @@ resources:
   - ./longhorn.yaml
   - ./minio.yaml
   - ./nfs-provisioner.yaml
-  - ./nvidia-dcgm.yaml
-  - ./nvidia-device-plugin.yaml
-  - ./nvidia-operator.yaml
   - ./ori-edge.yaml
   - ./piraeus.yaml
   - ./postfinance.yaml
