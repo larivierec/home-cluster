@@ -22,6 +22,7 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   values:
     serviceMonitor:
@@ -37,5 +38,8 @@ spec:
         interval: 1m
     bitwarden-sdk-server:
       enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 1m
       podAnnotations:
         secret.reloader.stakater.com/reload: "bitwarden-css-certs,bitwarden-secrets-manager,bitwarden-tls-certs"

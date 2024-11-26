@@ -25,6 +25,17 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: postgres-harbor
+      valuesKey: INIT_POSTGRES_PASS
+      targetPath: database.external.password
+      optional: false
+    - kind: Secret
+      name: postgres-harbor
+      valuesKey: INIT_POSTGRES_USER
+      targetPath: database.external.username
+      optional: false
   values:
     expose:
       type: ingress
@@ -37,12 +48,26 @@ spec:
         hosts:
           core: &external harbor.garb.dev
     externalURL: https://harbor.garb.dev
+    registry:
+      initContainers:
+        - name: init-db
+          image: ghcr.io/onedr0p/postgres-init:16.6
+          envFrom:
+            - secretRef:
+                name: postgres-harbor
+    redis:
+      type: external
+      external:
+        addr: dragonfly.database.svc:6379
+    database:
+      type: external
+      external:
+        host: postgres-v16-rw.database.svc.cluster.local
     persistence:
       enabled: true
       persistentVolumeClaim:
         registry:
-          storageClass: ceph-block
-          size: 10Gi
+          existingClaim: harbor-registry-0
         jobservice:
           jobLog:
             storageClass: ceph-block

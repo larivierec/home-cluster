@@ -18,3 +18,5 @@ spec:
         name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets-stores
+    - name: cluster-apps-cloudnative-pg
+    - name: dragonfly-cluster
