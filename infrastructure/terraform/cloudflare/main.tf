@@ -9,8 +9,7 @@ module "dns_records" {
   a_records = {
     # make the root domain target self, allowing you to redirect it
     # see zone.tf redirect rule
-    "garb.dev"      = { ip = "192.0.2.1", ttl = "1", proxied = true },
-    "ipv4.garb.dev" = { ip = data.http.ip_address.response_body, ttl = "1", proxied = true }
+    "garb.dev" = { ip = "192.0.2.1", ttl = "1", proxied = true }
   }
 
   cname_records = {
@@ -36,10 +35,6 @@ module "dns_records" {
     ], ttl = "3600" },
     "_dmarc" = { records = ["\"v=DMARC1; p=quarantine; rua=mailto:baee06f019b04b0cacb868a9de6a7ade@dmarc-reports.cloudflare.net;\""], ttl = "1" },
   }
-}
-
-data "http" "ip_address" {
-  url = "https://ddns.garb.dev/v1/get"
 }
 
 data "sops_file" "this" {
