@@ -28,6 +28,8 @@ spec:
   values:
     controllers:
       lidarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: deployment
         initContainers:
           init:
@@ -70,7 +72,6 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-
     service:
       app:
         controller: *app
@@ -101,18 +102,6 @@ spec:
             sectionName: https
         hostnames:
           - "lidarr.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "lidarr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

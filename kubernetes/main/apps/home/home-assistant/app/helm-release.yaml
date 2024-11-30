@@ -28,6 +28,8 @@ spec:
   values:
     controllers:
       home-assistant:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: deployment
         strategy: Recreate
         initContainers:
@@ -49,7 +51,7 @@ spec:
               tag: 2024.11.3
             env:
               TZ: "UTC"
-              POSTGRES_HOST: postgres-v16-rw.database.svc.cluster.local
+              POSTGRES_HOST: postgres-lb.database.svc.cluster.local
               POSTGRES_DB: home_assistant
             envFrom: *envFrom
             probes:

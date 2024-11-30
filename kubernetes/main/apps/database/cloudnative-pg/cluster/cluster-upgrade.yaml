@@ -2,12 +2,12 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-v16
+  name: postgres-v17-1
   namespace: database
 spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-5
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
   storage:
     size: 20Gi
     storageClass: local-hostpath
@@ -25,14 +25,14 @@ spec:
         databases: ["*"]
         roles: ["*"]
         source:
-          externalCluster: postgres-v4
+          externalCluster: &legacy postgres-v16-v3
   monitoring:
     enablePodMonitor: true
   externalClusters:
-    - name: postgres-v4
+    - name: *legacy
       connectionParameters:
         # Use the correct IP or host name for the source database
-        host: postgres-rw.database.svc.cluster.local
+        host: postgres-lb.database.svc.cluster.local
         user: postgres
         dbname: postgres
         sslmode: require

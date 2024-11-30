@@ -67,7 +67,7 @@ spec:
     database:
       type: external
       external:
-        host: postgres-v16-rw.database.svc.cluster.local
+        host: postgres-lb.database.svc.cluster.local
     trivy:
       enabled: true
     persistence:

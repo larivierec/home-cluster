@@ -28,6 +28,8 @@ spec:
   values:
     controllers:
       radarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: deployment
         initContainers:
           init:
@@ -99,17 +101,6 @@ spec:
             namespace: networking
         hostnames:
           - "radarr.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "radarr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

@@ -28,6 +28,8 @@ spec:
   values:
     controllers:
       tautulli:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: deployment
         containers:
           app:
@@ -88,17 +90,6 @@ spec:
             namespace: networking
         hostnames:
           - "tautulli.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "tautulli-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
