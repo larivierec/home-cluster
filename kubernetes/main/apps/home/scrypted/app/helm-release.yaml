@@ -66,21 +66,6 @@ spec:
             port: &port 11080
           rebroadcast:
             port: 34135
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "scrypted.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
@@ -89,17 +74,6 @@ spec:
             namespace: networking
         hostnames:
           - "scrypted.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "scrypted-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port
