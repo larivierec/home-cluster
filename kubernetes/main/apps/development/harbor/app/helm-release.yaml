@@ -56,7 +56,7 @@ spec:
     registry:
       initContainers:
         - name: init-db
-          image: ghcr.io/onedr0p/postgres-init:16.6
+          image: ghcr.io/buroa/postgres-init:17
           envFrom:
             - secretRef:
                 name: postgres-harbor
