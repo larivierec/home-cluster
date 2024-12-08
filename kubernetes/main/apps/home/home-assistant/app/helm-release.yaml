@@ -61,27 +61,35 @@ spec:
                 enabled: false
               startup:
                 enabled: false
+          code-server:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.95.3@sha256:6d74583d68179cbb6ddadc2518b450d2ac3eaec2d342474fe1941e03371cd2cf
+            args:
+              [
+                "--auth",
+                "none",
+                "--user-data-dir",
+                "/config/.vscode",
+                "--extensions-dir",
+                "/config/.vscode",
+                "--port",
+                "12321",
+                "/config",
+              ]
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
     service:
       app:
         controller: *app
         ports:
           http:
             port: &port 8123
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "hass.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
+          code-server:
+            port: &code 12321
     route:
       app:
         enabled: true
@@ -95,17 +103,17 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-      cilium:
+      code-server:
         enabled: true
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: networking
             sectionName: https
         hostnames:
-          - "hass-cilium.garb.dev"
+          - "hass-code.garb.dev"
         rules:
           - backendRefs:
-              - port: *port
+              - port: *code
                 name: *app
     persistence:
       config:
@@ -113,6 +121,7 @@ spec:
         existingClaim: config-home-assistant-0
         globalMounts:
           - path: /config
+            readOnly: false
     metrics:
       enabled: true
       serviceMonitor:
