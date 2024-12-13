@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: &current postgres-v17-1
+  name: &current postgres-v17-2
   namespace: database
 spec:
   instances: 3
@@ -18,19 +18,19 @@ spec:
     parameters:
       max_connections: "800"
       shared_buffers: "512MB"
-  # when doing major upgrade and backup doesn't exist
-  bootstrap:
-    initdb:
-      import:
-        type: monolith
-        databases: ["*"]
-        roles: ["*"]
-        source:
-          externalCluster: &legacy postgres-v16-v3
   # minor upgrades or recovery from existing s3 backups
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v17-1
+  # when doing major upgrade and backup doesn't exist
   # bootstrap:
-  #   recovery:
-  #     source: &previousCluster postgres-v16-v2
+  #   initdb:
+  #     import:
+  #       type: monolith
+  #       databases: ["*"]
+  #       roles: ["*"]
+  #       source:
+  #         externalCluster: &previousCluster postgres-v16-v3
   backup:
     retentionPolicy: 30d
     barmanObjectStore:
@@ -52,29 +52,29 @@ spec:
   monitoring:
     enablePodMonitor: true
   externalClusters:
+    # recovering from s3
+    - name: *previousCluster
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: *s3
+        endpointURL: *endpoint
+        s3Credentials:
+          accessKeyId:
+            name: minio-pgsql
+            key: minio_s3_access_key
+          secretAccessKey:
+            name: minio-pgsql
+            key: minio_s3_secret_access_key
     # when directly doing direct upgrades and upgrading when current
     # postgres is already running
-    - name: *legacy
-      connectionParameters:
-        host: postgres-lb.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-        sslmode: require
-      password:
-        name: postgres-superuser
-        key: password
-    # recovering from s3
-    # - name: *legacy
-    #   barmanObjectStore:
-    #     wal:
-    #       compression: bzip2
-    #       maxParallel: 8
-    #     destinationPath: *s3
-    #     endpointURL: *endpoint
-    #     s3Credentials:
-    #       accessKeyId:
-    #         name: minio-pgsql
-    #         key: minio_s3_access_key
-    #       secretAccessKey:
-    #         name: minio-pgsql
-    #         key: minio_s3_secret_access_key
+    # - name: *previousCluster
+    #   connectionParameters:
+    #     host: postgres-lb.database.svc.cluster.local
+    #     user: postgres
+    #     dbname: postgres
+    #     sslmode: require
+    #   password:
+    #     name: postgres-superuser
+    #     key: password
