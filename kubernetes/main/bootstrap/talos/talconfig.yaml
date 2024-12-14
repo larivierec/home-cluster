@@ -31,9 +31,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 7c:83:34:b3:46:1e
-              driver: r8169
-            - hardwareAddr: 7c:83:34:b3:46:1b
+            - hardwareAddr: 7c:83:34:b3:46:*
               driver: r8169
           mode: 802.3ad
           lacpRate: fast
@@ -55,9 +53,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 7c:83:34:bb:ad:71
-              driver: r8169
-            - hardwareAddr: 7c:83:34:bb:ad:72
+            - hardwareAddr: 7c:83:34:bb:ad:*
               driver: r8169
           mode: 802.3ad
           lacpRate: fast
@@ -78,9 +74,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 7c:83:34:b3:60:1d
-              driver: r8169
-            - hardwareAddr: 7c:83:34:b3:60:20
+            - hardwareAddr: 7c:83:34:b3:60:*
               driver: r8169
           mode: 802.3ad
           lacpRate: fast
@@ -103,9 +97,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 58:47:ca:76:9c:77
-              driver: i40e
-            - hardwareAddr: 58:47:ca:76:9c:78
+            - hardwareAddr: 58:47:ca:76:9c:*
               driver: i40e
           mode: 802.3ad
           lacpRate: fast
@@ -125,9 +117,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 58:47:ca:74:f1:51
-              driver: i40e
-            - hardwareAddr: 58:47:ca:74:f1:52
+            - hardwareAddr: 58:47:ca:74:f1:*
               driver: i40e
           mode: 802.3ad
           lacpRate: fast
@@ -147,9 +137,7 @@ nodes:
       - interface: bond0
         bond:
           deviceSelectors:
-            - hardwareAddr: 58:47:ca:77:eb:a6
-              driver: i40e
-            - hardwareAddr: 58:47:ca:77:eb:a7
+            - hardwareAddr: 58:47:ca:77:eb:*
               driver: i40e
           mode: 802.3ad
           lacpRate: fast
