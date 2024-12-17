@@ -242,7 +242,7 @@ controlPlane:
     customization:
       systemExtensions:
         officialExtensions:
-          - siderolabs/i915-ucode
+          - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/iscsi-tools
           - siderolabs/realtek-firmware
@@ -308,12 +308,12 @@ worker:
         - mitigations=off
       systemExtensions:
         officialExtensions:
-          - siderolabs/intel-ucode
-          - siderolabs/i915-ucode
           - siderolabs/gasket-driver
+          - siderolabs/i915
+          - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
           - siderolabs/mei
           - siderolabs/thunderbolt
-          - siderolabs/iscsi-tools
   patches:
     - *domainSearch
     - *clusterDiscovery
