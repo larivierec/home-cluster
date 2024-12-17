@@ -21,12 +21,12 @@ spec:
       - key: feature.node.kubernetes.io/system-os_release.VERSION_ID
         operator: NotIn
         values: ["${TALOS_VERSION}"]
+      - key: node-role.kubernetes.io/control-plane
+        operator: In
+        values: [""]
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-    - key: node-role.kubernetes.io/control-plane
-      operator: Exists
-      effect: NoSchedule
   prepare: &prepare
     image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
     envs:

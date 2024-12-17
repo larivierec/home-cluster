@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.8.4
+talosVersion: v1.9.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.31.4
 
@@ -242,7 +242,7 @@ controlPlane:
     customization:
       systemExtensions:
         officialExtensions:
-          - siderolabs/i915-ucode
+          - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/iscsi-tools
           - siderolabs/realtek-firmware
@@ -308,12 +308,12 @@ worker:
         - mitigations=off
       systemExtensions:
         officialExtensions:
-          - siderolabs/intel-ucode
-          - siderolabs/i915-ucode
           - siderolabs/gasket-driver
+          - siderolabs/i915
+          - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
           - siderolabs/mei
           - siderolabs/thunderbolt
-          - siderolabs/iscsi-tools
   patches:
     - *domainSearch
     - *clusterDiscovery
