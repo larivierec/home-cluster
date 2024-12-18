@@ -35,6 +35,8 @@ spec:
       - name: "ghcr.io rewrite"
         matches:
           - "^ghcr.io"
+        excludes:
+          - "^ghcr.io/(cloudnative-pg/)?postgresql:.*$"
         replace: "harbor.garb.dev/ghcr.io"
         checkUpstream: true
       - name: "quay.io rewrite"
