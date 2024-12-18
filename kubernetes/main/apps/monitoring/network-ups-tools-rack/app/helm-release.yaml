@@ -6,7 +6,6 @@ metadata:
   name: &app network-ups-tools-rack
   namespace: monitoring
 spec:
-  suspend: true
   interval: 30m
   chart:
     spec:
