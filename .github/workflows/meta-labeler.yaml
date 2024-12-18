@@ -10,7 +10,7 @@ on:
 jobs:
   labeler:
     name: Labeler
-    runs-on: ["main-arc-runner-set"]
+    runs-on: ["garb-arc-runner-set"]
     steps:
       - name: Generate Token
         id: generate-token
