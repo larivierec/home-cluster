@@ -51,14 +51,14 @@ releases:
       - kube-system/coredns
       - monitoring/prometheus-operator-crds
 
-  # - name: spegel
-  #   namespace: system
-  #   chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-  #   version: v0.0.26
-  #   values:
-  #     - ../apps/system/spegel/app/values.yaml
-  #   needs:
-  #     - kube-system/cilium
-  #     - kube-system/coredns
-  #     - system-controllers/kubelet-csr-approver
-  #     - monitoring/prometheus-operator-crds
+  - name: spegel
+    namespace: system
+    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    version: v0.0.28
+    values:
+      - ../../apps/system/spegel/bootstrap/values.yaml
+    needs:
+      - kube-system/cilium
+      - kube-system/coredns
+      - system-controllers/kubelet-csr-approver
+      - monitoring/prometheus-operator-crds
