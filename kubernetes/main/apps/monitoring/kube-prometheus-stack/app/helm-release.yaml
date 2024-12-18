@@ -32,6 +32,7 @@ spec:
     keepHistory: false
   values:
     crds:
+      # using prometheus-operator crds
       enabled: false
     alertmanager:
       config:
