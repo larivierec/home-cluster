@@ -201,9 +201,9 @@ patches:
       discovery:
         registries:
           kubernetes:
-            disabled: false
-          service:
             disabled: true
+          service:
+            disabled: false
 
   # Configure kubelet
   - &kubelet |-
