@@ -14,7 +14,6 @@ resources:
   - ./intel/ks.yaml
   - ./irqbalance/ks.yaml
   - ./kubelet-csr-approver/ks.yaml
-  - ./kured/ks.yaml
   - ./metrics-server/ks.yaml
   - ./node-feature-discovery/ks.yaml
   - ./snapshot-controller/ks.yaml
