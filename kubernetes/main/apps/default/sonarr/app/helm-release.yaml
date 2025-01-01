@@ -78,21 +78,6 @@ spec:
         ports:
           http:
             port: &port 8989
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "sonarr.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true

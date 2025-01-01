@@ -17,3 +17,4 @@ resources:
   - ./readarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
+  - ./xteve/ks.yaml
