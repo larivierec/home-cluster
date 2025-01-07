@@ -54,6 +54,18 @@ spec:
           nodeSelector:
             node-role.kubernetes.io/control-plane: ""
             ups.feature.node.kubernetes.io/apc: "true"
+    defaultPodOptions:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values: ["network-ups-tools"]
+                topologyKey: kubernetes.io/hostname
     service:
       app:
         controller: nut-rack
