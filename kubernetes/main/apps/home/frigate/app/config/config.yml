@@ -8,7 +8,7 @@ mqtt:
 database:
   path: /data/frigate.db
 ffmpeg:
-  hwaccel_args: preset-vaapi
+  hwaccel_args: preset-intel-qsv-h265
 timestamp_style:
   position: "tr"
   format: "%m/%d/%Y %H:%M:%S"
@@ -30,9 +30,13 @@ record:
   retain:
     days: 3
     mode: active_objects
-  events:
+  alerts:
     retain:
-      default: 14
+      days: 3
+      mode: active_objects
+  detections:
+    retain:
+      days: 14
       mode: active_objects
 objects:
   track:
