@@ -88,16 +88,11 @@ spec:
               tag: v0.4.0@sha256:f71f9e64f723a1af77e9ecdcbaef2db2095721d33b385baee1848d0bf09d44e7
             env:
               UNIFI_HOST: https://192.168.1.1
-              UNIFI_USER:
+              UNIFI_API_KEY:
                 valueFrom:
                   secretKeyRef:
                     name: *secret
-                    key: EXTERNAL_DNS_UNIFI_USER
-              UNIFI_PASS:
-                valueFrom:
-                  secretKeyRef:
-                    name: *secret
-                    key: EXTERNAL_DNS_UNIFI_PASS
+                    key: UNIFI_API_KEY
               LOG_LEVEL: "debug"
               DOMAIN_FILTER: "garb.dev"
             securityContext:
