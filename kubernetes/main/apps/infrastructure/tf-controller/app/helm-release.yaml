@@ -33,4 +33,4 @@ spec:
     runner:
       image:
         repository: ghcr.io/larivierec/tf-runner
-        tag: 0.16.0-rc.4@sha256:027000f57e6401e5a2b927cdaf580391743af26acddf04f2db7ea1b43bf89c52
+        tag: 0.16.0-rc.4@sha256:1f792ac40b25e0aa6062de89ea9f663b92d009a75658c83a0bafabb832c9a72d
