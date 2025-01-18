@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: xteve-0
+  name: threadfin-0
   namespace: default
 spec:
   accessModes:
@@ -10,7 +10,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: xteve-bootstrap
+    name: threadfin-bootstrap
   resources:
     requests:
       storage: 50Gi
@@ -19,13 +19,13 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: xteve-bootstrap
+  name: threadfin-bootstrap
   namespace: default
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: volsync-xteve
+    repository: volsync-threadfin
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -44,16 +44,16 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: xteve
+  name: threadfin
   namespace: default
 spec:
-  sourcePVC: xteve-0
+  sourcePVC: threadfin-0
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: volsync-xteve
+    repository: volsync-threadfin
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 50Gi
     cacheStorageClassName: ceph-block
