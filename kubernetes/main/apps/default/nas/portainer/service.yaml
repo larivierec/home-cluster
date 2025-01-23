@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: portainer
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 192.168.1.2
+    ports:
+      - port: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portainer
+  namespace: default
+spec:
+  ports:
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
