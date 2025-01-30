@@ -6,7 +6,6 @@ metadata:
   name: concourse
   namespace: flux-system
 spec:
-  suspend: true
   interval: 10m
   path: "./kubernetes/main/apps/development/concourse/app"
   prune: true
