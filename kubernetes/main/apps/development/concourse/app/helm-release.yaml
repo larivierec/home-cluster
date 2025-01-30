@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -8,7 +7,6 @@ metadata:
 spec:
   interval: 5m
   chart:
-    suspend: true
     spec:
       chart: concourse
       version: 18.0.0
@@ -24,19 +22,24 @@ spec:
       targetPath: secrets.encryptionKey
       optional: false
     - kind: Secret
-      name: concourse
+      name: postgres-concourse
       valuesKey: host
       targetPath: concourse.web.postgres.host
       optional: false
     - kind: Secret
-      name: concourse
+      name: postgres-concourse
+      valuesKey: host
+      targetPath: concourse.web.postgres.database
+      optional: false
+    - kind: Secret
+      name: postgres-concourse
       valuesKey: pg_user
       targetPath: secrets.postgresUser
       optional: false
     - kind: Secret
-      name: concourse
+      name: postgres-concourse
       valuesKey: pg_pass
-      targetPath: secrets.postgresPass
+      targetPath: secrets.postgresPassword
       optional: false
   values:
     concourse:
@@ -58,7 +61,7 @@ spec:
           mainTeam:
             localUser: concourse
         postgres:
-          host:
+          port: 5432
     persistence:
       worker:
         storageClass: ceph-block
@@ -73,3 +76,19 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *host
+      extraInitContainers:
+        - name: init-db
+          image: ghcr.io/buroa/postgres-init:17
+          envFrom:
+            - secretRef:
+                name: postgres-concourse
+    worker:
+      replicas: 2
+      minAvailable: 0
+      resources:
+        limits:
+          memory: 10Gi
+          cpu: 7
+    rbac:
+      create: true
+      apiVersion: v1
