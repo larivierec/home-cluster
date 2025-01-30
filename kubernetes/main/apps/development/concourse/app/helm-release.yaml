@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,6 +8,7 @@ metadata:
 spec:
   interval: 5m
   chart:
+    suspend: true
     spec:
       chart: concourse
       version: 18.0.0
@@ -15,11 +17,31 @@ spec:
         name: concourse
         namespace: flux-system
       interval: 5m
-  # valuesFrom:
-  #   - kind: Secret
-  #     name: concourse-values
+  valuesFrom:
+    - kind: Secret
+      name: concourse
+      valuesKey: encryption_key
+      targetPath: secrets.encryptionKey
+      optional: false
+    - kind: Secret
+      name: concourse
+      valuesKey: host
+      targetPath: concourse.web.postgres.host
+      optional: false
+    - kind: Secret
+      name: concourse
+      valuesKey: pg_user
+      targetPath: secrets.postgresUser
+      optional: false
+    - kind: Secret
+      name: concourse
+      valuesKey: pg_pass
+      targetPath: secrets.postgresPass
+      optional: false
   values:
     concourse:
+      secrets:
+        create: false
       web:
         externalUrl: https://concourse.garb.dev
         encryption:
@@ -35,9 +57,13 @@ spec:
         auth:
           mainTeam:
             localUser: concourse
+        postgres:
+          host:
     persistence:
       worker:
         storageClass: ceph-block
+    postgresql:
+      enabled: false
     web:
       ingress:
         enabled: true
