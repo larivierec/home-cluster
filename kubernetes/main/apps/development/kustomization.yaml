@@ -7,4 +7,4 @@ resources:
   - ./namespace.yaml
   - ./harbor/ks.yaml
   - ./mutating-webhook/ks.yaml
-  # - ./concourse/ks.yaml
+  - ./concourse/ks.yaml
