@@ -112,3 +112,40 @@ module "containers" {
     local.default_issue_labels
   )
 }
+
+module "aws-es-proxy" {
+  source  = "mineiros-io/repository/github"
+  version = "0.18.0"
+
+  name        = "aws-es-proxy"
+  description = "Fork of AWS ES Proxy `abutaha/aws-es-proxy` providing automatic updates via Renovate"
+  topics      = ["go", "aws", "es", "elasticsearch", "aws-sdk-go-v2"]
+  visibility  = "public"
+
+  auto_init              = false
+  allow_merge_commit     = false
+  allow_squash_merge     = true
+  allow_auto_merge       = true
+  delete_branch_on_merge = true
+
+  has_issues   = true
+  has_wiki     = false
+  has_projects = false
+  is_template  = false
+
+  plaintext_secrets = {
+    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
+    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
+  }
+
+  issue_labels_merge_with_github_labels = false
+  issue_labels = concat(
+    [
+      { name = "area/ci", color = "72ccf3", description = "Issue relates to CI" },
+      { name = "area/go", color = "72ccf3", description = "Issue relates to Go" },
+
+      { name = "renovate/container", color = "ffc300", description = "Issue relates to a Renovate container update" },
+    ],
+    local.default_issue_labels
+  )
+}
