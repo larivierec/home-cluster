@@ -3,7 +3,7 @@
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: talos-workers
+  name: talos-w
 spec:
   version: ${TALOS_VERSION}
   serviceAccountName: system-upgrade
@@ -27,13 +27,21 @@ spec:
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
-  upgrade:
-    image: ghcr.io/jfroy/tnu:0.3.0
+  prepare: &prepare
+    image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
     envs:
-      - name: NODE
+      - name: NODE_IP
         valueFrom:
           fieldRef:
-            fieldPath: spec.nodeName
+            fieldPath: status.hostIP
     args:
-      - --node=$(NODE)
-      - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --nodes=$(NODE_IP)
+      - health
+      - --server=false
+  upgrade:
+    <<: *prepare
+    args:
+      - --nodes=$(NODE_IP)
+      - upgrade
+      - --image=factory.talos.dev/installer/${WORKER_SCHEMATIC_ID}:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION) # to change schematic id
+      - --wait=false

@@ -3,7 +3,7 @@
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: talos-workers
+  name: talos-masters
 spec:
   version: ${TALOS_VERSION}
   serviceAccountName: system-upgrade
@@ -21,7 +21,7 @@ spec:
       - key: feature.node.kubernetes.io/system-os_release.VERSION_ID
         operator: NotIn
         values: ["${TALOS_VERSION}"]
-      - key: node-role.kubernetes.io/worker
+      - key: node-role.kubernetes.io/control-plane
         operator: In
         values: [""]
   tolerations:
