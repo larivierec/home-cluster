@@ -21,13 +21,18 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: external.garb.dev
 spec:
   gatewayClassName: envoy
-  infrastructure:
-    annotations:
-      # when using gateway-apis in cilium it also creates a service
-      # with a different name and tries to take this IP.
-      # the problem is the service created by cilium is not the one used by envoy.
-      # therefore, the service is disabled
-      lbipam.cilium.io/ips: 192.168.40.22
+  addresses:
+    - type: IPAddress
+      value: "192.168.40.22"
+    - type: "Hostname"
+      value: "external.garb.dev"
+  # infrastructure:
+  #   annotations:
+  #     # when using gateway-apis in cilium it also creates a service
+  #     # with a different name and tries to take this IP.
+  #     # the problem is the service created by cilium is not the one used by envoy.
+  #     # therefore, the service is disabled
+  #     lbipam.cilium.io/ips: 192.168.40.22
   listeners:
     - name: http
       protocol: HTTP
@@ -55,10 +60,15 @@ metadata:
   namespace: networking
 spec:
   gatewayClassName: envoy
+  addresses:
+    - type: IPAddress
+      value: "192.168.40.23"
+    - type: "Hostname"
+      value: "internal.garb.dev"
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: 192.168.40.23
       external-dns.alpha.kubernetes.io/hostname: internal.garb.dev
+      # lbipam.cilium.io/ips: 192.168.40.23
   listeners:
     - name: http
       protocol: HTTP
@@ -89,13 +99,14 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
 spec:
   gatewayClassName: envoy
-  infrastructure:
-    annotations:
-      # when using gateway-apis in cilium it also creates a service
-      # with a different name and tries to take this IP.
-      # the problem is the service created by cilium is not the one used by envoy.
-      # therefore, the service is disabled
-      lbipam.cilium.io/ips: 192.168.40.21
+  addresses:
+    - type: IPAddress
+      value: "192.168.40.21"
+    - type: "Hostname"
+      value: "lb.garb.dev"
+  # infrastructure:
+  #   annotations:
+  #     lbipam.cilium.io/ips: 192.168.40.21
   listeners:
     - name: tcp
       protocol: TCP
