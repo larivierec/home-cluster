@@ -1,31 +1,28 @@
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cert-manager
-  namespace: cert-manager
+  name: flux-operator
+  namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
-      chart: cert-manager
-      version: v1.17.1
+      chart: flux-operator
+      version: 0.15.0
       sourceRef:
         kind: HelmRepository
-        name: jetstack
+        name: controlplaneio
         namespace: flux-system
-  dependsOn:
-    - name: prometheus
-      namespace: monitoring
-  maxHistory: 2
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   valuesFrom:
     - kind: ConfigMap
-      name: cert-manager-helm-values
+      name: flux-operator-helm-values

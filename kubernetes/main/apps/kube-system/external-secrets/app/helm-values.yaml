@@ -1,0 +1,18 @@
+serviceMonitor:
+  enabled: true
+  interval: 1m
+webhook:
+  serviceMonitor:
+    enabled: true
+    interval: 1m
+certController:
+  serviceMonitor:
+    enabled: true
+    interval: 1m
+bitwarden-sdk-server:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 1m
+  podAnnotations:
+    secret.reloader.stakater.com/reload: "bitwarden-css-certs,bitwarden-secrets-manager,bitwarden-tls-certs"

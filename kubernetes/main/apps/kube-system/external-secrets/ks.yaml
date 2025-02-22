@@ -18,7 +18,7 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: vault-secrets
+        name: cluster-secrets
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -37,7 +37,7 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: vault-secrets
+        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets
   healthCheckExprs:

@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+  recreatePods: true
+  force: true
+
+repositories:
+  - name: cilium
+    url: https://helm.cilium.io
+  - name: coredns
+    url: https://coredns.github.io/helm
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: postfinance
+    url: https://postfinance.github.io/kubelet-csr-approver
+
+releases:
+  - name: prometheus-operator-crds
+    namespace: monitoring
+    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
+    version: 18.0.0
+
+  - name: cilium
+    namespace: kube-system
+    chart: cilium/cilium
+    version: 1.17.1
+    values:
+      - ../../kubernetes/main/apps/kube-system/cilium/app/helm-values.yaml
+    needs:
+      - monitoring/prometheus-operator-crds
+
+  - name: coredns
+    namespace: kube-system
+    chart: coredns/coredns
+    version: 1.39.0
+    values:
+      - ../../kubernetes/main/apps/kube-system/coredns/bootstrap/values.yaml
+    needs:
+      - monitoring/prometheus-operator-crds
+      - kube-system/cilium
+
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.17.1
+    values:
+      - ../../kubernetes/main/apps/cert-manager/cert-manager/app/helm-values.yaml
+    needs:
+      - kube-system/coredns
+
+  - name: external-secrets
+    namespace: kube-system
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    version: 0.14.2
+    values:
+      - ../../kubernetes/main/apps/kube-system/external-secrets/app/helm-values.yaml
+    needs:
+      - cert-manager/cert-manager
+
+  - name: flux-operator
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+    version: 0.15.0
+    values:
+      - ../../kubernetes/main/apps/flux-system/flux-operator/app/helm-values.yaml
+    needs:
+      - kube-system/external-secrets
+
+  - name: flux-instance
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
+    version: 0.15.0
+    values:
+      - ../../kubernetes/main/apps/flux-system/flux-operator/instance/helm-values.yaml
+    needs:
+      - flux-system/flux-operator
+    wait: false
+
+  - name: kubelet-csr-approver
+    namespace: kube-system
+    chart: postfinance/kubelet-csr-approver
+    version: 1.2.6
+    values:
+      - ../../kubernetes/main/apps/kube-system/kubelet-csr-approver/app/helm-values.yaml
+    needs:
+      - kube-system/cilium
+      - kube-system/coredns
+      - monitoring/prometheus-operator-crds
