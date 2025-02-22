@@ -1,3 +1,4 @@
+**/talos/clusterconfig/*
 *.code-workspace
 **/unencrypted/**
 **/.terraform**
@@ -20,7 +21,6 @@ dist/
 build/
 **/.ipynb_checkpoints/**
 **/*.log
-**/*.csv
 
 ## macos
 .DS_Store

@@ -13,7 +13,7 @@ spec:
   path: "./kubernetes/main/apps/kube-system/generic-device-plugin/app"
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: flux-system
   interval: 30m
   timeout: 5m
   prune: true

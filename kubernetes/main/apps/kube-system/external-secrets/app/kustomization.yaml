@@ -6,3 +6,10 @@ resources:
   - ./secret.yaml
   - ./helm-release.yaml
   - ./network-policy.yaml
+configMapGenerator:
+  - name: external-secrets-helm-values
+    namespace: kube-system
+    files:
+      - values.yaml=./helm-values.yaml
+configurations:
+  - kustomize-config.yaml

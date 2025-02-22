@@ -11,7 +11,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: flux-system
   wait: true
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -26,5 +26,5 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: flux-system
   wait: true

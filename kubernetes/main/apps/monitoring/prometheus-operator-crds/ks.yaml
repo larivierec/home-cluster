@@ -12,5 +12,5 @@ spec:
   prune: false
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: flux-system
   wait: false

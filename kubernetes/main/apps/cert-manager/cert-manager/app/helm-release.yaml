@@ -26,23 +26,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  values:
-    crds:
-      enabled: true
-      keep: true
-    extraArgs:
-      - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
-      - --dns01-recursive-nameservers-only
-      - --enable-gateway-api
-    podDnsPolicy: None
-    podDnsConfig:
-      nameservers:
-        - "1.1.1.1"
-        - "9.9.9.9"
-    cainjector:
-      replicaCount: 1
-    prometheus:
-      enabled: true
-      servicemonitor:
-        enabled: true
-        prometheusInstance: monitoring
+  valuesFrom:
+    - kind: ConfigMap
+      name: cert-manager-helm-values
