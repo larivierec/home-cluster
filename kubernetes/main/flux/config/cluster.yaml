@@ -8,8 +8,9 @@ spec:
   interval: 1m0s
   ref:
     branch: main
+  provider: github
   secretRef:
-    name: flux-system
+    name: github-auth
   url: https://github.com/larivierec/home-cluster.git
   ignore: |
     # exclude all
