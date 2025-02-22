@@ -10,7 +10,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/larivierec/home-cluster
+  url: https://github.com/larivierec/home-cluster.git
   ignore: |
     # exclude all
     /*
