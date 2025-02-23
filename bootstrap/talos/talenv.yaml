@@ -1,0 +1,9 @@
+# renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
+promVersion: v0.80.1
+
+# renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
+gatewayApiVersion: v1.2.1
+
+clusterName: garb
+clusterDNSSuffix: cluster.local
+clusterEndpointIP: 192.168.60.250

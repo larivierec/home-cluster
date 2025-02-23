@@ -286,6 +286,33 @@ controlPlane:
             allowedKubernetesNamespaces:
               - system-upgrade
 
+    # CRD configuration
+    - |-
+      cluster:
+        extraManifests:
+          # Prometheus Operator CRDs
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+          # Gateway API CRDs
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_backendlbpolicies.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_backendtlspolicies.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_gatewayclasses.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_gateways.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_grpcroutes.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_httproutes.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_referencegrants.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_tcproutes.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/${gatewayApiVersion}/config/crd/experimental/gateway.networking.k8s.io_udproutes.yaml
+
     # Enable hostDNS:
     - |-
       machine:
