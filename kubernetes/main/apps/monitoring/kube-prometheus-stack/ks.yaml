@@ -14,9 +14,5 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-external-secrets-stores

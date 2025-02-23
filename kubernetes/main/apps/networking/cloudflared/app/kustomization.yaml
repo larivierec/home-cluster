@@ -8,6 +8,7 @@ resources:
   - ./dns-endpoint.yaml
 configMapGenerator:
   - name: cloudflared-configmap
+    namespace: networking
     files:
       - config.yaml=./resources/config.yaml
 generatorOptions:

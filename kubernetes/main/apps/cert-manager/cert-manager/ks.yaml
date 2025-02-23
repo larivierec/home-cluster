@@ -48,10 +48,7 @@ spec:
     name: flux-system
   wait: true
   interval: 10m
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: cluster-secrets
+
   dependsOn:
     - name: cluster-apps-cert-manager
     - name: cluster-apps-external-secrets-stores
