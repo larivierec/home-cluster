@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: cluster-apps-external-secrets
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: false
 spec:
   interval: 10m
   path: ./kubernetes/main/apps/kube-system/external-secrets/app
@@ -26,6 +28,8 @@ kind: Kustomization
 metadata:
   name: cluster-apps-external-secrets-stores
   namespace: flux-system
+  labels:
+    substitution.flux/enabled: false
 spec:
   path: ./kubernetes/main/apps/kube-system/external-secrets/stores
   prune: true

@@ -51,7 +51,7 @@ spec:
           postBuild:
             substituteFrom:
               - kind: Secret
-                name: sops-bw-secrets
+                name: cluster-secrets
                 optional: true
       target:
         group: kustomize.toolkit.fluxcd.io

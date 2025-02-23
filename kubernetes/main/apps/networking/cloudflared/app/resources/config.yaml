@@ -1,0 +1,15 @@
+---
+tunnel: ${SECRET_CLOUDFLARE_TUNNEL}
+
+originRequest:
+  http2Origin: true
+  originServerName: external.garb.dev
+
+ingress:
+  - hostname: "files.garb.dev"
+    service: https://ingress-external-ingress-nginx-controller.networking.svc.cluster.local:443
+  - hostname: "photos.garb.dev"
+    service: https://ingress-external-ingress-nginx-controller.networking.svc.cluster.local:443
+  - hostname: "*.garb.dev"
+    service: https://envoy-networking-envoy-external-45a7c13f.networking.svc.cluster.local:443
+  - service: http_status:404
