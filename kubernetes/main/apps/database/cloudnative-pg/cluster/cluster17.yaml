@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: &current postgres-v17-2
+  name: &current postgres-v17-3
   namespace: database
 spec:
   instances: 3
@@ -25,7 +25,7 @@ spec:
   # minor upgrades or recovery from existing s3 backups
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v17-1
+      source: &previousCluster postgres-v17-2
   # when doing major upgrade and backup doesn't exist
   # bootstrap:
   #   initdb:
