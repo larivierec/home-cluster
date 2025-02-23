@@ -26,13 +26,13 @@ spec:
       value: "192.168.40.22"
     - type: "Hostname"
       value: "external.garb.dev"
-  # infrastructure:
-  #   annotations:
-  #     # when using gateway-apis in cilium it also creates a service
-  #     # with a different name and tries to take this IP.
-  #     # the problem is the service created by cilium is not the one used by envoy.
-  #     # therefore, the service is disabled
-  #     lbipam.cilium.io/ips: 192.168.40.22
+  infrastructure:
+    annotations:
+      # when using gateway-apis in cilium it also creates a service
+      # with a different name and tries to take this IP.
+      # the problem is the service created by cilium is not the one used by envoy.
+      # therefore, the service is disabled
+      lbipam.cilium.io/ips: 192.168.40.22
   listeners:
     - name: http
       protocol: HTTP
@@ -68,7 +68,7 @@ spec:
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: internal.garb.dev
-      # lbipam.cilium.io/ips: 192.168.40.23
+      lbipam.cilium.io/ips: 192.168.40.23
   listeners:
     - name: http
       protocol: HTTP
@@ -104,9 +104,9 @@ spec:
       value: "192.168.40.21"
     - type: "Hostname"
       value: "lb.garb.dev"
-  # infrastructure:
-  #   annotations:
-  #     lbipam.cilium.io/ips: 192.168.40.21
+  infrastructure:
+    annotations:
+      lbipam.cilium.io/ips: 192.168.40.21
   listeners:
     - name: tcp
       protocol: TCP

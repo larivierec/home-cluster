@@ -31,7 +31,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
         annotations:
-          configmap.reloader.stakater.com/reload: &config cloudflared-config
+          configmap.reloader.stakater.com/reload: &config cloudflared-configmap
           secret.reloader.stakater.com/reload: &secret cloudflared-creds
         containers:
           app:
@@ -41,7 +41,7 @@ spec:
             args:
               - tunnel
               - --config
-              - /etc/cloudflared/config.yaml
+              - /etc/cloudflared/config/config.yaml
               - --metrics
               - 0.0.0.0:9090
               - run
@@ -51,6 +51,8 @@ spec:
               TUNNEL_METRICS: 0.0.0.0:9090
               TUNNEL_MANAGEMENT_DIAGNOSTICS: false
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
+              NO_AUTOUPDATE: true
+              TUNNEL_CRED_FILE: &secretPath /etc/cloudflared/creds/credentials.json
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -110,7 +112,7 @@ spec:
         type: configMap
         name: *config
         globalMounts:
-          - path: /etc/cloudflared/config.yaml
+          - path: /etc/cloudflared/config/config.yaml
             subPath: config.yaml
             readOnly: true
       creds:
@@ -118,6 +120,6 @@ spec:
         type: secret
         name: *secret
         globalMounts:
-          - path: /etc/cloudflared/creds.json
+          - path: *secretPath
             subPath: creds.json
             readOnly: true
