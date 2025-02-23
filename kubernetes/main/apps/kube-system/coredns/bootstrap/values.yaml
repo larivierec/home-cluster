@@ -32,7 +32,7 @@ servers:
           ttl 30
         # if not using external-dns-unifi-webhook, this should point to k8s-gateway
         # - name: forward
-        #   parameters: garb.dev 10.43.172.213
+        #   parameters: garb.dev 192.168.40.10
         #   configBlock: |-
         #     policy sequential
         #     health_check 5s

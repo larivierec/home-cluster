@@ -44,15 +44,22 @@ spec:
       enabled: true
       ingressClassName: internal
       hosts:
-        - host: headlamp.garb.dev
+        - host: &host headlamp.garb.dev
           paths:
             - path: /
               type: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: wildcard-cert-tls
     persistentVolumeClaim:
       enabled: true
       accessModes: ["ReadWriteMany"]
       size: 1Gi
       storageClassName: ceph-filesystem
+    serviceAccount:
+      create: false
+      name: headlamp-admin
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
