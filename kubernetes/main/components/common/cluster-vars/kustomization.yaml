@@ -3,4 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cluster-secrets.sops.yaml
+  - ./bw-secrets.sops.yaml
+  # - cluster-secrets.sops.yaml
