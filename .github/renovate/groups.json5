@@ -2,15 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Flux Group",
-      groupName: "Flux",
-      matchPackagePatterns: ["^flux", "^ghcr.io/fluxcd/"],
-      matchDatasources: ["docker", "github-tags"],
-      versioning: "semver",
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      separateMinorPatch: true,
+      "description": ["Flux Operator Group"],
+      "groupName": "Flux Operator",
+      "matchPackagePatterns": ["flux-operator", "flux-instance"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     },
     {
       description: "Rook-Ceph image and chart",
@@ -48,6 +46,15 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       separateMinorPatch: false,
+    },
+    {
+      "description": ["Intel Device Plugins Group"],
+      "groupName": "Intel-Device-Plugins",
+      "matchPackagePatterns": ["intel-device-plugins"],
+      "matchDatasources": ["helm"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
     },
     {
       description: "Vector image and chart - versions do not match",
