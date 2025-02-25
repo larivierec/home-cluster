@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/larivierec/lidarr
-              tag: 2.10.0.4574@sha256:90f690033cb27180e4e6c19fb91f0978e606181c360355e4b8ed8a95268ee921
+              tag: 2.10.0.4574@sha256:7c00fc609e9662c19f79365b601b113bbafced72e8f3e3f334339665e829de01
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
