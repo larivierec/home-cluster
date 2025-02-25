@@ -2,120 +2,46 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "packageRules": [
       {
-        "matchDatasources": ["docker"],
         "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(container)!: "
+        "semanticCommitType": "feat",
+        "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}})!:",
+        "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
       },
       {
-        "matchDatasources": ["docker"],
         "matchUpdateTypes": ["minor"],
         "semanticCommitType": "feat",
-        "semanticCommitScope": "container"
+        "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
       },
       {
-        "matchDatasources": ["docker"],
         "matchUpdateTypes": ["patch"],
         "semanticCommitType": "fix",
-        "semanticCommitScope": "container"
+        "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
       },
       {
-        "matchDatasources": ["docker"],
         "matchUpdateTypes": ["digest"],
         "semanticCommitType": "chore",
-        "semanticCommitScope": "container"
+        "commitMessageExtra": "( {{currentDigestShort}} → {{newDigestShort}} )"
+      },
+      {
+        "matchDatasources": ["docker"],
+        "semanticCommitScope": "container",
+        "commitMessageTopic": "image {{depName}}"
       },
       {
         "matchDatasources": ["helm"],
-        "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(helm)!: "
-      },
-      {
-        "matchDatasources": ["helm"],
-        "matchUpdateTypes": ["minor"],
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "helm"
-      },
-
-      {
-        "matchDatasources": ["helm"],
-        "matchUpdateTypes": ["patch"],
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "helm"
-      },
-      {
-        "matchDatasources": ["galaxy", "galaxy-collection"],
-        "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(ansible)!: "
-      },
-      {
-        "matchDatasources": ["galaxy", "galaxy-collection"],
-        "matchUpdateTypes": ["minor"],
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "ansible"
-      },
-
-      {
-        "matchDatasources": ["galaxy", "galaxy-collection"],
-        "matchUpdateTypes": ["patch"],
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "ansible"
-      },
-      {
-        "matchDatasources": ["terraform-provider"],
-        "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(terraform)!: "
-      },
-      {
-        "matchDatasources": ["terraform-provider"],
-        "matchUpdateTypes": ["minor"],
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "terraform"
-      },
-      {
-        "matchDatasources": ["terraform-provider"],
-        "matchUpdateTypes": ["patch"],
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "terraform"
-      },
-      {
-        "matchDatasources": ["github-releases", "github-tags"],
-        "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(github-release)!: "
-      },
-      {
-        "matchDatasources": ["github-releases", "github-tags"],
-        "matchUpdateTypes": ["minor"],
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "github-release"
-      },
-      {
-        "matchDatasources": ["github-releases", "github-tags"],
-        "matchUpdateTypes": ["patch"],
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "github-release"
+        "semanticCommitScope": "helm",
+        "commitMessageTopic": "chart {{depName}}"
       },
       {
         "matchManagers": ["github-actions"],
-        "matchUpdateTypes": ["major"],
-        "commitMessagePrefix": "feat(github-action)!: "
+        "semanticCommitType": "ci",
+        "semanticCommitScope": "github-action",
+        "commitMessageTopic": "action {{depName}}"
       },
       {
-        "matchManagers": ["github-actions"],
-        "matchUpdateTypes": ["minor"],
-        "semanticCommitType": "feat",
-        "semanticCommitScope": "github-action"
-      },
-      {
-        "matchManagers": ["github-actions"],
-        "matchUpdateTypes": ["patch"],
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "github-action"
-      },
-      {
-        "matchDatasources": ["custom.grafana-dashboards"],
-        "matchUpdateTypes": ["major"],
-        "semanticCommitType": "chore",
-        "semanticCommitScope": "grafana-dashboard"
+        "matchDatasources": ["github-releases"],
+        "semanticCommitScope": "github-release",
+        "commitMessageTopic": "release {{depName}}"
       }
     ]
   }
