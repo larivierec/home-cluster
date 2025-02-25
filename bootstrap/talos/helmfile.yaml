@@ -28,7 +28,7 @@ releases:
   - name: coredns
     namespace: kube-system
     chart: coredns/coredns
-    version: 1.39.0
+    version: 1.39.1
     values:
       - ../../kubernetes/main/apps/kube-system/coredns/bootstrap/values.yaml
     needs:
