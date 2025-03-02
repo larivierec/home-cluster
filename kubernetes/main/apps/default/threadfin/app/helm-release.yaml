@@ -58,11 +58,10 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 150
-        fsGroup: 140
+        runAsUser: 31337
+        runAsGroup: 31337
+        fsGroup: 31337
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app
@@ -94,4 +93,7 @@ spec:
         globalMounts:
           - path: /home/threadfin/conf
       tmp:
+        enabled: true
         type: emptyDir
+        globalMounts:
+          - path: /tmp
