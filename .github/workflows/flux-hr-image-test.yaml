@@ -86,7 +86,7 @@ jobs:
             --output-file images.json
       - name: Output Images
         id: output-images
-        run: echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> $GITHUB_OUTPUT
+        run: echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> "$GITHUB_OUTPUT"
 
   compare-images:
     name: Compare Images
@@ -107,10 +107,10 @@ jobs:
               --argjson f2 '${{ needs.extract-images.outputs.pull }}' \
               '$f2 - $f1' \
           )
-          echo "images=${images}" >> $GITHUB_OUTPUT
+          echo "images=${images}" >> "$GITHUB_OUTPUT"
 
   check-images:
-    name: Check Image Existence
+    name: Check Images
     runs-on:
       - ubuntu-24.04
     needs:
