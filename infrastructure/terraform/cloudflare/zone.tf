@@ -40,7 +40,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
 }
 
 data "http" "uptimerobot_ipv4" {
-  url = "https://uptimerobot.com/inc/files/ips/IPv4.txt"
+  url = "https://uptimerobot.com/inc/files/ips/IPv4andIPv6.txt"
 }
 
 resource "cloudflare_list" "uptimerobot" {
