@@ -2,12 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      "description": ["Flux Operator Group"],
-      "groupName": "Flux Operator",
-      "matchPackagePatterns": ["flux-operator", "flux-instance"],
-      "matchDatasources": ["docker"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: ["Flux Operator Group"],
+      groupName: "Flux Operator",
+      matchPackagePatterns: ["flux-operator", "flux-instance"],
+      matchDatasources: ["docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
       }
     },
     {
@@ -68,12 +68,12 @@
       separateMinorPatch: false,
     },
     {
-      "description": ["Dragonfly Operator Group"],
-      "groupName": "Dragonfly Operator",
-      "matchPackagePatterns": ["dragonfly(?:db)?.operator"],
-      "matchDatasources": ["docker", "github-releases"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: ["Dragonfly Operator Group"],
+      groupName: "Dragonfly Operator",
+      matchPackagePatterns: ["dragonfly(?:db)?.operator"],
+      matchDatasources: ["docker", "github-releases"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
       }
     },
   ]
