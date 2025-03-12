@@ -35,6 +35,7 @@ spec:
             image:
               repository: docker.io/rancher/system-upgrade-controller
               tag: v0.15.2@sha256:3e899833afcea9a8788d384ce976df9a05be84636fe5c01ec2307b5bd8fe9810
+
             env:
               SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
               SYSTEM_UPGRADE_CONTROLLER_THREADS: 2
@@ -51,17 +52,16 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: metadata.namespace
+              SYSTEM_UPGRADE_CONTROLLER_LEADER_ELECT: true
+              SYSTEM_UPGRADE_CONTROLLER_NODE_NAME:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-              seccompProfile:
-                type: RuntimeDefault
         pod:
-          securityContext:
-            runAsUser: 65534
-            runAsGroup: 65534
-            runAsNonRoot: true
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -78,6 +78,11 @@ spec:
             - key: node-role.kubernetes.io/master
               operator: Exists
               effect: NoSchedule
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 100
     serviceAccount:
       create: true
       name: system-upgrade
