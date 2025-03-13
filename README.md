@@ -94,7 +94,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 ## ⭐ Stargazers
 
-[![Star History Chart](https://api.star-history.com/svg?repos=larivierec/home-cluster&type=Date)](https://star-history.com/#larivierec/home-cluster&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=larivierec/home-cluster&type=Date)](https://www.star-history.com/#larivierec/home-cluster&Date)
 
 ## 🤝 Gratitude and Thanks
 
