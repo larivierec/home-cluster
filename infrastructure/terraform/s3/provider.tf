@@ -13,7 +13,7 @@ terraform {
     }
     bitwarden = {
       source  = "maxlaverse/bitwarden"
-      version = "0.13.0"
+      version = "0.13.4"
     }
     minio = {
       source  = "aminueza/minio"
