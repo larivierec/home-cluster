@@ -15,14 +15,15 @@ cgroup:
   hostRoot: /sys/fs/cgroup
   autoMount:
     enabled: false
+cni:
+  exclusive: false
+enableIPv4BIGTCP: true
 ingressController:
   enabled: false
 gatewayAPI:
-  enabled: false # using envoy
+  enabled: true
   enableAlpn: true
   enableAppProtocol: true
-  gatewayClass:
-    create: "false"
 l7Proxy: true
 loadBalancer:
   algorithm: maglev
