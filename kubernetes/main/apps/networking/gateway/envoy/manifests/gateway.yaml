@@ -24,9 +24,7 @@ spec:
   gatewayClassName: envoy
   addresses:
     - type: IPAddress
-      value: "192.168.40.22"
-    - type: "Hostname"
-      value: "external.garb.dev"
+      value: 192.168.40.22
   infrastructure:
     annotations:
       # when using gateway-apis in cilium it also creates a service
@@ -68,9 +66,7 @@ spec:
   gatewayClassName: envoy
   addresses:
     - type: IPAddress
-      value: "192.168.40.23"
-    - type: "Hostname"
-      value: "internal.garb.dev"
+      value: 192.168.40.23
   infrastructure:
     annotations:
       lbipam.cilium.io/ips: 192.168.40.23
@@ -108,9 +104,7 @@ spec:
   gatewayClassName: envoy
   addresses:
     - type: IPAddress
-      value: "192.168.40.21"
-    - type: "Hostname"
-      value: "external-l4.garb.dev"
+      value: 192.168.40.21
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev

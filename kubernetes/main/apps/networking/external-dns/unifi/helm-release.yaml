@@ -43,7 +43,6 @@ spec:
               - --source=gateway-httproute
               - --source=gateway-tcproute
               - --source=gateway-udproute
-              - --gateway-namespace=networking
               - --gateway-label-filter=type=internal
               - --txt-owner-id=unifi
               - --txt-prefix=k8s.main.
@@ -94,7 +93,6 @@ spec:
                     name: *secret
                     key: UNIFI_ADMIN_API_KEY
               LOG_LEVEL: "debug"
-              DOMAIN_FILTER: "garb.dev"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
