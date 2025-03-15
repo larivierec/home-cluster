@@ -101,6 +101,14 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove: ["Range"]
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /library/streams
       cilium:
         enabled: true
         annotations:
@@ -117,6 +125,14 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove: ["Range"]
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /library/streams
     persistence:
       config:
         enabled: true
