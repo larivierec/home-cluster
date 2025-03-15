@@ -39,10 +39,9 @@ spec:
             fsGroup: 568
             runAsNonRoot: true
             supplementalGroups:
-              - 44 # video group
-              - 105 # debian render group
-              - 109 # ubuntu render group
-          # runtimeClassName: nvidia
+              - 44
+              - 105
+              - 109
         containers:
           app:
             image:
@@ -51,8 +50,6 @@ spec:
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
-              # NVIDIA_DRIVER_CAPABILITIES: all
-              # NVIDIA_VISIBLE_DEVICES: all
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -64,7 +61,6 @@ spec:
               limits:
                 memory: 16Gi
                 gpu.intel.com/i915: 1
-                # nvidia.com/gpu: 1
             probes:
               liveness:
                 enabled: true
@@ -89,34 +85,56 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: &envoy plex.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "plex.garb.dev"
+          - *envoy
         rules:
           - backendRefs:
-              - port: *port
-                name: *app
+              - name: *app
+                port: *port
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove: ["Range"]
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /library/streams
+          - backendRefs:
+              - name: *app
+                port: *port
       cilium:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: plex-cilium.garb.dev
+          external-dns.alpha.kubernetes.io/hostname: &cilium plex-cilium.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: cilium-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "plex-cilium.garb.dev"
+          - *cilium
         rules:
           - backendRefs:
-              - port: *port
-                name: *app
+              - name: *app
+                port: *port
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  remove: ["Range"]
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /library/streams
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       config:
         enabled: true
