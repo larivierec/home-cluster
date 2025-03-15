@@ -50,6 +50,7 @@ spec:
               - --gateway-namespace=networking
               - --txt-owner-id=public
               - --txt-prefix=k8s.
+              - --txt-new-format-only
               - --registry=txt
               - --policy=sync
               - --provider=cloudflare
