@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: registry.k8s.io/external-dns/external-dns
-              tag: v0.16.0@sha256:cd7fa536bfca24da305a26d63fe42efa09d952f81d2d2bb8aecbe2491a42f290
+              tag: v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b
             envFrom:
               - secretRef:
                   name: *creds
