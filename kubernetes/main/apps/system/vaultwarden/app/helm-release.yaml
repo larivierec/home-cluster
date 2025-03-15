@@ -126,3 +126,52 @@ spec:
               - path:
                   type: PathPrefix
                   value: /admin
+      cilium:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: &host "{{ .Release.Name }}-cilium.garb.dev"
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: cilium-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - *host
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - port: *port
+                name: *app
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /notifications/hub/negotiate
+            backendRefs:
+              - port: *port
+                name: *app
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /notifications/hub
+            backendRefs:
+              - port: *websocket-port
+                name: *app
+      admin-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "{{ .Release.Name }}-cilium-admin.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /admin

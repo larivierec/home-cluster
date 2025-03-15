@@ -4,16 +4,16 @@ kind: Gateway
 metadata:
   name: cilium-external
   namespace: networking
-  # annotations:
-  #   external-dns.alpha.kubernetes.io/target: external.garb.dev
-  #   external-dns.alpha.kubernetes.io/hostname: external.garb.dev
+  annotations:
+    external-dns.alpha.kubernetes.io/target: external-cilium.garb.dev
+    external-dns.alpha.kubernetes.io/hostname: external-cilium.garb.dev
 spec:
   gatewayClassName: cilium
   addresses:
     - type: IPAddress
       value: "192.168.40.24"
-    # - type: "Hostname"
-    #   value: "external.garb.dev"
+    - type: "Hostname"
+      value: "external-cilium.garb.dev"
   infrastructure:
     annotations:
       # when using gateway-apis in cilium it also creates a service
@@ -51,11 +51,11 @@ spec:
   addresses:
     - type: IPAddress
       value: "192.168.40.25"
-    # - type: "Hostname"
-    #   value: "internal.garb.dev"
+    - type: "Hostname"
+      value: "internal-cilium.garb.dev"
   infrastructure:
     annotations:
-      # external-dns.alpha.kubernetes.io/hostname: internal.garb.dev
+      external-dns.alpha.kubernetes.io/hostname: internal-cilium.garb.dev
       lbipam.cilium.io/ips: 192.168.40.25
   listeners:
     - name: http

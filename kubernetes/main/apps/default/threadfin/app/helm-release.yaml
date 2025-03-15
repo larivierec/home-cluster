@@ -71,21 +71,29 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
         enabled: true
-        className: internal
-        hosts:
-          - host: &host "tv.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        hostnames:
+          - "tv.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "tv-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
     persistence:
       data:
         enabled: true

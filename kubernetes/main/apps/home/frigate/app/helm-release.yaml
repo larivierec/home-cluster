@@ -131,6 +131,45 @@ spec:
                 name: frigate-app
             timeouts:
               backendRequest: 10m
+      app-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "frigate-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: frigate-app
+      ws-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "frigate-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *ws-port
+                name: frigate-ws
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /ws
+      go2rtc-cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "go2rtc-cilium.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *api-port
+                name: frigate-app
+            timeouts:
+              backendRequest: 10m
     persistence:
       data:
         enabled: true

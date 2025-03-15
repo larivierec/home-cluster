@@ -40,18 +40,6 @@ spec:
             name: headlamp-plugins
     config:
       pluginsDir: /build/plugins
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - host: &host headlamp.garb.dev
-          paths:
-            - path: /
-              type: Prefix
-      tls:
-        - hosts:
-            - *host
-          secretName: wildcard-cert-tls
     persistentVolumeClaim:
       enabled: true
       accessModes: ["ReadWriteMany"]

@@ -78,21 +78,6 @@ spec:
         ports:
           http:
             port: &port 8686
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "lidarr.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
@@ -102,6 +87,18 @@ spec:
             sectionName: https
         hostnames:
           - "lidarr.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "lidarr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

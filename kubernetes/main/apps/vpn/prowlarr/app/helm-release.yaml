@@ -78,21 +78,6 @@ spec:
         ports:
           http:
             port: &port 9696
-    # ingress:
-    #   app:
-    #     enabled: true
-    #     className: internal
-    #     hosts:
-    #       - host: &host "prowlarr.garb.dev"
-    #         paths:
-    #           - path: /
-    #             service:
-    #               identifier: app
-    #               port: http
-    #     tls:
-    #       - hosts:
-    #           - *host
-    #         secretName: wildcard-cert-tls
     route:
       app:
         enabled: true
@@ -101,6 +86,17 @@ spec:
             namespace: networking
         hostnames:
           - "prowlarr.garb.dev"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      cilium:
+        enabled: true
+        parentRefs:
+          - name: cilium-internal
+            namespace: networking
+        hostnames:
+          - "prowlarr-cilium.garb.dev"
         rules:
           - backendRefs:
               - port: *port

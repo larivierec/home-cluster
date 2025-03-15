@@ -54,12 +54,6 @@ spec:
         prometheus:
           serviceMonitor:
             enabled: true
-      ingress:
-        enabled: true
-        ingressClassName: external
-        hosts:
-          - sso.garb.dev
-        https: false
     worker:
       autoscaling:
         enabled: true
