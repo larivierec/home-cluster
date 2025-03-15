@@ -74,37 +74,17 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
-      app:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: external.garb.dev
-          external-dns.alpha.kubernetes.io/hostname: echo.garb.dev
-        hosts:
-          - host: &host "echo.garb.dev"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
     route:
       envoy:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns.alpha.kubernetes.io/hostname: &envoy echo.garb.dev
         parentRefs:
           - name: envoy-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "echo.garb.dev"
+          - *envoy
         rules:
           - backendRefs:
               - port: *port
@@ -112,15 +92,13 @@ spec:
       cilium:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: echo-cilium.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns.alpha.kubernetes.io/hostname: &cilium echo-cilium.garb.dev
         parentRefs:
           - name: cilium-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "echo-cilium.garb.dev"
+          - *cilium
         rules:
           - backendRefs:
               - port: *port

@@ -48,6 +48,7 @@ spec:
               - --source=gateway-udproute
               - --source=crd
               - --gateway-namespace=networking
+              - --gateway-label-filter=type=external
               - --txt-owner-id=public
               - --txt-prefix=k8s.
               - --txt-new-format-only
