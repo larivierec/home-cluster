@@ -8,6 +8,7 @@
     "docker:enableMajor",
     "config:recommended",
     "security:openssf-scorecard",
+    "helpers:pinGitHubActionDigests",
     ":enableRenovate",
     "github>larivierec/home-cluster//.github/renovate/autoMerge.json5",
     "github>larivierec/home-cluster//.github/renovate/customManagers.json5",
