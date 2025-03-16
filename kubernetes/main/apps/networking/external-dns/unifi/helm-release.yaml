@@ -36,14 +36,12 @@ spec:
               tag: v0.16.1@sha256:37d3a7a05c4638b8177382b80a627c223bd84a53c1a91be137245bd3cfdf9986
             args:
               - --provider=webhook
-              - --annotation-filter=external-dns.alpha.kubernetes.io/target
               - --domain-filter=garb.dev
               - --source=service
               - --source=ingress
               - --source=gateway-httproute
               - --source=gateway-tcproute
               - --source=gateway-udproute
-              - --gateway-label-filter=type=internal
               - --txt-owner-id=unifi
               - --txt-prefix=k8s.main.
               - --txt-new-format-only
