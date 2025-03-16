@@ -49,7 +49,7 @@ spec:
               tag: 1.41.5.9522-a96edc606@sha256:098ccf99ceed7036b8b1cd55407e3d8fa92cc4c2065a6ae8010b80d506141162
             env:
               TZ: "UTC"
-              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443"
+              ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443,https://plex-cilium.garb.dev:443"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
