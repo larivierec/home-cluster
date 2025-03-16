@@ -23,7 +23,7 @@ jobs:
 
       - name: Get Changed Files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@v0.1.0
+        uses: bjw-s-labs/action-changed-files@9527525b24b947ae7389f70d749b1778a9bd1564 # v0.1.0
         with:
           patterns: kubernetes/**
 

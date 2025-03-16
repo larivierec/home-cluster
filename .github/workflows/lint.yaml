@@ -24,7 +24,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@v0.1.0
+        uses: bjw-s-labs/action-changed-files@9527525b24b947ae7389f70d749b1778a9bd1564 # v0.1.0
         with:
           patterns: |-
             .github/workflows/**/*.yml
@@ -48,7 +48,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@v0.1.0
+        uses: bjw-s-labs/action-changed-files@9527525b24b947ae7389f70d749b1778a9bd1564 # v0.1.0
         with:
           patterns: |-
             **.yml
@@ -77,7 +77,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@v0.1.0
+        uses: bjw-s-labs/action-changed-files@9527525b24b947ae7389f70d749b1778a9bd1564 # v0.1.0
         with:
           patterns: |-
             **.md
@@ -100,7 +100,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@v0.1.0
+        uses: bjw-s-labs/action-changed-files@9527525b24b947ae7389f70d749b1778a9bd1564 # v0.1.0
         with:
           patterns: |-
             **.*
