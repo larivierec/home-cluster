@@ -24,18 +24,18 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
         with:
-          files: |
+          patterns: |-
             .github/workflows/**/*.yml
             .github/workflows/**/*.yaml
 
       - name: Run actionlint
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.changed_files != '[]'
         uses: bjw-s/action-actionlint@83d0aa4dfef4ebecbdd304776e133f5936ff7358 # v0.1
         with:
           actionlint_config: .ci/actionlint/actionlint.yml
-          file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+          file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
 
   yamllint:
     name: yamllint
@@ -48,23 +48,23 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
         with:
-          files: |
+          patterns: |-
             **.yml
             **.yaml
 
       - name: Install yamllint
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.changed_files != '[]'
         shell: bash
         run: |
           pip install --user yamllint
 
       - name: Run yamllint
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.changed_files != '[]'
         shell: bash
         run: |
-          yamllint --config-file .ci/yamllint/.yamllint.yaml --format github ${{ steps.changed-files.outputs.all_changed_files }}
+          yamllint --config-file .yamllint.yaml --format github ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
 
   markdownlint:
     name: markdownlint
@@ -77,17 +77,17 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
         with:
-          files: |
+          patterns: |-
             **.md
 
       - name: Run markdownlint-cli2
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.changed_files != '[]'
         uses: bjw-s/action-markdownlint-cli2@c3c44cc6f77516007f1a85d982ed6276e840dcec # v0.1
         with:
           markdownlint_config: .ci/markdownlint/.markdownlint.yaml
-          file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+          file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
 
   prettier:
     name: prettier
@@ -100,15 +100,18 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
+        with:
+          patterns: |-
+            **.*
 
       - name: Run prettier
-        if: steps.changed-files.outputs.any_changed == 'true'
+        if: steps.changed-files.outputs.changed_files != '[]'
         uses: bjw-s/action-prettier-lint@1014e6a3453ff28a8b746715f44a75306d223266 # v0.1
         with:
           prettier_ignore: .ci/prettier/.prettierignore
           prettier_config: .ci/prettier/.prettierrc.yaml
-          file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
+          file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
 
   lint_success:
     needs:
