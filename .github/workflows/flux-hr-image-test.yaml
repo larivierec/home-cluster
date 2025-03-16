@@ -16,16 +16,16 @@ jobs:
     runs-on:
       - ubuntu-24.04
     outputs:
-      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      chnaged_files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Get Changed Files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
         with:
-          files: kubernetes/**
+          patterns: kubernetes/**
 
   extract-images:
     name: Extract Images
@@ -33,7 +33,7 @@ jobs:
       - changed-clusters
     runs-on:
       - garb-arc-runner-set
-    if: ${{ needs.changed-clusters.outputs.any_changed == 'true' }}
+    if: ${{ needs.changed-clusters.outputs.chnaged_files != '[]' }}
     strategy:
       matrix:
         branches: ["default", "pull"]
@@ -97,7 +97,7 @@ jobs:
       - extract-images
     outputs:
       images: ${{ steps.compare-images.outputs.images }}
-      if: ${{ needs.changed-clusters.outputs.any_changed == 'true' && needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
+      if: ${{ needs.changed-clusters.outputs.chnaged_files != '[]' && needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
     steps:
       - name: Compare Images
         id: compare-images

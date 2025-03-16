@@ -29,25 +29,22 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: JJGadgets/tj-actions-changed-files@9200e69727eb73eb060652b19946b8a2fdfb654b
+        uses: bjw-s-labs/action-changed-files@v0.1.0
         with:
-          dir_names: true
-          dir_names_max_depth: 3
-          json: true
-          files: |
+          patterns: |
             infrastructure/terraform/**
 
       - name: List all changed files
         run: |
-          echo '${{ steps.changed-files.outputs.all_changed_files }}'
+          echo '${{ steps.changed-files.outputs.changed_files }}'
 
       - name: Store changed projects
         id: set-matrix
         run: |
-          if [[ "${{ steps.changed-files.outputs.all_changed_files }}" == "[]" ]]; then
+          if [[ "${{ steps.changed-files.outputs.changed_files }}" == "[]" ]]; then
             echo "matrix={\"project\":$(find infrastructure/terraform -type d -mindepth 1 -maxdepth 1 | jo -a)}" >> "${GITHUB_OUTPUT}"
           else
-            echo "matrix={\"project\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "${GITHUB_OUTPUT}"
+            echo "matrix={\"project\":${{ steps.changed-files.outputs.changed_files }}}" >> "${GITHUB_OUTPUT}"
           fi
 
   publish:
