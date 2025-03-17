@@ -79,7 +79,7 @@ spec:
               - *host
       extraInitContainers:
         - name: init-db
-          image: ghcr.io/buroa/postgres-init:17
+          image: ghcr.io/home-operations/postgres-init:17.4
           envFrom:
             - secretRef:
                 name: postgres-concourse
