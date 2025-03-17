@@ -78,7 +78,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | UDM Pro Max               | 1     |                         | -                           |  -   | Unifi OS - 4.1   | Router / Gateway     |
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
-| Unifi Flex 2.5G POE       | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
+| Unifi Flex 2.5G PoE       | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Unifi Flex 2.5G Mini      | 1     |            -            | -                           |  -   | Unifi OS - 6.x   | Switch               |
 | Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Talos            | Kubernetes Masters   |
 | MS-01                     | 3     | 250Gi NVMe              | 1Ti U.2 NVMe                | 64Gi | Talos            | Kubernetes Workers   |
