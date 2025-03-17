@@ -52,8 +52,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.20.1.9773@sha256:8187c129a78fdfe15b1603db9175abd2be0e1ca2e99ea3733987c3ae941da165
+              repository: ghcr.io/onedr0p/radarr
+              tag: 5.20.1.9773@sha256:347dec0ad1e4d00a0de171675fcf857cea188a814dffeb8e43f032b47e7cc0d4
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"

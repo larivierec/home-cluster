@@ -18,23 +18,9 @@
         "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
         "ghcr.io/larivierec/tf-runner-bw",
-        "ghcr.io/onedr0p/sonarr-develop",
-        "ghcr.io/onedr0p/radarr-develop"
+        "ghcr.io/onedr0p/sonarr",
+        "ghcr.io/onedr0p/radarr"
       ]
     },
-    // {
-    //   matchDatasources: [
-    //     "docker",
-    //     "github-tags"
-    //   ],
-    //   automerge: true,
-    //   automergeType: "pr",
-    //   ignoreTests: true,
-    //   platformCommit: true,
-    //   matchUpdateTypes: [
-    //     "minor",
-    //     "patch"
-    //   ]
-    // }
   ]
 }
