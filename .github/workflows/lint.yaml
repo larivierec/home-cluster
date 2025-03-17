@@ -64,7 +64,7 @@ jobs:
         if: steps.changed-files.outputs.changed_files != '[]'
         shell: bash
         run: |
-          yamllint --config-file .yamllint.yaml --format github ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
+          yamllint --config-file .ci/yamllint/.yamllint.yaml --format github ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
 
   markdownlint:
     name: markdownlint
