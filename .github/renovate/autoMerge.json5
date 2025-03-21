@@ -18,8 +18,8 @@
         "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
         "ghcr.io/larivierec/tf-runner-bw",
-        "ghcr.io/onedr0p/sonarr",
-        "ghcr.io/onedr0p/radarr"
+        "ghcr.io/home-operations/sonarr",
+        "ghcr.io/home-operations/radarr"
       ]
     },
   ]

@@ -106,5 +106,6 @@ Thanks to all the people who donate their time to the [Home Operations](https://
 - bernd-schorgers / bjw-s
 - buroa
 - joryirving
+- [home-operations](https://github.com/home-operations) 
 
 For all their hard work and dedication

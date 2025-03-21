@@ -31,12 +31,18 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/sabnzbd
-              tag: 4.4.1@sha256:36674664a94760ae934c09b1d97546a3e79a0f110edda88085e74778c26d68e3
+              repository: ghcr.io/home-operations/sabnzbd
+              tag: 4.4.1@sha256:0a861d1e971d661cb645cb9258546d35c5240c0f2c1d66c6a73056c2cfc81300
             env:
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd, sabnzbd.vpn, sabnzbd.vpn.svc, sabnzbd.vpn.svc.cluster, sabnzbd.vpn.svc.cluster.local, sabnzbd.garb.dev
+                sabnzbd,
+                sabnzbd.vpn,
+                sabnzbd.vpn.svc,
+                sabnzbd.vpn.svc.cluster,
+                sabnzbd.vpn.svc.cluster.local,
+                sabnzbd.garb.dev,
+                sabnzbd-cilium.garb.dev
             resources:
               requests:
                 cpu: 247m
