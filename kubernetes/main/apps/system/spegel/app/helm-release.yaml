@@ -26,7 +26,7 @@ spec:
   values:
     image:
       repository: ghcr.io/spegel-org/spegel
-      tag: v0.1.0@sha256:ca769f57f209dd3845309af9160ef72e1202e17b03539075d356319c286b01f4
+      tag: v0.1.0@sha256:3964544c1cf40d68bc937b07a239ee6f1d92a9f5cf00926e89a5c07ce09adec0
     spegel:
       appendMirrors: true
       containerdSock: /run/containerd/containerd.sock
