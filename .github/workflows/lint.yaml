@@ -24,7 +24,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@113ac3737a803369edce8db410cf014cde00ab07 # v0.3.0
+        uses: bjw-s-labs/action-changed-files@2cc35474e9d534ed0d743aa122fd142afbdaa0ad # v0.3.1
         with:
           patterns: |-
             .github/workflows/**/*.yml
@@ -48,7 +48,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@113ac3737a803369edce8db410cf014cde00ab07 # v0.3.0
+        uses: bjw-s-labs/action-changed-files@2cc35474e9d534ed0d743aa122fd142afbdaa0ad # v0.3.1
         with:
           patterns: |-
             **.yml
@@ -77,7 +77,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@113ac3737a803369edce8db410cf014cde00ab07 # v0.3.0
+        uses: bjw-s-labs/action-changed-files@2cc35474e9d534ed0d743aa122fd142afbdaa0ad # v0.3.1
         with:
           patterns: |-
             **.md
@@ -100,7 +100,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: bjw-s-labs/action-changed-files@113ac3737a803369edce8db410cf014cde00ab07 # v0.3.0
+        uses: bjw-s-labs/action-changed-files@2cc35474e9d534ed0d743aa122fd142afbdaa0ad # v0.3.1
 
       - name: Run prettier
         if: steps.changed-files.outputs.changed_files != '[]'
