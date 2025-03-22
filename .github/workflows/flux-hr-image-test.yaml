@@ -121,17 +121,35 @@ jobs:
         id: check
         run: |
           missing_images=()
+
           for image in $(echo '${{ needs.compare-images.outputs.images }}' | jq -r '.[]'); do
-            echo "Checking image: $image"
-            if docker manifest inspect "$image" > /dev/null 2>&1; then
-              echo "✅ Image $image exists!"
-            else
-              echo "❌ Image $image does NOT exist!"
-              missing_images+=("$image")
-            fi
+              echo "Checking image: $image"
+              
+              clean_image=$(echo "$image" | sed -E 's/@sha256:[a-f0-9]+//')
+              digest=$(echo "$image" | grep -o 'sha256:[a-f0-9]\+')
+
+              # Check if image exists by tag
+              if docker manifest inspect "$clean_image" > /dev/null 2>&1; then
+                  echo "✅ Image $clean_image exists!"
+
+                  # If a digest is present, verify it's in the manifest
+                  if [[ -n "$digest" ]]; then
+                      found=$(docker manifest inspect "$clean_image" | jq -r --arg digest "$digest" '.manifests[]?.digest | select(. == $digest)')
+                      
+                      if [[ -n "$found" ]]; then
+                          echo "✅ Digest $digest is present in the manifest!"
+                      else
+                          echo "⚠️ Warning: Digest $digest is NOT in the manifest!"
+                          missing_images+=("$image")
+                      fi
+                  fi
+              else
+                  echo "❌ Image $clean_image does NOT exist!"
+                  missing_images+=("$image")
+              fi
           done
 
           if [ ${#missing_images[@]} -ne 0 ]; then
-            echo "⛔ The following images are missing: ${missing_images[*]}"
-            exit 1
+              echo "⛔ The following images are missing or have mismatched digests: ${missing_images[*]}"
+              exit 1
           fi
