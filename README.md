@@ -89,11 +89,6 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 1. [frigate](kubernetes/apps/home/frigate/README.md)
 2. [scrypted](kubernetes/apps/home/scrypted/README.md)
 
-#### Archived Documentation
-
-1. [tailscale-operator](.archive/apps/networking/tailscale-gateway/operator/README.md)
-2. [nvidia-device-plugin](.archive/apps/kube-system/nvidia/device-plugin/README.md)
-
 ## ⭐ Stargazers
 
 [![Star History Chart](https://api.star-history.com/svg?repos=larivierec/home-cluster&type=Date)](https://www.star-history.com/#larivierec/home-cluster&Date)
