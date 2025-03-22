@@ -41,7 +41,7 @@ locals {
   comment = "Created via Terraform"
 }
 
-resource "cloudflare_record" "a" {
+resource "cloudflare_dns_record" "a" {
   for_each = { for data in local.a_records : "${var.zone.id}_${data.record}_A" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -52,7 +52,7 @@ resource "cloudflare_record" "a" {
   comment  = local.comment
 }
 
-resource "cloudflare_record" "cname" {
+resource "cloudflare_dns_record" "cname" {
   for_each = { for data in local.cname_records : "${var.zone.id}_${data.record}_CNAME" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -63,7 +63,7 @@ resource "cloudflare_record" "cname" {
   comment  = local.comment
 }
 
-resource "cloudflare_record" "mx" {
+resource "cloudflare_dns_record" "mx" {
   for_each = { for data in local.mx_records : "${var.zone.id}_${data.record}_${data.address}_MX" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -74,7 +74,7 @@ resource "cloudflare_record" "mx" {
   comment  = local.comment
 }
 
-resource "cloudflare_record" "txt" {
+resource "cloudflare_dns_record" "txt" {
   for_each = { for idx, data in local.txt_records : "${var.zone.id}_${data.record}_${idx}_TXT" => data }
   zone_id  = var.zone.id
   name     = each.value.record
