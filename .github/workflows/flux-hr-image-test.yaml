@@ -128,11 +128,9 @@ jobs:
               clean_image=$(echo "$image" | sed -E 's/@sha256:[a-f0-9]+//')
               digest=$(echo "$image" | grep -o 'sha256:[a-f0-9]\+')
 
-              # Check if image exists by tag
               if docker manifest inspect "$clean_image" > /dev/null 2>&1; then
                   echo "✅ Image $clean_image exists!"
 
-                  # If a digest is present, verify it's in the manifest
                   if [[ -n "$digest" ]]; then
                       found=$(docker manifest inspect "$clean_image" | jq -r --arg digest "$digest" '.manifests[]?.digest | select(. == $digest)')
                       
