@@ -347,15 +347,15 @@ spec:
       - snuids-trafficlights-panel
     serviceMonitor:
       enabled: true
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - &host "grafana.garb.dev"
-      tls:
-        - hosts:
-            - *host
-          secretName: wildcard-cert-tls
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - grafana.garb.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
     persistence:
       enabled: false
     topologySpreadConstraints:

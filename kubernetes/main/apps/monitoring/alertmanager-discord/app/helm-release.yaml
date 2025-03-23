@@ -31,8 +31,11 @@ spec:
         containers:
           app:
             image:
-              repository: benjojo/alertmanager-discord
-              tag: latest
+              repository: rogerrum/alertmanager-discord
+              tag: 1.0.7@sha256:bb4bcb893dacca8735bd634b0796f0a1b3ef05e641f8a7b4921f7d0e5a17ee3e
+            env:
+              DISCORD_AVATAR_URL: https://avatars3.githubusercontent.com/u/3380462
+              DISCORD_USERNAME: alertmanager
             envFrom:
               - secretRef:
                   name: alertmanager-discord
