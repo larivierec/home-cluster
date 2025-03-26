@@ -28,7 +28,7 @@ spec:
   values:
     controllers:
       overseerr:
-        strategy: RollingUpdate
+        strategy: Recreate
         containers:
           app:
             image:
