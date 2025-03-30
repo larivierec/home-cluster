@@ -28,7 +28,9 @@ spec:
     controller:
       strategy: node
       externalProvisioner:
-        image: registry.k8s.io/sig-storage/csi-provisioner:v5.2.0
+        image:
+          registry: registry.k8s.io/sig-storage/csi-provisioner
+          tag: v5.2.0
         extraArgs:
           - --leader-election=false
           - --node-deployment=true
@@ -65,7 +67,9 @@ spec:
           dirPermissionsGroup: 0
     node:
       driver:
-        image: ghcr.io/democratic-csi/democratic-csi:v1.9.3
+        image:
+          registry: ghcr.io/democratic-csi/democratic-csi
+          tag: v1.9.3
         extraVolumeMounts:
           - name: local-hostpath
             mountPath: *storagePath
