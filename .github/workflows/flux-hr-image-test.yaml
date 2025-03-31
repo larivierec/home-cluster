@@ -124,7 +124,7 @@ jobs:
 
           for image in $(echo '${{ needs.compare-images.outputs.images }}' | jq -r '.[]'); do
               echo "Checking image: $image"
-              
+
               clean_image=$(echo "$image" | sed -E 's/@sha256:[a-f0-9]+//')
               digest=$(echo "$image" | grep -o 'sha256:[a-f0-9]\+')
 
@@ -133,7 +133,7 @@ jobs:
 
                   if [[ -n "$digest" ]]; then
                       found=$(docker manifest inspect "$clean_image" | jq -r --arg digest "$digest" '.manifests[]?.digest | select(. == $digest)')
-                      
+
                       if [[ -n "$found" ]]; then
                           echo "✅ Digest $digest is present in the manifest!"
                       else
