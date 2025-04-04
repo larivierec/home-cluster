@@ -119,11 +119,11 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Install node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
           node-version: 20
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
@@ -159,7 +159,7 @@ jobs:
           working-directory: ${{ steps.strip-path.outputs.project_path }}
 
       - name: upload planfile
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: plan
           include-hidden-files: true
@@ -237,17 +237,17 @@ jobs:
           echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
 
       - name: download planfile
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4
         with:
           name: plan
           path: ${{ steps.strip-path.outputs.project_path }}
 
       - name: Install node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4
         with:
           node-version: 20
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
