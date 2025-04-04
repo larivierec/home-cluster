@@ -55,7 +55,7 @@ jobs:
 
           echo "matrix={\"paths\":$PROJECTS}" >> "${GITHUB_OUTPUT}"
   diff:
-    name: Terraform Diff
+    name: Terraform Plan
     runs-on:
       - garb-arc-runner-set
     needs:
@@ -171,6 +171,7 @@ jobs:
           rm $HOME/.config/sops/age/keys.txt
 
   apply:
+    name: Terraform Apply
     if: github.event_name != 'pull_request'
     runs-on:
       - garb-arc-runner-set
