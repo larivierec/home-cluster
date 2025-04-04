@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.138.15-noble-full
+              tag: v0.138.18-noble-full
             resources:
               requests:
                 gpu.intel.com/i915: 1
