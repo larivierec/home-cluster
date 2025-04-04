@@ -60,11 +60,6 @@ module "cloudflare-ddns" {
   has_projects = false
   is_template  = false
 
-  plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
-    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
-  }
-
   issue_labels_merge_with_github_labels = false
   issue_labels = concat(
     [
@@ -98,11 +93,6 @@ module "containers" {
   has_projects = false
   is_template  = false
 
-  plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
-    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
-  }
-
   issue_labels_merge_with_github_labels = false
   issue_labels = concat(
     [
@@ -133,11 +123,6 @@ module "aws-es-proxy" {
   has_wiki     = false
   has_projects = false
   is_template  = false
-
-  plaintext_secrets = {
-    "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
-    "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
-  }
 
   issue_labels_merge_with_github_labels = false
   issue_labels = concat(

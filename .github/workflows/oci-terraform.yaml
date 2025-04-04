@@ -31,6 +31,7 @@ jobs:
         id: changed-files
         uses: bjw-s-labs/action-changed-files@b1144fc772fca235a50902c7bb6cc431cc7d8e27 # v0.3.2
         with:
+          include_only_directories: true
           patterns: |
             infrastructure/terraform/**
 
@@ -41,11 +42,16 @@ jobs:
       - name: Store changed projects
         id: set-matrix
         run: |
-          if [[ "${{ steps.changed-files.outputs.changed_files }}" == "[]" ]]; then
-            echo "matrix={\"project\":$(find infrastructure/terraform -type d -mindepth 1 -maxdepth 1 | jo -a)}" >> "${GITHUB_OUTPUT}"
+          CHANGED=${{ steps.changed-files.outputs.changed_files }}
+
+          if [ "$CHANGED" = "[]" ]; then
+            echo "No projects changed, defaulting to all projects."
+            PROJECTS=$(find infrastructure/terraform -mindepth 1 -maxdepth 1 -type d | jq -R -s -c 'split("\n") | map(select(length > 0))')
           else
-            echo "matrix={\"project\":${{ steps.changed-files.outputs.changed_files }}}" >> "${GITHUB_OUTPUT}"
+            PROJECTS=$(echo "$CHANGED" | jq -R -s -c 'split(" ") | map(select(length > 0))')
           fi
+
+          echo "matrix={\"project\":$PROJECTS}" >> "${GITHUB_OUTPUT}"
 
   publish:
     runs-on: ubuntu-latest
@@ -71,14 +77,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Strip project path
+        id: strip-path
+        run: |
+          project_path=$(echo "${{ matrix.project }}" | sed 's/^\[//; s/\]$//')
+          echo "Project path stripped: $project_path"
+          echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
+
       - name: Publish OCI
         run: |
-          flux push artifact "oci://ghcr.io/larivierec/terraform/$(basename ${{ matrix.project }}):$(git rev-parse --short HEAD)" \
-            --path="./${{ matrix.project }}" \
+          flux push artifact "oci://ghcr.io/larivierec/terraform/$(basename "${{ steps.strip-path.outputs.project_path }}"):$(git rev-parse --short HEAD)" \
+            --path="./$project_path" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)/$(git rev-parse HEAD)"
 
       - name: Tag OCI
         run: |
-          flux tag artifact "oci://ghcr.io/larivierec/terraform/$(basename ${{ matrix.project }}):$(git rev-parse --short HEAD)" \
+          flux tag artifact "oci://ghcr.io/larivierec/terraform/$(basename "${{ steps.strip-path.outputs.project_path }}"):$(git rev-parse --short HEAD)" \
             --tag main
