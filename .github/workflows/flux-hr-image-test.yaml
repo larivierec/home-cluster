@@ -50,17 +50,20 @@ jobs:
           parse_json: "true"
           secrets: |
             4c93fe22-dd57-4d4d-96b2-b20600132b47
+
       - name: Extract Secret Values
         id: parse-secrets
         run: |
           echo "bot_app_id=$BOT_ID" >> "$GITHUB_OUTPUT"
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
+
       - name: Decode Private Key Securely
         id: decode
         run: |
           private_key=$(echo "${{ steps.parse-secrets.outputs.bot_app_private_key }}" | base64 -d | awk 'BEGIN {ORS="\\n"} {print}' | head -c -2) &> /dev/null
           echo "::add-mask::$private_key"
           echo "private-key=$private_key" >> "$GITHUB_OUTPUT"
+
       - name: Generate Token
         uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2
         id: app-token
