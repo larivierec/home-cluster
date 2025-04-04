@@ -5,11 +5,15 @@ name: "Terraform"
 on:
   workflow_dispatch:
   pull_request:
-    branches: ["main"]
-    paths: ["terraform/**"]
+    branches:
+      - "main"
+    paths:
+      - "infrastructure/terraform/**"
   push:
-    branches: ["main"]
-    paths: ["terraform/**"]
+    branches:
+      - "main"
+    paths:
+      - "infrastructure/terraform/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -49,7 +53,7 @@ jobs:
             PROJECTS=$(echo "$CHANGED" | jq -R -s -c 'split(" ") | map(select(length > 0))')
           fi
 
-          echo "matrix={\"project\":$PROJECTS}" >> "${GITHUB_OUTPUT}"
+          echo "matrix={\"paths\":$PROJECTS}" >> "${GITHUB_OUTPUT}"
   diff:
     name: Terraform Diff
     runs-on:
@@ -57,11 +61,17 @@ jobs:
     needs:
       - changed-terraform
     strategy:
-      matrix:
-        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
+      - name: Strip project path
+        id: strip-path
+        run: |
+          project_path=$(echo "${{ matrix.paths }}" | sed 's/^\[//; s/\]$//')
+          echo "Project path stripped: $project_path"
+          echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
+
       - name: Get Secrets
         uses: larivierec/sm-action@main
         with:
@@ -70,6 +80,7 @@ jobs:
           secrets: |
             4c93fe22-dd57-4d4d-96b2-b20600132b47
             3d25a5f7-3eb7-49c3-a376-b20400d833bd
+            95e25c1b-2890-49bf-834b-b206001fc136
 
       - name: Extract Secret Values
         id: parse-secrets
@@ -77,6 +88,7 @@ jobs:
           echo "bot_app_id=$BOT_ID" >> "$GITHUB_OUTPUT"
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
           echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
+          echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
 
       - name: Decode Private Key Securely
         id: decode
@@ -84,6 +96,15 @@ jobs:
           private_key=$(echo "${{ steps.parse-secrets.outputs.bot_app_private_key }}" | base64 -d | awk 'BEGIN {ORS="\\n"} {print}' | head -c -2) &> /dev/null
           echo "::add-mask::$private_key"
           echo "private-key=$private_key" >> "$GITHUB_OUTPUT"
+
+          age=$(echo "${{ steps.parse-secrets.outputs.age_b64 }}" | base64 -d | grep '^AGE-SECRET-KEY-')
+          echo "::add-mask::$age"
+          echo "masked-age=$age" >> "$GITHUB_OUTPUT"
+
+      - name: Create age keys.txt
+        run: |
+          mkdir -p "$HOME/.config/sops/age"
+          echo "${{ steps.decode.outputs.masked-age }}" > "$HOME/.config/sops/age/keys.txt"
 
       - name: Generate Token
         uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2
@@ -97,33 +118,37 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.11.3"
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
-        working-directory: ${{ matrix.paths }}
-        run: |
-          terraform init -upgrade -reconfigure
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
+        run: terraform init
 
       - name: terraform fmt
         id: fmt
-        working-directory: ${{ matrix.paths }}
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
         run: terraform fmt -check
         continue-on-error: true
 
       - name: terraform validate
         id: validate
-        working-directory: ${{ matrix.paths }}
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
         run: terraform validate -no-color
 
       - name: terraform plan
-        working-directory: ${{ matrix.paths }}
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
         run: terraform plan -no-color -out .planfile
 
       - name: Post PR comment
+        if: github.event_name == 'pull_request'
         continue-on-error: true
         uses: borchero/terraform-plan-comment@3399d8dbae8b05185e815e02361ede2949cd99c4 # v2.4.0
         with:
@@ -131,14 +156,19 @@ jobs:
           planfile: .planfile
           terraform-cmd: terraform
           header: "📝 Terraform Plan for ${{ matrix.paths }}"
-          working-directory: ${{ matrix.paths }}
+          working-directory: ${{ steps.strip-path.outputs.project_path }}
 
       - name: upload planfile
         uses: actions/upload-artifact@v4
         with:
           name: plan
           include-hidden-files: true
-          path: ${{ matrix.paths }}/.planfile
+          path: ${{ steps.strip-path.outputs.project_path }}/.planfile
+
+      - name: Ensure deletion
+        if: always()
+        run: |
+          rm $HOME/.config/sops/age/keys.txt
 
   apply:
     if: github.event_name != 'pull_request'
@@ -148,17 +178,10 @@ jobs:
       - changed-terraform
       - diff
     strategy:
-      matrix:
-        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
-      - name: download planfile
-        uses: actions/download-artifact@v4
-        with:
-          name: plan
-          path: ${{ matrix.paths }}
-
       - name: Get Secrets
         uses: larivierec/sm-action@main
         with:
@@ -167,6 +190,7 @@ jobs:
           secrets: |
             4c93fe22-dd57-4d4d-96b2-b20600132b47
             3d25a5f7-3eb7-49c3-a376-b20400d833bd
+            95e25c1b-2890-49bf-834b-b206001fc136
 
       - name: Extract Secret Values
         id: parse-secrets
@@ -174,6 +198,7 @@ jobs:
           echo "bot_app_id=$BOT_ID" >> "$GITHUB_OUTPUT"
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
           echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
+          echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
 
       - name: Decode Private Key Securely
         id: decode
@@ -181,6 +206,15 @@ jobs:
           private_key=$(echo "${{ steps.parse-secrets.outputs.bot_app_private_key }}" | base64 -d | awk 'BEGIN {ORS="\\n"} {print}' | head -c -2) &> /dev/null
           echo "::add-mask::$private_key"
           echo "private-key=$private_key" >> "$GITHUB_OUTPUT"
+
+          age=$(echo "${{ steps.parse-secrets.outputs.age_b64 }}" | base64 -d | grep '^AGE-SECRET-KEY-')
+          echo "::add-mask::$age"
+          echo "masked-age=$age" >> "$GITHUB_OUTPUT"
+
+      - name: Create age keys.txt
+        run: |
+          mkdir -p "$HOME/.config/sops/age"
+          echo "${{ steps.decode.outputs.masked-age }}" > "$HOME/.config/sops/age/keys.txt"
 
       - name: Generate Token
         uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2
@@ -194,17 +228,38 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
 
+      - name: Strip project path
+        id: strip-path
+        run: |
+          project_path=$(echo "${{ matrix.paths }}" | sed 's/^\[//; s/\]$//')
+          echo "Project path stripped: $project_path"
+          echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
+
+      - name: download planfile
+        uses: actions/download-artifact@v4
+        with:
+          name: plan
+          path: ${{ steps.strip-path.outputs.project_path }}
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.11.3"
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
-        working-directory: ${{ matrix.paths }}
-        run: |
-          terraform init -upgrade -reconfigure
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
+        run: terraform init
 
       - name: terraform apply
-        working-directory: ${{ matrix.paths }}
+        working-directory: ${{ steps.strip-path.outputs.project_path }}
         run: terraform apply -no-color .planfile
+
+      - name: Ensure deletion
+        if: always()
+        run: |
+          rm $HOME/.config/sops/age/keys.txt
