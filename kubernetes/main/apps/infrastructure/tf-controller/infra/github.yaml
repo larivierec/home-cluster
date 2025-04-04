@@ -5,7 +5,7 @@ metadata:
   name: oci-terraform-github
   namespace: infrastructure
 spec:
-  interval: 1m
+  interval: 1h
   url: oci://ghcr.io/larivierec/terraform/github
   ref:
     tag: main
