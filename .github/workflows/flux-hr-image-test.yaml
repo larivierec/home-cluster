@@ -16,7 +16,7 @@ jobs:
     runs-on:
       - ubuntu-24.04
     outputs:
-      chnaged_files: ${{ steps.changed-files.outputs.changed_files }}
+      changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -33,7 +33,7 @@ jobs:
       - changed-clusters
     runs-on:
       - garb-arc-runner-set
-    if: ${{ needs.changed-clusters.outputs.chnaged_files != '[]' }}
+    if: ${{ needs.changed-clusters.outputs.changed-files != '[]' }}
     strategy:
       matrix:
         branches: ["default", "pull"]
@@ -97,7 +97,7 @@ jobs:
       - extract-images
     outputs:
       images: ${{ steps.compare-images.outputs.images }}
-      if: ${{ needs.changed-clusters.outputs.chnaged_files != '[]' && needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
+      if: ${{ needs.changed-clusters.outputs.changed-files != '[]' && needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
     steps:
       - name: Compare Images
         id: compare-images
