@@ -150,3 +150,26 @@ module "aws-es-proxy" {
     local.default_issue_labels
   )
 }
+
+resource "github_repository" "renovate" {
+  name        = ".github"
+  description = "Personal renovate configuration"
+  visibility  = "public"
+}
+
+resource "github_repository_topics" "renovate" {
+  repository = github_repository.renovate.name
+  topics     = ["renovate"]
+}
+
+resource "github_actions_secret" "bot_app_id" {
+  repository      = github_repository.renovate.name
+  secret_name     = "RIVERBOT_APP_ID"
+  plaintext_value = nonsensitive(local.github_secrets["bot_id"])
+}
+
+resource "github_actions_secret" "bot_app_pk" {
+  repository      = github_repository.renovate.name
+  secret_name     = "RIVERBOT_APP_PRIVATE_KEY"
+  plaintext_value = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
+}
