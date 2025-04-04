@@ -158,3 +158,8 @@ resource "github_actions_secret" "bot_app_pk" {
   secret_name     = "RIVERBOT_APP_PRIVATE_KEY"
   plaintext_value = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
 }
+
+resource "github_branch_default" "name" {
+  branch     = "main"
+  repository = github_repository.renovate.name
+}

@@ -5,11 +5,15 @@ name: "Terraform"
 on:
   workflow_dispatch:
   pull_request:
-    branches: ["main"]
-    paths: ["terraform/**"]
+    branches:
+      - "main"
+    paths:
+      - "infrastructure/terraform/**"
   push:
-    branches: ["main"]
-    paths: ["terraform/**"]
+    branches:
+      - "main"
+    paths:
+      - "infrastructure/terraform/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -57,8 +61,7 @@ jobs:
     needs:
       - changed-terraform
     strategy:
-      matrix:
-        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
@@ -99,14 +102,12 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.11.3"
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
         working-directory: ${{ matrix.paths }}
-        run: |
-          terraform init -upgrade -reconfigure
+        run: terraform init
 
       - name: terraform fmt
         id: fmt
@@ -148,8 +149,7 @@ jobs:
       - changed-terraform
       - diff
     strategy:
-      matrix:
-        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
       max-parallel: 4
       fail-fast: false
     steps:
@@ -196,14 +196,12 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.11.3"
           cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
         working-directory: ${{ matrix.paths }}
-        run: |
-          terraform init -upgrade -reconfigure
+        run: terraform init
 
       - name: terraform apply
         working-directory: ${{ matrix.paths }}
