@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/prowlarr
-              tag: 1.33.1.4997@sha256:7fa7646650f318849a5bf5cf91d9f994a7dfee735ed072e44cea9f25217a950a
+              tag: 1.33.2.5002@sha256:0ab74b55dce701c064bc0da0f252141858ea7ac87608b9896c60b9c12757ea01
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
