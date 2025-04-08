@@ -40,6 +40,8 @@ spec:
             image:
               repository: ghcr.io/koush/scrypted
               tag: v0.138.19-noble-full
+            env:
+              SCRYPTED_SECURE_PORT: &secure 11443
             resources:
               requests:
                 gpu.intel.com/i915: 1
@@ -62,8 +64,8 @@ spec:
       app:
         controller: *app
         ports:
-          http:
-            port: &port 11080
+          https:
+            port: *secure
           rebroadcast:
             port: 34135
     route:
@@ -76,7 +78,7 @@ spec:
           - "scrypted.garb.dev"
         rules:
           - backendRefs:
-              - port: *port
+              - port: *secure
                 name: *app
       cilium:
         enabled: true
@@ -87,7 +89,7 @@ spec:
           - "scrypted-cilium.garb.dev"
         rules:
           - backendRefs:
-              - port: *port
+              - port: *secure
                 name: *app
     persistence:
       config:
