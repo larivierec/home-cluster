@@ -74,6 +74,7 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: networking
+            sectionName: https
         hostnames:
           - "scrypted.garb.dev"
         rules:
@@ -85,6 +86,7 @@ spec:
         parentRefs:
           - name: cilium-internal
             namespace: networking
+            sectionName: https
         hostnames:
           - "scrypted-cilium.garb.dev"
         rules:
