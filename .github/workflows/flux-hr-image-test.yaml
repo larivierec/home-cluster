@@ -114,8 +114,7 @@ jobs:
 
   check-images:
     name: Check Images
-    runs-on:
-      - ubuntu-24.04
+    runs-on: ubuntu-24.04
     needs:
       - compare-images
     if: ${{ needs.compare-images.outputs.images != '[]' && needs.compare-images.outputs.images != '' }}
@@ -126,31 +125,54 @@ jobs:
           missing_images=()
 
           for image in $(echo '${{ needs.compare-images.outputs.images }}' | jq -r '.[]'); do
-              echo "Checking image: $image"
+              echo "🔍 Checking image: $image"
 
               clean_image=$(echo "$image" | sed -E 's/@sha256:[a-f0-9]+//')
-              digest=$(echo "$image" | grep -o 'sha256:[a-f0-9]\+')
+              digest=$(echo "$image" | sed -n 's/.*@\(sha256:[a-f0-9]\+\)/\1/p')
+
+              if docker manifest inspect "$image" > /dev/null 2>&1; then
+                  echo "✅ Image with digest exists: $image"
+                  continue
+              fi
+
+              echo "❌ Full digest reference does not exist: $image"
+              echo "🔍 Falling back to checking tag: $clean_image"
 
               if docker manifest inspect "$clean_image" > /dev/null 2>&1; then
-                  echo "✅ Image $clean_image exists!"
+                  echo "✅ Tag $clean_image exists"
 
                   if [[ -n "$digest" ]]; then
-                      found=$(docker manifest inspect "$clean_image" | jq -r --arg digest "$digest" '.manifests[]?.digest | select(. == $digest)')
+                      # Check if it's a manifest list
+                      has_manifest_list=$(docker manifest inspect "$clean_image" | jq 'has("manifests")')
+
+                      if [[ "$has_manifest_list" == "true" ]]; then
+                          echo "ℹ️  Multi-arch manifest detected"
+                          found=$(docker manifest inspect "$clean_image" | jq -r --arg digest "$digest" '.manifests[]?.digest | select(. == $digest)')
+                      else
+                          echo "ℹ️  Single-arch image detected"
+                          image_digest=$(docker manifest inspect "$clean_image" | jq -r '.config.digest // .layers[0].digest // empty')
+                          [[ "$image_digest" == "$digest" ]] && found="$digest"
+                      fi
 
                       if [[ -n "$found" ]]; then
-                          echo "✅ Digest $digest is present in the manifest!"
+                          echo "✅ Digest $digest is present in $clean_image"
                       else
-                          echo "⚠️ Warning: Digest $digest is NOT in the manifest!"
+                          echo "⚠️  Digest $digest is NOT found in $clean_image"
                           missing_images+=("$image")
                       fi
                   fi
               else
-                  echo "❌ Image $clean_image does NOT exist!"
+                  echo "❌ Tag $clean_image does NOT exist"
                   missing_images+=("$image")
               fi
           done
 
           if [ ${#missing_images[@]} -ne 0 ]; then
-              echo "⛔ The following images are missing or have mismatched digests: ${missing_images[*]}"
+              echo "⛔ The following images are missing or have mismatched digests:"
+              for img in "${missing_images[@]}"; do
+                  echo "  - $img"
+              done
               exit 1
+          else
+              echo "🎉 All images verified successfully!"
           fi
