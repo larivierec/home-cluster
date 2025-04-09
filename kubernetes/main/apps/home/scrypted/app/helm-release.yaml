@@ -64,6 +64,8 @@ spec:
       app:
         controller: *app
         ports:
+          http:
+            port: &http 11080
           https:
             port: *secure
           rebroadcast:
@@ -74,24 +76,22 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: networking
-            sectionName: https
         hostnames:
           - "scrypted.garb.dev"
         rules:
           - backendRefs:
-              - port: *secure
+              - port: *http
                 name: *app
       cilium:
         enabled: true
         parentRefs:
           - name: cilium-internal
             namespace: networking
-            sectionName: https
         hostnames:
           - "scrypted-cilium.garb.dev"
         rules:
           - backendRefs:
-              - port: *secure
+              - port: *http
                 name: *app
     persistence:
       config:
