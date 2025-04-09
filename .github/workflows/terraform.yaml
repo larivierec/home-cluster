@@ -6,14 +6,16 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - "main"
+      - main
     paths:
-      - "infrastructure/terraform/**"
+      - .github/workflows/terraform*
+      - infrastructure/terraform/**
   push:
     branches:
-      - "main"
+      - main
     paths:
-      - "infrastructure/terraform/**"
+      - .github/workflows/terraform*
+      - infrastructure/terraform/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -44,16 +46,16 @@ jobs:
       - name: Store changed projects
         id: set-matrix
         run: |
-          CHANGED=${{ steps.changed-files.outputs.changed_files }}
+          CHANGED=$(echo '${{ steps.changed-files.outputs.changed_files }}')
 
           if [ "$CHANGED" = "[]" ]; then
             echo "No projects changed, defaulting to all projects."
             PROJECTS=$(find infrastructure/terraform -mindepth 1 -maxdepth 1 -type d | jq -R -s -c 'split("\n") | map(select(length > 0))')
           else
-            PROJECTS=$(echo "$CHANGED" | jq -R -s -c 'split(" ") | map(select(length > 0))')
+            PROJECTS=$(echo "$CHANGED" | jq -c '.')
           fi
 
-          echo "matrix={\"paths\":$PROJECTS}" >> "${GITHUB_OUTPUT}"
+          echo "matrix={\"paths\":"$PROJECTS"}" >> "${GITHUB_OUTPUT}"
   diff:
     name: Terraform Plan
     runs-on:
