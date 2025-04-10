@@ -55,7 +55,7 @@ spec:
       osd_class_update_on_start = false
     cephClusterSpec:
       cephVersion:
-        image: quay.io/ceph/ceph:v19.2.1
+        image: quay.io/ceph/ceph:v19.2.2
       network:
         provider: host
         connections:
