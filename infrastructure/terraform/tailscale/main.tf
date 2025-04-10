@@ -23,8 +23,8 @@ resource "tailscale_dns_preferences" "magic_dns" {
 
 resource "tailscale_dns_nameservers" "home-ns" {
   nameservers = [
-    "192.168.1.2",
-    "192.168.1.1"
+    "192.168.1.1",
+    "192.168.1.2"
   ]
 }
 
