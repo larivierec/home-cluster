@@ -71,8 +71,10 @@ jobs:
         id: strip-path
         run: |
           project_path=$(echo "${{ matrix.paths }}" | sed 's/^\[//; s/\]$//')
+          safe_name=$(echo "$project_path" | tr '/' '-')
           echo "Project path stripped: $project_path"
           echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
+          echo "safe_name=$safe_name" >> "$GITHUB_OUTPUT"
 
       - name: Get Secrets
         uses: larivierec/sm-action@main
@@ -83,6 +85,7 @@ jobs:
             4c93fe22-dd57-4d4d-96b2-b20600132b47
             3d25a5f7-3eb7-49c3-a376-b20400d833bd
             95e25c1b-2890-49bf-834b-b206001fc136
+            19d75ac1-1526-44c1-b8d3-b20400d83107
 
       - name: Extract Secret Values
         id: parse-secrets
@@ -91,8 +94,10 @@ jobs:
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
           echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
           echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
+          echo "AWS_ACCESS_KEY_ID=$USER" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_ACCESS_KEY=$PASSWORD" >> "$GITHUB_ENV"
 
-      - name: Decode Private Key Securely
+      - name: Decode Base64 Securely
         id: decode
         run: |
           private_key=$(echo "${{ steps.parse-secrets.outputs.bot_app_private_key }}" | base64 -d | awk 'BEGIN {ORS="\\n"} {print}' | head -c -2) &> /dev/null
@@ -126,8 +131,6 @@ jobs:
           node-version: 20
 
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
-        with:
-          cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
@@ -163,7 +166,7 @@ jobs:
       - name: upload planfile
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: plan
+          name: plan-${{ steps.strip-path.outputs.safe_name }}
           include-hidden-files: true
           path: ${{ steps.strip-path.outputs.project_path }}/.planfile
 
@@ -194,6 +197,7 @@ jobs:
             4c93fe22-dd57-4d4d-96b2-b20600132b47
             3d25a5f7-3eb7-49c3-a376-b20400d833bd
             95e25c1b-2890-49bf-834b-b206001fc136
+            19d75ac1-1526-44c1-b8d3-b20400d83107
 
       - name: Extract Secret Values
         id: parse-secrets
@@ -202,6 +206,8 @@ jobs:
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
           echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
           echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
+          echo "AWS_ACCESS_KEY_ID=$USER" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_ACCESS_KEY=$PASSWORD" >> "$GITHUB_ENV"
 
       - name: Decode Private Key Securely
         id: decode
@@ -235,13 +241,15 @@ jobs:
         id: strip-path
         run: |
           project_path=$(echo "${{ matrix.paths }}" | sed 's/^\[//; s/\]$//')
+          safe_name=$(echo "$project_path" | tr '/' '-')
           echo "Project path stripped: $project_path"
           echo "project_path=$project_path" >> "$GITHUB_OUTPUT"
+          echo "safe_name=$safe_name" >> "$GITHUB_OUTPUT"
 
       - name: download planfile
         uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4
         with:
-          name: plan
+          name: plan-${{ steps.strip-path.outputs.safe_name }}
           path: ${{ steps.strip-path.outputs.project_path }}
 
       - name: Install node
@@ -250,8 +258,6 @@ jobs:
           node-version: 20
 
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
-        with:
-          cli_config_credentials_token: ${{ steps.parse-secrets.outputs.cloud_token }}
 
       - name: terraform init
         id: init
