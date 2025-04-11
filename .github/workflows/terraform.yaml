@@ -83,7 +83,6 @@ jobs:
           parse_json: "true"
           secrets: |
             4c93fe22-dd57-4d4d-96b2-b20600132b47
-            3d25a5f7-3eb7-49c3-a376-b20400d833bd
             95e25c1b-2890-49bf-834b-b206001fc136
             19d75ac1-1526-44c1-b8d3-b20400d83107
 
@@ -92,7 +91,6 @@ jobs:
         run: |
           echo "bot_app_id=$BOT_ID" >> "$GITHUB_OUTPUT"
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
-          echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
           echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
           echo "AWS_ACCESS_KEY_ID=$USER" >> "$GITHUB_ENV"
           echo "AWS_SECRET_ACCESS_KEY=$PASSWORD" >> "$GITHUB_ENV"
@@ -195,7 +193,6 @@ jobs:
           parse_json: "true"
           secrets: |
             4c93fe22-dd57-4d4d-96b2-b20600132b47
-            3d25a5f7-3eb7-49c3-a376-b20400d833bd
             95e25c1b-2890-49bf-834b-b206001fc136
             19d75ac1-1526-44c1-b8d3-b20400d83107
 
@@ -204,7 +201,6 @@ jobs:
         run: |
           echo "bot_app_id=$BOT_ID" >> "$GITHUB_OUTPUT"
           echo "bot_app_private_key=$BOT_PK_B64" >> "$GITHUB_OUTPUT"
-          echo "cloud_token=$CLOUD_TOKEN" >> "$GITHUB_OUTPUT"
           echo "age_b64=$KEY" >> "$GITHUB_OUTPUT"
           echo "AWS_ACCESS_KEY_ID=$USER" >> "$GITHUB_ENV"
           echo "AWS_SECRET_ACCESS_KEY=$PASSWORD" >> "$GITHUB_ENV"
