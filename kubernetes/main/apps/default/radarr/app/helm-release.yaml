@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 5.22.1.9832@sha256:fbf62e9c6aa5589a64d18aa09b69f82843927fa26cd4b18dfb5e5dc8bae4a9f0
+              tag: 5.22.2.9862@sha256:2e600980e98ce45bdbc7182fc1a77990b7a7963d8fe8f1a27a7695257d4767dc
             env:
               TZ: "UTC"
             envFrom: *envFrom
