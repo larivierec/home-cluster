@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/lidarr
-              tag: 2.11.0.4610@sha256:f757ce6f114b36c4e683858607de46a7079d1428dd4a318e1ef4dff8f0fdae57
+              tag: 2.11.1.4621@sha256:9768128eb6bb74901b272258cd447e826e89c02dc1dbe6ef9a038135bcd9a4c5
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
