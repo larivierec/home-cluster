@@ -47,3 +47,4 @@ spec:
         replace: "harbor.garb.dev/quay.io"
         checkUpstream: true
         authSecretName: harbor-pull-secret
+      - name: "harbor creds"
