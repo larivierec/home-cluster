@@ -32,6 +32,7 @@ spec:
           - "^docker.io"
         replace: "harbor.garb.dev/docker.io"
         checkUpstream: true
+        authSecretName: harbor-pull-secret
       - name: "ghcr.io rewrite"
         matches:
           - "^ghcr.io"
@@ -39,8 +40,10 @@ spec:
           - "^ghcr.io/(cloudnative-pg/)?(cloudnative-pg|postgresql):.*$"
         replace: "harbor.garb.dev/ghcr.io"
         checkUpstream: true
+        authSecretName: harbor-pull-secret
       - name: "quay.io rewrite"
         matches:
           - "^quay.io"
         replace: "harbor.garb.dev/quay.io"
         checkUpstream: true
+        authSecretName: harbor-pull-secret
