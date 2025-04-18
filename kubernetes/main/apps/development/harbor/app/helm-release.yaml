@@ -51,8 +51,8 @@ spec:
           secretName: wildcard-cert-tls
       ingress:
         hosts:
-          core: &external harbor.garb.dev
-    externalURL: https://harbor.garb.dev
+          core: &external harbor-ingress.garb.dev
+    externalURL: https://harbor-ingress.garb.dev
     registry:
       initContainers:
         - name: init-db
