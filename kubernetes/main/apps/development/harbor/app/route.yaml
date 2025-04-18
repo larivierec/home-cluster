@@ -1,0 +1,40 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: harbor-route
+  namespace: development
+spec:
+  parentRefs:
+    - name: envoy-internal
+      namespace: networking
+      sectionName: https
+      group: gateway.networking.k8s.io
+      kind: Gateway
+  hostnames:
+    - harbor.garb.dev
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/
+        - path:
+            type: PathPrefix
+            value: /service/
+        - path:
+            type: PathPrefix
+            value: /v2/
+        - path:
+            type: PathPrefix
+            value: /c/
+      backendRefs:
+        - name: harbor-core
+          namespace: development
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: harbor-portal
+          namespace: development
+          port: 80
