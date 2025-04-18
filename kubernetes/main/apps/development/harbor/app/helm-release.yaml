@@ -42,6 +42,8 @@ spec:
       targetPath: trivy.githubToken
       optional: false
   values:
+    updateStrategy:
+      type: Recreate
     expose:
       type: ingress
       tls:

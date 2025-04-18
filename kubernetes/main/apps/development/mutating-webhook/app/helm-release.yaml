@@ -28,6 +28,9 @@ spec:
   values:
     rules:
       - name: "docker.io rewrite rule"
+        # harbor-ception - requiring harbor to use harbor 
+        excludes:
+          - "^docker.io/goharbor/.*$"
         matches:
           - "^docker.io"
         replace: "harbor.garb.dev/docker.io"
