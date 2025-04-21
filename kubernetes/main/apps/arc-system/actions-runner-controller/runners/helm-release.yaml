@@ -41,7 +41,7 @@ spec:
     runnerScaleSetName: garb-arc-runner-set
     githubConfigUrl: https://github.com/larivierec/home-cluster
     minRunners: 1
-    maxRunners: 6
+    maxRunners: 10
     containerMode:
       type: dind
     template:
