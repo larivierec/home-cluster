@@ -31,7 +31,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3 s3://pgsql/
-      endpointURL: &endpoint http://192.168.1.3:9000
+      endpointURL: &endpoint http://192.168.1.5:9000
       serverName: postgres-v16-v3
       s3Credentials:
         accessKeyId:

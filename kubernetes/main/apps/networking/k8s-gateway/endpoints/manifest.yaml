@@ -9,8 +9,8 @@ spec:
     - dnsName: s3.garb.dev
       recordType: A
       targets:
-        - 192.168.1.3
+        - 192.168.1.5
     - dnsName: minio.garb.dev
       recordType: A
       targets:
-        - 192.168.1.3
+        - 192.168.1.5

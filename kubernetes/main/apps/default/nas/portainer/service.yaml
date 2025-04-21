@@ -6,7 +6,7 @@ metadata:
   namespace: default
 subsets:
   - addresses:
-      - ip: 192.168.1.2
+      - ip: 192.168.1.5
     ports:
       - port: 8001
 ---
