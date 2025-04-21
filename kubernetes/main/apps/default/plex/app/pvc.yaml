@@ -52,6 +52,9 @@ spec:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
     capacity: 100Gi
 ---
 apiVersion: volsync.backube/v1alpha1
