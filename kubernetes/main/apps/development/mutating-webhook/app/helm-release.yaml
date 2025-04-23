@@ -26,9 +26,11 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    certManager:
+      renewBefore: 720h0m0s
     rules:
       - name: "docker.io rewrite rule"
-        # harbor-ception - requiring harbor to use harbor 
+        # harbor-ception - requiring harbor to use harbor
         excludes:
           - "^docker.io/goharbor/.*$"
         matches:
