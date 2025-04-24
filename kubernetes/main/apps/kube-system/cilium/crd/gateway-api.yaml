@@ -24,6 +24,7 @@ metadata:
   name: gateway-api
   namespace: flux-system
 spec:
+  path: .
   prune: true
   sourceRef:
     kind: GitRepository
