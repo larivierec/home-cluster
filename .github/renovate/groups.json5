@@ -76,5 +76,16 @@
         commitMessageTopic: "{{{groupName}}} group"
       }
     },
+    {
+      description: ["Kubernetes SIGS Gateway API Group"],
+      groupName: "Gateway API",
+      matchPackagePatterns: [
+        "^gateway-api$",
+      ],
+      matchDatasources: ["docker", "github-releases"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
+      }
+    }
   ]
 }
