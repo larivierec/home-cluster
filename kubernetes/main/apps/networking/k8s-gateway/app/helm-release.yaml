@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: ghcr.io/k8s-gateway/k8s_gateway
-              tag: 1.1.0@sha256:a61ee9414ae13fe25d0838d7052d940a89bcf2abc9c5c4a78b85aa2d505116a1
+              tag: 1.1.1@sha256:07c425f995422609ed2bd95cfa6e2e40fc782e969560d3a8e549d82471bb897c
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
