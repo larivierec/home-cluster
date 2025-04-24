@@ -3,7 +3,7 @@
 promVersion: v0.82.0
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-gatewayApiVersion: v1.2.1
+gatewayApiVersion: v1.3.0
 
 clusterName: garb
 clusterDNSSuffix: cluster.local
