@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tailscale/tailscale
-              tag: v1.82.0@sha256:e682c08ed67f7fedc3fe86ec6d35fa81cbf149db452058dda95e7b619cfe156b
+              tag: v1.82.0@sha256:d26fc9bb035b0559900cc6f23506f6b1ddab61a690ffab4f5d84feceb3de811e
             env:
               TZ: "UTC"
               NO_AUTOUPDATE: true
