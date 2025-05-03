@@ -52,8 +52,7 @@ detectors:
     type: edgetpu
     device: pci
 detect:
-  # width: 1920
-  # height: 1080
+  enabled: true
   fps: 5
 go2rtc:
   streams:
