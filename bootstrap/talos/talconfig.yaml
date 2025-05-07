@@ -286,17 +286,7 @@ controlPlane:
     - |-
       cluster:
         extraManifests:
-          # Prometheus Operator CRDs
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
-          - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/${promVersion}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+          - https://github.com/prometheus-operator/prometheus-operator/releases/download/${promVersion}/stripped-down-crds.yaml
           - https://github.com/kubernetes-sigs/gateway-api/releases/download/${gatewayApiVersion}/experimental-install.yaml
 
     # Enable hostDNS:
