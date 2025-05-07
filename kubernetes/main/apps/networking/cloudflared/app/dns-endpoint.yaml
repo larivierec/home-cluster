@@ -14,3 +14,6 @@ spec:
     - dnsName: external.garb.dev
       recordType: CNAME
       targets: ["${SECRET_CLOUDFLARE_TUNNEL}.cfargotunnel.com"]
+    - dnsName: external-cilium.garb.dev
+      recordType: CNAME
+      targets: ["${SECRET_CLOUDFLARE_TUNNEL}.cfargotunnel.com"]
