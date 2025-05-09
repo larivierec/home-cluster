@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.14.2938@sha256:60686ca3be7b1f182f71c459b62450affd6de79d2d4baa90256f0fae76742132
+              tag: 4.0.14.2938@sha256:95c3d63b46c2ff242a0b646086da557a13ef1376f415bb755b9d87c0d94d0330
               pullPolicy: IfNotPresent
             env:
               TZ: "UTC"
