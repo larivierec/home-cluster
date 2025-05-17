@@ -45,7 +45,7 @@ spec:
                 enabled: true
         pod:
           annotations:
-            configmap.reloader.stakater.com/reload: network-ups-client-config
+            configmap.reloader.stakater.com/reload: *app
           nodeSelector:
             ups.feature.node.kubernetes.io/apc: "false"
     service:
@@ -55,7 +55,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: network-ups-client-config
+        name: *app
         defaultMode: 0400
         globalMounts:
           - path: /etc/nut
