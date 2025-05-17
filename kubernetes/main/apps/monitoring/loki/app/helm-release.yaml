@@ -139,7 +139,7 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: loki
-              app.kubernetes.io/component: gateway
+              app.kubernetes.io/controller: gateway
     lokiCanary:
       enabled: false
     monitoring:

@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -69,6 +69,8 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+        serviceAccount:
+          identifier: *app
     persistence:
       config:
         enabled: true
@@ -113,5 +115,4 @@ spec:
         controller: *app
         enabled: false
     serviceAccount:
-      create: true
-      name: *app
+      vector-agent: {}
