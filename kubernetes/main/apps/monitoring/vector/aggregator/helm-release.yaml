@@ -49,6 +49,8 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
+        serviceAccount:
+          identifier: *app
         pod:
           topologySpreadConstraints:
             - maxSkew: 1
@@ -85,5 +87,4 @@ spec:
           kubernetes:
             port: 6010
     serviceAccount:
-      create: true
-      name: *app
+      vector-aggregator: {}

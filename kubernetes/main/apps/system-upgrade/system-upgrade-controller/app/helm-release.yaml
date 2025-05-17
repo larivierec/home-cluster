@@ -78,14 +78,15 @@ spec:
             - key: node-role.kubernetes.io/master
               operator: Exists
               effect: NoSchedule
+        serviceAccount:
+          identifier: *app
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 100
     serviceAccount:
-      create: true
-      name: system-upgrade
+      system-upgrade-controller: {}
     service:
       app:
         controller: *app
