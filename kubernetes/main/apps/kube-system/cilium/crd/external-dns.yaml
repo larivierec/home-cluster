@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/source.toolkit.fluxcd.io/gitrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: external-dns-crd
+  namespace: kube-system
+spec:
+  interval: 30m
+  url: https://github.com/kubernetes-sigs/external-dns
+  ref:
+    # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
+    tag: v0.17.0
+  ignore: |
+    # exclude
+    /*
+    # include
+    !config/crd/standard
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns
+  namespace: kube-system
+spec:
+  path: .
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: external-dns-crd
+  wait: true
+  interval: 15m
+  retryInterval: 1m
+  timeout: 5m

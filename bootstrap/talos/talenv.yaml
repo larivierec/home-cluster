@@ -5,6 +5,9 @@ promVersion: v0.82.2
 # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
 gatewayApiVersion: v1.3.0
 
+# renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
+externalDNSVersion: v0.17.0
+
 clusterName: garb
 clusterDNSSuffix: cluster.local
 clusterEndpointIP: 192.168.60.250
