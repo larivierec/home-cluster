@@ -14,18 +14,10 @@ spec:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
-  dependsOn:
-    - name: prometheus
-      namespace: monitoring
-  maxHistory: 2
   install:
-    createNamespace: true
-    remediation:
-      retries: 3
+    crds: CreateReplace
   upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+    crds: CreateReplace
   valuesFrom:
     - kind: ConfigMap
       name: cert-manager-helm-values

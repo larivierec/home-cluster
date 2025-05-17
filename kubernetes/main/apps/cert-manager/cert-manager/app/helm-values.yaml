@@ -1,19 +1,10 @@
 crds:
   enabled: true
-  keep: true
 extraArgs:
   - --enable-gateway-api
 dns01RecursiveNameservers: https://1.1.1.1:443/dns-query,https://1.0.0.1:443/dns-query
 dns01RecursiveNameserversOnly: true
-podDnsPolicy: None
-podDnsConfig:
-  nameservers:
-    - "1.1.1.1"
-    - "9.9.9.9"
-cainjector:
-  replicaCount: 1
 prometheus:
   enabled: true
   servicemonitor:
     enabled: true
-    prometheusInstance: monitoring
