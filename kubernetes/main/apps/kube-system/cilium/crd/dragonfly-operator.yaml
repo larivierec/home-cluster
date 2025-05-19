@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/source.toolkit.fluxcd.io/gitrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: dragonfly-operator-crd
+  namespace: kube-system
+spec:
+  interval: 30m
+  url: https://github.com/dragonflydb/dragonfly-operator
+  ref:
+    # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
+    tag: v1.1.11
+  ignore: |
+    # exclude
+    /*
+    # include
+    !manifests/crd.yaml
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dragonfly-operator
+  namespace: kube-system
+spec:
+  path: .
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: dragonfly-operator-crd
+  wait: true
+  interval: 15m
+  retryInterval: 1m
+  timeout: 5m

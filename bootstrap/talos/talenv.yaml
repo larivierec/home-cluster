@@ -8,6 +8,9 @@ gatewayApiVersion: v1.3.0
 # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
 externalDNSVersion: v0.17.0
 
+# renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
+dragonflyOperatorVersion: v1.1.11
+
 clusterName: garb
 clusterDNSSuffix: cluster.local
 clusterEndpointIP: 192.168.60.250

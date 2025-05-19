@@ -289,6 +289,7 @@ controlPlane:
           - https://github.com/prometheus-operator/prometheus-operator/releases/download/${promVersion}/stripped-down-crds.yaml
           - https://github.com/kubernetes-sigs/gateway-api/releases/download/${gatewayApiVersion}/experimental-install.yaml
           - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/${externalDNSVersion}/config/crd/standard/dnsendpoint.yaml
+          - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/${dragonflyOperatorVersion}/manifests/crd.yaml
 
     # Enable hostDNS:
     - |-
