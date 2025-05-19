@@ -9,6 +9,7 @@ resources:
   - ./atuin/ks.yaml
   - ./bedroompi/ks.yaml
   - ./echo/ks.yaml
+  - ./kms/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml
   - ./overseerr/ks.yaml
