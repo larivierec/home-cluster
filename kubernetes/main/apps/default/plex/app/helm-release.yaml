@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/plex
-              tag: 1.41.6.9685@sha256:c8b8ccff0892a29238a2b4e9bf36a3dea0ac6280d33231244ea648fe5f0111c4
+              tag: 1.41.6.9685@sha256:37d36646471fb905a0080daaaa1f09ad3370b06149ed5f94dad73ead591cad0e
             env:
               TZ: "UTC"
               ADVERTISE_IP: "https://192.168.40.4:32400,https://plex.garb.dev:443,https://plex-cilium.garb.dev:443"
