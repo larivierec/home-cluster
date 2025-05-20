@@ -33,7 +33,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/11notes/kms
+              repository: docker.io/11notes/kms
               tag: stable@sha256:f6776fa377b5bc55d969ede3fd1941a6beee8895ccafbc0effdad61817f13afc
             env:
               TZ: America/New_York
