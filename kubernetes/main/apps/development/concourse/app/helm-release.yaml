@@ -77,7 +77,7 @@ spec:
           - secretName: wildcard-cert-tls
             hosts:
               - *host
-      extraInitContainers:
+      databaseInitContainers:
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:17.5
           envFrom:
