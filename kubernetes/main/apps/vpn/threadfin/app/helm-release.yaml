@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app threadfin
-  namespace: default
+  namespace: vpn
 spec:
   interval: 30m
   chart:
@@ -44,9 +44,9 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /status
+                    path: /
                     port: *port
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 120
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
@@ -55,6 +55,47 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-18
+              tag: 1.8.4
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              - name: VPN_SERVICE_PROVIDER
+                value: surfshark
+              - name: VPN_TYPE
+                value: wireguard
+              - name: VPN_INTERFACE
+                value: wg0
+              - name: FIREWALL_INPUT_PORTS
+                value: "34400"
+              - name: FIREWALL_OUTBOUND_SUBNETS
+                # Allow access to k8s subnets
+                value: "10.42.0.0/16,10.43.0.0/16"
+              - name: DOT
+                value: "off"
+              - name: DNS_ADDRESS
+                value: "127.0.0.2"
+            envFrom:
+              - secretRef:
+                  name: vpn-auth
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+            resources:
+              limits:
+                squat.ai/tun: "1"
+        annotations:
+          configmap.reloader.stakater.com/reload: threadfin-dnsdist
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -105,3 +146,13 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      dnsdist-config:
+        enabled: true
+        type: configMap
+        name: threadfin-dnsdist
+        advancedMounts:
+          threadfin:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true

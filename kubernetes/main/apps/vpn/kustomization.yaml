@@ -10,3 +10,4 @@ resources:
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./sabnzbd/ks.yaml
+  - ./threadfin/ks.yaml

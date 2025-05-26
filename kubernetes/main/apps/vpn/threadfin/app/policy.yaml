@@ -1,0 +1,23 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: threadfin-vpn
+  namespace: vpn
+  labels:
+    app.kubernetes.io/instance: threadfin
+    app.kubernetes.io/name: threadfin
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: threadfin
+      app.kubernetes.io/name: threadfin
+  egress:
+    - toCIDR:
+        - 0.0.0.0/0
+      toPorts:
+        - ports:
+            - port: "51820"
+              protocol: UDP
+    - toEntities:
+        - cluster

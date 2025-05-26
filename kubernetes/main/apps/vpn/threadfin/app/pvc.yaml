@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: threadfin-0
-  namespace: default
+  namespace: vpn
 spec:
   accessModes:
     - ReadWriteOnce
@@ -20,7 +20,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
   name: threadfin-bootstrap
-  namespace: default
+  namespace: vpn
 spec:
   trigger:
     manual: restore-once
@@ -48,7 +48,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: threadfin
-  namespace: default
+  namespace: vpn
 spec:
   sourcePVC: threadfin-0
   trigger:
