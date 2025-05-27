@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: fyb3roptik/threadfin
-              tag: 1.2.33@sha256:ed0ebcb8db470997bdcccfeb562107b5f1da08822f6b32fae2fb2ec1eedd505b
+              tag: 1.2.33@sha256:11e50167ecca76d40206cc62294cb380889b99e0ec1ee107bc3d92569c5ef89a
             env:
               TZ: "America/Toronto"
               THREADFIN_BRANCH: main
