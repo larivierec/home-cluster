@@ -18,7 +18,7 @@ spec:
   valuesFrom:
     - kind: Secret
       name: concourse
-      valuesKey: encryption_key
+      valuesKey: encryptionKey
       targetPath: secrets.encryptionKey
       optional: false
     - kind: Secret
@@ -28,7 +28,7 @@ spec:
       optional: false
     - kind: Secret
       name: postgres-concourse
-      valuesKey: host
+      valuesKey: INIT_POSTGRES_DBNAME
       targetPath: concourse.web.postgres.database
       optional: false
     - kind: Secret
