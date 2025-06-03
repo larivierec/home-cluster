@@ -70,7 +70,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         serviceAccount:
-          identifier: dragonfly-operator
+          identifier: *app
         pod:
           securityContext:
             runAsUser: 65534
@@ -93,6 +93,44 @@ spec:
             port: 8080
     serviceAccount:
       dragonfly-operator: {}
+    rbac:
+      bindings:
+        dragonfly-operator:
+          roleRef:
+            kind: ClusterRole
+            name: dragonfly-operator
+          subjects:
+            - identifier: *app
+          type: ClusterRoleBinding
+      roles:
+        dragonfly-operator:
+          rules:
+            - apiGroups: ["coordination.k8s.io"]
+              resources: ["leases"]
+              verbs:
+                ["get", "list", "watch", "create", "update", "patch", "delete"]
+            - apiGroups: [""]
+              resources: ["events"]
+              verbs: ["create", "patch"]
+            - apiGroups: [""]
+              resources: ["pods", "services"]
+              verbs:
+                ["create", "delete", "get", "list", "patch", "update", "watch"]
+            - apiGroups: ["apps"]
+              resources: ["statefulsets"]
+              verbs:
+                ["create", "delete", "get", "list", "patch", "update", "watch"]
+            - apiGroups: ["dragonflydb.io"]
+              resources: ["dragonflies"]
+              verbs:
+                ["create", "delete", "get", "list", "patch", "update", "watch"]
+            - apiGroups: ["dragonflydb.io"]
+              resources: ["dragonflies/finalizers"]
+              verbs: ["update"]
+            - apiGroups: ["dragonflydb.io"]
+              resources: ["dragonflies/status"]
+              verbs: ["get", "patch", "update"]
+          type: ClusterRole
     serviceMonitor:
       app:
         serviceName: *app

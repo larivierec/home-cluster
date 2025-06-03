@@ -116,3 +116,19 @@ spec:
         enabled: false
     serviceAccount:
       vector-agent: {}
+    rbac:
+      bindings:
+        vector-agent:
+          roleRef:
+            kind: ClusterRole
+            name: vector-agent
+          subjects:
+            - identifier: *app
+          type: ClusterRoleBinding
+      roles:
+        vector-agent:
+          rules:
+            - apiGroups: [""]
+              resources: ["namespaces", "nodes", "pods"]
+              verbs: ["list", "watch"]
+          type: ClusterRole

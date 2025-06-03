@@ -6,9 +6,9 @@ metadata:
   name: talos-masters
 spec:
   version: ${TALOS_VERSION}
-  serviceAccountName: system-upgrade-controller
+  serviceAccountName: &sa system-upgrade-controller
   secrets:
-    - name: talos
+    - name: *sa
       path: /var/run/secrets/talos.dev
       ignoreUpdates: true
   concurrency: 1

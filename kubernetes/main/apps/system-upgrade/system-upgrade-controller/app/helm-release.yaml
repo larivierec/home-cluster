@@ -35,7 +35,6 @@ spec:
             image:
               repository: docker.io/rancher/system-upgrade-controller
               tag: v0.15.2@sha256:3e899833afcea9a8788d384ce976df9a05be84636fe5c01ec2307b5bd8fe9810
-
             env:
               SYSTEM_UPGRADE_CONTROLLER_DEBUG: false
               SYSTEM_UPGRADE_CONTROLLER_THREADS: 2
@@ -87,6 +86,22 @@ spec:
         runAsGroup: 100
     serviceAccount:
       system-upgrade-controller: {}
+    rawResources:
+      talosServiceAccount:
+        apiVersion: talos.dev/v1alpha1
+        kind: ServiceAccount
+        spec:
+          spec:
+            roles: ["os:admin"]
+    rbac:
+      bindings:
+        system-upgrade-controller:
+          type: ClusterRoleBinding
+          roleRef:
+            kind: ClusterRole
+            name: cluster-admin
+          subjects:
+            - identifier: *app
     service:
       app:
         controller: *app

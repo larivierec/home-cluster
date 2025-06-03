@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./helm-release.yaml
-  - ./rbac.yaml
 configMapGenerator:
   - name: vector-agent-configmap
     files:

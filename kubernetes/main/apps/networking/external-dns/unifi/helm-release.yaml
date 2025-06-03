@@ -129,6 +129,40 @@ spec:
           identifier: *app
     serviceAccount:
       external-dns-unifi: {}
+    rbac:
+      bindings:
+        external-dns-unifi:
+          roleRef:
+            kind: ClusterRole
+            name: external-dns-unifi
+          subjects:
+            - identifier: *app
+          type: ClusterRoleBinding
+      roles:
+        external-dns-unifi:
+          rules:
+            - apiGroups: [""]
+              resources: ["nodes"]
+              verbs: ["list", "watch"]
+            - apiGroups: [""]
+              resources: ["pods", "services", "endpoints", "namespaces"]
+              verbs: ["get", "watch", "list"]
+            - apiGroups: ["extensions", "networking.k8s.io"]
+              resources: ["ingresses"]
+              verbs: ["get", "watch", "list"]
+            - apiGroups: ["ingresses.networking.k8s.io"]
+              resources: ["*"]
+              verbs: ["watch", "list"]
+            - apiGroups: ["gateway.networking.k8s.io"]
+              resources: ["*"]
+              verbs: ["watch", "list"]
+            - apiGroups: ["externaldns.k8s.io"]
+              resources: ["dnsendpoints"]
+              verbs: ["get", "watch", "list"]
+            - apiGroups: ["externaldns.k8s.io"]
+              resources: ["dnsendpoints/status"]
+              verbs: ["*"]
+          type: ClusterRole
     service:
       app:
         controller: *app

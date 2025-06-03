@@ -42,7 +42,7 @@ spec:
               TZ: "UTC"
               NO_AUTOUPDATE: true
               TS_KUBE_SECRET: ""
-              SA_NAME: tailscale
+              SA_NAME: tailscale-gateway
               TS_HOSTNAME: "tailscale-k8s-gateway"
               TS_USERSPACE: true
               TS_ROUTES: "192.168.0.0/16"
@@ -96,3 +96,23 @@ spec:
             port: 45387
     serviceAccount:
       tailscale-gateway: {}
+    rbac:
+      bindings:
+        tailscale-gateway:
+          roleRef:
+            kind: Role
+            name: tailscale-gateway
+          subjects:
+            - identifier: *app
+          type: RoleBinding
+      roles:
+        tailscale-gateway:
+          rules:
+            - apiGroups: [""]
+              resources: ["secrets"]
+              verbs: ["create"]
+            - apiGroups: [""]
+              resourceNames: ["tailscale-auth", "tailscale-state"]
+              resources: ["secrets"]
+              verbs: ["get", "update", "patch"]
+          type: Role

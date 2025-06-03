@@ -71,6 +71,8 @@ spec:
                   app.kubernetes.io/name: *app
         serviceAccount:
           identifier: *app
+    serviceAccount:
+      k8s-gateway: {}
     service:
       app:
         controller: *app
@@ -107,8 +109,71 @@ spec:
             path: /metrics
             interval: 30s
             scrapeTimeout: 30s
-    serviceAccount:
-      k8s-gateway: {}
+    rbac:
+      bindings:
+        k8s-gateway:
+          roleRef:
+            kind: ClusterRole
+            name: k8s-gateway
+          subjects:
+            - identifier: *app
+          type: ClusterRoleBinding
+      roles:
+        k8s-gateway:
+          rules:
+            - apiGroups:
+                - apiextensions.k8s.io
+              resources:
+                - customresourcedefinitions
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ""
+              resources:
+                - services
+                - namespaces
+              verbs:
+                - list
+                - watch
+            - apiGroups:
+                - extensions
+                - networking.k8s.io
+              resources:
+                - ingresses
+              verbs:
+                - list
+                - watch
+            - apiGroups:
+                - gateway.networking.k8s.io
+              resources:
+                - "*"
+              verbs:
+                - watch
+                - list
+            - apiGroups:
+                - ingresses.networking.k8s.io
+              resources:
+                - "*"
+              verbs:
+                - watch
+                - list
+            - apiGroups:
+                - externaldns.k8s.io
+              resources:
+                - dnsendpoints
+              verbs:
+                - get
+                - watch
+                - list
+            - apiGroups:
+                - externaldns.k8s.io
+              resources:
+                - dnsendpoints/status
+              verbs:
+                - "*"
+          type: ClusterRole
     persistence:
       config:
         enabled: true
