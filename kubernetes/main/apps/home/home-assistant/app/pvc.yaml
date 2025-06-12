@@ -13,7 +13,7 @@ spec:
     name: home-assistant-bootstrap
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
   storageClassName: ceph-block
 ---
 apiVersion: volsync.backube/v1alpha1
@@ -42,7 +42,7 @@ spec:
     enableFileDeletion: true
     cleanupCachePVC: true
     cleanupTempPVC: true
-    capacity: 1Gi
+    capacity: 5Gi
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
