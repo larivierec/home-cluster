@@ -81,7 +81,7 @@ spec:
                 value: "127.0.0.2"
             envFrom:
               - secretRef:
-                  name: vpn-auth
+                  name: &secret vpn-auth
             securityContext:
               capabilities:
                 add:
@@ -92,6 +92,7 @@ spec:
                 squat.ai/tun: "1"
         annotations:
           configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
+          secret.reloader.stakater.com/reload: *secret
         pod:
           securityContext:
             fsGroup: 568
