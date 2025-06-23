@@ -39,7 +39,7 @@ spec:
               BIND: "0.0.0.0"
             image:
               repository: factoriotools/factorio
-              tag: 2.0.57@sha256:522078fabc40a9cad10a51dbde89300f48ff56af799f9672065c2fb7b2290abd
+              tag: 2.0.58@sha256:12007cd1078ee11d4189e3a84fcb65a3164f1c2d58fa4a627b57866bf035804e
     service:
       app:
         type: LoadBalancer
