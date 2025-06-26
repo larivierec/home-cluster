@@ -44,7 +44,6 @@ spec:
               - --source=gateway-udproute
               - --txt-owner-id=unifi
               - --txt-prefix=k8s.main.
-              - --txt-new-format-only
               - --registry=txt
               - --policy=sync
               - --interval=1m
@@ -162,6 +161,9 @@ spec:
             - apiGroups: ["externaldns.k8s.io"]
               resources: ["dnsendpoints/status"]
               verbs: ["*"]
+            - apiGroups: ["discovery.k8s.io"]
+              resources: ["endpointslices"]
+              verbs: ["get", "list", "watch"]
           type: ClusterRole
     service:
       app:

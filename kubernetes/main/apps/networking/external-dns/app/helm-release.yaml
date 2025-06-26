@@ -51,7 +51,6 @@ spec:
               - --gateway-label-filter=type=external
               - --txt-owner-id=public
               - --txt-prefix=k8s.
-              - --txt-new-format-only
               - --registry=txt
               - --policy=sync
               - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
