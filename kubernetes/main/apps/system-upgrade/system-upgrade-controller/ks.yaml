@@ -41,6 +41,6 @@ spec:
       CONTROL_PLANE_SCHEMATIC_ID: ee827ee541fb06e742e6d183f4e3c1a62a2d63d945cbbd0b1e76da9221af9d27
       WORKER_SCHEMATIC_ID: 1be6923a14b1498bc2930c02b286cbf9d98764032fb6a8659b8fce7c1476262b
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-      TALOS_VERSION: v1.10.4
+      TALOS_VERSION: v1.10.5
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
       KUBERNETES_VERSION: v1.33.2
