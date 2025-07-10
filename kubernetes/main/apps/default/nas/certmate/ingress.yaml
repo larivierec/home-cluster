@@ -16,7 +16,7 @@ spec:
               service:
                 name: certmate
                 port:
-                  number: 8000
+                  number: 8088
   tls:
     - hosts:
         - *host
