@@ -38,8 +38,4 @@ resource "minio_iam_user_policy_attachment" "this" {
 
 resource "minio_s3_bucket" "this" {
   bucket = var.bucketname
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }

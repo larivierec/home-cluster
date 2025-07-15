@@ -35,7 +35,7 @@ resource "bitwarden_secret" "this" {
   key        = "minio_tf_${each.value.service}"
   project_id = data.sops_file.this.data["BW_PROJECT_ID"]
   value      = jsonencode({ "access_key" : each.value.access_key, "secret_key" : each.value.secret_key })
-  note       = "infrasturcture/terraform/s3"
+  note       = "infrastructure/terraform/s3"
 }
 
 locals {
@@ -43,7 +43,6 @@ locals {
     "pgsql",
     "thanos",
     "volsync",
-    "loki"
   ]
 }
 
