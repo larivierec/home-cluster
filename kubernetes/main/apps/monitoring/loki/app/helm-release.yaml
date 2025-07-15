@@ -51,50 +51,35 @@ spec:
   values:
     minio:
       enabled: false
-    deploymentMode: SimpleScalable
+    deploymentMode: SingleBinary
     loki:
       ingester:
         chunk_encoding: snappy
+      auth_enabled: false
+      analytics:
+        reporting_enabled: false
+      server:
+        log_level: info
+      commonConfig:
+        replication_factor: 1
+      compactor:
+        working_directory: /var/loki/compactor/retention
+        delete_request_store: filesystem
+        retention_enabled: true
+      limits_config:
+        retention_period: 14d
       storage:
-        type: s3
-        s3:
-          s3ForcePathStyle: true
-          insecure: true
-        bucketNames:
-          chunks: loki
+        type: filesystem
       schemaConfig:
         configs:
           - from: "2024-04-01" # quote
             store: tsdb
-            object_store: s3
+            object_store: filesystem
             schema: v13
             index:
               prefix: loki_index_
               period: 24h
       structuredConfig:
-        auth_enabled: false
-        server:
-          log_level: info
-          http_listen_port: 3100
-          grpc_listen_port: 9095
-          grpc_server_max_recv_msg_size: 8388608
-          grpc_server_max_send_msg_size: 8388608
-        limits_config:
-          ingestion_burst_size_mb: 128
-          ingestion_rate_mb: 64
-          max_query_parallelism: 100
-          per_stream_rate_limit: 64M
-          per_stream_rate_limit_burst: 128M
-          reject_old_samples: true
-          reject_old_samples_max_age: 168h
-          retention_period: 30d
-          shard_streams:
-            enabled: true
-          split_queries_by_interval: 1h
-        query_scheduler:
-          max_outstanding_requests_per_tenant: 4096
-        frontend:
-          max_outstanding_per_tenant: 4096
         ruler:
           enable_api: true
           enable_alertmanager_v2: true
@@ -104,58 +89,33 @@ spec:
             local:
               directory: /rules
           rule_path: /rules/fake
-        analytics:
-          reporting_enabled: false
-    backend:
-      replicas: 2
+    singleBinary:
+      replicas: 1
       persistence:
-        storageClass: local-hostpath
-    write:
-      replicas: 2
-      persistence:
-        storageClass: local-hostpath
-      image:
-        registry: ghcr.io
-    read:
-      replicas: 2
-      persistence:
-        storageClass: local-hostpath
-        size: 5Gi
+        enabled: true
+        storageClass: ceph-block
+        size: 50Gi
     gateway:
-      replicas: 2
-      image:
-        registry: ghcr.io
-        repository: nginxinc/nginx-unprivileged
-        tag: 1.27-alpine@sha256:e234d4f7e346c098f7b22245690372382aded5be988611eb2c53ae62231eece7
-      deploymentStrategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxUnavailable: 50%
-          maxSurge: 50%
-      topologySpreadConstraints:
-        - maxSkew: 2
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: loki
-              app.kubernetes.io/controller: gateway
+      replicas: 0
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
     lokiCanary:
       enabled: false
-    monitoring:
-      dashboards:
-        annotations:
-          grafana_folder: Loki
-      serviceMonitor:
-        enabled: false
-        metricsInstance:
-          enabled: false
+    test:
+      enabled: false
     sidecar:
       image:
-        repository: ghcr.io/kiwigrid/k8s-sidecar
+        repository: ghcr.io/home-operations/k8s-sidecar
+        tag: 1.30.7@sha256:3b6444d91c6e69a9e07c5e55419452d967d18c833d88b36277dc2021b708f621
       enableUniqueFilenames: true
       rules:
         searchNamespace: ALL
         folder: /rules/fake
-    test:
-      enabled: false
