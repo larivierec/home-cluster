@@ -1,14 +1,15 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: &current postgres-v17-3
+  name: &current postgres
   namespace: database
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
   instances: 3
   primaryUpdateStrategy: unsupervised
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
   storage:
     size: 20Gi
     storageClass: local-hostpath
@@ -22,10 +23,8 @@ spec:
     parameters:
       max_connections: "800"
       shared_buffers: "512MB"
-  # minor upgrades or recovery from existing s3 backups
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres-v17-2
+  monitoring:
+    enablePodMonitor: true
   # when doing major upgrade and backup doesn't exist
   # bootstrap:
   #   initdb:
@@ -35,42 +34,20 @@ spec:
   #       roles: ["*"]
   #       source:
   #         externalCluster: &previousCluster postgres-v16-v3
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore:
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: &s3 s3://pgsql/
-      endpointURL: &endpoint http://192.168.1.3:9000
-      serverName: *current
-      s3Credentials:
-        accessKeyId:
-          name: minio-pgsql
-          key: minio_s3_access_key
-        secretAccessKey:
-          name: minio-pgsql
-          key: minio_s3_secret_access_key
-  monitoring:
-    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters: &parameters
+        barmanObjectName: minio-pgsql
+        serverName: postgres-v17-3
+  bootstrap:
+    recovery:
+      source: source
   externalClusters:
-    # recovering from s3
-    - name: *previousCluster
-      barmanObjectStore:
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: *s3
-        endpointURL: *endpoint
-        s3Credentials:
-          accessKeyId:
-            name: minio-pgsql
-            key: minio_s3_access_key
-          secretAccessKey:
-            name: minio-pgsql
-            key: minio_s3_secret_access_key
+    - name: source
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters: *parameters
     # when directly doing direct upgrades and upgrading when current
     # postgres is already running
     # - name: *previousCluster

@@ -5,3 +5,5 @@ kind: Kustomization
 resources:
   - ./cluster17.yaml
   - ./service.yaml
+  - ./object-store.yaml
+  - ./scheduled-backup.yaml
