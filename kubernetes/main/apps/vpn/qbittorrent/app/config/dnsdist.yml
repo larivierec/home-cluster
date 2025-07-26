@@ -1,0 +1,45 @@
+---
+binds:
+  - listen_address: 127.0.0.2:53
+    protocol: Do53
+
+backends:
+  - address: 10.43.0.10
+    pools: ["k8s"]
+    protocol: Do53
+    health_checks:
+      mode: lazy
+      lazy:
+        mode: TimeoutOnly
+
+  - address: 1.1.1.1:853
+    protocol: DoT
+    tls:
+      provider: openssl
+      subject_name: cloudflare-dns.com
+      validate_certificate: true
+    health_checks:
+      mode: lazy
+      lazy:
+        mode: TimeoutOnly
+
+  - address: 1.0.0.1:853
+    protocol: DoT
+    tls:
+      provider: openssl
+      subject_name: cloudflare-dns.com
+      validate_certificate: true
+    health_checks:
+      mode: lazy
+      lazy:
+        mode: TimeoutOnly
+
+query_rules:
+  - name: route-to-k8s
+    selector:
+      type: QNameSuffix
+      suffixes:
+        - cluster.local
+    action:
+      type: Pool
+      pool_name: k8s

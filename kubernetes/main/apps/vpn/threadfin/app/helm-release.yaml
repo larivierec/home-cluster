@@ -61,8 +61,11 @@ spec:
               capabilities: { drop: ["ALL"] }
           dnsdist:
             image:
-              repository: docker.io/powerdns/dnsdist-18
-              tag: 1.8.4
+              repository: docker.io/powerdns/dnsdist-21
+              tag: 2.1.0-alpha0
+            args:
+              - -C
+              - /etc/dnsdist/dnsdist.yml
           gluetun:
             image:
               repository: ghcr.io/qdm12/gluetun
@@ -158,6 +161,6 @@ spec:
         advancedMounts:
           threadfin:
             dnsdist:
-              - path: /etc/dnsdist/dnsdist.conf
-                subPath: dnsdist.conf
+              - path: /etc/dnsdist/dnsdist.yml
+                subPath: dnsdist.yml
                 readOnly: true
