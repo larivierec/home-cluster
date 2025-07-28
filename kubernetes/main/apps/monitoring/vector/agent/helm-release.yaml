@@ -59,16 +59,6 @@ spec:
                     fieldPath: metadata.namespace
             securityContext:
               privileged: true
-            probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
         serviceAccount:
           identifier: *app
     persistence:
