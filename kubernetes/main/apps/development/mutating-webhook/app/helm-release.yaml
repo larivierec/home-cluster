@@ -30,11 +30,11 @@ spec:
       renewBefore: 720h0m0s
     rules:
       - name: "docker.io rewrite rule"
-        # harbor-ception - requiring harbor to use harbor
-        excludes:
-          - "^docker.io/goharbor/.*$"
         matches:
           - "^docker.io"
+        # harbor-ception - requiring harbor to use harbor
+        excludes:
+          - "^docker.io/(goharbor|coredns)/.*$"
         replace: "harbor.garb.dev/docker.io"
         checkUpstream: true
         authSecretName: harbor-pull-secret
@@ -49,6 +49,8 @@ spec:
       - name: "quay.io rewrite"
         matches:
           - "^quay.io"
+        excludes:
+          - "^quay.io/(cilium/)?(cilium|cilium*):.*$"
         replace: "harbor.garb.dev/quay.io"
         checkUpstream: true
         authSecretName: harbor-pull-secret
