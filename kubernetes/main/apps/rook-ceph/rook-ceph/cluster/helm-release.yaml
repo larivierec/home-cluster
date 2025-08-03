@@ -36,16 +36,17 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    ingress:
+    route:
       dashboard:
-        ingressClassName: internal
+        enabled: true
         host:
-          name: &host rook.garb.dev
+          name: rook.garb.dev
           path: /
-        tls:
-          - hosts:
-              - *host
-            secretName: wildcard-cert-tls
+          pathType: PathPrefix
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
     toolbox:
       enabled: true
     configOverride: |
