@@ -5,12 +5,11 @@ kind: Kustomization
 namespace: vpn
 resources:
   - ./external-secret.yaml
-  - ./pvc.yaml
   - ./helm-release.yaml
   - ./policy.yaml
-# configMapGenerator:
-#   - name: threadfin-dnsdist
-#     files:
-#       - ./config/dnsdist.yml
-# generatorOptions:
-#   disableNameSuffixHash: true
+configMapGenerator:
+  - name: vpn-gateway-dnsdist
+    files:
+      - ./config/dnsdist.yml
+generatorOptions:
+  disableNameSuffixHash: true

@@ -3,11 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: threadfin
+  name: vpn-gateway
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/vpn/threadfin/app"
+  path: "./kubernetes/main/apps/vpn/gateway/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -15,4 +15,3 @@ spec:
   wait: true
   dependsOn:
     - name: cluster-apps-external-secrets-stores
-    - name: vpn-gateway
