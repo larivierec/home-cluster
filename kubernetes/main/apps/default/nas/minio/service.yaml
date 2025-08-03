@@ -1,32 +1,11 @@
 ---
 apiVersion: v1
-kind: Endpoints
-metadata:
-  name: minio-api
-  namespace: default
-subsets:
-  - addresses:
-      - ip: 192.168.1.3
-    ports:
-      - port: 9000
----
-apiVersion: v1
-kind: Endpoints
-metadata:
-  name: minio-web
-  namespace: default
-subsets:
-  - addresses:
-      - ip: 192.168.1.3
-    ports:
-      - port: 9001
----
-apiVersion: v1
 kind: Service
 metadata:
   name: minio-api
   namespace: default
 spec:
+  clusterIP: None
   ports:
     - port: 9000
       targetPort: 9000
@@ -38,7 +17,48 @@ metadata:
   name: minio-web
   namespace: default
 spec:
+  clusterIP: None
   ports:
     - port: 9001
       targetPort: 9001
       protocol: TCP
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: minio-web
+  namespace: default
+  labels:
+    kubernetes.io/service-name: minio-web
+addressType: IPv4
+endpoints:
+  - addresses:
+      - "192.168.1.3"
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+ports:
+  - name: https
+    port: 9001
+    protocol: TCP
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: minio-api
+  namespace: default
+  labels:
+    kubernetes.io/service-name: minio-api
+addressType: IPv4
+endpoints:
+  - addresses:
+      - "192.168.1.3"
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+ports:
+  - name: https
+    port: 9000
+    protocol: TCP

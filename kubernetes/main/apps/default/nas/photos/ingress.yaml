@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
     nginx.ingress.kubernetes.io/proxy-body-size: "850m"
-    external-dns.alpha.kubernetes.io/target: external.garb.dev
+    external-dns.alpha.kubernetes.io/target: external-ingress.garb.dev
     external-dns.alpha.kubernetes.io/hostname: &host "photos.garb.dev"
     external-dns.alpha.kubernetes.io/ttl: "120"
   name: external-ingress-photos

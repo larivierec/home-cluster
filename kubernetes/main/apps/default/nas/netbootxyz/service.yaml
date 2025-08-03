@@ -1,22 +1,32 @@
 ---
 apiVersion: v1
-kind: Endpoints
-metadata:
-  name: netboot
-  namespace: default
-subsets:
-  - addresses:
-      - ip: 192.168.1.5
-    ports:
-      - port: 3000
----
-apiVersion: v1
 kind: Service
 metadata:
   name: netboot
   namespace: default
 spec:
+  clusterIP: None
   ports:
     - port: 3000
       targetPort: 3000
       protocol: TCP
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: netboot
+  namespace: default
+  labels:
+    kubernetes.io/service-name: netboot
+addressType: IPv4
+endpoints:
+  - addresses:
+      - "192.168.1.5"
+    conditions:
+      ready: true
+      serving: true
+      terminating: false
+ports:
+  - name: https
+    port: 3000
+    protocol: TCP
