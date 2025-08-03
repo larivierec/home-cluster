@@ -8,9 +8,9 @@ resources:
   - ./pvc.yaml
   - ./helm-release.yaml
   - ./policy.yaml
-configMapGenerator:
-  - name: qbittorrent-dnsdist
-    files:
-      - ./config/dnsdist.yml
-generatorOptions:
-  disableNameSuffixHash: true
+# configMapGenerator:
+#   - name: qbittorrent-dnsdist
+#     files:
+#       - ./config/dnsdist.yml
+# generatorOptions:
+#   disableNameSuffixHash: true

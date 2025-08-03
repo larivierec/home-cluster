@@ -1,23 +1,46 @@
+# ---
+# apiVersion: cilium.io/v2
+# kind: CiliumNetworkPolicy
+# metadata:
+#   name: qbitorrent-vpn
+#   namespace: vpn
+#   labels:
+#     app.kubernetes.io/instance: qbittorrent
+#     app.kubernetes.io/name: qbittorrent
+# spec:
+#   endpointSelector:
+#     matchLabels:
+#       app.kubernetes.io/instance: qbittorrent
+#       app.kubernetes.io/name: qbittorrent
+#   egress:
+#     - toCIDR:
+#         - 0.0.0.0/0
+#       toPorts:
+#         - ports:
+#             - port: "51820"
+#               protocol: UDP
+#     - toEntities:
+#         - cluster
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: qbitorrent-vpn
+  name: qbittorrent-vpn
   namespace: vpn
-  labels:
-    app.kubernetes.io/instance: qbittorrent
-    app.kubernetes.io/name: qbittorrent
 spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: qbittorrent
-      app.kubernetes.io/name: qbittorrent
   egress:
-    - toCIDR:
-        - 0.0.0.0/0
-      toPorts:
-        - ports:
-            - port: "51820"
-              protocol: UDP
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: gateway
     - toEntities:
         - cluster
+  ingress:
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
