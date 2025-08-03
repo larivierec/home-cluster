@@ -1,0 +1,80 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gateway
+  namespace: vpn
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      vpn-gateway:
+        containers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-21
+              tag: 2.1.0-alpha0
+            args:
+              - -C
+              - /etc/dnsdist/dnsdist.yml
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              - name: VPN_SERVICE_PROVIDER
+                value: surfshark
+              - name: VPN_TYPE
+                value: wireguard
+              - name: VPN_INTERFACE
+                value: wg0
+              - name: FIREWALL_INPUT_PORTS
+                value: "8080,34400"
+              - name: FIREWALL_OUTBOUND_SUBNETS
+                value: "10.42.0.0/16,10.43.0.0/16"
+              - name: DOT
+                value: "off"
+              - name: DNS_ADDRESS
+                value: "127.0.0.2"
+            envFrom:
+              - secretRef:
+                  name: vpn-auth
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+            resources:
+              limits:
+                squat.ai/tun: "1"
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+    service:
+      vpn-gateway:
+        controller: vpn-gateway
+        clusterIP: 10.43.119.91
+        ports:
+          dns:
+            port: 53
+            targetPort: 53
+    persistence:
+      dnsdist-config:
+        enabled: true
+        type: configMap
+        name: vpn-gateway-dnsdist
+        advancedMounts:
+          vpn-gateway:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.yml
+                subPath: dnsdist.yml
+                readOnly: true
