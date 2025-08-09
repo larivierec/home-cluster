@@ -50,7 +50,7 @@ spec:
         matches:
           - "^quay.io"
         excludes:
-          - "^quay.io/(cilium/)?(cilium|cilium*):.*$"
+          - "^quay.io/cilium[/-].*$"
         replace: "harbor.garb.dev/quay.io"
         checkUpstream: true
         authSecretName: harbor-pull-secret
