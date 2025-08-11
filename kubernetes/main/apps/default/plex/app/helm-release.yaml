@@ -31,7 +31,6 @@ spec:
         strategy: Recreate
         pod:
           nodeSelector:
-            node-role.kubernetes.io/worker: ""
             intel.feature.node.kubernetes.io/gpu: "true"
         containers:
           app:

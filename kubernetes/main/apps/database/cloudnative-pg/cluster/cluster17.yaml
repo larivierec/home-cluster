@@ -16,9 +16,6 @@ spec:
   enableSuperuserAccess: true
   superuserSecret:
     name: postgres-superuser
-  affinity:
-    nodeSelector:
-      node-role.kubernetes.io/worker: ""
   postgresql:
     parameters:
       max_connections: "800"

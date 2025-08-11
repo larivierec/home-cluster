@@ -34,18 +34,12 @@ sops --encrypt bootstrap/flux/unencrypted/github-app.yaml > bootstrap/flux/githu
 sops --encrypt bootstrap/flux/unencrypted/github-deploy-key.yaml > bootstrap/flux/github-deploy-key.yaml
 ```
 
-### Install Flux
-
-```sh
-kubectl apply --server-side --kustomize ./kubernetes/main/bootstrap/flux
-```
-
 ### Apply Cluster Configuration
 
 _These cannot be applied with `kubectl` in the regular fashion due to be encrypted with sops_
 
 ```sh
-sops --decrypt kubernetes/bootstrap/flux/age-key.yaml | kubectl apply -f -
-sops --decrypt kubernetes/bootstrap/flux/github-deploy-key.yaml | kubectl apply -f -
-sops --decrypt kubernetes/bootstrap/flux/github-app.yaml | kubectl apply -f -
+sops --decrypt bootstrap/flux/age-key.yaml | kubectl apply -f -
+sops --decrypt bootstrap/flux/github-deploy-key.yaml | kubectl apply -f -
+sops --decrypt bootstrap/flux/github-app.yaml | kubectl apply -f -
 ```

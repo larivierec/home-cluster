@@ -29,7 +29,7 @@ spec:
         type: daemonset
         pod:
           nodeSelector:
-            topology.kubernetes.io/zone: w
+            topology.kubernetes.io/zone: m
         containers:
           app:
             image:

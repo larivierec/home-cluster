@@ -8,8 +8,6 @@ metadata:
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.32.0
   replicas: 3
-  nodeSelector:
-    node-role.kubernetes.io/worker: ""
   env:
     - name: MAX_MEMORY
       valueFrom:

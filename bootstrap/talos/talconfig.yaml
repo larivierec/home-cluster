@@ -18,81 +18,13 @@ additionalApiServerCertSans: &sans
 additionalMachineCertSans: *sans
 cniConfig:
   name: none
-
 nodes:
-  # control plane
-  - hostname: "talos-m1" #
-    ipAddress: "192.168.60.2" # whirlwind
-    installDiskSelector:
-      size: ">= 400GB"
-      model: "Samsung SSD 850"
-    controlPlane: true
-    networkInterfaces:
-      - interface: bond0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: 7c:83:34:b3:46:*
-              driver: r8169
-          mode: 802.3ad
-          lacpRate: fast
-          xmitHashPolicy: layer3+4
-          miimon: 100
-          updelay: 200
-          downdelay: 200
-        dhcp: true
-        mtu: 9000
-        vip:
-          ip: ${clusterEndpointIP}
-  - hostname: "talos-m2" # frenzy
-    ipAddress: "192.168.60.3"
-    installDiskSelector:
-      size: ">= 400GB"
-      model: "512GB SSD"
-    controlPlane: true
-    networkInterfaces:
-      - interface: bond0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: 7c:83:34:bb:ad:*
-              driver: r8169
-          mode: 802.3ad
-          lacpRate: fast
-          xmitHashPolicy: layer3+4
-          miimon: 100
-          updelay: 200
-          downdelay: 200
-        dhcp: true
-        mtu: 9000
-        vip:
-          ip: ${clusterEndpointIP}
-  - hostname: "talos-m3" # fluffy
-    ipAddress: "192.168.60.4"
-    installDiskSelector:
-      size: ">= 400GB"
-    controlPlane: true
-    networkInterfaces:
-      - interface: bond0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: 7c:83:34:b3:60:*
-              driver: r8169
-          mode: 802.3ad
-          lacpRate: fast
-          xmitHashPolicy: layer3+4
-          miimon: 100
-          updelay: 200
-          downdelay: 200
-        dhcp: true
-        mtu: 9000
-        vip:
-          ip: ${clusterEndpointIP}
-  # workers
-  - hostname: "talos-w1" # k3s-wg-0
+  - hostname: "talos-m1"
     ipAddress: "192.168.60.5"
     installDiskSelector:
       size: ">= 500GB"
       model: "Samsung SSD 990 PRO 1TB"
-    controlPlane: false
+    controlPlane: true
     networkInterfaces:
       - interface: bond0
         bond:
@@ -107,12 +39,14 @@ nodes:
           downdelay: 200
         dhcp: true
         mtu: 9000
-  - hostname: "talos-w2" # k3s-wg-1
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: "talos-m2"
     ipAddress: "192.168.60.6"
     installDiskSelector:
       size: ">= 500GB"
       model: "Sabrent Rocket Q4"
-    controlPlane: false
+    controlPlane: true
     networkInterfaces:
       - interface: bond0
         bond:
@@ -127,12 +61,14 @@ nodes:
           downdelay: 200
         dhcp: true
         mtu: 9000
-  - hostname: "talos-w3"
+        vip:
+          ip: ${clusterEndpointIP}
+  - hostname: "talos-m3"
     ipAddress: "192.168.60.7"
     installDiskSelector:
       size: ">= 500GB"
       model: "Samsung SSD 990 PRO 1TB"
-    controlPlane: false
+    controlPlane: true
     networkInterfaces:
       - interface: bond0
         bond:
@@ -147,7 +83,8 @@ nodes:
           downdelay: 200
         dhcp: true
         mtu: 9000
-
+        vip:
+          ip: ${clusterEndpointIP}
 patches:
   # Configure containerd
   - |
@@ -236,11 +173,17 @@ controlPlane:
     topology.kubernetes.io/zone: m
   schematic:
     customization:
+      extraKernelArgs:
+        - intel_iommu=on
+        - iommu=pt
+        - mitigations=off
       systemExtensions:
         officialExtensions:
+          - siderolabs/gasket-driver
           - siderolabs/i915
           - siderolabs/intel-ucode
-          - siderolabs/realtek-firmware
+          - siderolabs/mei
+          - siderolabs/thunderbolt
   patches:
     # Cluster configuration
     - |-
@@ -288,7 +231,7 @@ controlPlane:
         extraManifests:
           - https://github.com/prometheus-operator/prometheus-operator/releases/download/${promVersion}/stripped-down-crds.yaml
           - https://github.com/kubernetes-sigs/gateway-api/releases/download/${gatewayApiVersion}/experimental-install.yaml
-          - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/${externalDNSVersion}/config/crd/standard/dnsendpoint.yaml
+          - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/${externalDNSVersion}/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
           - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/${dragonflyOperatorVersion}/manifests/crd.yaml
 
     # Enable hostDNS:
@@ -299,30 +242,3 @@ controlPlane:
             enabled: true
             forwardKubeDNSToHost: false
             resolveMemberNames: true
-
-worker:
-  nodeLabels:
-    topology.kubernetes.io/region: ${clusterName}
-    topology.kubernetes.io/zone: w
-  schematic:
-    customization:
-      extraKernelArgs:
-        # implicitly receives controlPlane args
-        - intel_iommu=on
-        - iommu=pt
-        - mitigations=off
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/gasket-driver
-          - siderolabs/i915
-          - siderolabs/intel-ucode
-          - siderolabs/mei
-          - siderolabs/thunderbolt
-  patches:
-    - *domainSearch
-    - *clusterDiscovery
-    - *domainSearch
-    - *kubelet
-    - *kubePrism
-    - *nfs
-    - *sysctls
