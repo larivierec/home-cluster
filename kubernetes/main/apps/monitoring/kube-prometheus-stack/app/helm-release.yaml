@@ -124,9 +124,9 @@ spec:
     kubeControllerManager:
       enabled: true
       endpoints: &cp
-        - 192.168.60.2
-        - 192.168.60.3
-        - 192.168.60.4
+        - 192.168.60.5
+        - 192.168.60.6
+        - 192.168.60.7
       service:
         enabled: true
         port: 10257
