@@ -74,8 +74,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 
 | Device                    | Count | OS Disk Size            | Data Disk Size              | Ram  | Operating System | Purpose              |
 | --------------------------|-------|-------------------------|-----------------------------|------|------------------|--------------------- |
-| Beelink U59 N5105         | 3     | 500Gi M2 SATA           | -                           | 16Gi | Talos            | Kubernetes Masters   |
-| MS-01                     | 3     | 250Gi NVMe              | 1Ti U.2 NVMe                | 64Gi | Talos            | Kubernetes Workers   |
+| MS-01                     | 3     | 250Gi NVMe              | 1Ti U.2 NVMe                | 64Gi | Talos            | Kubernetes           |
 | Synology RS1221+          | 1     | 36Ti  HDD / 2Ti NVMe    | -                           | 4Gi  | DSM 7            | NAS                  |
 | UDM Pro Max               | 1     |                         | -                           |  -   |                  | Router / Gateway     |
 | Unifi Core Switch XG-16   | 1     |            -            | -                           |  -   |                  | Switch               |
