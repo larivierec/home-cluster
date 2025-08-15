@@ -81,6 +81,8 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   |                  | Switch               |
 | Unifi Flex 2.5G PoE       | 1     |            -            | -                           |  -   |                  | Switch               |
 | Unifi Flex 2.5G Mini      | 1     |            -            | -                           |  -   |                  | Switch               |
+| Unifi PDU Pro             | 1     |            -            | -                           |  -   |                  | Power Delivery       ||
+
 ---
 
 #### Extra Documentation
