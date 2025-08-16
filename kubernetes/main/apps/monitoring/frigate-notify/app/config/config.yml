@@ -1,0 +1,21 @@
+---
+frigate:
+  server: http://frigate-app.home.svc.cluster.local:5000
+  public_url: https://frigate.garb.dev
+  startup_check:
+    attempts: 10
+    interval: 10
+
+  mqtt:
+    enabled: true
+    server: mosquitto.home.svc.cluster.local
+    username: mqtt_user
+
+alerts:
+  general:
+    title: Motion Detected
+    timeformat: "%m/%d/%Y %H:%M:%S"
+    notify_once: true
+
+  discord:
+    enabled: true

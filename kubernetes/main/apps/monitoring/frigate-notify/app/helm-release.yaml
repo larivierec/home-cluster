@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template-4.2.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app frigate-notify
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      frigate-notify:
+        annotations:
+          configmap.reloader.stakater.com/reload: &config frigate-notify
+          secret.reloader.stakater.com/reload: frigate-notify
+        containers:
+          app:
+            image:
+              repository: ghcr.io/0x2142/frigate-notify
+              tag: v0.5.2
+            env:
+              FN_FRIGATE__MQTT_PASSWORD: /secrets/mosquitto_pwd
+              FN_ALERTS__DISCORD_WEBHOOK: /secrets/webhook
+            resources:
+              requests:
+                cpu: 100m
+                memory: 250Mi
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: *config
+        globalMounts:
+          - path: /app/config.yml
+            subPath: config.yml
+            readOnly: false
+      secrets:
+        enabled: true
+        type: secret
+        name: frigate-notify
