@@ -43,7 +43,7 @@ spec:
           app:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag: 0.16.0-rc4
+              tag: 0.16.0
             securityContext:
               privileged: true
             resources:
@@ -203,16 +203,16 @@ spec:
   valuesFrom:
     - kind: Secret
       name: frigate
-      valuesKey: mqtt_password
+      valuesKey: FRIGATE_MQTT_PASSWORD
       targetPath: controllers.frigate.containers.app.env.FRIGATE_MQTT_PASSWORD
       optional: false
     - kind: Secret
       name: frigate
-      valuesKey: rtsp_user
+      valuesKey: FRIGATE_RTSP_USERNAME
       targetPath: controllers.frigate.containers.app.env.FRIGATE_RTSP_USERNAME
       optional: false
     - kind: Secret
       name: frigate
-      valuesKey: rtsp_password
+      valuesKey: FRIGATE_RTSP_PASSWORD
       targetPath: controllers.frigate.containers.app.env.FRIGATE_RTSP_PASSWORD
       optional: false

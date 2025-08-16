@@ -1,6 +1,6 @@
 ---
 frigate:
-  server: http://frigate-app.home.svc.cluster.local:5000
+  server: http://frigate-app.home:5000
   public_url: https://frigate.garb.dev
   startup_check:
     attempts: 10
@@ -8,7 +8,7 @@ frigate:
 
   mqtt:
     enabled: true
-    server: mosquitto.home.svc.cluster.local
+    server: mosquitto.home
     username: mqtt_user
 
 alerts:
