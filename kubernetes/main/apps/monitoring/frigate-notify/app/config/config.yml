@@ -11,10 +11,17 @@ frigate:
     server: mosquitto.home
     username: mqtt_user
 
+  cameras:
+    exclude:
+      - front
+
 alerts:
   general:
-    title: Motion Detected
+    title: Frigate - {{ .Camera }} detected {{ .Label }}
     notify_once: true
+  allow:
+    - person
+    - animal
 
   discord:
     enabled: true
