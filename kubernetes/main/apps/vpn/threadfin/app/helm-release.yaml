@@ -36,7 +36,7 @@ spec:
               - gluetun
             image:
               repository: fyb3roptik/threadfin
-              tag: 1.2.35@sha256:31ee09478929b561070b5c22840552f556495e59b0474b6f9231fbe19e07f162
+              tag: 1.3.0@sha256:c90ccba07c56ab63a8cb0d71eb3d0418916f0f416ca60959a0e26755c7843a19
             env:
               TZ: "America/Toronto"
               THREADFIN_BRANCH: main
