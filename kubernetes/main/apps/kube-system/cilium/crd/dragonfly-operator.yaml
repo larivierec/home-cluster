@@ -10,7 +10,7 @@ spec:
   url: https://github.com/dragonflydb/dragonfly-operator
   ref:
     # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
-    tag: v1.2.0
+    tag: v1.2.1
   ignore: |
     # exclude
     /*
