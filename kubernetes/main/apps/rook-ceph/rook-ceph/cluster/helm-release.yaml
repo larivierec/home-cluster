@@ -40,7 +40,7 @@ spec:
       dashboard:
         enabled: true
         host:
-          name: rook.garb.dev
+          name: ceph.garb.dev
           path: /
           pathType: PathPrefix
         parentRefs:
