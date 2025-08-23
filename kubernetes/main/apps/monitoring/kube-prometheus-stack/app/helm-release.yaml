@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 76.5.1
+      version: 77.0.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
