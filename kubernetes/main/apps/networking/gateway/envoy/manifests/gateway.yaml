@@ -107,7 +107,7 @@ spec:
       value: 192.168.40.21
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
+      #external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
       lbipam.cilium.io/ips: 192.168.40.21
   listeners:
     - name: tcp
