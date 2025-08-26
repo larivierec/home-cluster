@@ -2,7 +2,7 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: minio-pgsql
+  name: minio
   namespace: database
 spec:
   configuration:

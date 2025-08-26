@@ -35,7 +35,7 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters: &parameters
-        barmanObjectName: minio-pgsql
+        barmanObjectName: minio
         serverName: postgres-v17-3
   bootstrap:
     recovery:
