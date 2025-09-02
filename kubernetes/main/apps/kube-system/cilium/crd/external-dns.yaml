@@ -10,7 +10,7 @@ spec:
   url: https://github.com/kubernetes-sigs/external-dns
   ref:
     # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-    tag: v0.18.0
+    tag: v0.19.0
   ignore: |
     # exclude
     /*
