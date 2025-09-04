@@ -115,7 +115,7 @@ spec:
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
-      name: l4-config
+      name: external-l4-config
   listeners:
     - name: tcp
       protocol: TCP
