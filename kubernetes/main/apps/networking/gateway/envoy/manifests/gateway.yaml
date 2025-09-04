@@ -27,7 +27,7 @@ spec:
       # the problem is the service created by cilium is not the one used by envoy.
       # therefore, the service is disabled
       external-dns.alpha.kubernetes.io/hostname: *host
-      lbipam.cilium.io/ips: 192.168.40.22
+      # lbipam.cilium.io/ips: 192.168.40.22
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
@@ -68,7 +68,7 @@ spec:
       value: 192.168.40.23
   infrastructure:
     annotations:
-      lbipam.cilium.io/ips: 192.168.40.23
+      # lbipam.cilium.io/ips: 192.168.40.23
       external-dns.alpha.kubernetes.io/hostname: *host
     parametersRef:
       group: gateway.envoyproxy.io
@@ -109,9 +109,9 @@ spec:
     - type: IPAddress
       value: 192.168.40.21
   infrastructure:
-    annotations:
-      #external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
-      lbipam.cilium.io/ips: 192.168.40.21
+    # annotations:
+    #external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
+    # lbipam.cilium.io/ips: 192.168.40.21
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
