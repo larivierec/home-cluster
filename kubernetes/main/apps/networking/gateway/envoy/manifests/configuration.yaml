@@ -2,7 +2,7 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
-  name: config
+  name: external-config
   namespace: networking
 spec:
   telemetry:
@@ -26,3 +26,65 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+      envoyService:
+        name: envoy-gw-external
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: internal-config
+  namespace: networking
+spec:
+  telemetry:
+    metrics:
+      prometheus: {}
+  shutdown:
+    drainTimeout: 300s
+  logging:
+    level:
+      default: info
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyDeployment:
+        replicas: 2
+        container:
+          resources:
+            requests:
+              cpu: 150m
+              memory: 640Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+      envoyService:
+        name: envoy-gw-internal
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: external-l4-config
+  namespace: networking
+spec:
+  telemetry:
+    metrics:
+      prometheus: {}
+  shutdown:
+    drainTimeout: 300s
+  logging:
+    level:
+      default: info
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyDeployment:
+        replicas: 2
+        container:
+          resources:
+            requests:
+              cpu: 150m
+              memory: 640Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+      envoyService:
+        name: envoy-gw-external-l4
