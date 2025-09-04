@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./configuration.yaml
   - ./client-policy.yaml
+  - ./backend-policy.yaml
   - ./gateway.yaml
   - ./redirect.yaml
   - ./service-monitor.yaml
