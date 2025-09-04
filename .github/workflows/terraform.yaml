@@ -124,7 +124,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Install node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
@@ -249,7 +249,7 @@ jobs:
           path: ${{ steps.strip-path.outputs.project_path }}
 
       - name: Install node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 20
 
