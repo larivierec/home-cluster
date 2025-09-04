@@ -17,7 +17,6 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        name: envoy-gw-external
         replicas: 2
         container:
           resources:
@@ -27,6 +26,8 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+      envoyService:
+        name: envoy-gw-external
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
@@ -46,7 +47,6 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        name: envoy-gw-internal
         replicas: 2
         container:
           resources:
@@ -56,11 +56,13 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+      envoyService:
+        name: envoy-gw-internal
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
-  name: l4-config
+  name: external-l4-config
   namespace: networking
 spec:
   telemetry:
@@ -75,7 +77,6 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyDeployment:
-        name: envoy-gw-l4
         replicas: 2
         container:
           resources:
@@ -85,3 +86,5 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+      envoyService:
+        name: envoy-gw-external-l4
