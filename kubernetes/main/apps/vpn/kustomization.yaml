@@ -7,7 +7,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./flaresolverr/ks.yaml
+  - ./nzbget/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
-  - ./sabnzbd/ks.yaml
   - ./threadfin/ks.yaml

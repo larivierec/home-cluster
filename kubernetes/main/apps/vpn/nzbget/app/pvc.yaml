@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: config-sabnzbd-0
+  name: config-nzbget-0
   namespace: vpn
 spec:
   accessModes:
@@ -10,7 +10,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: sabnzbd-bootstrap
+    name: nzbget-bootstrap
   resources:
     requests:
       storage: 80Gi
@@ -19,13 +19,13 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: sabnzbd-bootstrap
+  name: nzbget-bootstrap
   namespace: vpn
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: volsync-sabnzbd
+    repository: volsync-nzbget
     copyMethod: Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheStorageClassName: ceph-block
@@ -47,16 +47,16 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: sabnzbd
+  name: nzbget
   namespace: vpn
 spec:
-  sourcePVC: config-sabnzbd-0
+  sourcePVC: config-nzbget-0
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 10
-    repository: volsync-sabnzbd
+    repository: volsync-nzbget
     volumeSnapshotClassName: csi-ceph-blockpool
     cacheCapacity: 8Gi
     cacheStorageClassName: ceph-block

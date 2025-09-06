@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app sabnzbd
+  name: &app nzbget
   namespace: vpn
 spec:
   interval: 30m
@@ -27,45 +27,53 @@ spec:
       retries: 3
   values:
     controllers:
-      sabnzbd:
+      nzbget:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/sabnzbd
-              tag: 4.5.3@sha256:ecb57bd6257fbfbd9aee70d8ef3df8814b7270ae793fd1f44219ae73cacd519a
+              repository: ghcr.io/home-operations/nzbget
+              tag: 25.3.0@sha256:6ce885f0648894047483d64c4f32785af819b1def597c476e5ba2b7e564cfe68
             env:
-              SABNZBD__PORT: &port 8080
-              SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd,
-                sabnzbd.vpn,
-                sabnzbd.vpn.svc,
-                sabnzbd.vpn.svc.cluster,
-                sabnzbd.vpn.svc.cluster.local,
-                sabnzbd.garb.dev,
-                sabnzbd-cilium.garb.dev
+              NZBGET__PORT: &port 8080
+              TZ: America/Toronto
             resources:
+              limits:
+                memory: 8Gi
               requests:
-                cpu: 247m
-                memory: 161M
+                cpu: 100m
+                memory: 2Gi
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
-              startup:
-                enabled: true
+                custom: true
                 spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
         pod:
           securityContext:
-            fsGroup: 568
-            runAsGroup: 568
-            runAsUser: 568
+            fsGroup: 1000
+            runAsGroup: 1000
+            runAsUser: 1000
             fsGroupChangePolicy: "OnRootMismatch"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -76,26 +84,11 @@ spec:
           - name: envoy-internal
             namespace: networking
         hostnames:
-          - "sabnzbd.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "sabnzbd-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
+          - "{{ .Release.Name }}.garb.dev"
     persistence:
       config:
         enabled: true
-        existingClaim: config-sabnzbd-0
+        existingClaim: config-nzbget-0
         globalMounts:
           - path: /config
       media:
@@ -107,6 +100,11 @@ spec:
             path: /volume2/media-sp2
         globalMounts:
           - path: /media
-      incomplete:
+      tmpfs:
         enabled: true
         type: emptyDir
+        advancedMounts:
+          nzbget:
+            app:
+              - path: /tmp
+                subPath: tmp
