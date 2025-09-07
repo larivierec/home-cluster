@@ -37,7 +37,7 @@ resource "cloudflare_list_item" "uptimerobot" {
 }
 
 resource "cloudflare_ruleset" "this" {
-  zone_id = data.cloudflare_zone.default.zone_id
+  zone_id = data.cloudflare_zone.default.id
   kind    = "zone"
   name    = "WAF rules"
   phase   = "http_request_firewall_custom"
@@ -97,5 +97,9 @@ import {
   to = cloudflare_zone_dnssec.ds
 }
 resource "cloudflare_zone_dnssec" "ds" {
+<<<<<<< Updated upstream
   zone_id = data.cloudflare_zone.default.zone_id
+=======
+  zone_id = data.cloudflare_zone.default.id
+>>>>>>> Stashed changes
 }

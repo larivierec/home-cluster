@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket       = "terraform"
-    key          = "cloudflare/cloudflare.tfstate"
+    key          = "cloudflare/cloudflare_v5.tfstate"
     region       = "main"
     use_lockfile = true
 
