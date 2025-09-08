@@ -115,18 +115,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-      app-cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "atuin-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
     persistence:
       config:
         type: emptyDir

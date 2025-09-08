@@ -121,17 +121,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-        hostnames:
-          - "qbitt-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
     persistence:
       config:
         enabled: true
