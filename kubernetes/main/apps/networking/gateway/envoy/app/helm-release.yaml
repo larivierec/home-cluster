@@ -31,3 +31,7 @@ spec:
           tag: v1.5.0
         rbac:
           cluster: true
+    config:
+      envoyGateway:
+        extensionApis:
+          enableBackend: true

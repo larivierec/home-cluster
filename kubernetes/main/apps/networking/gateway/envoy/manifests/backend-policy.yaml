@@ -10,9 +10,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: envoy-internal
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: cilium-internal
   compression:
     - type: Brotli
     - type: Gzip
@@ -28,9 +25,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: envoy-external
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: cilium-external
   compression:
     - type: Brotli
     - type: Gzip
