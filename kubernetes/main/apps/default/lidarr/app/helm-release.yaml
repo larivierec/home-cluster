@@ -91,18 +91,6 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
-      cilium:
-        enabled: true
-        parentRefs:
-          - name: cilium-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "lidarr-cilium.garb.dev"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
     persistence:
       config:
         enabled: true

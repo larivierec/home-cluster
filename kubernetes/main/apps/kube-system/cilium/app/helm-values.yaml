@@ -21,9 +21,7 @@ enableIPv4BIGTCP: true
 ingressController:
   enabled: false
 gatewayAPI:
-  enabled: true
-  enableAlpn: true
-  enableAppProtocol: true
+  enabled: false
 l7Proxy: true
 loadBalancer:
   algorithm: maglev
