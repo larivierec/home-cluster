@@ -19,6 +19,7 @@ spec:
       envoyDeployment:
         replicas: 2
         container:
+          image: mirror.gcr.io/envoyproxy/envoy:v1.35.3
           resources:
             requests:
               cpu: 150m
@@ -49,6 +50,7 @@ spec:
       envoyDeployment:
         replicas: 2
         container:
+          image: mirror.gcr.io/envoyproxy/envoy:v1.35.3
           resources:
             requests:
               cpu: 150m
@@ -79,6 +81,7 @@ spec:
       envoyDeployment:
         replicas: 2
         container:
+          image: mirror.gcr.io/envoyproxy/envoy:v1.35.3
           resources:
             requests:
               cpu: 150m
