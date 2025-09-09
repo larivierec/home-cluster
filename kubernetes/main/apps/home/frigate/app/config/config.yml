@@ -41,7 +41,6 @@ record:
 objects:
   track:
     - person
-    - animal
   filters:
     person:
       min_area: 5000
