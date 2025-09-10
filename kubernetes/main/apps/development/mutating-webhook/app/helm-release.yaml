@@ -54,4 +54,10 @@ spec:
         replace: "harbor.garb.dev/quay.io"
         checkUpstream: true
         authSecretName: harbor-pull-secret
+      - name: "mirror.gcr.io rewrite"
+        matches:
+          - "^mirror.gcr.io"
+        replace: "harbor.garb.dev/mirror.gcr.io"
+        checkUpstream: true
+        authSecretName: harbor-pull-secret
       - name: "harbor creds"
