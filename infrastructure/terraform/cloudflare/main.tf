@@ -4,7 +4,10 @@ module "dns_records" {
     cloudflare = cloudflare
   }
 
-  zone = { id = data.cloudflare_zone.default.id, name = data.cloudflare_zone.default.name }
+  zone = {
+    id   = data.cloudflare_zone.default.id,
+    name = data.cloudflare_zone.default.name
+  }
 
   a_records = {
     # make the root domain target self, allowing you to redirect it

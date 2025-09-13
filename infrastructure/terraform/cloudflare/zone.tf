@@ -1,4 +1,3 @@
-
 data "cloudflare_zone" "default" {
   filter = {
     account = {
@@ -7,6 +6,7 @@ data "cloudflare_zone" "default" {
     name = "garb.dev"
   }
 }
+
 
 data "http" "uptimerobot_ipv4" {
   url = "https://uptimerobot.com/inc/files/ips/IPv4.txt"
@@ -97,9 +97,5 @@ import {
   to = cloudflare_zone_dnssec.ds
 }
 resource "cloudflare_zone_dnssec" "ds" {
-<<<<<<< Updated upstream
-  zone_id = data.cloudflare_zone.default.zone_id
-=======
   zone_id = data.cloudflare_zone.default.id
->>>>>>> Stashed changes
 }
