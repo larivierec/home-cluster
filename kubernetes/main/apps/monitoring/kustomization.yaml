@@ -7,6 +7,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./alertmanager-discord/ks.yaml
+  - ./fluent-bit/ks.yaml
   - ./frigate-notify/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
@@ -18,4 +19,3 @@ resources:
   - ./prometheus-operator-crds/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./thanos/ks.yaml
-  - ./vector/ks.yaml
