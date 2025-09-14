@@ -93,6 +93,9 @@ patches:
         - op: create
           path: /etc/cri/conf.d/20-customization.part
           content: |
+            [plugins."io.containerd.cri.v1.runtime"]
+              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+              device_ownership_from_security_context = true
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
 
@@ -120,16 +123,25 @@ patches:
         disableSearchDomain: true
 
   # Enable KubePrism
-  - &kubePrism |-
+  - |-
     machine:
       features:
         kubePrism:
           enabled: true
           port: 7445
 
-  # Enable cluster discovery
-  - &clusterDiscovery |-
+  - |-
     cluster:
+      apiServer:
+        extraArgs:
+          feature-gates: DynamicResourceAllocation=true
+          runtime-config: resource.k8s.io/v1beta1=true # Enables the API (CRD)
+      controllerManager:
+        extraArgs:
+          feature-gates: DynamicResourceAllocation=true
+      scheduler:
+        extraArgs:
+          feature-gates: DynamicResourceAllocation=true
       discovery:
         registries:
           kubernetes:
@@ -137,14 +149,14 @@ patches:
           service:
             disabled: false
 
-  # Configure kubelet
-  - &kubelet |-
+  - |-
     machine:
       kubelet:
         extraArgs:
           image-gc-low-threshold: 50
           image-gc-high-threshold: 55
           rotate-server-certificates: true
+          featureGates: DynamicResourceAllocation=true
         nodeIP:
           validSubnets:
             - 192.168.60.0/24
@@ -169,6 +181,7 @@ patches:
 
 controlPlane:
   nodeLabels:
+    node.kubernetes.io/gpu: "true"
     topology.kubernetes.io/region: ${clusterName}
     topology.kubernetes.io/zone: m
   schematic:

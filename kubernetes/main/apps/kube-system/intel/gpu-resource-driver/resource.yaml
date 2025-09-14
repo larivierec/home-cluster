@@ -1,0 +1,11 @@
+---
+apiVersion: resource.k8s.io/v1beta1
+kind: ResourceClaimTemplate
+metadata:
+  name: i915
+spec:
+  spec:
+    devices:
+      requests:
+        - name: i915
+          deviceClassName: gpu.intel.com
