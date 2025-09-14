@@ -38,7 +38,7 @@ locals {
     ]
   ])
 
-  tags = ["terraform:home-cluster/infrastructure/terraform/cloudflare"]
+  comments = "terraform:home-cluster/infrastructure/terraform/cloudflare"
 }
 
 resource "cloudflare_dns_record" "a" {
@@ -49,7 +49,7 @@ resource "cloudflare_dns_record" "a" {
   ttl      = each.value.ttl
   proxied  = each.value.proxied
   content  = each.value.ip
-  tags     = local.tags
+  comment  = local.comments
 }
 
 resource "cloudflare_dns_record" "cname" {
@@ -60,7 +60,7 @@ resource "cloudflare_dns_record" "cname" {
   ttl      = each.value.ttl
   proxied  = each.value.proxied
   content  = each.value.cname
-  tags     = local.tags
+  comment  = local.comments
 }
 
 resource "cloudflare_dns_record" "mx" {
@@ -71,7 +71,7 @@ resource "cloudflare_dns_record" "mx" {
   ttl      = each.value.ttl
   priority = each.value.priority
   content  = each.value.address
-  tags     = local.tags
+  comment  = local.comments
 }
 
 resource "cloudflare_dns_record" "txt" {
@@ -81,5 +81,5 @@ resource "cloudflare_dns_record" "txt" {
   type     = "TXT"
   ttl      = each.value.ttl
   content  = each.value.data
-  tags     = local.tags
+  comment  = local.comments
 }

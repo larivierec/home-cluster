@@ -1,17 +1,13 @@
-data "cloudflare_zone" "default" {
-  filter = {
-    account = {
-      id = cloudflare_account.this.id
-    }
-    name = "garb.dev"
+resource "cloudflare_zone" "default" {
+  account = {
+    id = cloudflare_account.this.id
   }
+  name = "garb.dev"
 }
-
 
 data "http" "uptimerobot_ipv4" {
   url = "https://uptimerobot.com/inc/files/ips/IPv4.txt"
 }
-
 
 resource "cloudflare_list" "uptimerobot" {
   account_id  = cloudflare_account.this.id
@@ -19,25 +15,15 @@ resource "cloudflare_list" "uptimerobot" {
   kind        = "ip"
   description = "List of UptimeRobot IP Addresses"
 
-  # dynamic "item" {
-  #   for_each = split("\n", chomp(data.http.uptimerobot_ipv4.response_body))
-  #   content {
-  #     value {
-  #       ip = item.value
-  #     }
-  #   }
-  # }
-}
-
-resource "cloudflare_list_item" "uptimerobot" {
-  for_each   = toset(split("\n", chomp(data.http.uptimerobot_ipv4.response_body)))
-  account_id = cloudflare_account.this.id
-  list_id    = cloudflare_list.uptimerobot.id
-  ip         = each.value
+  items = [
+    for ip in split("\n", chomp(data.http.uptimerobot_ipv4.response_body)) : {
+      ip = ip
+    }
+  ]
 }
 
 resource "cloudflare_ruleset" "this" {
-  zone_id = data.cloudflare_zone.default.id
+  zone_id = cloudflare_zone.default.id
   kind    = "zone"
   name    = "WAF rules"
   phase   = "http_request_firewall_custom"
@@ -63,7 +49,7 @@ resource "cloudflare_ruleset" "this" {
     {
       action      = "block"
       description = "block plex notifications"
-      expression  = "(http.host eq \"plex.${data.cloudflare_zone.default.name}\" and http.request.uri.path contains \"/:/eventsource/notifications\")"
+      expression  = "(http.host eq \"plex.${cloudflare_zone.default.name}\" and http.request.uri.path contains \"/:/eventsource/notifications\")"
     }
   ]
 }
@@ -92,10 +78,6 @@ resource "cloudflare_ruleset" "this" {
 #   }
 # }
 
-import {
-  id = "74f896578568875d67af7c4fb1a0442d"
-  to = cloudflare_zone_dnssec.ds
-}
 resource "cloudflare_zone_dnssec" "ds" {
-  zone_id = data.cloudflare_zone.default.id
+  zone_id = cloudflare_zone.default.id
 }

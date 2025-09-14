@@ -1,3 +1,9 @@
+# Import existing zone
+import {
+  id = "74f896578568875d67af7c4fb1a0442d"
+  to = cloudflare_zone.default
+}
+
 module "dns_records" {
   source = "./dns"
   providers = {
@@ -5,8 +11,8 @@ module "dns_records" {
   }
 
   zone = {
-    id   = data.cloudflare_zone.default.id,
-    name = data.cloudflare_zone.default.name
+    id   = cloudflare_zone.default.id,
+    name = cloudflare_zone.default.name
   }
 
   a_records = {
