@@ -140,6 +140,9 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
+    resourceClaims:
+      - name: i915
+        resourceClaimTemplateName: i915
   valuesFrom:
     - kind: Secret
       name: frigate

@@ -98,3 +98,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /.npm
+    resourceClaims:
+      - name: i915
+        resourceClaimTemplateName: i915
