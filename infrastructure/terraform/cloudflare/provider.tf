@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket       = "terraform"
-    key          = "cloudflare/cloudflare.tfstate"
+    key          = "cloudflare/cloudflare_v5.tfstate"
     region       = "main"
     use_lockfile = true
 
@@ -19,7 +19,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.52.4"
+      version = "5.10.0"
     }
     http = {
       source  = "hashicorp/http"

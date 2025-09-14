@@ -1,7 +1,8 @@
-
-data "cloudflare_zone" "default" {
-  account_id = cloudflare_account.this.id
-  name       = "garb.dev"
+resource "cloudflare_zone" "default" {
+  account = {
+    id = cloudflare_account.this.id
+  }
+  name = "garb.dev"
 }
 
 data "http" "uptimerobot_ipv4" {
@@ -14,46 +15,43 @@ resource "cloudflare_list" "uptimerobot" {
   kind        = "ip"
   description = "List of UptimeRobot IP Addresses"
 
-  dynamic "item" {
-    for_each = split("\n", chomp(data.http.uptimerobot_ipv4.response_body))
-    content {
-      value {
-        ip = item.value
-      }
+  items = [
+    for ip in split("\n", chomp(data.http.uptimerobot_ipv4.response_body)) : {
+      ip = ip
     }
-  }
+  ]
 }
 
 resource "cloudflare_ruleset" "this" {
-  zone_id = data.cloudflare_zone.default.zone_id
+  zone_id = cloudflare_zone.default.id
   kind    = "zone"
   name    = "WAF rules"
   phase   = "http_request_firewall_custom"
 
-  rules {
-    action      = "skip"
-    description = "allow uptime robot"
-    expression  = "(ip.src in $uptimerobot)"
-    action_parameters {
-      ruleset = "current"
+  rules = [
+    {
+      action      = "skip"
+      description = "allow uptime robot"
+      expression  = "(ip.src in $uptimerobot)"
+      action_parameters = {
+        ruleset = "current"
+      }
+
+      logging = {
+        enabled = true
+      }
+    },
+    {
+      action      = "block"
+      description = "block countries"
+      expression  = "(ip.geoip.country ne \"US\" and ip.geoip.country ne \"CA\")"
+    },
+    {
+      action      = "block"
+      description = "block plex notifications"
+      expression  = "(http.host eq \"plex.${cloudflare_zone.default.name}\" and http.request.uri.path contains \"/:/eventsource/notifications\")"
     }
-
-    logging {
-      enabled = true
-    }
-  }
-
-  rules {
-    action      = "block"
-    description = "block countries"
-    expression  = "(ip.geoip.country ne \"US\" and ip.geoip.country ne \"CA\")"
-  }
-
-  rules {
-    action      = "block"
-    description = "block plex notifications"
-    expression  = "(http.host eq \"plex.${data.cloudflare_zone.default.name}\" and http.request.uri.path contains \"/:/eventsource/notifications\")"
-  }
+  ]
 }
 
 # resource "cloudflare_ruleset" "redirect" {
@@ -81,5 +79,5 @@ resource "cloudflare_ruleset" "this" {
 # }
 
 resource "cloudflare_zone_dnssec" "ds" {
-  zone_id = data.cloudflare_zone.default.zone_id
+  zone_id = cloudflare_zone.default.id
 }

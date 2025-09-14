@@ -38,10 +38,10 @@ locals {
     ]
   ])
 
-  comment = "Created via Terraform"
+  comments = "terraform:home-cluster/infrastructure/terraform/cloudflare"
 }
 
-resource "cloudflare_record" "a" {
+resource "cloudflare_dns_record" "a" {
   for_each = { for data in local.a_records : "${var.zone.id}_${data.record}_A" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -49,10 +49,10 @@ resource "cloudflare_record" "a" {
   ttl      = each.value.ttl
   proxied  = each.value.proxied
   content  = each.value.ip
-  comment  = local.comment
+  comment  = local.comments
 }
 
-resource "cloudflare_record" "cname" {
+resource "cloudflare_dns_record" "cname" {
   for_each = { for data in local.cname_records : "${var.zone.id}_${data.record}_CNAME" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -60,10 +60,10 @@ resource "cloudflare_record" "cname" {
   ttl      = each.value.ttl
   proxied  = each.value.proxied
   content  = each.value.cname
-  comment  = local.comment
+  comment  = local.comments
 }
 
-resource "cloudflare_record" "mx" {
+resource "cloudflare_dns_record" "mx" {
   for_each = { for data in local.mx_records : "${var.zone.id}_${data.record}_${data.address}_MX" => data }
   zone_id  = var.zone.id
   name     = each.value.record
@@ -71,15 +71,15 @@ resource "cloudflare_record" "mx" {
   ttl      = each.value.ttl
   priority = each.value.priority
   content  = each.value.address
-  comment  = local.comment
+  comment  = local.comments
 }
 
-resource "cloudflare_record" "txt" {
+resource "cloudflare_dns_record" "txt" {
   for_each = { for idx, data in local.txt_records : "${var.zone.id}_${data.record}_${idx}_TXT" => data }
   zone_id  = var.zone.id
   name     = each.value.record
   type     = "TXT"
   ttl      = each.value.ttl
   content  = each.value.data
-  comment  = local.comment
+  comment  = local.comments
 }

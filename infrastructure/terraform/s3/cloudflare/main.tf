@@ -1,12 +1,14 @@
-data "cloudflare_accounts" "this" {
-  name = "garbinc account"
+data "cloudflare_account" "this" {
+  filter = {
+    name = "garbinc account"
+  }
 }
 
 resource "cloudflare_r2_bucket" "backup" {
-  name       = "nas-backup"
-  account_id = data.cloudflare_accounts.this.accounts[0].id
-  location   = "ENAM"
-
+  account_id    = data.cloudflare_account.this.account_id
+  name          = "nas-backup"
+  location      = "ENAM"
+  storage_class = "Standard"
   lifecycle {
     prevent_destroy = true
   }
