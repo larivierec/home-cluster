@@ -1,9 +1,3 @@
-# Import existing zone
-import {
-  id = "74f896578568875d67af7c4fb1a0442d"
-  to = cloudflare_zone.default
-}
-
 module "dns_records" {
   source = "./dns"
   providers = {
@@ -16,8 +10,6 @@ module "dns_records" {
   }
 
   a_records = {
-    # make the root domain target self, allowing you to redirect it
-    # see zone.tf redirect rule
     "garb.dev" = { ip = "192.0.2.1", ttl = "1", proxied = true }
   }
 
@@ -31,8 +23,8 @@ module "dns_records" {
     "garb.dev" = {
       ttl = "3600"
       records = [
-        { priority = 10, address = "mx01.mail.icloud.com." },
-        { priority = 10, address = "mx02.mail.icloud.com." },
+        { priority = 10, address = "mx01.mail.icloud.com" },
+        { priority = 10, address = "mx02.mail.icloud.com" },
       ]
     }
   }
