@@ -132,10 +132,6 @@ patches:
 
   - |-
     cluster:
-      apiServer:
-        extraArgs:
-          feature-gates: DynamicResourceAllocation=true
-          runtime-config: resource.k8s.io/v1beta1=true # Enables the API (CRD)
       controllerManager:
         extraArgs:
           feature-gates: DynamicResourceAllocation=true
@@ -202,16 +198,22 @@ controlPlane:
     - |-
       cluster:
         allowSchedulingOnMasters: true
+        apiServer:
+          extraArgs:
+            feature-gates: DynamicResourceAllocation=true
+            runtime-config: resource.k8s.io/v1beta1=true # Enables the API (CRD)
         controllerManager:
           extraArgs:
             bind-address: 0.0.0.0
+            feature-gates: DynamicResourceAllocation=true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+            feature-gates: DynamicResourceAllocation=true
         coreDNS:
           disabled: true
         proxy:
           disabled: true
-        scheduler:
-          extraArgs:
-            bind-address: 0.0.0.0
 
     # ETCD configuration
     - |-

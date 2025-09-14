@@ -129,3 +129,6 @@ spec:
         type: emptyDir
       transcode:
         type: emptyDir
+    resourceClaims:
+      - name: i915
+        resourceClaimTemplateName: i915
