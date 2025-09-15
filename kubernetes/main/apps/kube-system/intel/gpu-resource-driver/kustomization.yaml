@@ -5,4 +5,4 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./helm-release.yaml
-  - ./rule.yaml
+  - ./resource.yaml
