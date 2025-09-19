@@ -8,4 +8,4 @@ resources:
   - ./backend-policy.yaml
   - ./gateway.yaml
   - ./redirect.yaml
-  - ./service-monitor.yaml
+  - ./monitoring.yaml
