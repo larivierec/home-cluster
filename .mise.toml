@@ -1,0 +1,2 @@
+[env]
+TALOSCONFIG = "./bootstrap/talos/clusterconfig/talosconfig"
