@@ -57,17 +57,6 @@
       }
     },
     {
-      description: "Vector image and chart - versions do not match",
-      groupName: "Vector",
-      matchPackagePatterns: ["vector"],
-      matchDatasources: ["docker", "github-releases", "helm"],
-      matchUpdateTypes: ["minor", "patch"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      separateMinorPatch: false,
-    },
-    {
       description: ["Dragonfly Operator Group"],
       groupName: "Dragonfly Operator",
       matchPackagePatterns: ["dragonfly(?:db)?.operator"],
@@ -83,6 +72,16 @@
         "^gateway-api$",
       ],
       matchDatasources: ["docker", "github-releases"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
+      }
+    },
+    {
+      description: ["Cloudnative PG - Barman Cloud"],
+      matchPackagePatterns: [
+        "(?i)barman.*cloud"
+      ],
+      matchDatasources: ["docker", "github-releases"], 
       group: {
         commitMessageTopic: "{{{groupName}}} group"
       }
