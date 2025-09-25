@@ -3,9 +3,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: headlamp
+  name: home-operations
   namespace: flux-system
 spec:
   type: oci
   interval: 1h
-  url: oci://ghcr.io/home-operations/charts-mirror
+  url: oci://ghcr.io/home-operations/charts/

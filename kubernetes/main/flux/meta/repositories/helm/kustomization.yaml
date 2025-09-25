@@ -24,7 +24,7 @@ resources:
   - ./fluent.yaml
   - ./grafana.yaml
   - ./harbor.yaml
-  - ./headlamp.yaml
+  - ./home-operations.yaml
   - ./indeed-eng.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
