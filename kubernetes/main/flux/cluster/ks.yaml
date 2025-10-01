@@ -8,8 +8,6 @@ metadata:
 spec:
   decryption:
     provider: sops
-    secretRef:
-      name: sops-age
   interval: 30m
   path: ./kubernetes/main/flux/meta
   prune: true
@@ -31,8 +29,6 @@ metadata:
 spec:
   decryption:
     provider: sops
-    secretRef:
-      name: sops-age
   dependsOn:
     - name: cluster-meta
   interval: 30m
@@ -46,8 +42,6 @@ spec:
         spec:
           decryption:
             provider: sops
-            secretRef:
-              name: sops-age
           postBuild:
             substituteFrom:
               - kind: Secret
