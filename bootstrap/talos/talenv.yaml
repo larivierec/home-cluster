@@ -3,7 +3,7 @@
 promVersion: v0.85.0
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-gatewayApiVersion: v1.3.0
+gatewayApiVersion: v1.4.0
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
 externalDNSVersion: v0.19.0
