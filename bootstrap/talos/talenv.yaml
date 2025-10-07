@@ -1,6 +1,6 @@
 ---
 # renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
-promVersion: v0.85.0
+promVersion: v0.86.0
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
 gatewayApiVersion: v1.4.0
