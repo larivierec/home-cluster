@@ -28,7 +28,7 @@ spec:
       envoyGateway:
         image:
           repository: docker.io/envoyproxy/gateway
-          tag: v1.5.2
+          tag: v1.5.3
         rbac:
           cluster: true
     config:
