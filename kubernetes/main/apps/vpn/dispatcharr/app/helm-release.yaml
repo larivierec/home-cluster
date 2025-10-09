@@ -3,11 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app threadfin
+  name: &app dispatcharr
   namespace: vpn
 spec:
   interval: 30m
-  suspend: true
   chart:
     spec:
       chart: app-template
@@ -28,7 +27,7 @@ spec:
       retries: 3
   values:
     controllers:
-      threadfin:
+      dispatcharr:
         type: deployment
         containers:
           app:
@@ -36,30 +35,34 @@ spec:
               - dnsdist
               - gluetun
             image:
-              repository: fyb3roptik/threadfin
-              tag: 1.2.39
+              repository: ghcr.io/dispatcharr/dispatcharr
+              tag: 0.10.4
             env:
               TZ: "America/Toronto"
-              THREADFIN_BRANCH: main
-              THREADFIN_DEBUG: 1
-              THREADFIN_PORT: &port 34400
+              DISPATCHARR_PORT: &port 9191
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /
-                    port: *port
+                  exec:
+                    command:
+                      - sh
+                      - -c
+                      - "curl -f http://127.0.0.1:9191/ || exit 1"
                   initialDelaySeconds: 120
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+            resources:
+              limits:
+                gpu.intel.com/i915: 1
+          gcs:
+            image:
+              repository: jesmann/global-channel-search
+              tag: 2.6.0
+            command: ["/bin/sh", "-c", "sleep infinity"]
           dnsdist:
             image:
               repository: docker.io/powerdns/dnsdist-21
@@ -99,25 +102,14 @@ spec:
               limits:
                 squat.ai/tun: "1"
         annotations:
-          configmap.reloader.stakater.com/reload: threadfin-dnsdist
+          configmap.reloader.stakater.com/reload: dispatcharr-dnsdist
           secret.reloader.stakater.com/reload: *secret
-        pod:
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 31337
-        runAsGroup: 31337
-        fsGroup: 31337
-        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         controller: *app
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: 192.168.40.9
+          lbipam.cilium.io/ips: 192.168.40.13
         ports:
           http:
             port: *port
@@ -128,7 +120,7 @@ spec:
           - name: envoy-internal
             namespace: networking
         hostnames:
-          - "tv.garb.dev"
+          - "dispatcharr.garb.dev"
         rules:
           - backendRefs:
               - port: *port
@@ -136,9 +128,9 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: threadfin-0
+        existingClaim: dispatcharr-0
         globalMounts:
-          - path: /home/threadfin/conf
+          - path: /home/dispatcharr/conf
       tmp:
         enabled: true
         type: emptyDir
@@ -147,9 +139,9 @@ spec:
       dnsdist-config:
         enabled: true
         type: configMap
-        name: threadfin-dnsdist
+        name: dispatcharr-dnsdist
         advancedMounts:
-          threadfin:
+          dispatcharr:
             dnsdist:
               - path: /etc/dnsdist/dnsdist.yml
                 subPath: dnsdist.yml
