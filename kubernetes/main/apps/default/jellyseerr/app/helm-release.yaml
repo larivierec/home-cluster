@@ -90,6 +90,22 @@ spec:
           - backendRefs:
               - port: *port
                 name: *app
+      overseerr:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: &host overseerr.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - *host
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
     persistence:
       config:
         existingClaim: "config-{{ .Release.Name }}-0"

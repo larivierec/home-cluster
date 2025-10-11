@@ -12,7 +12,6 @@ resources:
   - ./jellyseerr/ks.yaml
   - ./lidarr/ks.yaml
   - ./nas/ks.yaml
-  - ./overseerr/ks.yaml
   - ./plex/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
