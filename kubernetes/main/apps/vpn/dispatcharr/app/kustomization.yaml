@@ -7,10 +7,10 @@ resources:
   - ./external-secret.yaml
   - ./pvc.yaml
   - ./helm-release.yaml
-  - ./policy.yaml
-configMapGenerator:
-  - name: dispatcharr-dnsdist
-    files:
-      - ./config/dnsdist.yml
-generatorOptions:
-  disableNameSuffixHash: true
+#   - ./policy.yaml
+# configMapGenerator:
+#   - name: dispatcharr-dnsdist
+#     files:
+#       - ./config/dnsdist.yml
+# generatorOptions:
+#   disableNameSuffixHash: true

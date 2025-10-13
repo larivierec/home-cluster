@@ -30,9 +30,9 @@ spec:
       qbittorrent:
         containers:
           app:
-            dependsOn:
-              - dnsdist
-              - gluetun
+            # dependsOn:
+            #   - dnsdist
+            #   - gluetun
             image:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.2@sha256:31ac39705e31f7cdcc04dc46c1c0b0cdf8dc6f9865d4894efc097a33adc41524
@@ -58,51 +58,51 @@ spec:
               capabilities:
                 drop:
                   - ALL
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-21
-              tag: 2.1.0-alpha0
-            args:
-              - -C
-              - /etc/dnsdist/dnsdist.yml
-          gluetun:
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.40.0
-            env:
-              - name: VPN_SERVICE_PROVIDER
-                value: surfshark
-              - name: VPN_TYPE
-                value: wireguard
-              - name: VPN_INTERFACE
-                value: wg0
-              - name: FIREWALL_INPUT_PORTS
-                value: "8080"
-              - name: FIREWALL_OUTBOUND_SUBNETS
-                # Allow access to k8s subnets
-                value: "10.42.0.0/16,10.43.0.0/16"
-              - name: DOT
-                value: "off"
-              - name: DNS_ADDRESS
-                value: "127.0.0.2"
-            envFrom:
-              - secretRef:
-                  name: &secret vpn-auth
-            securityContext:
-              capabilities:
-                add:
-                  - NET_ADMIN
-              allowPrivilegeEscalation: false
-            resources:
-              limits:
-                squat.ai/tun: "1"
-        annotations:
-          configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
-          secret.reloader.stakater.com/reload: *secret
-        pod:
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
+        #   dnsdist:
+        #     image:
+        #       repository: docker.io/powerdns/dnsdist-21
+        #       tag: 2.1.0-alpha0
+        #     args:
+        #       - -C
+        #       - /etc/dnsdist/dnsdist.yml
+        #   gluetun:
+        #     image:
+        #       repository: ghcr.io/qdm12/gluetun
+        #       tag: v3.40.0
+        #     env:
+        #       - name: VPN_SERVICE_PROVIDER
+        #         value: surfshark
+        #       - name: VPN_TYPE
+        #         value: wireguard
+        #       - name: VPN_INTERFACE
+        #         value: wg0
+        #       - name: FIREWALL_INPUT_PORTS
+        #         value: "8080"
+        #       - name: FIREWALL_OUTBOUND_SUBNETS
+        #         # Allow access to k8s subnets
+        #         value: "10.42.0.0/16,10.43.0.0/16"
+        #       - name: DOT
+        #         value: "off"
+        #       - name: DNS_ADDRESS
+        #         value: "127.0.0.2"
+        #     envFrom:
+        #       - secretRef:
+        #           name: &secret vpn-auth
+        #     securityContext:
+        #       capabilities:
+        #         add:
+        #           - NET_ADMIN
+        #       allowPrivilegeEscalation: false
+        #     resources:
+        #       limits:
+        #         squat.ai/tun: "1"
+        # annotations:
+        #   configmap.reloader.stakater.com/reload: qbittorrent-dnsdist
+        #   secret.reloader.stakater.com/reload: *secret
+        # pod:
+        #   securityContext:
+        #     fsGroup: 568
+        #     fsGroupChangePolicy: "OnRootMismatch"
     service:
       app:
         controller: *app
@@ -140,13 +140,13 @@ spec:
           qbittorrent:
             app:
               - path: /media
-      dnsdist-config:
-        enabled: true
-        type: configMap
-        name: qbittorrent-dnsdist
-        advancedMounts:
-          qbittorrent:
-            dnsdist:
-              - path: /etc/dnsdist/dnsdist.yml
-                subPath: dnsdist.yml
-                readOnly: true
+      # dnsdist-config:
+      #   enabled: true
+      #   type: configMap
+      #   name: qbittorrent-dnsdist
+      #   advancedMounts:
+      #     qbittorrent:
+      #       dnsdist:
+      #         - path: /etc/dnsdist/dnsdist.yml
+      #           subPath: dnsdist.yml
+      #           readOnly: true
