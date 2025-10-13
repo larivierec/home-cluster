@@ -29,6 +29,9 @@ spec:
     controllers:
       plex:
         strategy: Recreate
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
         containers:
           app:
             image:
@@ -47,8 +50,9 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 16Gi
-              claims:
-                - name: i915
+                gpu.intel.com/i915: 1
+              # claims:
+              #   - name: i915
             probes:
               liveness:
                 enabled: true
