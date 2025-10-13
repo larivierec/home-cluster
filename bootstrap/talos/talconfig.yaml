@@ -132,12 +132,6 @@ patches:
 
   - |-
     cluster:
-      controllerManager:
-        extraArgs:
-          feature-gates: DynamicResourceAllocation=true
-      scheduler:
-        extraArgs:
-          feature-gates: DynamicResourceAllocation=true
       discovery:
         registries:
           kubernetes:
@@ -152,7 +146,6 @@ patches:
           image-gc-low-threshold: 50
           image-gc-high-threshold: 55
           rotate-server-certificates: true
-          featureGates: DynamicResourceAllocation=true
         nodeIP:
           validSubnets:
             - 192.168.60.0/24
@@ -200,16 +193,13 @@ controlPlane:
         allowSchedulingOnMasters: true
         apiServer:
           extraArgs:
-            feature-gates: DynamicResourceAllocation=true
-            runtime-config: resource.k8s.io/v1beta1=true # Enables the API (CRD)
+            feature-gates: ResourceHealthStatus=true
         controllerManager:
           extraArgs:
             bind-address: 0.0.0.0
-            feature-gates: DynamicResourceAllocation=true
         scheduler:
           extraArgs:
             bind-address: 0.0.0.0
-            feature-gates: DynamicResourceAllocation=true
         coreDNS:
           disabled: true
         proxy:
