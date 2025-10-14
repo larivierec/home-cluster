@@ -28,6 +28,7 @@ resources:
   - ./indeed-eng.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
+  - ./intel-oci.yaml
   - ./jetstack.yaml
   - ./kubernetes-sigs-metrics-server.yaml
   - ./kubernetes-sigs-nfd.yaml

@@ -56,8 +56,8 @@ spec:
                   failureThreshold: 3
               readiness: *probes
             resources:
-              limits:
-                gpu.intel.com/i915: 1
+              claims:
+                - name: gpu
           gcs:
             image:
               repository: jesmann/global-channel-search
@@ -104,6 +104,10 @@ spec:
         # annotations:
         #   configmap.reloader.stakater.com/reload: dispatcharr-dnsdist
         #   secret.reloader.stakater.com/reload: *secret
+    defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: dispatcharr
     service:
       app:
         controller: *app

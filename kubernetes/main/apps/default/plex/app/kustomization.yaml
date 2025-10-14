@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./external-secret.yaml
   - ./pvc.yaml
+  - ./claim.yaml
   - ./helm-release.yaml

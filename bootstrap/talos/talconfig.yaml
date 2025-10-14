@@ -93,6 +93,9 @@ patches:
         - op: create
           path: /etc/cri/conf.d/20-customization.part
           content: |
+            [plugins."io.containerd.cri.v1.runtime"]
+              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+              device_ownership_from_security_context = true
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
 
@@ -120,15 +123,14 @@ patches:
         disableSearchDomain: true
 
   # Enable KubePrism
-  - &kubePrism |-
+  - |-
     machine:
       features:
         kubePrism:
           enabled: true
           port: 7445
 
-  # Enable cluster discovery
-  - &clusterDiscovery |-
+  - |-
     cluster:
       discovery:
         registries:
@@ -137,8 +139,7 @@ patches:
           service:
             disabled: false
 
-  # Configure kubelet
-  - &kubelet |-
+  - |-
     machine:
       kubelet:
         extraArgs:
@@ -169,6 +170,7 @@ patches:
 
 controlPlane:
   nodeLabels:
+    node.kubernetes.io/gpu: "true"
     topology.kubernetes.io/region: ${clusterName}
     topology.kubernetes.io/zone: m
   schematic:
@@ -183,22 +185,27 @@ controlPlane:
           - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/mei
+          - siderolabs/nfsrahead
           - siderolabs/thunderbolt
   patches:
     # Cluster configuration
     - |-
       cluster:
         allowSchedulingOnMasters: true
+        apiServer:
+          extraArgs:
+            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
+            runtime-config: admissionregistration.k8s.io/v1beta1=true
         controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        scheduler:
           extraArgs:
             bind-address: 0.0.0.0
         coreDNS:
           disabled: true
         proxy:
           disabled: true
-        scheduler:
-          extraArgs:
-            bind-address: 0.0.0.0
 
     # ETCD configuration
     - |-

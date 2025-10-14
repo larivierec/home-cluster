@@ -30,8 +30,9 @@ spec:
       plex:
         strategy: Recreate
         pod:
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: plex
         containers:
           app:
             image:
@@ -50,17 +51,26 @@ spec:
                 memory: 2Gi
               limits:
                 memory: 16Gi
-                gpu.intel.com/i915: 1
+              claims:
+                - name: gpu
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /identity
+                    port: &port 32400
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
               startup:
                 enabled: true
                 spec:
                   failureThreshold: 30
-                  periodSeconds: 5
+                  periodSeconds: 10
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -68,7 +78,6 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [44]
     service:
       app:
         controller: *app

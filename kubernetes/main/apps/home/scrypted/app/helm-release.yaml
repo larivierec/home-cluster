@@ -35,6 +35,9 @@ spec:
         pod:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
+          resourceClaims:
+            - name: gpu
+              resourceClaimTemplateName: scrypted
         containers:
           app:
             image:
@@ -43,12 +46,12 @@ spec:
             env:
               SCRYPTED_SECURE_PORT: &secure 11443
             resources:
+              claims:
+                - name: gpu
               requests:
-                gpu.intel.com/i915: 1
                 cpu: 136m
                 memory: 1Gi
               limits:
-                gpu.intel.com/i915: 1
                 memory: 3Gi
             probes:
               liveness:

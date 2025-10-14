@@ -6,3 +6,4 @@ metadata:
   labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
     cert-manager-tls: wildcard-prod
+    resource.kubernetes.io/admin-access: "true"

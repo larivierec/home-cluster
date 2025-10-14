@@ -6,6 +6,7 @@ namespace: vpn
 resources:
   - ./external-secret.yaml
   - ./pvc.yaml
+  - ./claim.yaml
   - ./helm-release.yaml
 #   - ./policy.yaml
 # configMapGenerator:
