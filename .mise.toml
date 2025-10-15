@@ -1,3 +1,3 @@
 [env]
 # KUBECONFIG = '{{config_root}}/.kube/clusters/talos.yaml'
-TALOSCONFIG = '{{config_root}}/bootstrap/talos/clusterconfig/talosconfig'
+TALOSCONFIG = '{{config_root}}/talos/clusterconfig/talosconfig'
