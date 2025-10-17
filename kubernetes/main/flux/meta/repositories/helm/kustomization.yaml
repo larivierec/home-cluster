@@ -40,3 +40,4 @@ resources:
   - ./stakater.yaml
   - ./stevehipwell.yaml
   - ./tofu-controller.yaml
+  - ./victoria-logs.yaml
