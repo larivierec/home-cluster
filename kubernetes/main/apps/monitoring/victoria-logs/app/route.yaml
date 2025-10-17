@@ -1,0 +1,17 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: victoria-logs-server
+  namespace: monitoring
+spec:
+  hostnames:
+    - logs.garb.dev
+  parentRefs:
+    - name: envoy-internal
+      namespace: networking
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: victoria-logs-server
+          port: 9428
