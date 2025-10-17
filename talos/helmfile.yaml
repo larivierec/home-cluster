@@ -22,7 +22,7 @@ releases:
   - name: coredns
     namespace: kube-system
     chart: oci://ghcr.io/coredns/charts/coredns
-    version: 1.44.3
+    version: 1.45.0
     values:
       - ../../kubernetes/main/apps/kube-system/coredns/bootstrap/values.yaml
     needs:
