@@ -27,6 +27,14 @@ spec:
         size: 20Gi
       serviceMonitor:
         enabled: true
+      route:
+        enabled: true
+        hostnames:
+          - logs.garb.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
     dashboards:
       enabled: true
       annotations:
