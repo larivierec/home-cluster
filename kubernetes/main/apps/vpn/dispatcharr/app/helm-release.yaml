@@ -36,7 +36,7 @@ spec:
             #   - gluetun
             image:
               repository: ghcr.io/dispatcharr/dispatcharr
-              tag: 0.10.4
+              tag: 0.11.0
             env:
               TZ: "America/Toronto"
               DISPATCHARR_PORT: &port 9191
