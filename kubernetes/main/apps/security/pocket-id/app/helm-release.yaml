@@ -1,0 +1,103 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app pocket-id
+  namespace: security
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 4.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      pocket-id:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.6
+            envFrom: &envFrom
+              - secretRef:
+                  name: postgres-pocket-id
+        containers:
+          pocket-id:
+            image:
+              repository: ghcr.io/pocket-id/pocket-id
+              tag: v1.13.1@sha256:d4c4c5355cc5ce25dfb34ed59f61c7d258ad39fb6345de452d11941b7209ddd4
+            env:
+              APP_URL: https://oidc.garb.dev
+              DB_PROVIDER: postgres
+              ENCRYPTION_KEY_FILE: /encryption/ENCRYPTION_KEY
+              KEYS_PATH: /data/keys
+              UPLOAD_PATH: /data/uploads
+              METRICS_ENABLED: "true"
+              TRUST_PROXY: true
+              TZ: America/New_York
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 1411
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [100]
+    route:
+      pocket-id:
+        hostnames:
+          - oidc.garb.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+    service:
+      pocket-id:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    persistence:
+      data:
+        existingClaim: pocket-id-0
+        globalMounts:
+          - path: /data
+          - path: /app/backend/data
+            subPath: backend
+      var:
+        type: emptyDir
+        sizeLimit: 1Gi
+      encryption:
+        enabled: true
+        type: secret
+        name: pocket-id
