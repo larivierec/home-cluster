@@ -35,8 +35,8 @@ metadata:
   name: pocket-id-bootstrap
   namespace: security
 spec:
-  # trigger:
-  #   manual: restore-once
+  trigger:
+    manual: restore-once
   restic:
     repository: volsync-pocket-id
     copyMethod: Snapshot
