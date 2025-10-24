@@ -47,7 +47,7 @@ spec:
           exporter:
             image:
               repository: ghcr.io/druggeri/nut_exporter
-              tag: 3.2.1
+              tag: 3.2.2
         pod:
           annotations:
             configmap.reloader.stakater.com/reload: *app
