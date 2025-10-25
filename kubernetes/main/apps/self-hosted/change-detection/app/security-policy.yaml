@@ -1,0 +1,26 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: pocketid-oidc
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: changedetection
+  cors:
+    allowOrigins:
+      - https://changedetection.garb.dev
+    allowMethods: ["GET", "POST", "OPTIONS"]
+    allowHeaders: ["Authorization", "Content-Type"]
+    allowCredentials: true
+  oidc:
+    provider:
+      issuer: "https://oidc.garb.dev"
+    clientIDRef:
+      name: change-detection-oidc
+    clientSecret:
+      name: change-detection-oidc
+    redirectURL: "https://changedetection.garb.dev/oauth2/callback"
+    logoutPath: "/oauth2/logout"
+    cookieDomain: "garb.dev"
