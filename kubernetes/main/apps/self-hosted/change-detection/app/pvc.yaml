@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: change-detection-0
+  namespace: security
+spec:
+  accessModes:
+    - ReadWriteOnce
+  dataSourceRef:
+    kind: ReplicationDestination
+    apiGroup: volsync.backube
+    name: change-detection-bootstrap
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: change-detection-cache
+  namespace: security
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ceph-block
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: change-detection-bootstrap
+  namespace: security
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: volsync-change-detection
+    copyMethod: Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    cacheCapacity: 10Gi
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
+    capacity: 10Gi
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: change-detection
+  namespace: security
+spec:
+  sourcePVC: change-detection-0
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 10
+    repository: volsync-change-detection
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheCapacity: 10Gi
+    cacheStorageClassName: ceph-block
+    cacheAccessModes:
+      - ReadWriteOnce
+    storageClassName: ceph-block
+    accessModes:
+      - ReadWriteOnce
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    retain:
+      daily: 10
+      within: 3d
