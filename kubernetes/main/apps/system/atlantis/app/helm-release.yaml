@@ -1,0 +1,119 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: atlantis
+  namespace: system
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: atlantis
+      version: 5.19.0
+      sourceRef:
+        kind: HelmRepository
+        name: atlantis
+        namespace: flux-system
+      interval: 15m
+
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: rook-ceph-operator
+      namespace: rook-ceph
+    - name: dragonfly
+      namespace: database
+  values:
+    atlantisUrl: https://atlantis.garb.dev
+    orgAllowlist: "larivierec/home-cluster"
+
+    image:
+      repository: ghcr.io/runatlantis/atlantis
+      pullPolicy: IfNotPresent
+
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+
+    allowForkPRs: false
+    allowDraftPRs: false
+    hidePrevPlanComments: true
+    hideUnchangedPlanComments: true
+    disableApply: false
+    disableApplyAll: false
+    disableRepoLocking: false
+    enableDiffMarkdownFormat: true
+    vscSecretName: atlantis
+
+    repoConfig: |
+      ---
+      repos:
+        - id: /.*/
+          apply_requirements: [approved]
+          plan_requirements: [approved]
+          import_requirements: [approved]
+
+          workflow: default
+          allowed_overrides: []
+          allow_custom_workflows: false
+          workflows:
+            default:
+              plan:
+                steps: [init, plan]
+              apply:
+                steps: [apply]
+          metrics:
+            prometheus:
+              endpoint: /metrics
+
+    service:
+      type: ClusterIP
+      targetPort: 4141
+
+    ingress:
+      enabled: false
+
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 100m
+      limits:
+        memory: 128Mi
+        cpu: 200m
+
+    volumeClaim:
+      enabled: true
+      dataStorage: 10Gi
+      storageClassName: ceph-block
+      accessModes: ["ReadWriteOnce"]
+
+    environmentSecrets:
+      - name: ATLANTIS_GITHUB_WEBHOOK_SECRET
+        secretKeyRef:
+          name: atlantis
+          key: webhook_secret
+      # - name: ATLANTIS_REDIS_PASSWORD
+      #   secretKeyRef:
+      #     name: *secret
+      #     key: redisSecret
+
+    readinessProbe:
+      periodSeconds: 5
+      initialDelaySeconds: 10
+
+    lockingDbType: redis
+
+    redis:
+      host: dragonfly.database.svc.cluster.local
+      port: 6379
+      db: 0
+      tlsEnabled: false
+      insecureSkipVerify: false
