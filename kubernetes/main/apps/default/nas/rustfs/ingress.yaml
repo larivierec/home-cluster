@@ -5,7 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
     nginx.ingress.kubernetes.io/proxy-body-size: "850m"
-  name: internal-minio-api
+  name: internal-rustfs-api
   namespace: default
 spec:
   ingressClassName: internal
@@ -17,7 +17,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: minio-api
+                name: rustfs-api
                 port:
                   number: 9000
   tls:
@@ -31,19 +31,19 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/client-body-buffer-size: "850m"
     nginx.ingress.kubernetes.io/proxy-body-size: "850m"
-  name: internal-minio-web
+  name: internal-rustfs-web
   namespace: default
 spec:
   ingressClassName: internal
   rules:
-    - host: &host minio.garb.dev
+    - host: &host rustfs.garb.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: minio-web
+                name: rustfs-web
                 port:
                   number: 9001
   tls:

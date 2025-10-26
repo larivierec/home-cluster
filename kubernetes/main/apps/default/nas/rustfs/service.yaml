@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-api
+  name: rustfs-api
   namespace: default
 spec:
   clusterIP: None
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-web
+  name: rustfs-web
   namespace: default
 spec:
   clusterIP: None
@@ -26,10 +26,10 @@ spec:
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: minio-web
+  name: rustfs-web
   namespace: default
   labels:
-    kubernetes.io/service-name: minio-web
+    kubernetes.io/service-name: rustfs-web
 addressType: IPv4
 endpoints:
   - addresses:
@@ -46,10 +46,10 @@ ports:
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: minio-api
+  name: rustfs-api
   namespace: default
   labels:
-    kubernetes.io/service-name: minio-api
+    kubernetes.io/service-name: rustfs-api
 addressType: IPv4
 endpoints:
   - addresses:
