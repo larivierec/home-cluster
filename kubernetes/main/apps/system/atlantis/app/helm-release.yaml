@@ -27,7 +27,7 @@ spec:
     remediation:
       retries: 3
   dependsOn:
-    - name: rook-ceph-operator
+    - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: dragonfly
       namespace: database
@@ -42,6 +42,14 @@ spec:
     containerSecurityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+      runAsNonRoot: true
+      runAsUser: 100
+      runAsGroup: 1000
+      seccompProfile:
+        type: RuntimeDefault
 
     allowForkPRs: false
     allowDraftPRs: false
@@ -54,7 +62,6 @@ spec:
     vscSecretName: atlantis
 
     repoConfig: |
-      ---
       repos:
         - id: /.*/
           apply_requirements: [approved]
@@ -62,7 +69,7 @@ spec:
           import_requirements: [approved]
 
           workflow: default
-          allowed_overrides: []
+          allowed_overrides: [workflow, apply_requirements, plan_requirements, import_requirements]
           allow_custom_workflows: false
           workflows:
             default:
