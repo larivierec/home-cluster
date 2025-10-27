@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: database
 resources:
   # renovate: datasource=github-releases depName=cloudnative-pg/plugin-barman-cloud
-  - https://raw.githubusercontent.com/cloudnative-pg/plugin-barman-cloud/refs/tags/v0.7.0/config/crd/bases/barmancloud.cnpg.io_objectstores.yaml
+  - https://raw.githubusercontent.com/cloudnative-pg/plugin-barman-cloud/refs/tags/v0.8.0/config/crd/bases/barmancloud.cnpg.io_objectstores.yaml
   - ./cert.yaml
   - ./helm-release.yaml
   - ./rbac.yaml
