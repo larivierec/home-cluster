@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/dgtlmoon/changedetection.io
-              tag: 0.50.32
+              tag: 0.50.33
             env:
               TZ: America/Toronto
               PORT: &port 5000
