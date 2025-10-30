@@ -25,13 +25,9 @@ terraform {
       source  = "maxlaverse/bitwarden"
       version = "0.16.0"
     }
-    minio = {
-      source  = "aminueza/minio"
-      version = "3.8.0"
-    }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "5.11.0"
+      version = "5.12.0"
     }
   }
 }
@@ -55,21 +51,11 @@ provider "bitwarden" {
   }
 }
 
-provider "minio" {
-  minio_server   = "s3.garb.dev"
-  minio_user     = local.minio_secrets["user"]
-  minio_password = local.minio_secrets["password"]
-  minio_ssl      = true
-}
-
 provider "cloudflare" {
   email   = local.cloudflare_secrets["email"]
   api_key = local.cloudflare_secrets["api_key"]
 }
 
-data "bitwarden_secret" "minio" {
-  key = "minio"
-}
 
 data "bitwarden_secret" "cloudflare" {
   key = "cloudflare"
@@ -77,5 +63,4 @@ data "bitwarden_secret" "cloudflare" {
 
 locals {
   cloudflare_secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
-  minio_secrets      = jsondecode(data.bitwarden_secret.minio.value)
 }
