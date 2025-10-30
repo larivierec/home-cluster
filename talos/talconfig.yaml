@@ -142,6 +142,11 @@ patches:
   - |-
     machine:
       kubelet:
+        extraConfig:
+          featureGates:
+            ImageVolume: true
+            ResourceHealthStatus: true
+          serializeImagePulls: false
         extraArgs:
           image-gc-low-threshold: 50
           image-gc-high-threshold: 55
