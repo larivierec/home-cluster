@@ -3,7 +3,7 @@ terraform {
     bucket       = "terraform"
     key          = "cloudflare/cloudflare_v5.tfstate"
     region       = "main"
-    use_lockfile = true
+    
 
     endpoints = {
       s3 = "https://s3.garb.dev"

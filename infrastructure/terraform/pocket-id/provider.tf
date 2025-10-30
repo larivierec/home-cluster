@@ -3,7 +3,7 @@ terraform {
     bucket       = "terraform"
     key          = "pocket-id/state.tfstate"
     region       = "main"
-    use_lockfile = true
+    
 
     endpoints = {
       s3 = "https://s3.garb.dev"
