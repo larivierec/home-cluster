@@ -43,6 +43,9 @@ spec:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.16.2
+            envFrom:
+              - secretRef:
+                  name: frigate
             securityContext:
               privileged: true
             resources:
@@ -144,19 +147,3 @@ spec:
         sizeLimit: 4Gi
         globalMounts:
           - path: /dev/shm
-  valuesFrom:
-    - kind: Secret
-      name: frigate
-      valuesKey: FRIGATE_MQTT_PASSWORD
-      targetPath: controllers.frigate.containers.app.env.FRIGATE_MQTT_PASSWORD
-      optional: false
-    - kind: Secret
-      name: frigate
-      valuesKey: FRIGATE_RTSP_USERNAME
-      targetPath: controllers.frigate.containers.app.env.FRIGATE_RTSP_USERNAME
-      optional: false
-    - kind: Secret
-      name: frigate
-      valuesKey: FRIGATE_RTSP_PASSWORD
-      targetPath: controllers.frigate.containers.app.env.FRIGATE_RTSP_PASSWORD
-      optional: false
