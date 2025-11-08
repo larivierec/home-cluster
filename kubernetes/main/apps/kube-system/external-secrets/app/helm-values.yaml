@@ -10,7 +10,7 @@ certController:
     enabled: true
     interval: 1m
 bitwarden-sdk-server:
-  enabled: true
+  enabled: false # testing through NAS
   serviceMonitor:
     enabled: true
     interval: 1m

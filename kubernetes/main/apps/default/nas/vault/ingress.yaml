@@ -5,7 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   name: internal-bitwarden-api
-  namespace: default
+  namespace: kube-system
 spec:
   ingressClassName: internal
   rules:
@@ -22,4 +22,4 @@ spec:
   tls:
     - hosts:
         - *host
-      secretName: wildcard-cert-tls
+      secretName: bitwarden-css-certs
