@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  name: internal-bitwarden-api
+  namespace: default
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host bw.garb.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bw
+                port:
+                  number: 9998
+  tls:
+    - hosts:
+        - *host
+      secretName: wildcard-cert-tls
