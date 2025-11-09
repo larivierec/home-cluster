@@ -1,3 +1,10 @@
 [env]
 # KUBECONFIG = '{{config_root}}/.kube/clusters/talos.yaml'
 TALOSCONFIG = '{{config_root}}/talos/clusterconfig/talosconfig'
+
+_.file = [
+  "{{config_root}}/.secrets.env",
+]
+
+[tools]
+minijinja = "2.12.0"
