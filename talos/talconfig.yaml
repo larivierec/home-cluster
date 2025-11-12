@@ -145,7 +145,6 @@ patches:
         extraConfig:
           featureGates:
             ImageVolume: true
-            ResourceHealthStatus: true
           serializeImagePulls: false
         extraArgs:
           image-gc-low-threshold: 50
@@ -199,7 +198,7 @@ controlPlane:
         allowSchedulingOnMasters: true
         apiServer:
           extraArgs:
-            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
+            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
         controllerManager:
           extraArgs:
