@@ -56,7 +56,7 @@ spec:
   postBuild:
     substitute:
       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRESQL_VERSION: 17.5-bookworm
+      POSTGRESQL_VERSION: 18.0-standard-trixie
   wait: true
   healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1

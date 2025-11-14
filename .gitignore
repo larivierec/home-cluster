@@ -25,3 +25,4 @@ build/
 ## macos
 .DS_Store
 .certificate
+.secrets.env

@@ -21,7 +21,7 @@ spec:
       max_connections: "800"
       shared_buffers: "512MB"
   monitoring:
-    enablePodMonitor: true
+    enablePodMonitor: false
   # when doing major upgrade and backup doesn't exist
   # bootstrap:
   #   initdb:
