@@ -1,0 +1,55 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: dummy
+    external-dns.alpha.kubernetes.io/hostname: photos.garb.dev
+  name: photos-route
+  namespace: default
+spec:
+  hostnames:
+    - photos.garb.dev
+  parentRefs:
+    - name: envoy-external
+      namespace: networking
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: gateway.envoyproxy.io
+          kind: Backend
+          name: photos-backend
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: photos-backend
+  namespace: default
+spec:
+  endpoints:
+    - fqdn:
+        hostname: photos.default.svc.cluster.local
+        port: 5443
+  tls:
+    insecureSkipVerify: true
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: photos
+  namespace: default
+spec:
+  targetRefs:
+    - group: gateway.envoyproxy.io
+      kind: Backend
+      name: photos-backend
+  validation:
+    wellKnownCACertificates: "System"
+    hostname: photos.garb.dev
+  options:
+    minVersion: "1.2"
+    maxVersion: "1.3"

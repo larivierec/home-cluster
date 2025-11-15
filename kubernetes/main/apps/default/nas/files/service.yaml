@@ -7,7 +7,8 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - protocol: TCP
+    - name: https
+      protocol: TCP
       port: 7001
 ---
 apiVersion: discovery.k8s.io/v1
@@ -20,7 +21,7 @@ metadata:
 addressType: IPv4
 endpoints:
   - addresses:
-      - "192.168.1.3"
+      - 192.168.1.3
     conditions:
       ready: true
       serving: true

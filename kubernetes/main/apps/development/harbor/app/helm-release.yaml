@@ -44,17 +44,18 @@ spec:
   values:
     updateStrategy:
       type: Recreate
-    expose:
-      type: ingress
-      tls:
-        enabled: true
-        certSource: secret
-        secret:
-          secretName: wildcard-cert-tls
-      ingress:
-        hosts:
-          core: &external harbor-ingress.garb.dev
-    externalURL: https://harbor-ingress.garb.dev
+    externalURL: https://harbor.garb.dev
+    # expose:
+    #   type: route
+    #   tls:
+    #     enabled: false
+    # route:
+    #   hosts:
+    #     - harbor.garb.dev
+    #   parentRefs:
+    #     - name: envoy-internal
+    #       namespace: networking
+    #       sectionName: https
     registry:
       initContainers:
         - name: init-db

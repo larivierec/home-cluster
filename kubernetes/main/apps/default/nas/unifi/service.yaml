@@ -2,32 +2,31 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: netboot
+  name: unifi-console
   namespace: default
 spec:
   clusterIP: None
   ports:
-    - name: https
-      port: 3000
-      targetPort: 3000
-      protocol: TCP
+    - protocol: TCP
+      port: 443
+      name: admin
 ---
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: netboot
+  name: unifi-console
   namespace: default
   labels:
-    kubernetes.io/service-name: netboot
+    kubernetes.io/service-name: unifi-console
 addressType: IPv4
 endpoints:
   - addresses:
-      - 192.168.1.5
+      - 192.168.1.1
     conditions:
       ready: true
       serving: true
       terminating: false
 ports:
-  - name: https
-    port: 3000
+  - port: 443
     protocol: TCP
+    name: admin

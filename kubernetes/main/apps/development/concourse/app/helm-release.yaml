@@ -67,15 +67,14 @@ spec:
         storageClass: ceph-block
     postgresql:
       enabled: false
-    web:
-      ingress:
-        enabled: true
-        hosts:
-          - &host concourse.garb.dev
-        tls:
-          - secretName: wildcard-cert-tls
-            hosts:
-              - *host
+    route:
+      enabled: true
+      parentRefs:
+        - name: envoy-internal
+          namespace: networking
+          sectionName: https
+      hostnames:
+        - concourse.garb.dev
       databaseInitContainers:
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:18.1

@@ -93,11 +93,26 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nas-vault
+  name: nas-bitwarden-vault
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/default/nas/vault"
+  path: "./kubernetes/main/apps/default/nas/bitwarden-vault"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: unifi-manifests
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/main/apps/default/nas/unifi"
   prune: true
   sourceRef:
     kind: GitRepository

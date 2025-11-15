@@ -7,7 +7,8 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - port: 9000
+    - name: https
+      port: 9000
       targetPort: 9000
       protocol: TCP
 ---
@@ -19,7 +20,8 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - port: 9001
+    - name: https
+      port: 9001
       targetPort: 9001
       protocol: TCP
 ---

@@ -1,0 +1,55 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: dummy
+    external-dns.alpha.kubernetes.io/hostname: files.garb.dev
+  name: files-route
+  namespace: default
+spec:
+  hostnames:
+    - files.garb.dev
+  parentRefs:
+    - name: envoy-external
+      namespace: networking
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: gateway.envoyproxy.io
+          kind: Backend
+          name: files-backend
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: files-backend
+  namespace: default
+spec:
+  endpoints:
+    - fqdn:
+        hostname: files.default.svc.cluster.local
+        port: 7001
+  tls:
+    insecureSkipVerify: true
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: files
+  namespace: default
+spec:
+  targetRefs:
+    - group: gateway.envoyproxy.io
+      kind: Backend
+      name: files-backend
+  validation:
+    wellKnownCACertificates: "System"
+    hostname: files.garb.dev
+  options:
+    minVersion: "1.2"
+    maxVersion: "1.3"

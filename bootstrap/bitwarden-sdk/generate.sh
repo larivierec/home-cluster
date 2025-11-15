@@ -1,6 +1,6 @@
 set -euo pipefail
 
-export WORKDIR="/Users/christopher/personal-code/home-cluster/bitwarden/.certificate"; mkdir -p "$WORKDIR"
+export WORKDIR="/Users/christopher/personal-code/home-cluster/bootstrap/bitwarden-sdk/.certificate"; mkdir -p "$WORKDIR"
 
 # CA OpenSSL config (v3_ca extensions)
 cat > "$WORKDIR/openssl_ca.cnf" <<'EOF'
@@ -9,7 +9,7 @@ distinguished_name = req_distinguished_name
 prompt = no
 
 [req_distinguished_name]
-CN = home-cluster CA
+CN = garb.dev CA
 
 [v3_ca]
 subjectKeyIdentifier=hash
@@ -33,6 +33,7 @@ subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = bw.garb.dev
+DNS.2 = bw.networking.svc.cluster.local
 
 [server_cert]
 subjectKeyIdentifier=hash
@@ -60,8 +61,10 @@ subjectAltName = @alt_names
 DNS.1 = bw.garb.dev
 DNS.2 = external-secrets.kube-system.svc.cluster.local
 DNS.3 = localhost
+DNS.4 = bw.networking.svc.cluster.local
 IP.1 = 127.0.0.1
 IP.2 = ::1
+
 
 [server_cert]
 subjectKeyIdentifier=hash

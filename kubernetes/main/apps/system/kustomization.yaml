@@ -10,5 +10,4 @@ resources:
   - ./reflector/ks.yaml
   - ./spegel/ks.yaml
   - ./stakater/ks.yaml
-  - ./unifi/ks.yaml
   - ./vaultwarden/ks.yaml

@@ -1,0 +1,42 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: s3-api-route
+  namespace: default
+spec:
+  hostnames:
+    - s3.garb.dev
+  parentRefs:
+    - name: envoy-internal
+      namespace: networking
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: rustfs-api
+          port: 9000
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: s3-web-route
+  namespace: default
+spec:
+  hostnames:
+    - rustfs.garb.dev
+  parentRefs:
+    - name: envoy-internal
+      namespace: networking
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: rustfs-web
+          port: 9001

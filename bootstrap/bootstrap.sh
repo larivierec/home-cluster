@@ -43,6 +43,14 @@ kubectl -n kube-system create secret generic bitwarden-css-certs \
   --from-file=tls.key="$CERT_DIR/pod.key" \
   --from-file=ca.crt="$CERT_DIR/ca.crt" -o yaml | kubectl apply -f -
 
+echo "Annotating secret 'bitwarden-css-certs' with reflector settings"
+kubectl -n kube-system annotate secret bitwarden-css-certs \
+  reflector.v1.k8s.emberstack.com/reflection-allowed="true" \
+  reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces="networking" \
+  reflector.v1.k8s.emberstack.com/reflection-auto-enabled="true" \
+  reflector.v1.k8s.emberstack.com/reflection-auto-namespaces="networking" \
+  --overwrite
+
 echo "Applying encrypted Flux secrets (sops -> kubectl)"
 for name in age-key github-deploy-key github-app; do
   src="$REPO_ROOT/bootstrap/flux/${name}.yaml"
