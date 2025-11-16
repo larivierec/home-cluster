@@ -25,7 +25,6 @@ resources:
   - ./harbor.yaml
   - ./home-operations.yaml
   - ./indeed-eng.yaml
-  - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./intel-oci.yaml
   - ./jetstack.yaml
