@@ -6,6 +6,7 @@ namespace: kube-system
 resources:
   - ./helm-release.yaml
   - ./bgpv2.yaml
+  - ./route.yaml
 configMapGenerator:
   - name: cilium-helm-values
     namespace: kube-system
