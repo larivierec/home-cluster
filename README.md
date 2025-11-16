@@ -32,43 +32,66 @@
 
 ---
 
-# Kubernetes with Talos
+# Overview
 
-# Networking
+A monorepo that collects the pieces needed to run my homelab Kubernetes cluster and services. It contains infrastructure, cluster manifests, helper scripts and small service projects (for example the Bitwarden SDK server and a Rust connector). The repo is organized to keep infra, apps and bootstrap tooling together so a single place holds the canonical manifests and generation scripts.
 
-### Notes
+## High level
 
-#### Cilium CNI
+- Monorepo: infra, Kubernetes manifests, bootstrap helpers and service code live together.
+- Goal: reproducible, git-driven cluster configuration (Flux + sops) with a small Bootstrap helper to generate local TLS material and secrets.
+- Primary features used: Cilium for networking, Gateway API driven by Envoy (envoy-gateway) for ingress & edge, and the Bitwarden SDK as an out‑of‑cluster secrets provider.
 
-Be sure to set the Pod CIDR to the one you have chosen if you aren't using the Talos default. `10.42.0.0/16`
-Otherwise, you will more than likely have issues.
+## Kubernetes
 
-#### Gateway API
+### Core components
 
-Ingress and Gateway API can co-exist.
-Keep in mind, the DNS must simply be unique.
+- Kubernetes manifests
+	- Path: `kubernetes/main/...` — apps and components are organized per-namespace and per-app.
+	- Flux and GitOps friendly YAML layout (Flux will pick manifests from the cluster repo).
 
-You'll notice in my repo most of my external/internal services have both route and ingress.
-I've noticed after using Gateway-API extensively with Cilium that it is not stable enough, and therefore, opted to use envoy's implementation.
+- Networking: Cilium
+	- Cluster CNI: Cilium handles L3/L4 networking, policy and load-balancing.
 
-So far, it's probably one of the best Gateway API implementation that i've used.
+- Ingress / edge: Gateway API + Envoy (envoy-gateway)
+	- Gateway resources live under `kubernetes/main/apps/networking/gateway/envoy/manifests`.
+	- Uses Gateway API (Gateway, HTTPRoute, Backend, BackendTLSPolicy, BackendTrafficPolicy, ClientTrafficPolicy) to explicitly configure client TLS and upstream TLS.
 
-#### Ingress
+- Secrets & Secrets provider
+	- ExternalSecrets configuration lives under `kubernetes/main/apps/kube-system/external-secrets/...`.
+	- A ClusterSecretStore is configured to use the Bitwarden SDK provider; the provider typically talks to `bw.garb.dev` (or an in-cluster service).
 
-For ingress controller we need to add this in order to get proper ip address from Cloudflare LB @ L7.
+### Bitwarden SDK / secrets flow (out-of-cluster mode)
 
-```yaml
-data:
-  use-forwarded-headers: "true"
-  forwarded-for-header: "CF-Connecting-IP"
+- The external-secrets provider can be run outside the cluster (e.g., on your NAS) or inside.
+- The ClusterSecretStore config points at the SDK server URL and a `caProvider` secret used to validate the server certificate:
+	- File: `kubernetes/main/apps/kube-system/external-secrets/stores/secret-store.yaml`
+	- Common gotcha: When the provider runs outside the cluster, it must trust the CA that issued the server cert (or you must use an in-cluster service URL instead).
+
+### TLS, certificates and common pitfalls
+
+- Two separate TLS problems commonly show up:
+	1. Client TLS (client → Gateway): configure the Gateway listener with `certificateRefs` pointing at a TLS secret in the Gateway's namespace (e.g., `networking`).
+	2. Upstream TLS (Gateway/Envoy → backend): configure `Backend` and `BackendTLSPolicy` to instruct Envoy how to speak TLS to upstream services: trust/CA, SNI/hostname, min/max TLS versions. Secrets referenced for upstream trust must be accessible to the Gateway/controller namespace.
+
+### Where to look (quick map)
+- Bootstrap / cert generation
+	- `bootstrap/bitwarden-sdk/generate.sh`
+	- `bootstrap/bootstrap.sh` (creates `bitwarden-css-certs` secret and optionally annotates it)
+
+- Gateway (Envoy)
+	- `kubernetes/main/apps/networking/gateway/envoy/manifests/gateway.yaml`
+	- `kubernetes/main/apps/networking/gateway/envoy/manifests/backend-policy.yaml`
+
+- ExternalSecrets store
+	- `kubernetes/main/apps/kube-system/external-secrets/stores/secret-store.yaml`
+
+### Quick commands
+- Regenerate certs and update secret:
+```bash
+bash bootstrap/bitwarden-sdk/generate.sh
+bash bootstrap/bootstrap.sh
 ```
-
-SOPS is only used to create the helm-release required for bitwarden and external-secrets.
-Previously, it was used throughout the repository however, with external-secrets, bitwarden-sdk, we're able to remove this dependency slightly.
-
-External-Secrets uses bitwarden container to retrieve my bitwarden secrets and creates kubernetes secrets with them.
-
-Also keep in mind, that since the bitwarden container exposes your bitwarden vault, it's good practice to limit who can communicate with it. See the network policy at `kubernetes/main/apps/kube-system/external-secrets/app/network-policy.yaml`
 
 # Nodes/Hardware
 
@@ -81,7 +104,7 @@ Also keep in mind, that since the bitwarden container exposes your bitwarden vau
 | Unifi Enterprise 24 PoE   | 1     |            -            | -                           |  -   |                  | Switch               |
 | Unifi Flex 2.5G PoE       | 1     |            -            | -                           |  -   |                  | Switch               |
 | Unifi Flex 2.5G Mini      | 1     |            -            | -                           |  -   |                  | Switch               |
-| Unifi PDU Pro             | 1     |            -            | -                           |  -   |                  | Power Delivery       ||
+| Unifi PDU Pro             | 1     |            -            | -                           |  -   |                  | Power Delivery       |
 
 ---
 
