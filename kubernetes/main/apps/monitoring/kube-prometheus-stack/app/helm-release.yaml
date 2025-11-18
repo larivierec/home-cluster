@@ -134,17 +134,6 @@ spec:
             - name: envoy-internal
               namespace: networking
               sectionName: https
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
-      thanosServiceExternal:
-        enabled: true
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: thanos-svc.garb.dev
-          lbipam.cilium.io/ips: 192.168.40.12
-        externalTrafficPolicy: Cluster
       prometheusSpec:
         replicas: 2
         podAntiAffinity: hard
@@ -157,21 +146,8 @@ spec:
         probeSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
+        serviceDiscoveryRole: EndpointSlice
         enableFeatures:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        thanos:
-          image: quay.io/thanos/thanos:v0.40.1
-          objectStorageConfig:
-            name: thanos-objstore-secret
-            key: objstore.yml
-          retention: 2d
-          retentionSize: 15GB
-          storageSpec:
-            volumeClaimTemplate:
-              spec:
-                storageClassName: local-hostpath
-                resources:
-                  requests:
-                    storage: 20Gi

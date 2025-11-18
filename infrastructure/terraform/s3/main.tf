@@ -41,7 +41,6 @@ module "cloudflare" {
 # locals {
 #   buckets = [
 #     "pgsql",
-#     "thanos",
 #     "volsync",
 #   ]
 # }
