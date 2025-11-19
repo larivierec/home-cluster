@@ -3,11 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: jellyseerr
+  name: seerr
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/default/jellyseerr/app"
+  path: "./kubernetes/main/apps/default/seerr/app"
   prune: true
   sourceRef:
     kind: GitRepository

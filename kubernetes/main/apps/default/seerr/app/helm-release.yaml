@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app jellyseerr
+  name: &app seerr
   namespace: default
 spec:
   interval: 5m
@@ -27,13 +27,13 @@ spec:
       retries: 3
   values:
     controllers:
-      jellyseerr:
+      seerr:
         strategy: Recreate
         containers:
           app:
             image:
-              repository: ghcr.io/fallenbagel/jellyseerr
-              tag: 2.7.3@sha256:9cc9e9ee6cd5cf5a23feb45c37742ba34cfd6314d81d259cddb373a97ac92cdd
+              repository: ghcr.io/seerr-team/seerr
+              tag: develop
             env:
               env:
               TZ: America/New_York
@@ -95,6 +95,22 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: dummy
           external-dns.alpha.kubernetes.io/hostname: &host overseerr.garb.dev
+          external-dns.alpha.kubernetes.io/ttl: "120"
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - *host
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      request:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: dummy
+          external-dns.alpha.kubernetes.io/hostname: &host requests.garb.dev
           external-dns.alpha.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
