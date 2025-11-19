@@ -7,4 +7,3 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./change-detection/ks.yaml
-  - ./gift-manager/ks.yaml
