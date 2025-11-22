@@ -47,7 +47,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-assistant/home-assistant
+              repository: ghcr.io/home-operations/home-assistant
               tag: 2025.11.3
             env:
               TZ: "UTC"
@@ -61,6 +61,12 @@ spec:
                 enabled: false
               startup:
                 enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+                add: ["NET_RAW", "NET_ADMIN", "NET_BROADCAST"]
           code-server:
             image:
               repository: ghcr.io/coder/code-server
@@ -82,6 +88,13 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 140
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: *app
@@ -121,6 +134,19 @@ spec:
         existingClaim: config-home-assistant-0
         globalMounts:
           - path: /config
+            readOnly: false
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      tts:
+        type: emptyDir
+        globalMounts:
+          - path: /config/tts
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
             readOnly: false
     metrics:
       enabled: true

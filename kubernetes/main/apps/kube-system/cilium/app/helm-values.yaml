@@ -11,12 +11,16 @@ bandwidthManager:
   bbr: true
 bpf:
   masquerade: true
+  preallocateMaps: true
+  tproxy: true
+  datapathMode: netkit
 cgroup:
   hostRoot: /sys/fs/cgroup
   autoMount:
     enabled: false
 cni:
   exclusive: false
+devices: bond+
 enableIPv4BIGTCP: true
 ingressController:
   enabled: false
@@ -44,6 +48,7 @@ operator:
   rollOutPods: true
 prometheus:
   enabled: true
+  trustCRDsExist: true
 rollOutCiliumPods: true
 securityContext:
   privileged: true
@@ -66,3 +71,6 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+socketLB:
+  enabled: true
+  hostNamespaceOnly: true
