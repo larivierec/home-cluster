@@ -120,6 +120,10 @@ spec:
               resources: ["statefulsets"]
               verbs:
                 ["create", "delete", "get", "list", "patch", "update", "watch"]
+            - apiGroups: ["policy"]
+              resources: ["poddisruptionbudgets"]
+              verbs:
+                ["create", "delete", "get", "list", "patch", "update", "watch"]
             - apiGroups: ["dragonflydb.io"]
               resources: ["dragonflies"]
               verbs:
