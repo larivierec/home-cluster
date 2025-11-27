@@ -36,14 +36,12 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.garb.dev"
       allowedRoutes:
         namespaces:
           from: All
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.garb.dev"
       allowedRoutes:
         namespaces:
           from: All
@@ -78,14 +76,12 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.garb.dev"
       allowedRoutes:
         namespaces:
           from: All
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.garb.dev"
       allowedRoutes:
         namespaces:
           from: All
