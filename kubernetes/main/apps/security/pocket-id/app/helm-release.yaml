@@ -49,7 +49,7 @@ spec:
               ANALYTICS_DISABLED: true
               METRICS_ENABLED: true
               OTEL_METRICS_EXPORTER: prometheus
-              OTEL_EXPORTER_PROMETHEUS_HOST: localhost
+              OTEL_EXPORTER_PROMETHEUS_HOST: 0.0.0.0
               OTEL_EXPORTER_PROMETHEUS_PORT: &metricsPort 9464
               TRUST_PROXY: true
               TZ: America/New_York
