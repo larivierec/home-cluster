@@ -36,7 +36,7 @@ spec:
               - secretRef:
                   name: postgres-pocket-id
         containers:
-          pocket-id:
+          app:
             image:
               repository: ghcr.io/pocket-id/pocket-id
               tag: v1.15.0@sha256:92a5624ea14dc96e91ef236950d4d858e97119ce811075648ffd8343e364735d
@@ -46,7 +46,11 @@ spec:
               ENCRYPTION_KEY_FILE: /encryption/ENCRYPTION_KEY
               KEYS_PATH: /data/keys
               UPLOAD_PATH: /data/uploads
-              METRICS_ENABLED: "true"
+              ANALYTICS_DISABLED: true
+              METRICS_ENABLED: true
+              OTEL_METRICS_EXPORTER: prometheus
+              OTEL_EXPORTER_PROMETHEUS_HOST: localhost
+              OTEL_EXPORTER_PROMETHEUS_PORT: &metricsPort 9464
               TRUST_PROXY: true
               TZ: America/New_York
             envFrom: *envFrom
@@ -71,7 +75,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [100]
     route:
-      pocket-id:
+      app:
         hostnames:
           - oidc.garb.dev
         parentRefs:
@@ -82,11 +86,22 @@ spec:
               - port: *port
                 name: *app
     service:
-      pocket-id:
+      app:
         controller: *app
         ports:
           http:
             port: *port
+          metrics:
+            port: *metricsPort
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
     persistence:
       data:
         existingClaim: pocket-id-0
