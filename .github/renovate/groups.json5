@@ -71,7 +71,7 @@
       matchPackagePatterns: [
         "^gateway-api$",
       ],
-      matchDatasources: ["docker", "github-releases"],
+      matchDatasources: ["docker", "github-tags", "github-releases"],
       group: {
         commitMessageTopic: "{{{groupName}}} group"
       }
