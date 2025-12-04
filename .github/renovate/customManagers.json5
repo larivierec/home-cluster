@@ -6,7 +6,7 @@
       "description": ["Process custom dependencies"],
       "fileMatch": [
         "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$",
-        "(^|/)bootstrap/.+\\.ya?ml(?:\\.j2)?$"
+        "(^|/)talos/.+\\.ya?ml(?:\\.j2)?$"
       ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)",
