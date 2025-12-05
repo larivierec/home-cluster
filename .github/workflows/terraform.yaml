@@ -112,7 +112,7 @@ jobs:
           echo "${{ steps.decode.outputs.masked-age }}" > "$HOME/.config/sops/age/keys.txt"
 
       - name: Generate Token
-        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2
         id: app-token
         with:
           app-id: ${{ steps.parse-secrets.outputs.bot_app_id }}
@@ -222,7 +222,7 @@ jobs:
           echo "${{ steps.decode.outputs.masked-age }}" > "$HOME/.config/sops/age/keys.txt"
 
       - name: Generate Token
-        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2
         id: app-token
         with:
           app-id: ${{ steps.parse-secrets.outputs.bot_app_id }}
