@@ -15,7 +15,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: garb-arc-runner
-    namespace: actions-runner-system
+    namespace: arc-system
 ---
 apiVersion: talos.dev/v1alpha1
 kind: ServiceAccount

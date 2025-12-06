@@ -41,7 +41,7 @@ spec:
     runnerScaleSetName: garb-arc-runner-set
     githubConfigUrl: https://github.com/larivierec/home-cluster
     minRunners: 1
-    maxRunners: 3
+    maxRunners: 5
     containerMode:
       type: kubernetes
       kubernetesModeWorkVolumeClaim:
@@ -53,6 +53,10 @@ spec:
             storage: 25Gi
     template:
       spec:
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 123
+          fsGroup: 123
         containers:
           - name: runner
             image: ghcr.io/home-operations/actions-runner:2.330.0@sha256:92a45e47f4b349f4da2307ebaaea5443cc86d1ce625d37acf2c61b3b09192e47
@@ -65,6 +69,13 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: status.hostIP
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 123
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
             volumeMounts:
               - mountPath: /var/run/secrets/talos.dev
                 name: talos

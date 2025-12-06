@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket       = "terraform"
-    key          = "tailscale/tailscale.tfstate"
-    region       = "main"
-    
+    bucket = "terraform"
+    key    = "tailscale/tailscale.tfstate"
+    region = "main"
+
 
     endpoints = {
       s3 = "https://s3.garb.dev"
