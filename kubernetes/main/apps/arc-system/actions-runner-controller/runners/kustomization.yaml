@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: arc-system
 resources:
   - ./helm-release.yaml
+  - ./rbac.yaml

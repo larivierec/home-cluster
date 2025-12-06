@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: runner-home-cluster
+  name: &name runner-home-cluster
   namespace: arc-system
 spec:
   interval: 30m
@@ -41,15 +41,39 @@ spec:
     runnerScaleSetName: garb-arc-runner-set
     githubConfigUrl: https://github.com/larivierec/home-cluster
     minRunners: 1
-    maxRunners: 10
+    maxRunners: 3
     containerMode:
-      type: dind
+      type: kubernetes
+      kubernetesModeWorkVolumeClaim:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: local-hostpath
+        resources:
+          requests:
+            storage: 25Gi
     template:
       spec:
         containers:
           - name: runner
             image: ghcr.io/home-operations/actions-runner:2.330.0@sha256:92a45e47f4b349f4da2307ebaaea5443cc86d1ce625d37acf2c61b3b09192e47
-            command: ["/home/runner/run.sh"]
+            command:
+              - /home/runner/run.sh
+            env:
+              - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+                value: "false"
+              - name: NODE
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.hostIP
+            volumeMounts:
+              - mountPath: /var/run/secrets/talos.dev
+                name: talos
+                readOnly: true
+        serviceAccountName: garb-arc-runner
+        volumes:
+          - name: talos
+            secret:
+              secretName: actions-runner-controller-auth
     controllerServiceAccount:
       name: gha-runner-scale-set-controller
       namespace: arc-system
