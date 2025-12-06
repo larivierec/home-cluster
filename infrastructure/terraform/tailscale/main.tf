@@ -2,11 +2,6 @@ data "sops_file" "this" {
   source_file = "secrets.sops.yaml"
 }
 
-data "tailscale_device" "k8s-gateway" {
-  hostname = "tailscale-k8s-gateway"
-  wait_for = "60s"
-}
-
 data "tailscale_device" "apple-tv" {
   hostname = "apple-tv"
   wait_for = "30s"
@@ -65,9 +60,9 @@ resource "tailscale_acl" "account_acl" {
     ],
     "autoApprovers" : {
       "routes" : {
-        "192.168.0.0/16" : [local.tailscale_secret["email"], "tag:cluster-node", "tag:node", "tag:k8s-operator", "tag:k8s"],
+        "192.168.0.0/16" : [local.tailscale_secret["email"], "tag:node", "tag:k8s-operator", "tag:k8s"],
       },
-      "exitNode" : ["tag:node", "tag:cluster-node", "tag:k8s-operator", "tag:k8s"],
+      "exitNode" : ["tag:node", "tag:k8s-operator", "tag:k8s"],
     },
 
     "ssh" : [
@@ -81,9 +76,8 @@ resource "tailscale_acl" "account_acl" {
 
     "tagOwners" : {
       "tag:node" : [local.tailscale_secret["email"]],
-      "tag:cluster-node" : [local.tailscale_secret["email"]],
-      "tag:k8s-operator" : [local.tailscale_secret["email"]],
-      "tag:k8s" : [local.tailscale_secret["email"]],
+      "tag:k8s-operator" : [],
+      "tag:k8s" : ["tag:k8s-operator"],
     },
   })
 }
