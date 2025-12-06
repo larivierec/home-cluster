@@ -65,9 +65,9 @@ resource "tailscale_acl" "account_acl" {
     ],
     "autoApprovers" : {
       "routes" : {
-        "192.168.0.0/16" : [local.tailscale_secret["email"], "tag:cluster-node", "tag:node"],
+        "192.168.0.0/16" : [local.tailscale_secret["email"], "tag:cluster-node", "tag:node", "tag:k8s-operator", "tag:k8s"],
       },
-      "exitNode" : ["tag:node", "tag:cluster-node"],
+      "exitNode" : ["tag:node", "tag:cluster-node", "tag:k8s-operator", "tag:k8s"],
     },
 
     "ssh" : [
@@ -82,6 +82,8 @@ resource "tailscale_acl" "account_acl" {
     "tagOwners" : {
       "tag:node" : [local.tailscale_secret["email"]],
       "tag:cluster-node" : [local.tailscale_secret["email"]],
+      "tag:k8s-operator" : [local.tailscale_secret["email"]],
+      "tag:k8s" : [local.tailscale_secret["email"]],
     },
   })
 }

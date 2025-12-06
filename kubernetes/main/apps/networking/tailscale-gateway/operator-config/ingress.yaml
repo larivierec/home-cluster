@@ -1,0 +1,10 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: ingress
+spec:
+  appConnector:
+    routes:
+      - 192.168.0.0/16
+  replicas: 2

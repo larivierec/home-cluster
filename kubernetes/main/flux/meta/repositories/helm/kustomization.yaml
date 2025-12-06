@@ -24,6 +24,7 @@ resources:
   - ./grafana.yaml
   - ./harbor.yaml
   - ./home-operations.yaml
+  - ./home-ops-mirror.yaml
   - ./indeed-eng.yaml
   - ./intel.yaml
   - ./intel-oci.yaml
