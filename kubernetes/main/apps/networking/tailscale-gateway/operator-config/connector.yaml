@@ -2,9 +2,11 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ingress
+  name: connector
 spec:
-  appConnector:
-    routes:
+  hostnamePrefix: cluster
+  subnetRouter:
+    advertiseRoutes:
       - 192.168.0.0/16
+  exitNode: true
   replicas: 2

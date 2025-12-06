@@ -30,5 +30,8 @@ spec:
       secret:
         secretName: &secret tailscale-operator
     operatorConfig:
+      podLabels:
+        app.kubernetes.io/name: *app
+        app.kubernetes.io/instance: *app
       podAnnotations:
         secret.reloader.stakater.com/reload: *secret
