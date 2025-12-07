@@ -16,11 +16,3 @@ subjects:
   - kind: ServiceAccount
     name: garb-arc-runner
     namespace: arc-system
----
-apiVersion: talos.dev/v1alpha1
-kind: ServiceAccount
-metadata:
-  name: garb-arc-runner
-spec:
-  roles:
-    - os:admin
