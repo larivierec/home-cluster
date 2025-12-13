@@ -1,6 +1,6 @@
 services:
   bitwarden-sdk-server:
-    image: ghcr.io/external-secrets/bitwarden-sdk-server:v0.5.1
+    image: ghcr.io/external-secrets/bitwarden-sdk-server:v0.5.2
     container_name: bitwarden-sdk-server
     ports:
       - "9998:9998"
