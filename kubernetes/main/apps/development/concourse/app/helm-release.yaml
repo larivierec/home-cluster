@@ -6,6 +6,7 @@ metadata:
   namespace: development
 spec:
   interval: 5m
+  suspend: true
   chart:
     spec:
       chart: concourse
@@ -62,6 +63,12 @@ spec:
             localUser: concourse
         postgres:
           port: 5432
+        databaseInitContainers:
+          - name: init-db
+            image: ghcr.io/home-operations/postgres-init:18.1
+            envFrom:
+              - secretRef:
+                  name: postgres-concourse
     persistence:
       worker:
         storageClass: ceph-block
@@ -75,12 +82,6 @@ spec:
           sectionName: https
       hostnames:
         - concourse.garb.dev
-      databaseInitContainers:
-        - name: init-db
-          image: ghcr.io/home-operations/postgres-init:18.1
-          envFrom:
-            - secretRef:
-                name: postgres-concourse
     worker:
       replicas: 2
       minAvailable: 0
