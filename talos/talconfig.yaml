@@ -25,12 +25,16 @@ nodes:
       size: ">= 500GB"
       model: "Samsung SSD 990 PRO 1TB"
     controlPlane: true
+    machineSpec:
+      mode: metal
+      arch: amd64
+      useUKI: false
     networkInterfaces:
       - interface: bond0
         bond:
-          deviceSelectors:
-            - hardwareAddr: 58:47:ca:76:9c:*
-              driver: i40e
+          interfaces:
+            - enp2s0f0np0
+            - enp2s0f1np1
           mode: 802.3ad
           lacpRate: fast
           xmitHashPolicy: layer3+4
@@ -47,12 +51,16 @@ nodes:
       size: ">= 500GB"
       model: "Sabrent Rocket Q4"
     controlPlane: true
+    machineSpec:
+      mode: metal
+      arch: amd64
+      useUKI: false
     networkInterfaces:
       - interface: bond0
         bond:
-          deviceSelectors:
-            - hardwareAddr: 58:47:ca:74:f1:*
-              driver: i40e
+          interfaces:
+            - enp2s0f0np0
+            - enp2s0f1np1
           mode: 802.3ad
           lacpRate: fast
           xmitHashPolicy: layer3+4
@@ -69,12 +77,16 @@ nodes:
       size: ">= 500GB"
       model: "Samsung SSD 990 PRO 1TB"
     controlPlane: true
+    machineSpec:
+      mode: metal
+      arch: amd64
+      useUKI: false
     networkInterfaces:
       - interface: bond0
         bond:
-          deviceSelectors:
-            - hardwareAddr: 58:47:ca:77:eb:*
-              driver: i40e
+          interfaces:
+            - enp2s0f0np0
+            - enp2s0f1np1
           mode: 802.3ad
           lacpRate: fast
           xmitHashPolicy: layer3+4
@@ -86,7 +98,6 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
 patches:
-  # Configure containerd
   - |
     machine:
       files:
@@ -99,10 +110,6 @@ patches:
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
 
-  # Configure NFS Mounts
-  - &nfs |
-    machine:
-      files:
         - op: overwrite
           path: /etc/nfsmount.conf
           permissions: 420
@@ -117,7 +124,7 @@ patches:
               nconnect = 8
 
   # Disable search domain everywhere
-  - &domainSearch |-
+  - |-
     machine:
       network:
         disableSearchDomain: true
@@ -143,8 +150,6 @@ patches:
     machine:
       kubelet:
         extraConfig:
-          featureGates:
-            ImageVolume: true
           serializeImagePulls: false
         extraArgs:
           image-gc-low-threshold: 50
@@ -155,7 +160,7 @@ patches:
             - 192.168.60.0/24
 
   # Custom sysctl settings
-  - &sysctls |-
+  - |-
     machine:
       sysctls:
         fs.inotify.max_queued_events: "65536"
@@ -163,14 +168,6 @@ patches:
         fs.inotify.max_user_instances: "8192"
         net.core.rmem_max: "7500000"
         net.core.wmem_max: "7500000"
-
-  # Disable predictable NIC naming
-  - &nics |-
-    machine:
-      install:
-        extraKernelArgs:
-          - -selinux
-          - net.ifnames=0
 
 controlPlane:
   nodeLabels:
@@ -183,6 +180,8 @@ controlPlane:
         - intel_iommu=on
         - iommu=pt
         - mitigations=off
+        - -selinux
+        - net.ifnames=0
       systemExtensions:
         officialExtensions:
           - siderolabs/gasket-driver
@@ -197,8 +196,12 @@ controlPlane:
       cluster:
         allowSchedulingOnMasters: true
         apiServer:
+          disablePodSecurityPolicy: true
+          admissionControl:
+            - name: PodSecurity
+              $$patch: delete
           extraArgs:
-            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
+            feature-gates: MutatingAdmissionPolicy=true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
         controllerManager:
           extraArgs:
@@ -219,11 +222,6 @@ controlPlane:
             listen-metrics-urls: http://0.0.0.0:2381
           advertisedSubnets:
             - 192.168.60.0/24
-
-    # Disable default API server admission plugins.
-    - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
 
     # Enable K8s Talos API Access
     - |-
