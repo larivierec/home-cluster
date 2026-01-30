@@ -13,7 +13,6 @@ resources:
   - ./cloudnative-pg.yaml
   - ./controlplaneio.yaml
   - ./coredns.yaml
-  - ./dashboard.yaml
   - ./democratic-csi.yaml
   - ./descheduler.yaml
   - ./emberstack.yaml
@@ -37,6 +36,4 @@ resources:
   - ./rook-ceph.yaml
   - ./spegel.yaml
   - ./stakater.yaml
-  - ./stevehipwell.yaml
-  - ./tofu-controller.yaml
   - ./victoria-logs.yaml
