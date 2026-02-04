@@ -12,7 +12,6 @@ bandwidthManager:
 bpf:
   masquerade: true
   preallocateMaps: true
-  tproxy: true
   datapathMode: netkit
 cgroup:
   hostRoot: /sys/fs/cgroup
