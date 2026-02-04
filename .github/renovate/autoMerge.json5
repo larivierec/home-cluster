@@ -17,9 +17,9 @@
       matchPackageNames: [
         "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
-        "ghcr.io/larivierec/tf-runner",
         "ghcr.io/home-operations/sonarr",
-        "ghcr.io/home-operations/radarr"
+        "ghcr.io/home-operations/radarr",
+        "ghcr.io/seerr-team/seerr"
       ]
     },
   ]
