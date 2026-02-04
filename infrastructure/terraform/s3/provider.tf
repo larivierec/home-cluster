@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket       = "terraform"
-    key          = "s3/s3.tfstate"
-    region       = "main"
-    
+    bucket = "terraform"
+    key    = "s3/s3.tfstate"
+    region = "main"
+
 
     endpoints = {
       s3 = "https://s3.garb.dev"
@@ -33,22 +33,18 @@ terraform {
 }
 
 provider "bitwarden" {
-  alias           = "legacy"
-  master_password = data.sops_file.this.data["SECRET_PASSWORD"]
-  client_id       = data.sops_file.this.data["SECRET_CLIENT_ID"]
-  client_secret   = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
-  email           = data.sops_file.this.data["SECRET_EMAIL"]
-  server          = "https://vault.bitwarden.com"
-  experimental {
-    embedded_client = true
-  }
+  alias                 = "legacy"
+  master_password       = data.sops_file.this.data["SECRET_PASSWORD"]
+  client_id             = data.sops_file.this.data["SECRET_CLIENT_ID"]
+  client_secret         = data.sops_file.this.data["SECRET_CLIENT_SECRET"]
+  email                 = data.sops_file.this.data["SECRET_EMAIL"]
+  server                = "https://vault.bitwarden.com"
+  client_implementation = "embedded"
 }
 
 provider "bitwarden" {
-  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  experimental {
-    embedded_client = true
-  }
+  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
+  client_implementation = "embedded"
 }
 
 provider "cloudflare" {

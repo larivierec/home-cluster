@@ -16,7 +16,7 @@ module "dns_records" {
   cname_records = {
     "sig1._domainkey" = { cname = nonsensitive(local.secrets["DOMAIN_KEY_APPLE"]), ttl = "3600", proxied = false },
     "www"             = { cname = "garb.dev", ttl = "1", proxied = true }
-    "wg"              = { cname = "ipv4.garb.dev", ttl = "1", proxied = false }
+    "wg"              = { cname = "ip.garb.dev", ttl = "1", proxied = false }
   }
 
   mx_records = {
@@ -40,4 +40,9 @@ module "dns_records" {
 
 data "sops_file" "this" {
   source_file = "secrets.sops.yaml"
+}
+
+import {
+  id = "74f896578568875d67af7c4fb1a0442d/4045190170969c124db3966024205f1c"
+  to = module.dns_records.cloudflare_dns_record.cname["74f896578568875d67af7c4fb1a0442d_wg_CNAME"]
 }

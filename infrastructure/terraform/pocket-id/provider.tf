@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket       = "terraform"
-    key          = "pocket-id/state.tfstate"
-    region       = "main"
-    
+    bucket = "terraform"
+    key    = "pocket-id/state.tfstate"
+    region = "main"
+
 
     endpoints = {
       s3 = "https://s3.garb.dev"
@@ -26,17 +26,15 @@ terraform {
       version = "0.17.2"
     }
     pocketid = {
-      source = "Trozz/pocketid"
+      source  = "Trozz/pocketid"
       version = "0.1.7"
     }
   }
 }
 
 provider "bitwarden" {
-  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  experimental {
-    embedded_client = true
-  }
+  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
+  client_implementation = "embedded"
 }
 
 data "bitwarden_secret" "pocketid" {
@@ -44,8 +42,8 @@ data "bitwarden_secret" "pocketid" {
 }
 
 provider "pocketid" {
-  base_url = "https://oidc.garb.dev"
-  api_token  = local.pocketid_secrets["api_key"]
+  base_url  = "https://oidc.garb.dev"
+  api_token = local.pocketid_secrets["api_key"]
 }
 
 locals {

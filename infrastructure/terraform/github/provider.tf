@@ -3,10 +3,8 @@ provider "github" {
 }
 
 provider "bitwarden" {
-  access_token = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  experimental {
-    embedded_client = true
-  }
+  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
+  client_implementation = "embedded"
 }
 
 data "bitwarden_secret" "this" {
