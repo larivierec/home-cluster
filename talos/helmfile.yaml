@@ -50,7 +50,7 @@ releases:
   - name: external-secrets
     namespace: kube-system
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 1.3.2
+    version: 2.0.0
     values:
       - ../../kubernetes/main/apps/kube-system/external-secrets/app/helm-values.yaml
     needs:
