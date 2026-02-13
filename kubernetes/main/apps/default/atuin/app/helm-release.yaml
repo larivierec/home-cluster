@@ -34,7 +34,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.1
+              tag: 18.2
             envFrom: &envFrom
               - secretRef:
                   name: postgres-atuin
