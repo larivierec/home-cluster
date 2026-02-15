@@ -6,7 +6,7 @@ terraform {
 
 
     endpoints = {
-      s3 = "https://s3.garb.dev"
+      s3 = "http://192.168.1.3:9000"
     }
 
     skip_credentials_validation = true
@@ -27,7 +27,7 @@ terraform {
     }
     tailscale = {
       source  = "tailscale/tailscale"
-      version = "0.26.0"
+      version = "0.27.0"
     }
   }
 }

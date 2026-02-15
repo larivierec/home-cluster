@@ -4,9 +4,13 @@ terraform {
     key    = "cloudflare/cloudflare_v5.tfstate"
     region = "main"
 
+    # endpoints = {
+    #   s3 = "https://s3.garb.dev"
+    # }
 
+    // ref: https://github.com/hashicorp/terraform/issues/36412 and 
     endpoints = {
-      s3 = "https://s3.garb.dev"
+      s3 = "http://192.168.1.3:9000"
     }
 
     skip_credentials_validation = true
