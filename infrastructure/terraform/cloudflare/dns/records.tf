@@ -1,11 +1,13 @@
 locals {
   a_records = flatten([
-    for record, record_data in var.a_records : {
-      record  = record
-      proxied = record_data.proxied
-      ip      = record_data.ip
-      ttl     = record_data.ttl
-    }
+    for record, record_data in var.a_records : [
+      for ip in record_data.ips : {
+        record  = record
+        proxied = record_data.proxied
+        ip      = ip
+        ttl     = record_data.ttl
+      }
+    ]
   ])
 
   cname_records = flatten([
@@ -42,7 +44,7 @@ locals {
 }
 
 resource "cloudflare_dns_record" "a" {
-  for_each = { for data in local.a_records : "${var.zone.id}_${data.record}_A" => data }
+  for_each = { for data in local.a_records : "${var.zone.id}_${data.record}_${data.ip}_A" => data }
   zone_id  = var.zone.id
   name     = each.value.record
   type     = "A"

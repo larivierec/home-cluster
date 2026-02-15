@@ -10,12 +10,12 @@ module "dns_records" {
   }
 
   a_records = {
-    "garb.dev" = { ip = "192.0.2.1", ttl = "1", proxied = true }
+    "@" = { ips = ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"], ttl = "1", proxied = false }
   }
 
   cname_records = {
     "sig1._domainkey" = { cname = nonsensitive(local.secrets["DOMAIN_KEY_APPLE"]), ttl = "3600", proxied = false },
-    "www"             = { cname = "garb.dev", ttl = "1", proxied = true }
+    "www"             = { cname = "garb.dev", ttl = "1", proxied = false }
     "wg"              = { cname = "ip.garb.dev", ttl = "1", proxied = false }
   }
 
