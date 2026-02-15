@@ -5,8 +5,12 @@ terraform {
     region = "main"
 
 
+    # endpoints = {
+    #   s3 = "https://s3.garb.dev"
+    # }
+
     endpoints = {
-      s3 = "https://s3.garb.dev"
+      s3 = "http://192.168.1.3:9000"
     }
 
     skip_credentials_validation = true
