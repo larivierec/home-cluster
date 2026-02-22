@@ -33,9 +33,9 @@ terraform {
       source  = "carlpett/sops"
       version = "1.3.0"
     }
-    bitwarden = {
-      source  = "maxlaverse/bitwarden"
-      version = "0.17.3"
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "~> 3.2.1"
     }
   }
 }
@@ -45,15 +45,21 @@ provider "cloudflare" {
   api_key = local.secrets["api_key"]
 }
 
-provider "bitwarden" {
-  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  client_implementation = "embedded"
+provider "onepassword" {
+  service_account_token = data.sops_file.this.data["OP_SERVICE_ACCOUNT_TOKEN"]
 }
 
-data "bitwarden_secret" "cloudflare" {
-  key = "cloudflare"
+data "onepassword_item" "cloudflare" {
+  vault = "Homelab"
+  title = "cloudflare"
 }
 
 locals {
-  secrets = jsondecode(data.bitwarden_secret.cloudflare.value)
+  secrets = {
+    for field in [
+      for section in data.onepassword_item.cloudflare.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
 }

@@ -25,9 +25,9 @@ terraform {
       source  = "carlpett/sops"
       version = "1.3.0"
     }
-    bitwarden = {
-      source  = "maxlaverse/bitwarden"
-      version = "0.17.3"
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "~> 3.2.1"
     }
     pocketid = {
       source  = "Trozz/pocketid"
@@ -36,13 +36,13 @@ terraform {
   }
 }
 
-provider "bitwarden" {
-  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  client_implementation = "embedded"
+provider "onepassword" {
+  service_account_token = data.sops_file.this.data["OP_SERVICE_ACCOUNT_TOKEN"]
 }
 
-data "bitwarden_secret" "pocketid" {
-  key = "pocket-id"
+data "onepassword_item" "pocketid" {
+  vault = "Homelab"
+  title = "pocket-id"
 }
 
 provider "pocketid" {
@@ -51,5 +51,11 @@ provider "pocketid" {
 }
 
 locals {
-  pocketid_secrets = jsondecode(data.bitwarden_secret.pocketid.value)
+  pocketid_secrets = {
+    for field in [
+      for section in data.onepassword_item.pocketid.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
 }

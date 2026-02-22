@@ -3,21 +3,46 @@ data "sops_file" "this" {
 }
 
 module "pocketid" {
-  for_each = local.apps
-  source = "./app"
-  application = each.key
+  for_each      = local.apps
+  source        = "./app"
+  application   = each.key
   callback_urls = each.value.callback_urls
-  logout_urls = each.value.logout_callback_urls
-  is_public    = each.value.is_public
-  pkce_enabled = each.value.pkce_enabled
+  logout_urls   = each.value.logout_callback_urls
+  is_public     = each.value.is_public
+  pkce_enabled  = each.value.pkce_enabled
 }
 
-resource "bitwarden_secret" "this" {
-  for_each   = module.pocketid
-  key        = "pocketid_${each.key}"
-  project_id = data.sops_file.this.data["BW_PROJECT_ID"]
-  value      = jsonencode({ "client_id" : each.value.client_id, "client_secret" : each.value.client_secret })
-  note       = "infrastructure/terraform/pocket-id"
+data "onepassword_vault" "this" {
+  name = "Homelab"
+}
+
+resource "onepassword_item" "this" {
+  for_each = module.pocketid
+  vault    = data.onepassword_vault.this.uuid
+  title    = "pocketid_${each.key}"
+  category = "login"
+  section_map = {
+    "credentials" = {
+      field_map = {
+        "client_id" = {
+          type  = "STRING"
+          value = each.value.client_id
+        }
+        "client_secret" = {
+          type  = "CONCEALED"
+          value = each.value.client_secret
+        }
+      }
+    }
+    "metadata" = {
+      field_map = {
+        "source" = {
+          type  = "STRING"
+          value = "infrastructure/terraform/pocket-id"
+        }
+      }
+    }
+  }
 }
 
 locals {

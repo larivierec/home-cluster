@@ -2,20 +2,33 @@ provider "github" {
   token = local.github_secrets["pat"]
 }
 
-provider "bitwarden" {
-  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  client_implementation = "embedded"
+provider "onepassword" {
+  service_account_token = data.sops_file.this.data["OP_SERVICE_ACCOUNT_TOKEN"]
 }
 
-data "bitwarden_secret" "this" {
-  key = "actions_runner"
+data "onepassword_item" "actions_runner" {
+  vault = "Homelab"
+  title = "actions_runner"
 }
 
-data "bitwarden_secret" "github" {
-  key = "github"
+data "onepassword_item" "github" {
+  vault = "Homelab"
+  title = "github"
 }
 
 locals {
-  github_secrets = jsondecode(data.bitwarden_secret.github.value)
-  secrets        = jsondecode(data.bitwarden_secret.this.value)
+  github_secrets = {
+    for field in [
+      for section in data.onepassword_item.github.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
+  secrets = {
+    for field in [
+      for section in data.onepassword_item.actions_runner.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
 }

@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./secret.yaml
   - ./helm-release.yaml
-  - ./network-policy.yaml
 configMapGenerator:
   - name: external-secrets-helm-values
     namespace: kube-system

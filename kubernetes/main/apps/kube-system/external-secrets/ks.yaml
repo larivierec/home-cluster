@@ -21,6 +21,8 @@ spec:
     substituteFrom:
       - kind: Secret
         name: sops-bw-secrets
+      - kind: Secret
+        name: sops-op
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -42,10 +44,12 @@ spec:
     substituteFrom:
       - kind: Secret
         name: sops-bw-secrets
+      - kind: Secret
+        name: sops-op
   dependsOn:
     - name: cluster-apps-external-secrets
-  healthCheckExprs:
-    - apiVersion: external-secrets.io/v1
-      kind: ClusterSecretStore
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  # healthCheckExprs:
+  #   - apiVersion: external-secrets.io/v1
+  #     kind: ClusterSecretStore
+  #     failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+  #     current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')

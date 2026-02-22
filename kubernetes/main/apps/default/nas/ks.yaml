@@ -78,11 +78,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nas-portainer
+  name: nas-komodo
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/default/nas/portainer"
+  path: "./kubernetes/main/apps/default/nas/komodo"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -93,11 +93,11 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nas-bitwarden-vault
+  name: nas-1p-vault
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/main/apps/default/nas/bitwarden-vault"
+  path: "./kubernetes/main/apps/default/nas/1p"
   prune: true
   sourceRef:
     kind: GitRepository

@@ -27,9 +27,9 @@ terraform {
       source  = "carlpett/sops"
       version = "1.3.0"
     }
-    bitwarden = {
-      source  = "maxlaverse/bitwarden"
-      version = "0.17.3"
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "~> 3.2.1"
     }
   }
 }

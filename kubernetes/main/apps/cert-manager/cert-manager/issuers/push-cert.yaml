@@ -8,7 +8,7 @@ spec:
   deletionPolicy: Delete
   refreshInterval: 15m
   secretStoreRefs:
-    - name: bitwarden-secrets-manager-sdk
+    - name: onepassword-sdk
       kind: ClusterSecretStore
   selector:
     secret:
