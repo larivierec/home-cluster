@@ -23,6 +23,7 @@ module "home-cluster" {
     "RIVERBOT_APP_ID"          = nonsensitive(local.github_secrets["bot_id"])
     "RIVERBOT_APP_PRIVATE_KEY" = nonsensitive(base64decode(local.github_secrets["bot_pk_b64"]))
     "BW_ACCESS_TOKEN"          = nonsensitive(local.github_secrets["gha_bw_access_token"])
+    "OP_CONNECT_TOKEN"         = nonsensitive(local.github_secrets["op_connect_token"])
   }
 
   issue_labels_merge_with_github_labels = false

@@ -21,9 +21,9 @@ terraform {
       source  = "carlpett/sops"
       version = "1.3.0"
     }
-    bitwarden = {
-      source  = "maxlaverse/bitwarden"
-      version = "0.17.3"
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "~> 3.1.0"
     }
     tailscale = {
       source  = "tailscale/tailscale"
@@ -32,9 +32,8 @@ terraform {
   }
 }
 
-provider "bitwarden" {
-  access_token          = data.sops_file.this.data["BW_PROJECT_TOKEN"]
-  client_implementation = "embedded"
+provider "onepassword" {
+  service_account_token = data.sops_file.this.data["OP_SERVICE_ACCOUNT_TOKEN"]
 }
 
 provider "tailscale" {
@@ -42,10 +41,17 @@ provider "tailscale" {
   oauth_client_secret = local.tailscale_secret["clientsecret"]
 }
 
-data "bitwarden_secret" "tailscale" {
-  key = "tailscale"
+data "onepassword_item" "tailscale" {
+  vault = "Homelab"
+  title = "tailscale"
 }
 
 locals {
-  tailscale_secret = jsondecode(data.bitwarden_secret.tailscale.value)
+  tailscale_secret = {
+    for field in [
+      for section in data.onepassword_item.tailscale.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
 }

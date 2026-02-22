@@ -43,13 +43,18 @@ jobs:
       default: ${{ steps.output-images.outputs.default }}
       pull: ${{ steps.output-images.outputs.pull }}
     steps:
-      - name: Get Secrets
-        uses: larivierec/sm-action@main
+      - name: Load 1Password Secrets
+        uses: 1password/load-secrets-action/configure@8d0d610af187e78a2772c2d18d627f4c52d3fbfb # v3.1.0
         with:
-          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
-          parse_json: "true"
-          secrets: |
-            4c93fe22-dd57-4d4d-96b2-b20600132b47
+          connect-host: https://op.garb.dev
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
+
+      - name: Load secrets
+        uses: 1password/load-secrets-action@8d0d610af187e78a2772c2d18d627f4c52d3fbfb # v3.1.0
+        with: { export-env: true }
+        env:
+          BOT_ID: op://Homelab/github/bot_id
+          BOT_PK_B64: op://Homelab/github/bot_pk_b64
 
       - name: Extract Secret Values
         id: parse-secrets
