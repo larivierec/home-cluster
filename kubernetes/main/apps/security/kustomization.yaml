@@ -6,4 +6,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./external-secrets/ks.yaml
+  - ./onepassword/ks.yaml
   - ./pocket-id/ks.yaml

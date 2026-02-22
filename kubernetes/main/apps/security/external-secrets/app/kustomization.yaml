@@ -3,11 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./secret.yaml
   - ./helm-release.yaml
 configMapGenerator:
   - name: external-secrets-helm-values
-    namespace: kube-system
+    namespace: security
     files:
       - values.yaml=./helm-values.yaml
 configurations:

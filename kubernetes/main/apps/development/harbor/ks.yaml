@@ -14,6 +14,6 @@ spec:
     name: flux-system
 
   dependsOn:
-    - name: cluster-apps-external-secrets-stores
+    - name: onepassword
     - name: cluster-apps-cloudnative-pg
     - name: dragonfly-cluster

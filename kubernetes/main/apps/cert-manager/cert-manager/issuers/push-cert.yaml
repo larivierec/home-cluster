@@ -8,7 +8,7 @@ spec:
   deletionPolicy: Delete
   refreshInterval: 15m
   secretStoreRefs:
-    - name: onepassword-sdk
+    - name: onepassword-connect
       kind: ClusterSecretStore
   selector:
     secret:

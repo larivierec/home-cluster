@@ -51,7 +51,7 @@ spec:
 
   dependsOn:
     - name: cluster-apps-cert-manager
-    - name: cluster-apps-external-secrets-stores
+    - name: onepassword
   healthCheckExprs:
     - apiVersion: cert-manager.io/v1
       kind: ClusterIssuer

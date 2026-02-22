@@ -15,4 +15,4 @@ spec:
     name: flux-system
   wait: true
   dependsOn:
-    - name: cluster-apps-external-secrets-stores
+    - name: onepassword

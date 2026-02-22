@@ -3,7 +3,8 @@ provider "github" {
 }
 
 provider "onepassword" {
-  service_account_token = data.sops_file.this.data["OP_SERVICE_ACCOUNT_TOKEN"]
+  connect_url   = "https://op.garb.dev"
+  connect_token = data.sops_file.this.data["OP_CONNECT_TOKEN"]
 }
 
 data "onepassword_item" "actions_runner" {
@@ -14,6 +15,11 @@ data "onepassword_item" "actions_runner" {
 data "onepassword_item" "github" {
   vault = "Homelab"
   title = "github"
+}
+
+data "onepassword_item" "onep" {
+  vault = "Homelab"
+  title = "1password"
 }
 
 locals {
@@ -27,6 +33,13 @@ locals {
   secrets = {
     for field in [
       for section in data.onepassword_item.actions_runner.section :
+      section if section.label == "credentials"
+    ][0].field :
+    field.label => field.value
+  }
+  onep_secrets = {
+    for field in [
+      for section in data.onepassword_item.onep.section :
       section if section.label == "credentials"
     ][0].field :
     field.label => field.value

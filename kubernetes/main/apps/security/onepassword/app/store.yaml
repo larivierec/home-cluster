@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/external-secrets.io/clustersecretstore_v1.json
+# ---
+# apiVersion: external-secrets.io/v1
+# kind: ClusterSecretStore
+# metadata:
+#   name: onepassword-connect
+# spec:
+#   provider:
+#     onepasswordSDK:
+#       vault: Homelab
+#       auth:
+#         serviceAccountSecretRef:
+#           name: onepassword-service-account-token
+#           key: token
+#           namespace: kube-system
+---
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: onepassword-connect
+spec:
+  provider:
+    onepassword:
+      connectHost: http://onepassword.security.svc.cluster.local
+      vaults:
+        Homelab: 1
+      auth:
+        secretRef:
+          connectTokenSecretRef:
+            name: onepassword-secret
+            namespace: security
+            key: token
