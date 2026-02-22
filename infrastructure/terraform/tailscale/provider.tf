@@ -23,7 +23,7 @@ terraform {
     }
     onepassword = {
       source  = "1Password/onepassword"
-      version = "~> 3.1.0"
+      version = "~> 3.2.0"
     }
     tailscale = {
       source  = "tailscale/tailscale"
