@@ -27,7 +27,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: external-secrets
-      namespace: kube-system
+      namespace: security
     - name: rook-ceph-operator
       namespace: rook-ceph
     - name: snapshot-controller
