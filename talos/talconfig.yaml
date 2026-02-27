@@ -239,7 +239,7 @@ controlPlane:
       cluster:
         extraManifests:
           - https://github.com/prometheus-operator/prometheus-operator/releases/download/${promVersion}/stripped-down-crds.yaml
-          - https://github.com/kubernetes-sigs/gateway-api/releases/download/${gatewayApiVersion}/experimental-install.yaml
+          - https://github.com/kubernetes-sigs/gateway-api/releases/download/${gatewayApiVersion}/standard-install.yaml
           - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/${externalDNSVersion}/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
           - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/${dragonflyOperatorVersion}/manifests/crd.yaml
 
