@@ -27,9 +27,6 @@ motion:
   contour_area: 20
 record:
   enabled: true
-  retain:
-    days: 3
-    mode: active_objects
   alerts:
     retain:
       days: 3
