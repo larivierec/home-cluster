@@ -19,7 +19,7 @@ terraform {
   required_providers {
     sops = {
       source  = "carlpett/sops"
-      version = "1.3.0"
+      version = "1.4.0"
     }
     onepassword = {
       source  = "1Password/onepassword"
