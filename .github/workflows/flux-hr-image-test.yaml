@@ -44,13 +44,13 @@ jobs:
       pull: ${{ steps.output-images.outputs.pull }}
     steps:
       - name: Load 1Password Secrets
-        uses: 1password/load-secrets-action/configure@8d0d610af187e78a2772c2d18d627f4c52d3fbfb # v3.1.0
+        uses: 1password/load-secrets-action/configure@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
         with:
           connect-host: https://op.garb.dev
           connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Load secrets
-        uses: 1password/load-secrets-action@8d0d610af187e78a2772c2d18d627f4c52d3fbfb # v3.1.0
+        uses: 1password/load-secrets-action@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
         with: { export-env: true }
         env:
           BOT_ID: op://Homelab/github/bot_id
