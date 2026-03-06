@@ -77,13 +77,13 @@ jobs:
           echo "safe_name=$safe_name" >> "$GITHUB_OUTPUT"
 
       - name: Load 1Password Secrets
-        uses: 1password/load-secrets-action/configure@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
+        uses: 1password/load-secrets-action/configure@dafbe7cb03502b260e2b2893c753c352eee545bf # v3.2.1
         with:
           connect-host: https://op.garb.dev
           connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Load secrets
-        uses: 1password/load-secrets-action@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
+        uses: 1password/load-secrets-action@dafbe7cb03502b260e2b2893c753c352eee545bf # v3.2.1
         with: { export-env: true }
         env:
           BOT_ID: op://Homelab/github/bot_id
@@ -191,13 +191,13 @@ jobs:
       fail-fast: false
     steps:
       - name: Load 1Password Secrets
-        uses: 1password/load-secrets-action/configure@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
+        uses: 1password/load-secrets-action/configure@dafbe7cb03502b260e2b2893c753c352eee545bf # v3.2.1
         with:
           connect-host: https://op.garb.dev
           connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Load secrets
-        uses: 1password/load-secrets-action@cb7c5acc8a2b09f96acc233de388fe361e49839a # v3.2.0
+        uses: 1password/load-secrets-action@dafbe7cb03502b260e2b2893c753c352eee545bf # v3.2.1
         with: { export-env: true }
         env:
           BOT_ID: op://Homelab/github/bot_id
