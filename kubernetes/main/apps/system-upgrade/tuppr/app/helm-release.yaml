@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: tuppr
-      version: 0.0.80
+      version: 0.1.0
       sourceRef:
         kind: HelmRepository
         name: home-operations
@@ -26,3 +26,8 @@ spec:
     keepHistory: false
   values:
     replicaCount: 2
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
