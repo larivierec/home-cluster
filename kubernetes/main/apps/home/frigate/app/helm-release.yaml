@@ -43,6 +43,9 @@ spec:
             image:
               repository: ghcr.io/blakeblackshear/frigate
               tag: 0.17.0
+            env:
+              - name: TZ
+                value: "America/Toronto"
             envFrom:
               - secretRef:
                   name: frigate
