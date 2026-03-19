@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./pod-monitor.yaml
+  - ./netpol-prometheus.yaml

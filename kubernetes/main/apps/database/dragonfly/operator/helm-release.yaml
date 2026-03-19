@@ -72,6 +72,8 @@ spec:
         serviceAccount:
           identifier: *app
         pod:
+          labels:
+            control-plane: controller-manager
           securityContext:
             runAsUser: 65534
             runAsGroup: 65534
@@ -134,6 +136,10 @@ spec:
             - apiGroups: ["dragonflydb.io"]
               resources: ["dragonflies/status"]
               verbs: ["get", "patch", "update"]
+            - apiGroups: ["networking.k8s.io"]
+              resources: ["networkpolicies"]
+              verbs:
+                ["create", "delete", "get", "list", "patch", "update", "watch"]
           type: ClusterRole
     serviceMonitor:
       app:
