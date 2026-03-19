@@ -9,7 +9,7 @@ gatewayApiVersion: v1.5.1
 externalDNSVersion: v0.20.0
 
 # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
-dragonflyOperatorVersion: v1.4.0
+dragonflyOperatorVersion: v1.5.0
 
 clusterName: garb
 clusterDNSSuffix: cluster.local
