@@ -34,13 +34,13 @@
 
 # Overview
 
-A monorepo that collects the pieces needed to run my homelab Kubernetes cluster and services. It contains infrastructure, cluster manifests, helper scripts and small service projects (for example the Bitwarden SDK server and a Rust connector). The repo is organized to keep infra, apps and bootstrap tooling together so a single place holds the canonical manifests and generation scripts.
+A monorepo that collects the pieces needed to run my homelab Kubernetes cluster and services. It contains infrastructure, cluster manifests, helper scripts and small service projects. The repo is organized to keep infra, apps and bootstrap tooling together so a single place holds the canonical manifests and generation scripts.
 
 ## High level
 
 - Monorepo: infra, Kubernetes manifests, bootstrap helpers and service code live together.
 - Goal: reproducible, git-driven cluster configuration (Flux + sops) with a small Bootstrap helper to generate local TLS material and secrets.
-- Primary features used: Cilium for networking, Gateway API driven by Envoy (envoy-gateway) for ingress & edge, and the Bitwarden SDK as an out‑of‑cluster secrets provider.
+- Primary features used: Cilium for networking, Gateway API driven by Envoy (envoy-gateway) for ingress & edge, and 1Password as the external secrets provider.
 
 ## Kubernetes
 
@@ -59,14 +59,14 @@ A monorepo that collects the pieces needed to run my homelab Kubernetes cluster 
 
 - Secrets & Secrets provider
 	- ExternalSecrets configuration lives under `kubernetes/main/apps/kube-system/external-secrets/...`.
-	- A ClusterSecretStore is configured to use the Bitwarden SDK provider; the provider typically talks to `bw.garb.dev` (or an in-cluster service).
+	- A ClusterSecretStore is configured to use 1Password Connect as the secrets provider.
 
-### Bitwarden SDK / secrets flow (out-of-cluster mode)
+### External Secrets flow
 
-- The external-secrets provider can be run outside the cluster (e.g., on your NAS) or inside.
-- The ClusterSecretStore config points at the SDK server URL and a `caProvider` secret used to validate the server certificate:
+- The external-secrets operator pulls secrets from 1Password Connect.
+- The ClusterSecretStore config points at the 1Password Connect server:
 	- File: `kubernetes/main/apps/kube-system/external-secrets/stores/secret-store.yaml`
-	- Common gotcha: When the provider runs outside the cluster, it must trust the CA that issued the server cert (or you must use an in-cluster service URL instead).
+	- Note: 1Password Connect credentials are stored as Kubernetes secrets and referenced by the ClusterSecretStore.
 
 ### TLS, certificates and common pitfalls
 
@@ -75,9 +75,8 @@ A monorepo that collects the pieces needed to run my homelab Kubernetes cluster 
 	2. Upstream TLS (Gateway/Envoy → backend): configure `Backend` and `BackendTLSPolicy` to instruct Envoy how to speak TLS to upstream services: trust/CA, SNI/hostname, min/max TLS versions. Secrets referenced for upstream trust must be accessible to the Gateway/controller namespace.
 
 ### Where to look (quick map)
-- Bootstrap / cert generation
-	- `bootstrap/bitwarden-sdk/generate.sh`
-	- `bootstrap/bootstrap.sh` (creates `bitwarden-css-certs` secret and optionally annotates it)
+- Bootstrap
+	- `bootstrap/bootstrap.sh` (creates Flux secrets including age key and GitHub credentials)
 
 - Gateway (Envoy)
 	- `kubernetes/main/apps/networking/gateway/envoy/manifests/gateway.yaml`
@@ -87,9 +86,8 @@ A monorepo that collects the pieces needed to run my homelab Kubernetes cluster 
 	- `kubernetes/main/apps/kube-system/external-secrets/stores/secret-store.yaml`
 
 ### Quick commands
-- Regenerate certs and update secret:
+- Bootstrap Flux secrets:
 ```bash
-bash bootstrap/bitwarden-sdk/generate.sh
 bash bootstrap/bootstrap.sh
 ```
 
