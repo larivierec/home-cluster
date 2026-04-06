@@ -6,7 +6,7 @@ promVersion: v0.90.1
 gatewayApiVersion: v1.5.1
 
 # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-externalDNSVersion: v0.20.0
+externalDNSVersion: v0.21.0
 
 # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
 dragonflyOperatorVersion: v1.5.0
