@@ -1,5 +1,11 @@
 variable "a_records" {
-  type    = map(any)
+  type = map(object({
+    records = list(object({
+      ip      = string
+      ttl     = string
+      proxied = bool
+    }))
+  }))
   default = {}
 }
 
