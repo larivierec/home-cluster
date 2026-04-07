@@ -1,11 +1,11 @@
 locals {
   a_records = flatten([
     for record, record_data in var.a_records : [
-      for ip in record_data.ips : {
+      for a_record in record_data.records : {
         record  = record
-        proxied = record_data.proxied
-        ip      = ip
-        ttl     = record_data.ttl
+        proxied = a_record.proxied
+        ip      = a_record.ip
+        ttl     = a_record.ttl
       }
     ]
   ])

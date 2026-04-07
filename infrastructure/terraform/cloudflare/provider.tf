@@ -46,8 +46,8 @@ provider "cloudflare" {
 }
 
 provider "onepassword" {
-  connect_url   = "https://op.garb.dev"
   connect_token = data.sops_file.this.data["OP_CONNECT_TOKEN"]
+  connect_url   = "https://op.garb.dev"
 }
 
 data "onepassword_item" "cloudflare" {
