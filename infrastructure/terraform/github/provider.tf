@@ -3,7 +3,8 @@ provider "github" {
 }
 
 provider "onepassword" {
-  # Uses OP_CONNECT_HOST and OP_CONNECT_TOKEN environment variables
+  connect_url   = "https://op.garb.dev"
+  connect_token = data.sops_file.this.data["OP_CONNECT_TOKEN"]
 }
 
 data "onepassword_item" "actions_runner" {
