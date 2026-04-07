@@ -27,11 +27,11 @@ terraform {
     }
     onepassword = {
       source  = "1Password/onepassword"
-      version = "~> 3.3.0"
+      version = "~> 3.3.1"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "5.17.0"
+      version = "5.18.0"
     }
   }
 }
