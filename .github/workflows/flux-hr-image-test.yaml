@@ -18,6 +18,11 @@ jobs:
     outputs:
       changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
@@ -43,6 +48,11 @@ jobs:
       default: ${{ steps.output-images.outputs.default }}
       pull: ${{ steps.output-images.outputs.pull }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        with:
+          egress-policy: audit
+
       - name: Load 1Password Secrets
         uses: 1password/load-secrets-action/configure@92467eb28f72e8255933372f1e0707c567ce2259 # v4.0.0
         with:
@@ -73,7 +83,7 @@ jobs:
         uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3
         id: app-token
         with:
-          app-id: ${{ steps.parse-secrets.outputs.bot_app_id }}
+          client-id: ${{ steps.parse-secrets.outputs.bot_app_id }}
           private-key: ${{ steps.decode.outputs.private-key }}
 
       - name: Checkout
