@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/pocket-id/pocket-id
-              tag: v2.6.0@sha256:6f030eabf082365109bc71376523399d17f1fdbb4d3cd7db852e23767d5a5eb3
+              tag: v2.6.1@sha256:6111bc2d8c71932a71cb9a915506f57a83ba6c3a711931e50573ac26bcef154f
             env:
               APP_URL: https://oidc.garb.dev
               DB_PROVIDER: postgres
