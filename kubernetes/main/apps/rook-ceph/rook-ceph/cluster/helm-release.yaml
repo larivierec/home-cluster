@@ -129,9 +129,10 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          - name: talos-m1
-            devices:
-              - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
+          # died
+          # - name: talos-m1
+          #   devices:
+          #     - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
           - name: talos-m2
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D6C0
