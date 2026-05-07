@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.6.2
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -71,6 +71,8 @@ spec:
                   app.kubernetes.io/name: *app
         serviceAccount:
           identifier: *app
+    defaultPodOptions:
+      automountServiceAccountToken: true
     serviceAccount:
       k8s-gateway: {}
     service:
