@@ -78,7 +78,7 @@ spec:
             - effect: NoExecute
               operator: Exists
         mon:
-          count: 2 # gotta replace dead node :(
+          count: 3
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
@@ -130,10 +130,9 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-          # died
-          # - name: talos-m1
-          #   devices:
-          #     - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
+          - name: talos-m1
+            devices:
+              - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D681
           - name: talos-m2
             devices:
               - name: /dev/disk/by-id/nvme-WUS4BB096D7P3E3_A065D6C0
