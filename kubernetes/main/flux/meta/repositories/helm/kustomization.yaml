@@ -28,6 +28,7 @@ resources:
   - ./intel.yaml
   - ./intel-oci.yaml
   - ./jetstack.yaml
+  - ./kyverno.yaml
   - ./kubernetes-sigs-metrics-server.yaml
   - ./kubernetes-sigs-nfd.yaml
   - ./piraeus.yaml
