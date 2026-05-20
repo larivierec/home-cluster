@@ -40,8 +40,6 @@ spec:
               - --source=service
               - --source=ingress
               - --source=gateway-httproute
-              - --source=gateway-tcproute
-              - --source=gateway-udproute
               - --txt-owner-id=unifi
               - --txt-prefix=k8s.main.
               - --registry=txt
