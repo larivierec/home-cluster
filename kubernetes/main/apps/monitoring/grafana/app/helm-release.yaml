@@ -87,6 +87,11 @@ spec:
               implementation: prometheus
     dashboards:
       default:
+        node-exporter-full:
+          # renovate: depName="Node Exporter Full"
+          gnetId: 1860
+          revision: 45
+          datasource: Prometheus
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
           gnetId: 2842

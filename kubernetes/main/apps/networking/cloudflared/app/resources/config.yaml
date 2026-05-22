@@ -1,11 +1,10 @@
 ---
 tunnel: ${SECRET_CLOUDFLARE_TUNNEL}
 
-originRequest:
-  http2Origin: true
-  matchSNItoHost: true
-
 ingress:
   - hostname: "*.garb.dev"
+    originRequest:
+      http2Origin: true
+      matchSNItoHost: true
     service: https://envoy-gw-external.networking.svc.cluster.local:443
   - service: http_status:404
