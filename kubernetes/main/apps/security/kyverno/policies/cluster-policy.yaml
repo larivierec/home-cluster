@@ -1,0 +1,143 @@
+---
+apiVersion: policies.kyverno.io/v1
+kind: MutatingPolicy
+metadata:
+  name: rewrite-images-to-harbor
+  annotations:
+    policies.kyverno.io/title: Rewrite Images to Harbor
+    policies.kyverno.io/description: >-
+      Rewrites container image registry prefixes to route pulls through Harbor proxy caches.
+      Mirrors docker.io, ghcr.io, quay.io, and mirror.gcr.io.
+spec:
+  autogen:
+    podControllers:
+      controllers: []
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+        operations: ["CREATE"]
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: |
+          object.spec.containers.filter(c,
+            c.image.startsWith("docker.io/") &&
+            !c.image.startsWith("docker.io/goharbor/") &&
+            !c.image.startsWith("docker.io/coredns/")
+          ).map(c, JSONPatch{
+            op: "replace",
+            path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
+            value: "harbor.garb.dev/" + c.image
+          }) +
+          (has(object.spec.initContainers) ?
+            object.spec.initContainers.filter(c,
+              c.image.startsWith("docker.io/") &&
+              !c.image.startsWith("docker.io/goharbor/") &&
+              !c.image.startsWith("docker.io/coredns/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : []) +
+          (has(object.spec.ephemeralContainers) ?
+            object.spec.ephemeralContainers.filter(c,
+              c.image.startsWith("docker.io/") &&
+              !c.image.startsWith("docker.io/goharbor/") &&
+              !c.image.startsWith("docker.io/coredns/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : [])
+
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: |
+          object.spec.containers.filter(c,
+            c.image.startsWith("ghcr.io/") &&
+            !c.image.startsWith("ghcr.io/cloudnative-pg/")
+          ).map(c, JSONPatch{
+            op: "replace",
+            path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
+            value: "harbor.garb.dev/" + c.image
+          }) +
+          (has(object.spec.initContainers) ?
+            object.spec.initContainers.filter(c,
+              c.image.startsWith("ghcr.io/") &&
+              !c.image.startsWith("ghcr.io/cloudnative-pg/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : []) +
+          (has(object.spec.ephemeralContainers) ?
+            object.spec.ephemeralContainers.filter(c,
+              c.image.startsWith("ghcr.io/") &&
+              !c.image.startsWith("ghcr.io/cloudnative-pg/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : [])
+
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: |
+          object.spec.containers.filter(c,
+            c.image.startsWith("quay.io/") &&
+            !c.image.startsWith("quay.io/cilium/") &&
+            !c.image.startsWith("quay.io/cilium-")
+          ).map(c, JSONPatch{
+            op: "replace",
+            path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
+            value: "harbor.garb.dev/" + c.image
+          }) +
+          (has(object.spec.initContainers) ?
+            object.spec.initContainers.filter(c,
+              c.image.startsWith("quay.io/") &&
+              !c.image.startsWith("quay.io/cilium/") &&
+              !c.image.startsWith("quay.io/cilium-")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : []) +
+          (has(object.spec.ephemeralContainers) ?
+            object.spec.ephemeralContainers.filter(c,
+              c.image.startsWith("quay.io/") &&
+              !c.image.startsWith("quay.io/cilium/") &&
+              !c.image.startsWith("quay.io/cilium-")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : [])
+
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: |
+          object.spec.containers.filter(c,
+            c.image.startsWith("mirror.gcr.io/")
+          ).map(c, JSONPatch{
+            op: "replace",
+            path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
+            value: "harbor.garb.dev/" + c.image
+          }) +
+          (has(object.spec.ephemeralContainers) ?
+            object.spec.ephemeralContainers.filter(c,
+              c.image.startsWith("mirror.gcr.io/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : []) +
+          (has(object.spec.initContainers) ?
+            object.spec.initContainers.filter(c,
+              c.image.startsWith("mirror.gcr.io/")
+            ).map(c, JSONPatch{
+              op: "replace",
+              path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
+              value: "harbor.garb.dev/" + c.image
+            }) : [])

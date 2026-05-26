@@ -3,8 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: indeed-eng
+  name: kyverno
   namespace: flux-system
 spec:
   interval: 30m
-  url: https://indeedeng.github.io/harbor-container-webhook
+  url: https://kyverno.github.io/kyverno/

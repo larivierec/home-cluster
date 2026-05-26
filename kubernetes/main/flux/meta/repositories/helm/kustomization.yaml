@@ -24,10 +24,10 @@ resources:
   - ./harbor.yaml
   - ./home-operations.yaml
   - ./home-ops-mirror.yaml
-  - ./indeed-eng.yaml
   - ./intel.yaml
   - ./intel-oci.yaml
   - ./jetstack.yaml
+  - ./kyverno.yaml
   - ./kubernetes-sigs-metrics-server.yaml
   - ./kubernetes-sigs-nfd.yaml
   - ./piraeus.yaml
