@@ -115,29 +115,29 @@ spec:
               value: "harbor.garb.dev/" + c.image
             }) : [])
 
-    - patchType: JSONPatch
-      jsonPatch:
-        expression: |
-          object.spec.containers.filter(c,
-            c.image.startsWith("mirror.gcr.io/")
-          ).map(c, JSONPatch{
-            op: "replace",
-            path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
-            value: "harbor.garb.dev/" + c.image
-          }) +
-          (has(object.spec.ephemeralContainers) ?
-            object.spec.ephemeralContainers.filter(c,
-              c.image.startsWith("mirror.gcr.io/")
-            ).map(c, JSONPatch{
-              op: "replace",
-              path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
-              value: "harbor.garb.dev/" + c.image
-            }) : []) +
-          (has(object.spec.initContainers) ?
-            object.spec.initContainers.filter(c,
-              c.image.startsWith("mirror.gcr.io/")
-            ).map(c, JSONPatch{
-              op: "replace",
-              path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
-              value: "harbor.garb.dev/" + c.image
-            }) : [])
+    # - patchType: JSONPatch
+    #   jsonPatch:
+    #     expression: |
+    #       object.spec.containers.filter(c,
+    #         c.image.startsWith("mirror.gcr.io/")
+    #       ).map(c, JSONPatch{
+    #         op: "replace",
+    #         path: "/spec/containers/" + string(object.spec.containers.indexOf(c)) + "/image",
+    #         value: "harbor.garb.dev/" + c.image
+    #       }) +
+    #       (has(object.spec.ephemeralContainers) ?
+    #         object.spec.ephemeralContainers.filter(c,
+    #           c.image.startsWith("mirror.gcr.io/")
+    #         ).map(c, JSONPatch{
+    #           op: "replace",
+    #           path: "/spec/ephemeralContainers/" + string(object.spec.ephemeralContainers.indexOf(c)) + "/image",
+    #           value: "harbor.garb.dev/" + c.image
+    #         }) : []) +
+    #       (has(object.spec.initContainers) ?
+    #         object.spec.initContainers.filter(c,
+    #           c.image.startsWith("mirror.gcr.io/")
+    #         ).map(c, JSONPatch{
+    #           op: "replace",
+    #           path: "/spec/initContainers/" + string(object.spec.initContainers.indexOf(c)) + "/image",
+    #           value: "harbor.garb.dev/" + c.image
+    #         }) : [])
