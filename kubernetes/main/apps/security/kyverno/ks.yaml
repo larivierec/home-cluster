@@ -17,3 +17,21 @@ spec:
   dependsOn:
     - name: harbor
   targetNamespace: security
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kyverno-policies
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./kubernetes/main/apps/security/kyverno/policies
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  dependsOn:
+    - name: kyverno
