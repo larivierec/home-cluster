@@ -26,6 +26,8 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    config:
+      excludeKyvernoNamespace: false
     backgroundController:
       enabled: false
     cleanupController:

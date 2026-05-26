@@ -8,5 +8,6 @@ resources:
   # Flux-Kustomizations
   - ./external-secrets/ks.yaml
   - ./kyverno/ks.yaml
+  - ./kyverno/policies/ks.yaml
   - ./onepassword/ks.yaml
   - ./pocket-id/ks.yaml
