@@ -6,4 +6,3 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   - ./harbor/ks.yaml
-  - ./concourse/ks.yaml
