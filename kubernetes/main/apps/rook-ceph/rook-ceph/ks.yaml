@@ -42,3 +42,5 @@ spec:
   timeout: 15m
   dependsOn:
     - name: rook-ceph
+    - name: ceph-csi-drivers
+    - name: volsync

@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph-cluster
-      version: v1.19.6
+      version: v1.20.0
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
@@ -29,6 +29,8 @@ spec:
     - name: external-secrets
       namespace: security
     - name: rook-ceph-operator
+      namespace: rook-ceph
+    - name: ceph-csi-drivers
       namespace: rook-ceph
     - name: snapshot-controller
       namespace: kube-system
@@ -144,7 +146,7 @@ spec:
         spec:
           failureDomain: host
           replicated:
-            size: 2
+            size: 3
         storageClass:
           enabled: true
           name: ceph-block
@@ -167,46 +169,5 @@ spec:
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
-    cephFileSystems:
-      - name: ceph-filesystem
-        spec:
-          metadataPool:
-            replicated:
-              size: 2
-          dataPools:
-            - failureDomain: host
-              replicated:
-                size: 2
-              name: data0
-          metadataServer:
-            activeCount: 1
-            activeStandby: true
-            resources:
-              requests:
-                cpu: 100m
-                memory: 1Gi
-              limits:
-                memory: 4Gi
-            priorityClassName: system-cluster-critical
-        storageClass:
-          enabled: true
-          isDefault: false
-          name: ceph-filesystem
-          pool: data0
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          volumeBindingMode: Immediate
-          parameters:
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
-            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-            csi.storage.k8s.io/fstype: ext4
-    cephFileSystemVolumeSnapshotClass:
-      enabled: true
-      name: csi-ceph-filesystem
-      isDefault: false
-      deletionPolicy: Delete
+    cephFileSystems: []
     cephObjectStores: []

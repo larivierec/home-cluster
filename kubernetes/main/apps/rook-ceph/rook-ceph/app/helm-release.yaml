@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph
-      version: v1.19.6
+      version: v1.20.0
       sourceRef:
         kind: HelmRepository
         name: rook-ceph
@@ -27,9 +27,6 @@ spec:
     keepHistory: false
   values:
     csi:
-      enableVolumeGroupSnapshot: false # TODO: enable this when v1beta1 CRDs are available
-      cephFSKernelMountOptions: ms_mode=prefer-crc
-      enableLiveness: true
       serviceMonitor:
         enabled: true
     monitoring:
