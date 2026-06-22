@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/nzbget
-              tag: 26.2.0@sha256:57707e700085abecad9eebcbf776d7da4f00f8e77358fdb617af585c23adb99a
+              tag: 26.2.0@sha256:fd02970c635c700471c5ba36e6928f3424b2277a3c7ba86e91169fea6cd22f3f
             env:
               NZBGET__PORT: &port 8080
               TZ: America/Toronto
