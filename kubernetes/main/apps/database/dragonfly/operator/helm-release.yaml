@@ -117,7 +117,7 @@ spec:
               resources: ["events"]
               verbs: ["create", "patch"]
             - apiGroups: [""]
-              resources: ["pods", "services"]
+              resources: ["pods", "services", configmaps]
               verbs:
                 ["create", "delete", "get", "list", "patch", "update", "watch"]
             - apiGroups: ["apps"]
