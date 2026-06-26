@@ -49,8 +49,3 @@ module "dns_records" {
 data "sops_file" "this" {
   source_file = "secrets.sops.yaml"
 }
-
-import {
-  id = "74f896578568875d67af7c4fb1a0442d/4045190170969c124db3966024205f1c"
-  to = module.dns_records.cloudflare_dns_record.cname["74f896578568875d67af7c4fb1a0442d_wg_CNAME"]
-}
