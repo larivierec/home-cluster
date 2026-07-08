@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: cloudflare/cloudflared
-              tag: 2026.6.1
+              tag: 2026.7.0
             args:
               - tunnel
               - --config
