@@ -1,0 +1,90 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.0/charts/library/common/values.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: calibre
+  namespace: default
+spec:
+  releaseName: calibre
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      interval: 15m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    global:
+      createDefaultServiceAccount: false
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: crocodilestick/calibre-web-automated
+              pullPolicy: IfNotPresent
+              tag: v4.0.6
+            env:
+              TZ: America/Toronto
+              PUID: 1000
+              PGID: 1000
+            resources:
+              requests:
+                cpu: 10m
+                memory: 192Mi
+              limits:
+                memory: 512Mi
+
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8083
+
+    route:
+      main:
+        hostnames:
+          - ebooks.garb.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        # runAsUser: 911
+        # runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "Always"
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: calibre-0
+        globalMounts:
+          - path: /config
+      ingest:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: 192.168.1.3
+            path: /volume2/media-sp2
+        globalMounts:
+          - path: /cwa-book-ingest
+      library:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: 192.168.1.3
+            path: /volume2/media-sp2
+        globalMounts:
+          - path: /calibre-library

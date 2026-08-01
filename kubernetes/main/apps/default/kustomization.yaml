@@ -8,6 +8,7 @@ resources:
   # Flux-Kustomizations
   - ./atuin/ks.yaml
   - ./bedroompi/ks.yaml
+  - ./calibre/ks.yaml
   - ./echo/ks.yaml
   - ./seerr/ks.yaml
   - ./lidarr/ks.yaml
