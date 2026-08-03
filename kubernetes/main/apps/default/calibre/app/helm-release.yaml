@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: calibre
+  name: &app calibre
   namespace: default
 spec:
   releaseName: calibre
@@ -21,10 +21,10 @@ spec:
     global:
       createDefaultServiceAccount: false
     controllers:
-      main:
+      calibre:
         strategy: Recreate
         containers:
-          main:
+          app:
             image:
               repository: crocodilestick/calibre-web-automated
               pullPolicy: IfNotPresent
@@ -40,29 +40,27 @@ spec:
               limits:
                 memory: 512Mi
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+
     service:
-      main:
-        controller: main
+      app:
+        controller: *app
         ports:
           http:
             port: 8083
 
     route:
-      main:
+      app:
         hostnames:
           - ebooks.garb.dev
         parentRefs:
           - name: envoy-internal
             namespace: networking
             sectionName: https
-
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: false
-        # runAsUser: 911
-        # runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: "Always"
 
     persistence:
       config:
@@ -76,7 +74,7 @@ spec:
         volumeSpec:
           nfs:
             server: 192.168.1.3
-            path: /volume2/media-sp2
+            path: /volume2/media-sp2/Books/calibre/ingest
         globalMounts:
           - path: /cwa-book-ingest
       library:
@@ -85,6 +83,15 @@ spec:
         volumeSpec:
           nfs:
             server: 192.168.1.3
-            path: /volume2/media-sp2
+            path: /volume2/media-sp2/Books/calibre
         globalMounts:
           - path: /calibre-library
+      plugins:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: 192.168.1.3
+            path: /volume2/media-sp2/Books/calibre/plugins
+          globalMounts:
+            - path: /config/.config/calibre/plugins
