@@ -31,7 +31,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 18.4
+              tag: 18.6
             envFrom: &envFrom
               - secretRef:
                   name: postgres-pocket-id
