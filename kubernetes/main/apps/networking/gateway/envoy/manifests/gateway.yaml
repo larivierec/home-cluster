@@ -12,7 +12,7 @@ metadata:
   name: envoy-external
   namespace: networking
   annotations:
-    external-dns.alpha.kubernetes.io/target: &host external.garb.dev
+    external-dns.kubernetes.io/target: &host external.garb.dev
   labels:
     type: external
 spec:
@@ -26,7 +26,7 @@ spec:
       # with a different name and tries to take this IP.
       # the problem is the service created by cilium is not the one used by envoy.
       # therefore, the service is disabled
-      external-dns.alpha.kubernetes.io/hostname: *host
+      external-dns.kubernetes.io/hostname: *host
       # lbipam.cilium.io/ips: 192.168.40.22
     parametersRef:
       group: gateway.envoyproxy.io
@@ -56,7 +56,7 @@ metadata:
   name: envoy-internal
   namespace: networking
   annotations:
-    external-dns.alpha.kubernetes.io/target: &host internal.garb.dev
+    external-dns.kubernetes.io/target: &host internal.garb.dev
   labels:
     type: internal
 spec:
@@ -67,7 +67,7 @@ spec:
   infrastructure:
     annotations:
       # lbipam.cilium.io/ips: 192.168.40.23
-      external-dns.alpha.kubernetes.io/hostname: *host
+      external-dns.kubernetes.io/hostname: *host
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
@@ -96,7 +96,7 @@ metadata:
   name: envoy-external-l4
   namespace: networking
   annotations:
-    external-dns.alpha.kubernetes.io/target: ipv4.garb.dev
+    external-dns.kubernetes.io/target: ipv4.garb.dev
   labels:
     type: external
 spec:
@@ -106,7 +106,7 @@ spec:
       value: 192.168.40.21
   infrastructure:
     # annotations:
-    #external-dns.alpha.kubernetes.io/hostname: external-l4.garb.dev
+    #external-dns.kubernetes.io/hostname: external-l4.garb.dev
     # lbipam.cilium.io/ips: 192.168.40.21
     parametersRef:
       group: gateway.envoyproxy.io

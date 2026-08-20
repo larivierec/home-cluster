@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns
+  name: &app external-dns-cloudflare
   namespace: networking
 spec:
   interval: 30m
@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      external-dns:
+      external-dns-cloudflare:
         strategy: RollingUpdate
         annotations:
           secret.reloader.stakater.com/reload: &creds cloudflare-creds
@@ -42,7 +42,7 @@ spec:
               - --domain-filter=garb.dev
               - --cloudflare-proxied
               - --provider=cloudflare
-              - --annotation-filter=external-dns.alpha.kubernetes.io/target
+              - --annotation-filter=external-dns=public
               - --source=ingress
               - --source=gateway-httproute
               - --source=crd
@@ -89,18 +89,18 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: true
     serviceAccount:
-      external-dns: {}
+      external-dns-cloudflare: {}
     rbac:
       bindings:
-        external-dns:
+        external-dns-cloudflare:
           roleRef:
             kind: ClusterRole
-            name: external-dns
+            name: external-dns-cloudflare
           subjects:
             - identifier: *app
           type: ClusterRoleBinding
       roles:
-        external-dns:
+        external-dns-cloudflare:
           rules:
             - apiGroups: [""]
               resources: ["nodes"]

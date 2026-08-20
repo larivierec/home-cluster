@@ -8,7 +8,7 @@ metadata:
   # todo use 2 external-dns one that watches annotations and one that doesn't
   # for this case and external-dns
   annotations:
-    external-dns.alpha.kubernetes.io/target: "dummy"
+    external-dns: public
 spec:
   endpoints:
     - dnsName: external.garb.dev

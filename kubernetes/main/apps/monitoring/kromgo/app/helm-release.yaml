@@ -36,11 +36,9 @@ spec:
               repository: ghcr.io/home-operations/kromgo
               tag: 0.15.2@sha256:28c3495cdbf1cff5cfcdda05f6891f3879edef85bd581841ce36eedf4799850f
             env:
-              PROMETHEUS_URL: http://prometheus-operated.monitoring.svc.cluster.local:9090
+              KROMGO_PROMETHEUS_URL: http://prometheus-operated.monitoring.svc.cluster.local:9090
               SERVER_HOST: 0.0.0.0
               SERVER_PORT: &port 8080
-              HEALTH_HOST: 0.0.0.0
-              HEALTH_PORT: &healthport 8888
             probes:
               liveness: &probes
                 enabled: true
@@ -48,7 +46,7 @@ spec:
                 spec:
                   httpGet:
                     path: /readyz
-                    port: *healthport
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -85,9 +83,9 @@ spec:
       app:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: &host "kromgo.garb.dev"
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns: public
+          external-dns.kubernetes.io/hostname: &host "kromgo.garb.dev"
+          external-dns.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking
@@ -103,6 +101,6 @@ spec:
         type: configMap
         name: kromgo-configmap
         globalMounts:
-          - path: /kromgo/config.yaml
+          - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true

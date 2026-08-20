@@ -77,9 +77,9 @@ spec:
       app:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: &host jellyseerr.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns: public
+          external-dns.kubernetes.io/hostname: &host jellyseerr.garb.dev
+          external-dns.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking
@@ -93,9 +93,9 @@ spec:
       overseerr:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: &host overseerr.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns: public
+          external-dns.kubernetes.io/hostname: &host overseerr.garb.dev
+          external-dns.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking
@@ -109,9 +109,9 @@ spec:
       request:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: dummy
-          external-dns.alpha.kubernetes.io/hostname: &host requests.garb.dev
-          external-dns.alpha.kubernetes.io/ttl: "120"
+          external-dns: public
+          external-dns.kubernetes.io/hostname: &host requests.garb.dev
+          external-dns.kubernetes.io/ttl: "120"
         parentRefs:
           - name: envoy-external
             namespace: networking

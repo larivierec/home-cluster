@@ -3,8 +3,8 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/target: dummy
-    external-dns.alpha.kubernetes.io/hostname: files.garb.dev
+    external-dns: public
+    external-dns.kubernetes.io/hostname: files.garb.dev
   name: files-route
   namespace: default
 spec:

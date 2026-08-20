@@ -10,8 +10,8 @@
 
 <div align="center">
 
-[![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.garb.dev%2Ftalos_version&style=for-the-badge&logo=talos&logoColor=white&color=blue&label=%20)](https://www.talos.dev/)&nbsp;&nbsp;
-[![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.garb.dev%2Fkubernetes_version&style=for-the-badge&logo=kubernetes&logoColor=white&color=blue&label=%20)](https://www.talos.dev/)&nbsp;&nbsp;
+[![Talos](https://kromgo.garb.dev/badges/talos_version)](https://www.talos.dev/)&nbsp;&nbsp;
+[![Kubernetes](https://kromgo.garb.dev/badges/kubernetes_version)](https://www.talos.dev/)&nbsp;&nbsp;
 
 [![Discord](https://img.shields.io/discord/673534664354430999?color=7289da&label=DISCORD&style=for-the-badge)](https://discord.gg/home-operations)&nbsp;&nbsp;
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot&logoColor=white)](https://github.com/renovatebot/renovate)
@@ -20,13 +20,13 @@
 
 <div align="center">
 
-[![Age-Days](https://kromgo.garb.dev/cluster_age_days?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![Uptime-Days](https://kromgo.garb.dev/cluster_uptime_days?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![Node-Count](https://kromgo.garb.dev/cluster_node_count?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![Pod-Count](https://kromgo.garb.dev/cluster_pod_count?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![CPU-Usage](https://kromgo.garb.dev/cluster_cpu_usage?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![Memory-Usage](https://kromgo.garb.dev/cluster_memory_usage?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
-[![Power-Usage](https://kromgo.garb.dev/cluster_power_usage?format=badge&style=flat-square)](https://github.com/kashalls/kromgo/)
+[![Age](https://kromgo.garb.dev/badges/cluster_age_days)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![Uptime](https://kromgo.garb.dev/badges/cluster_uptime_days)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![Nodes](https://kromgo.garb.dev/badges/cluster_node_count)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![Pods](https://kromgo.garb.dev/badges/cluster_pod_count)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![CPU](https://kromgo.garb.dev/badges/cluster_cpu_usage)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![Memory](https://kromgo.garb.dev/badges/cluster_memory_usage)](https://github.com/home-operations/kromgo/)&nbsp;&nbsp;
+[![Power](https://kromgo.garb.dev/badges/cluster_power_usage)](https://github.com/home-operations/kromgo/)
 
 </div>
 

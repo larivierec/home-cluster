@@ -78,7 +78,7 @@ spec:
       envoy:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: &envoy echo.garb.dev
+          external-dns.kubernetes.io/hostname: &envoy echo.garb.dev
         parentRefs:
           - name: envoy-external
             namespace: networking
