@@ -66,13 +66,23 @@ spec:
         provider: host
         connections:
           requireMsgr2: true
+      healthCheck:
+        muteHealthWarning:
+          AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_CLIENT_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_KEYS_ALLOWED:
+            policy: mute
+          AUTH_INSECURE_KEYS_CREATABLE:
+            policy: mute
       security:
         cephx:
           daemon:
             keyRotationPolicy: KeyGeneration
             keyGeneration: 2
           csi:
-            keyType: aes
+            keyType: aes # requires talos supporting kernel 7.X
       placement:
         all:
           tolerations:
