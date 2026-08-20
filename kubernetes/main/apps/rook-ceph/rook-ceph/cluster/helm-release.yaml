@@ -71,6 +71,8 @@ spec:
           daemon:
             keyRotationPolicy: KeyGeneration
             keyGeneration: 2
+          csi:
+            keyType: aes
       placement:
         all:
           tolerations:
