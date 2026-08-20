@@ -32,8 +32,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/jmalloc/echo-server
-              tag: v0.3.7
+              repository: ghcr.io/home-operations/echo
+              tag: 0.2.2@sha256:dc1b8eeca7ae1774d69576afb3653f462ccd1a57f1cb3393b4c243373855317c
             env:
               PORT: &port 8080
             probes:
@@ -59,8 +59,8 @@ spec:
                 memory: 64M
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
+            runAsUser: 1000
+            runAsGroup: 1000
           topologySpreadConstraints:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
