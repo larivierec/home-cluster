@@ -17,9 +17,4 @@ spec:
   wait: true
   dependsOn:
     - name: cert-manager-self-signed-issuers
-  # postBuild:
-  #   substituteFrom:
-  #     - kind: Secret
-  #       name: sops-bw-secrets
-  #     - kind: Secret
-  #       name: sops-op
+

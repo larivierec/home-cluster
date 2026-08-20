@@ -54,9 +54,6 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: sops-bw-secrets
-        optional: true
-      - kind: Secret
         name: sops-op
         optional: true
   prune: true
