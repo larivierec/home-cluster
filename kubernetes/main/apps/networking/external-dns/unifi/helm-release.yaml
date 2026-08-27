@@ -79,7 +79,7 @@ spec:
           webhook:
             image:
               repository: ghcr.io/home-operations/external-dns-unifi-webhook
-              tag: 0.10.11@sha256:4a3fd12580bf14c228e4b020dd2998b4fdd737cb4f9d5766277953c8e85dcfa4
+              tag: 0.10.12@sha256:30855759c262259be8c36efc335e1bf1db9d0cf34fad31974d1df3a5fa76dcc7
             env:
               UNIFI_HOST: https://192.168.1.1
               UNIFI_API_KEY:
