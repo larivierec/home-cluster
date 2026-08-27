@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/echo
-              tag: 0.2.3@sha256:0f3a342fca10c0c9071998544486e467b0b0adf7f2393d7e0b579b3df48a7747
+              tag: 0.2.4@sha256:62a7d6e1ff3a9d1942348d613cb8539beb78aa088f97da27bad1545956d5a4e7
             env:
               PORT: &port 8080
             probes:
