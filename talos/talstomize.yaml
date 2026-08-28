@@ -1,0 +1,248 @@
+apiVersion: config.talstomize.dev/v1alpha1
+kind: Talstomize
+clusterName: garb
+controlPlaneEndpoint: https://192.168.60.250:6443
+kubernetesVersion: v1.37.0
+secrets: ./talsecret.sops.yaml
+dnsDomain: cluster.local
+additionalSubjectAltNames:
+  - 192.168.60.250
+  - garb.cluster.local
+  - 127.0.0.1
+
+installer:
+  # Keep this aligned with the talstomize/talosctl version used to render configs.
+  talosVersion: v1.14.0-rc.2
+  schematic:
+    customization:
+      extraKernelArgs:
+        - intel_iommu=on
+        - iommu=pt
+        - mitigations=off
+        - -selinux
+        - net.ifnames=0
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/gasket-driver
+          - siderolabs/i915
+          - siderolabs/intel-ucode
+          - siderolabs/mei
+          - siderolabs/nfsrahead
+          - siderolabs/thunderbolt
+
+patches:
+  - machine:
+      files:
+        - op: create
+          path: /etc/cri/conf.d/20-customization.part
+          content: |
+            [plugins."io.containerd.cri.v1.runtime"]
+              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+              device_ownership_from_security_context = true
+            [plugins."io.containerd.cri.v1.images"]
+              discard_unpacked_layers = false
+        - op: overwrite
+          path: /etc/nfsmount.conf
+          permissions: 420
+          content: |
+            [ NFSMount_Global_Options ]
+              nfsvers = 4.1
+              hard = True
+              noatime = True
+              nodiratime = True
+              rsize = 131072
+              wsize = 131072
+              nconnect = 8
+      network:
+        disableSearchDomain: true
+      features:
+        kubePrism:
+          enabled: true
+          port: 7445
+        hostDNS:
+          enabled: true
+          forwardKubeDNSToHost: false
+          resolveMemberNames: true
+      kubelet:
+        extraConfig:
+          serializeImagePulls: false
+        extraArgs:
+          image-gc-low-threshold: 50
+          image-gc-high-threshold: 55
+          rotate-server-certificates: true
+        nodeIP:
+          validSubnets:
+            - 192.168.60.0/24
+      sysctls:
+        fs.inotify.max_queued_events: "65536"
+        fs.inotify.max_user_watches: "524288"
+        fs.inotify.max_user_instances: "8192"
+        net.core.rmem_max: "7500000"
+        net.core.wmem_max: "7500000"
+
+  - cluster:
+      network:
+        cni:
+          name: none
+        podSubnets:
+          - 10.42.0.0/16
+        serviceSubnets:
+          - 10.43.0.0/16
+      discovery:
+        registries:
+          kubernetes:
+            disabled: true
+          service:
+            disabled: false
+
+controlplanePatches:
+  - machine:
+      features:
+        kubernetesTalosAPIAccess:
+          enabled: true
+          allowedRoles:
+            - os:admin
+          allowedKubernetesNamespaces:
+            - system-upgrade
+  - cluster:
+      allowSchedulingOnMasters: true
+      apiServer:
+        disablePodSecurityPolicy: true
+        admissionControl:
+          - name: PodSecurity
+            $patch: delete
+        extraArgs:
+          feature-gates: MutatingAdmissionPolicy=true
+          runtime-config: admissionregistration.k8s.io/v1beta1=true
+        auditPolicy:
+          apiVersion: audit.k8s.io/v1
+          kind: Policy
+          rules:
+            - level: Metadata
+      controllerManager:
+        extraArgs:
+          bind-address: 0.0.0.0
+      scheduler:
+        extraArgs:
+          bind-address: 0.0.0.0
+      coreDNS:
+        disabled: true
+      proxy:
+        disabled: true
+      etcd:
+        extraArgs:
+          listen-metrics-urls: http://0.0.0.0:2381
+        advertisedSubnets:
+          - 192.168.60.0/24
+      extraManifests:
+        # renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
+        - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.93.1/stripped-down-crds.yaml
+        # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
+        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
+        # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
+        - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.22.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
+        # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
+        - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/v1.6.1/manifests/crd.yaml
+
+nodes:
+  talos-m1:
+    ip: 192.168.60.5
+    kind: controlplane
+    patches:
+      - machine:
+          install:
+            diskSelector:
+              size: ">= 500GB"
+              model: Samsung SSD 990 PRO 1TB
+          nodeLabels:
+            node.kubernetes.io/gpu: "true"
+            topology.kubernetes.io/region: garb
+            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: BondConfig
+        name: bond0
+        links:
+          - enp2s0f0np0
+          - enp2s0f1np1
+        bondMode: 802.3ad
+        miimon: 100
+        updelay: 200
+        downdelay: 200
+        xmitHashPolicy: layer3+4
+        lacpRate: fast
+        mtu: 9000
+      - apiVersion: v1alpha1
+        kind: DHCPv4Config
+        name: bond0
+      - apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.60.250
+        link: bond0
+
+  talos-m2:
+    ip: 192.168.60.6
+    kind: controlplane
+    patches:
+      - machine:
+          install:
+            diskSelector:
+              size: ">= 500GB"
+              model: Sabrent Rocket Q4
+          nodeLabels:
+            node.kubernetes.io/gpu: "true"
+            topology.kubernetes.io/region: garb
+            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: BondConfig
+        name: bond0
+        links:
+          - enp2s0f0np0
+          - enp2s0f1np1
+        bondMode: 802.3ad
+        miimon: 100
+        updelay: 200
+        downdelay: 200
+        xmitHashPolicy: layer3+4
+        lacpRate: fast
+        mtu: 9000
+      - apiVersion: v1alpha1
+        kind: DHCPv4Config
+        name: bond0
+      - apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.60.250
+        link: bond0
+
+  talos-m3:
+    ip: 192.168.60.7
+    kind: controlplane
+    patches:
+      - machine:
+          install:
+            diskSelector:
+              size: ">= 500GB"
+              model: Samsung SSD 990 PRO 1TB
+          nodeLabels:
+            node.kubernetes.io/gpu: "true"
+            topology.kubernetes.io/region: garb
+            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: BondConfig
+        name: bond0
+        links:
+          - enp2s0f0np0
+          - enp2s0f1np1
+        bondMode: 802.3ad
+        miimon: 100
+        updelay: 200
+        downdelay: 200
+        xmitHashPolicy: layer3+4
+        lacpRate: fast
+        mtu: 9000
+      - apiVersion: v1alpha1
+        kind: DHCPv4Config
+        name: bond0
+      - apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.60.250
+        link: bond0

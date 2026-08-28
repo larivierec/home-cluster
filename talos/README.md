@@ -1,38 +1,87 @@
 # Talos Journey
 
-## pre-requisites
+## Prerequisites
 
 ```bash
-brew install helm
-brew install kubectl
-brew install talhelper
-brew install talosctl
+brew install age helm kubectl sops talosctl
+brew tap mirceanton/taps
+brew install talstomize
 ```
 
-1. install from ISO without CNI or Kube-Proxy
-2. Following commands
+`talstomize.yaml` is the source for rendered machine configurations. The
+encrypted `talsecret.sops.yaml` remains the source of truth for this cluster's
+Talos credentials.
+
+## Render and validate configuration
+
+Run these commands from this directory:
 
 ```bash
-talhelper gensecrets > talsecrets.sops.yaml
-sops -e -i talsecrets.sop.yaml 
-talosctl apply-config --insecure -n <node ip> -e <endpoint from talconfig.yaml> --file ./clusterconfig/<node>.yaml
+talstomize build . -o ./clusterconfig
+
+for config in ./clusterconfig/talos-m*.yaml; do
+  talosctl validate --mode metal --config "$config"
+done
 ```
 
-3. At this point, if it's the first control plane it'll try and start. ETCD will not be running and will mention that you need to start talos in bootstrap. This only needs to be done once.
+The rendered files contain private keys and are ignored by Git. Do not commit
+or log them. Compare the desired configuration with the live cluster before
+applying changes:
 
 ```bash
-talosctl bootstrap -e <endpoint from taloconfig.yaml> -n <node ip of ONE control plane> --talosconfig ./clusterconfig/<node>.yaml
-talosctl kubeconfig -n 192.168.50.2 -e 192.168.50.250 --talosconfig ./clusterconfig/talosconfig ~/.kube/clusters/talos.yaml
+talstomize diff -f .
 ```
 
-4. kubeconfig will allow you to start executing kubectl commands.
-5. this will allow the full control plane to start up.
-6. apply your helm file or your base helm installs (cilium, coredns, prometheus crds...)
+## Initial cluster setup
+
+1. Boot each machine from a Talos 1.14 Image Factory ISO without CNI or
+   kube-proxy.
+2. Apply each rendered configuration from maintenance mode:
 
 ```bash
-helmfile apply
+talstomize apply -f . --node talos-m1 -- --insecure
+talstomize apply -f . --node talos-m2 -- --insecure
+talstomize apply -f . --node talos-m3 -- --insecure
 ```
-7. If your cilium pod is having trouble starting, i.e. crashloop backoffs, approve the CSRs manually so you can check the logs of your pods.
+
+3. Bootstrap etcd once, using one control-plane node:
+
+```bash
+talosctl bootstrap \
+  --endpoints 192.168.60.5 \
+  --nodes 192.168.60.5 \
+  --talosconfig ./clusterconfig/talosconfig
+```
+
+4. Retrieve the Kubernetes configuration:
+
+```bash
+talosctl kubeconfig \
+  --nodes 192.168.60.5 \
+  --endpoints 192.168.60.250 \
+  --talosconfig ./clusterconfig/talosconfig \
+  ~/.kube/clusters/garb.yaml
+```
+
+5. Install the post-bootstrap components:
+
+```bash
+helmfile -f ./helmfile.yaml apply
+```
+
+## Upgrades
+
+Talstomize reconciles machine configuration; it does not upgrade the running
+Talos or Kubernetes versions. Tuppr performs those upgrades from the resources
+under `../kubernetes/main/apps/system-upgrade/tuppr/upgrades/`.
+
+Review the generated configuration and cluster health before allowing the
+Talos 1.14 and Kubernetes 1.37 resources to reconcile. Talos 1.14 changes
+several legacy fields to deprecated compatibility fields, but this
+configuration intentionally retains them until Talstomize supports the 1.14
+machinery and native documents.
+
+## Troubleshooting CSRs
 
 ```bash
 kubectl get csr
