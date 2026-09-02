@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.144.3-noble-full
+              tag: v0.146.0-noble-full
             env:
               SCRYPTED_SECURE_PORT: &secure 11443
             resources:
