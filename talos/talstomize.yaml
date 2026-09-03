@@ -12,8 +12,8 @@ additionalSubjectAltNames:
   - 127.0.0.1
 
 installer:
-  # Keep this aligned with the talstomize/talosctl version used to render configs.
-  talosVersion: v1.14.0-rc.2
+  # renovate: datasource=custom.talos-factory depName=siderolabs/talos
+  talosVersion: v1.14.0
   schematic:
     customization:
       extraKernelArgs:
@@ -33,6 +33,7 @@ installer:
 
 patches:
   - machine:
+      # todo this has been removed, change to talos documents
       files:
         - op: create
           path: /etc/cri/conf.d/20-customization.part

@@ -90,6 +90,17 @@
         commitMessageTopic: "{{{groupName}}} group"
       },
       separateMinorPatch: false
-    }
+    },
+    {
+      description: "Ignore factory.talos.dev images matched by generic managers; the custom manager above owns them",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/^factory\\.talos\\.dev\\//"],
+      enabled: false,
+    },
+    {
+      matchDatasources: ["custom.talos-factory"],
+      semanticCommitScope: "container",
+      commitMessageTopic: "{{depName}}",
+    },
   ]
 }

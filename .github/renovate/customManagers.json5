@@ -1,5 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  customDatasources: {
+    "talos-factory": {
+      defaultRegistryUrlTemplate: "https://factory.talos.dev/versions",
+      format: "json",
+      transformTemplates: ['{"releases": [$.{"version": $}]}'],
+    },
+  },
   "customManagers": [
     {
       "customType": "regex",
@@ -14,6 +21,22 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    }
+    },
+    {
+      // File pattern targets the `talos/` directory convention used by
+      // home-operations/cluster-template and similar layouts. Override
+      // `managerFilePatterns` if your Talos configs live elsewhere.
+      description: "Process Talos Factory installer images and topf talosVersion",
+      customType: "regex",
+      managerFilePatterns: ["/talos\\/.*\\.ya?ml(?:\\.j2)?$/"],
+      matchStrings: [
+        "factory\\.talos\\.dev\\/[^/]+\\/[^:]+:(?<currentValue>v\\S+)",
+        // topf.yaml `talosVersion:` (bare or v-prefixed; topf trims the leading v)
+        "talosVersion:\\s*[\"']?(?<currentValue>v?[0-9][^\"'\\s]*)",
+      ],
+      datasourceTemplate: "custom.talos-factory",
+      versioningTemplate: "semver",
+      depNameTemplate: "siderolabs/talos",
+    },
   ]
 }
