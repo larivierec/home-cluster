@@ -33,28 +33,6 @@ installer:
 
 patches:
   - machine:
-      # todo this has been removed, change to talos documents
-      files:
-        - op: create
-          path: /etc/cri/conf.d/20-customization.part
-          content: |
-            [plugins."io.containerd.cri.v1.runtime"]
-              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
-              device_ownership_from_security_context = true
-            [plugins."io.containerd.cri.v1.images"]
-              discard_unpacked_layers = false
-        - op: overwrite
-          path: /etc/nfsmount.conf
-          permissions: 420
-          content: |
-            [ NFSMount_Global_Options ]
-              nfsvers = 4.1
-              hard = True
-              noatime = True
-              nodiratime = True
-              rsize = 131072
-              wsize = 131072
-              nconnect = 8
       network:
         disableSearchDomain: true
       features:
@@ -82,6 +60,31 @@ patches:
         net.core.rmem_max: "7500000"
         net.core.wmem_max: "7500000"
 
+  - apiVersion: v1alpha1
+    kind: File
+    op: create
+    path: /etc/cri/conf.d/20-customization.part
+    content: |
+      [plugins."io.containerd.cri.v1.runtime"]
+        cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+        device_ownership_from_security_context = true
+      [plugins."io.containerd.cri.v1.images"]
+        discard_unpacked_layers = false
+  - apiVersion: v1alpha1
+    kind: File
+    op: overwrite
+    path: /etc/nfsmount.conf
+    permissions: 420
+    content: |
+      [ NFSMount_Global_Options ]
+        nfsvers = 4.1
+        hard = True
+        noatime = True
+        nodiratime = True
+        rsize = 131072
+        wsize = 131072
+        nconnect = 8
+
   - cluster:
       network:
         cni:
@@ -98,6 +101,11 @@ patches:
             disabled: false
 
 controlplanePatches:
+  - apiVersion: v1alpha1
+    kind: KubeNodeConfig
+    taints:
+      node-role.kubernetes.io/control-plane:
+        $patch: delete
   - machine:
       features:
         kubernetesTalosAPIAccess:
@@ -107,7 +115,6 @@ controlplanePatches:
           allowedKubernetesNamespaces:
             - system-upgrade
   - cluster:
-      allowSchedulingOnMasters: true
       apiServer:
         disablePodSecurityPolicy: true
         admissionControl:
