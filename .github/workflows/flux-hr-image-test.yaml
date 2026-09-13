@@ -83,10 +83,12 @@ jobs:
 
       - name: Gather Images
         uses: home-operations/flate/action@631b76b69c4e58c6f4d1cb01e23616fa61aebafa # v0.6.5
+        with:
+          base: ""
       - name: Extract Images
         run: >-
           flate get images
-          --path /github/workspace/kubernetes/${{ matrix.cluster }}
+          --path ./kubernetes/${{ matrix.cluster }}
           --output json > images.json
       - name: Output Images
         id: output-images
