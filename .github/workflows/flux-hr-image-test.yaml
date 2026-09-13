@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Get Cnged Files
+      - name: Get Changed Files
         id: changed-files
         uses: bjw-s-labs/action-changed-files@a9a36fb08ce06db9b02fbd8026cc2c0945eb9841 # v0.6.0
         with:
@@ -82,17 +82,14 @@ jobs:
           ref: "${{ matrix.branches == 'default' && github.event.repository.default_branch || '' }}"
 
       - name: Gather Images
-        uses: docker://ghcr.io/allenporter/flux-local:v8.2.0
+        uses: home-operations/flate/action@631b76b69c4e58c6f4d1cb01e23616fa61aebafa # v0.6.5
         with:
-          args: >-
-            get cluster
-            --all-namespaces
-            --path /github/workspace/kubernetes/${{ matrix.cluster }}
-            --sources "flux-system"
-            --enable-images
-            --only-images
-            --output json
-            --output-file images.json
+          base: ""
+      - name: Extract Images
+        run: >-
+          flate get images
+          --path ./kubernetes/${{ matrix.cluster }}
+          --output json > images.json
       - name: Output Images
         id: output-images
         run: echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> "$GITHUB_OUTPUT"
