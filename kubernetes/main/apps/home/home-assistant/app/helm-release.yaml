@@ -41,6 +41,30 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: postgres-hass
+          venv-reset:
+            image:
+              repository: ghcr.io/home-operations/home-assistant
+              tag: &tag 2026.9.3
+            command: ["/bin/bash", "-c"]
+            args:
+              - |
+                set -eu
+                marker=/config/.hass-image-version
+                current="$(python3 -c 'from homeassistant.const import __version__; print(__version__)')"
+                previous="$(cat "$marker" 2>/dev/null || true)"
+                if [ "$current" != "$previous" ]; then
+                  echo "HA image changed ($previous -> $current); wiping /config/.venv"
+                  rm -rf /config/.venv/* /config/.venv/.[!.]* 2>/dev/null || true
+                  printf '%s' "$current" > "$marker"
+                else
+                  echo "HA image unchanged ($current); keeping /config/.venv cache"
+                fi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
         pod:
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
@@ -48,7 +72,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2026.9.2
+              tag: *tag
             env:
               TZ: "UTC"
               POSTGRES_HOST: postgres-lb.database.svc.cluster.local
