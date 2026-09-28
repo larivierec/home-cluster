@@ -28,7 +28,7 @@ spec:
             image:
               repository: crocodilestick/calibre-web-automated
               pullPolicy: IfNotPresent
-              tag: v4.0.7
+              tag: v4.0.8
             env:
               TZ: America/Toronto
               PUID: 1000
