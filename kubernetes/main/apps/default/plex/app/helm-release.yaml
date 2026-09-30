@@ -48,9 +48,9 @@ spec:
             resources:
               requests:
                 cpu: 1000m
-                memory: 2Gi
+                memory: 10Gi
               limits:
-                memory: 16Gi
+                memory: 24Gi
               claims:
                 - name: gpu
             probes:
