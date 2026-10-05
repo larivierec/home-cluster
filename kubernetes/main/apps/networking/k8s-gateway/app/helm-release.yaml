@@ -35,8 +35,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/k8s-gateway/k8s_gateway
-              tag: 1.8.2@sha256:e7d334bc486fc78e2f2366da2029b7308240d500330e85d2367d4d9cc46a5e52
+              repository: codeberg.org/k8s-gateway/k8s_gateway
+              tag: 1.9.1@sha256:e035219eb5f6db7cb080bc842041ca7f71ba7ad3cff8cb1d20623f761b566e21
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
@@ -136,6 +136,13 @@ spec:
               resources:
                 - services
                 - namespaces
+              verbs:
+                - list
+                - watch
+            - apiGroups:
+                - discovery.k8s.io
+              resources:
+                - endpointslices
               verbs:
                 - list
                 - watch
