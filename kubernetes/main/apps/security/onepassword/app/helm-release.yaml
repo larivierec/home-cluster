@@ -33,7 +33,7 @@ spec:
           api:
             image:
               repository: ghcr.io/1password/connect-api
-              tag: 1.8.2@sha256:fabf0a353791f7d70851767c6d58595eb386a86ba4ada4a8ca41b3668a096b5d
+              tag: 1.8.3@sha256:a0cefa9fb93999b1ca67325ec3a79b38f3d3803a0790a6ec6630d4657896a54f
             env:
               XDG_DATA_HOME: &configDir /config
               OP_HTTP_PORT: &apiPort 80
