@@ -79,7 +79,7 @@ spec:
           sync:
             image:
               repository: ghcr.io/1password/connect-sync
-              tag: 1.8.2@sha256:3844a6410e119ccec72011737d5b46afe4be12cb0f54f681fe3ce999280449d8
+              tag: 1.8.3@sha256:5b6dcfa57e86f44b4d8a766b0edbf0321c519a9b6d327ed0a79d8583b6c7bfb5
             env:
               XDG_DATA_HOME: *configDir
               OP_HTTP_PORT: &syncPort 8081
