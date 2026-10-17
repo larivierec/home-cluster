@@ -15,11 +15,8 @@
         "patch",
       ],
       matchPackageNames: [
-        "renovatebot/github-action",
         "ghcr.io/larivierec/cloudflare-ddns",
-        "ghcr.io/home-operations/sonarr",
-        "ghcr.io/home-operations/radarr",
-        "ghcr.io/seerr-team/seerr"
+        "codeberg.org/k8s-gateway/k8s_gateway"
       ]
     },
   ]
