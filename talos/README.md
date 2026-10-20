@@ -76,10 +76,9 @@ Talos or Kubernetes versions. Tuppr performs those upgrades from the resources
 under `../kubernetes/main/apps/system-upgrade/tuppr/upgrades/`.
 
 Review the generated configuration and cluster health before allowing the
-Talos 1.14 and Kubernetes 1.37 resources to reconcile. Talos 1.14 changes
-several legacy fields to deprecated compatibility fields, but this
-configuration intentionally retains them until Talstomize supports the 1.14
-machinery and native documents.
+Talos 1.14 and Kubernetes 1.37 resources to reconcile. This configuration is
+now aligned with Talstomize v1.0.0's native Talos 1.14 document style and the
+cluster-wide `talosVersion` field expected by the current release.
 
 ## Troubleshooting CSRs
 

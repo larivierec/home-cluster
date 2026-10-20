@@ -3,7 +3,10 @@ apiVersion: config.talstomize.dev/v1alpha1
 kind: Talstomize
 clusterName: garb
 controlPlaneEndpoint: https://192.168.60.250:6443
-kubernetesVersion: v1.37.0
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
+talosVersion: v1.14.4
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.37.1
 secrets: ./talsecret.sops.yaml
 dnsDomain: cluster.local
 additionalSubjectAltNames:
@@ -12,8 +15,6 @@ additionalSubjectAltNames:
   - 127.0.0.1
 
 installer:
-  # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-  talosVersion: v1.14.4
   schematic:
     customization:
       extraKernelArgs:
@@ -32,38 +33,47 @@ installer:
           - siderolabs/thunderbolt
 
 patches:
-  - machine:
-      network:
-        disableSearchDomain: true
-      features:
-        kubePrism:
-          enabled: true
-          port: 7445
-        hostDNS:
-          enabled: true
-          forwardKubeDNSToHost: false
-          resolveMemberNames: true
-      kubelet:
-        extraConfig:
-          serializeImagePulls: false
-        extraArgs:
-          image-gc-low-threshold: 50
-          image-gc-high-threshold: 55
-          rotate-server-certificates: true
-        nodeIP:
-          validSubnets:
-            - 192.168.60.0/24
-      sysctls:
-        fs.inotify.max_queued_events: "65536"
-        fs.inotify.max_user_watches: "524288"
-        fs.inotify.max_user_instances: "8192"
-        net.core.rmem_max: "7500000"
-        net.core.wmem_max: "7500000"
-
   - apiVersion: v1alpha1
-    kind: File
-    op: create
-    path: /etc/cri/conf.d/20-customization.part
+    kind: KubeNodeConfig
+    nodeIP:
+      validSubnets:
+        - 192.168.60.0/24
+  - apiVersion: v1alpha1
+    kind: KubeletConfig
+    config:
+      serializeImagePulls: false
+    extraArgs:
+      image-gc-low-threshold: "50"
+      image-gc-high-threshold: "55"
+      rotate-server-certificates: "true"
+  - apiVersion: v1alpha1
+    kind: ResolverConfig
+    searchDomains:
+      disableDefault: true
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: false
+      resolveMemberNames: true
+  - apiVersion: v1alpha1
+    kind: KubePrismConfig
+    port: 7445
+  - apiVersion: v1alpha1
+    kind: SysctlConfig
+    params:
+      fs.inotify.max_queued_events: "65536"
+      fs.inotify.max_user_watches: "524288"
+      fs.inotify.max_user_instances: "8192"
+      net.core.rmem_max: "7500000"
+      net.core.wmem_max: "7500000"
+  - apiVersion: v1alpha1
+    kind: KubeNetworkConfig
+    podSubnets:
+      - 10.42.0.0/16
+    serviceSubnets:
+      - 10.43.0.0/16
+  - apiVersion: v1alpha1
+    kind: CRICustomizationConfig
+    name: 20-customization
     content: |
       [plugins."io.containerd.cri.v1.runtime"]
         cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
@@ -71,11 +81,10 @@ patches:
       [plugins."io.containerd.cri.v1.images"]
         discard_unpacked_layers = false
   - apiVersion: v1alpha1
-    kind: File
-    op: overwrite
-    path: /etc/nfsmount.conf
-    permissions: 420
-    content: |
+    kind: EtcFileConfig
+    name: nfsmount.conf
+    mode: 0o644
+    contents: |
       [ NFSMount_Global_Options ]
         nfsvers = 4.1
         hard = True
@@ -85,88 +94,88 @@ patches:
         wsize = 131072
         nconnect = 8
 
-  - cluster:
-      network:
-        cni:
-          name: none
-        podSubnets:
-          - 10.42.0.0/16
-        serviceSubnets:
-          - 10.43.0.0/16
-      discovery:
-        registries:
-          kubernetes:
-            disabled: true
-          service:
-            disabled: false
-
 controlplanePatches:
   - apiVersion: v1alpha1
     kind: KubeNodeConfig
     taints:
       node-role.kubernetes.io/control-plane:
         $patch: delete
-  - machine:
-      features:
-        kubernetesTalosAPIAccess:
-          enabled: true
-          allowedRoles:
-            - os:admin
-          allowedKubernetesNamespaces:
-            - system-upgrade
+  - apiVersion: v1alpha1
+    kind: KubeAPIServerConfig
+    extraArgs:
+      feature-gates: MutatingAdmissionPolicy=true
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
+  - apiVersion: v1alpha1
+    kind: KubeAuditPolicyConfig
+    configuration:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+  - apiVersion: v1alpha1
+    kind: KubeAdmissionControlConfig
+    name: PodSecurity
+    $patch: delete
+  - apiVersion: v1alpha1
+    kind: KubeTalosAPIAccessConfig
+    allowedRoles:
+      - os:admin
+    allowedKubernetesNamespaces:
+      - system-upgrade
+  - apiVersion: v1alpha1
+    kind: KubeControllerManagerConfig
+    extraArgs:
+      bind-address: 0.0.0.0
+  - apiVersion: v1alpha1
+    kind: KubeSchedulerConfig
+    extraArgs:
+      bind-address: 0.0.0.0
+  - apiVersion: v1alpha1
+    kind: KubeCoreDNSConfig
+    enabled: false
+  - apiVersion: v1alpha1
+    kind: KubeProxyConfig
+    enabled: false
+  - apiVersion: v1alpha1
+    kind: KubeExternalManifestConfig
+    name: prometheus-operator-crds
+    url: https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.94.1/stripped-down-crds.yaml
+  - apiVersion: v1alpha1
+    kind: KubeExternalManifestConfig
+    name: gateway-api-standard
+    url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml
+  - apiVersion: v1alpha1
+    kind: KubeExternalManifestConfig
+    name: external-dns-dnsendpoints-crd
+    url: https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.23.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
+  - apiVersion: v1alpha1
+    kind: KubeExternalManifestConfig
+    name: dragonfly-operator-crd
+    url: https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/v1.7.1/manifests/crd.yaml
   - cluster:
-      apiServer:
-        disablePodSecurityPolicy: true
-        admissionControl:
-          - name: PodSecurity
-            $patch: delete
-        extraArgs:
-          feature-gates: MutatingAdmissionPolicy=true
-          runtime-config: admissionregistration.k8s.io/v1beta1=true
-        auditPolicy:
-          apiVersion: audit.k8s.io/v1
-          kind: Policy
-          rules:
-            - level: Metadata
-      controllerManager:
-        extraArgs:
-          bind-address: 0.0.0.0
-      scheduler:
-        extraArgs:
-          bind-address: 0.0.0.0
-      coreDNS:
-        disabled: true
-      proxy:
-        disabled: true
       etcd:
         extraArgs:
           listen-metrics-urls: http://0.0.0.0:2381
         advertisedSubnets:
           - 192.168.60.0/24
-      extraManifests:
-        # renovate: datasource=docker depName=ghcr.io/prometheus-operator/prometheus-operator
-        - https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.94.1/stripped-down-crds.yaml
-        # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-        - https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml
-        # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-        - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.23.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
-        # renovate: datasource=github-releases depName=dragonflydb/dragonfly-operator
-        - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/refs/tags/v1.7.1/manifests/crd.yaml
 
 nodes:
   talos-m1:
     ip: 192.168.60.5
     kind: controlplane
     patches:
-      - machine:
-          install:
-            diskSelector:
-              size: ">= 500GB"
-              model: Samsung SSD 990 PRO 1TB
-          nodeLabels:
-            node.kubernetes.io/gpu: "true"
-            topology.kubernetes.io/region: garb
-            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: UnattendedInstallConfig
+        provisioning:
+          diskSelector:
+            match: 'disk.size >= 500000000000u && disk.model == "Samsung SSD 990 PRO 1TB"'
+          wipe: false
+      - apiVersion: v1alpha1
+        kind: KubeNodeConfig
+        labels:
+          node.kubernetes.io/gpu: "true"
+          topology.kubernetes.io/region: garb
+          topology.kubernetes.io/zone: m
       - apiVersion: v1alpha1
         kind: BondConfig
         name: bond0
@@ -192,15 +201,18 @@ nodes:
     ip: 192.168.60.6
     kind: controlplane
     patches:
-      - machine:
-          install:
-            diskSelector:
-              size: ">= 500GB"
-              model: Sabrent Rocket Q4
-          nodeLabels:
-            node.kubernetes.io/gpu: "true"
-            topology.kubernetes.io/region: garb
-            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: UnattendedInstallConfig
+        provisioning:
+          diskSelector:
+            match: 'disk.size >= 500000000000u && disk.model == "Sabrent Rocket Q4"'
+          wipe: false
+      - apiVersion: v1alpha1
+        kind: KubeNodeConfig
+        labels:
+          node.kubernetes.io/gpu: "true"
+          topology.kubernetes.io/region: garb
+          topology.kubernetes.io/zone: m
       - apiVersion: v1alpha1
         kind: BondConfig
         name: bond0
@@ -226,15 +238,18 @@ nodes:
     ip: 192.168.60.7
     kind: controlplane
     patches:
-      - machine:
-          install:
-            diskSelector:
-              size: ">= 500GB"
-              model: Samsung SSD 990 PRO 1TB
-          nodeLabels:
-            node.kubernetes.io/gpu: "true"
-            topology.kubernetes.io/region: garb
-            topology.kubernetes.io/zone: m
+      - apiVersion: v1alpha1
+        kind: UnattendedInstallConfig
+        provisioning:
+          diskSelector:
+            match: 'disk.size >= 500000000000u && disk.model == "Samsung SSD 990 PRO 1TB"'
+          wipe: false
+      - apiVersion: v1alpha1
+        kind: KubeNodeConfig
+        labels:
+          node.kubernetes.io/gpu: "true"
+          topology.kubernetes.io/region: garb
+          topology.kubernetes.io/zone: m
       - apiVersion: v1alpha1
         kind: BondConfig
         name: bond0
