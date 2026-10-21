@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/kromgo
-              tag: 0.16.2@sha256:6b8305fbf5a027cc547c83bfee3dc47d32fb0196d0c7904c377fac80af97128c
+              tag: 0.16.3@sha256:98150da702983ca1ca58b6b1c46505c7e3a6bb772607b561fca0c85b08db7b09
             env:
               KROMGO_PROMETHEUS_URL: http://prometheus-operated.monitoring.svc.cluster.local:9090
               SERVER_HOST: 0.0.0.0
