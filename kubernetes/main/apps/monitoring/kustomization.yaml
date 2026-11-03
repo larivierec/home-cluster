@@ -6,7 +6,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./alertmanager-discord/ks.yaml
   - ./fluent-bit/ks.yaml
   - ./frigate-notify/ks.yaml
   - ./grafana/ks.yaml
