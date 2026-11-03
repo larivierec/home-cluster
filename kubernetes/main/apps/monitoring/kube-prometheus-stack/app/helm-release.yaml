@@ -56,8 +56,11 @@ spec:
         receivers:
           - name: "null"
           - name: "discord"
-            webhook_configs:
-              - url: "http://alertmanager-discord:9094"
+            discord_configs:
+              - webhook_url_file: /etc/alertmanager/secrets/alertmanager-discord/DISCORD_WEBHOOK
+                send_resolved: true
+                username: alertmanager
+                avatar_url: https://avatars3.githubusercontent.com/u/3380462
         inhibit_rules:
           - source_match:
               severity: "critical"
@@ -73,6 +76,9 @@ spec:
             - name: envoy-internal
               namespace: networking
               sectionName: https
+      alertmanagerSpec:
+        secrets:
+          - alertmanager-discord
     grafana:
       enabled: false
       forceDeployDashboards: true
