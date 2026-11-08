@@ -24,6 +24,8 @@ spec:
     remediation:
       retries: 3
   values:
+    crds:
+      enabled: false
     deployment:
       envoyGateway:
         image:
