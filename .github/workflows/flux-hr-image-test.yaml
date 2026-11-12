@@ -82,7 +82,7 @@ jobs:
           ref: "${{ matrix.branches == 'default' && github.event.repository.default_branch || '' }}"
 
       - name: Gather Images
-        uses: home-operations/flate/action@43b92e26b196c6ca7eb1933b5b2c9074ff0ad1b7 # v0.7.1
+        uses: home-operations/flate/action@bbb6ebc344da051752dbdb1b413860ceffcfb63d # v0.7.3
         with:
           base: ""
       - name: Extract Images
