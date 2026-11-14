@@ -14,7 +14,7 @@ jobs:
   changed-clusters:
     name: Changed Clusters
     runs-on:
-      - ubuntu-24.04
+      - ubuntu-26.04
     outputs:
       changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
@@ -128,7 +128,7 @@ jobs:
   compare-images:
     name: Compare Images
     runs-on:
-      - ubuntu-24.04
+      - ubuntu-26.04
     needs:
       - changed-clusters
       - extract-images
@@ -148,7 +148,7 @@ jobs:
 
   check-images:
     name: Check Images
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - compare-images
     if: ${{ needs.compare-images.outputs.images != '[]' && needs.compare-images.outputs.images != '' }}
