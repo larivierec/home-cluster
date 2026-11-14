@@ -89,6 +89,7 @@ jobs:
         run: >-
           flate get images
           --path ./kubernetes/${{ matrix.cluster }}
+          --supply ./.github/flate-image-inputs.yaml
           --output json > images.json
       - name: Output Images
         id: output-images

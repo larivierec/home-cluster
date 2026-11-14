@@ -31,8 +31,6 @@ spec:
       appendMirrors: true
       containerdSock: /run/containerd/containerd.sock
       containerdRegistryConfigPath: /etc/cri/conf.d/hosts
-    grafanaDashboard:
-      enabled: true
     serviceMonitor:
       enabled: true
     service:

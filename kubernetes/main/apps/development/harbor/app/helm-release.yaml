@@ -97,5 +97,3 @@ spec:
     existingSecretAdminPasswordKey: password
     secretKey:
     existingSecretSecretKey: harbor-encryption
-    notary:
-      enabled: false
