@@ -85,11 +85,41 @@ jobs:
         uses: home-operations/flate/action@bbb6ebc344da051752dbdb1b413860ceffcfb63d # v0.7.3
         with:
           base: ""
+      - name: Write offline image inputs
+        run: |
+          cat > "$RUNNER_TEMP/flate-image-inputs.yaml" <<'EOF'
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: actions-runner-controller-auth
+            namespace: arc-system
+          stringData:
+            github_app_id: "1"
+            github_app_installation_id: "1"
+            github_app_private_key: offline-render-only
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: postgres-harbor
+            namespace: development
+          stringData:
+            INIT_POSTGRES_PASS: offline-render-only
+            INIT_POSTGRES_USER: offline-render-only
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: harbor
+            namespace: development
+          stringData:
+            token: offline-render-only
+          EOF
       - name: Extract Images
         run: >-
           flate get images
           --path ./kubernetes/${{ matrix.cluster }}
-          --supply ./.github/flate-image-inputs.yaml
+          --supply "$RUNNER_TEMP/flate-image-inputs.yaml"
           --output json > images.json
       - name: Output Images
         id: output-images
