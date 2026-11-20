@@ -12,6 +12,7 @@ resources:
   - ./echo/ks.yaml
   - ./seerr/ks.yaml
   - ./lidarr/ks.yaml
+  - ./library-doctor/ks.yaml
   - ./nas/ks.yaml
   - ./plex/ks.yaml
   - ./radarr/ks.yaml
