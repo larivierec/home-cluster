@@ -44,7 +44,7 @@ spec:
           venv-reset:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: &tag 2026.11.2
+              tag: &tag 2026.11.3
             command: ["/bin/bash", "-c"]
             args:
               - |
