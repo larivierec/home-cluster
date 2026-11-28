@@ -36,7 +36,7 @@ spec:
           app:
             image:
               repository: codeberg.org/k8s-gateway/k8s_gateway
-              tag: 1.10.0@sha256:2fe5e150193270034cecf4ce65c709bd6b7b89dd56cd045d2b346a9de427a031
+              tag: 1.11.0@sha256:26fb4903358a346ab8478436b51f55002e25bc77cb2e9384195b74dfbbfa978e
             args: ["-conf", "/etc/coredns/Corefile"]
             probes:
               readiness:
